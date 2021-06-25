@@ -1,0 +1,168 @@
+<resources>
+    <!--
+    Dimensions, you should define like this:
+
+    values-sw720dp        10.1” tablet 1280x800 mdpi
+
+    values-sw600dp        7.0”  tablet 1024x600 mdpi
+
+    values-sw480dp        5.4”  480x854 mdpi
+    values-sw480dp        5.1”  480x800 mdpi
+
+    values-xhdpi          4.7”   1280x720 xhdpi
+    values-xhdpi          4.65”  720x1280 xhdpi
+
+    values-hdpi           4.0” 480x800 hdpi
+    values-hdpi           3.7” 480x854 hdpi
+
+    values-mdpi           3.2” 320x480 mdpi
+
+    values-ldpi           3.4” 240x432 ldpi
+    values-ldpi           3.3” 240x400 ldpi
+    values-ldpi           2.7” 240x320 ldpi
+
+    @author Vincent Chang.
+    -->
+
+    <dimen name="goto_button_size">20sp</dimen>
+    <dimen name="lay_cam_distance_size">55dp</dimen>
+    <dimen name="lay_cam_speed_size">80dp</dimen>
+
+    <!-- Smaller -->
+    <dimen name="smaller_icon_marker_places_size">22dp</dimen>
+    <dimen name="smaller_floating_frame">80dp</dimen>
+
+    <!-- Normal -->
+    <dimen name="normal_actionbar_item_height">40dp</dimen>
+    <dimen name="normal_actionbar_height">50dp</dimen>
+    <dimen name="normal_actionbar_height_little_higher">58dp</dimen>
+    <dimen name="normal_actionbar_height_more_higher">65dp</dimen>
+    <dimen name="normal_actionbar_height_higher">75dp</dimen>
+
+    <dimen name="normal_font_size_super">35dp</dimen>
+    <dimen name="normal_font_size_xxl">29dp</dimen>
+    <dimen name="normal_font_size_xl">26dp</dimen>
+    <dimen name="normal_font_size_l">23dp</dimen>
+    <dimen name="normal_font_size_m">18dp</dimen>
+    <dimen name="normal_font_size_s">15dp</dimen>
+    <dimen name="normal_font_size_xs">12dp</dimen>
+
+    <dimen name="normal_padding_size_super">53dp</dimen>
+    <dimen name="normal_padding_size_xxl">23dp</dimen>
+    <dimen name="normal_padding_size_xl">18dp</dimen>
+    <dimen name="normal_padding_size_l">13dp</dimen>
+    <dimen name="normal_padding_size_m">8dp</dimen>
+    <dimen name="normal_padding_size_s">3dp</dimen>
+
+    <dimen name="normal_ticket_edge_padding">5dp</dimen>
+
+    <dimen name="normal_icon_common_size">36dp</dimen>
+    <dimen name="normal_icon_common_size_l">45dp</dimen>
+    <dimen name="normal_icon_common_size_xl">54dp</dimen>
+
+    <dimen name="normal_icon_marker_common_size">40dp</dimen>
+    <dimen name="normal_icon_marker_places_size">40dp</dimen>
+
+    <dimen name="normal_poi_photo_edit_view">120dp</dimen>
+    <dimen name="normal_poi_photo_edit_view_l">180dp</dimen>
+    <dimen name="normal_poi_photo_edit_view_xl">235dp</dimen>
+
+    <dimen name="normal_tab_layout_max_width">320dp</dimen>
+    <dimen name="normal_floating_frame">80dp</dimen>
+
+    <dimen name="normal_menu_icon">60dp</dimen>
+    <dimen name="normal_menu_land_icon">85dp</dimen>
+
+    <dimen name="normal_bus_stop_spot">6dp</dimen>
+
+    <!-- sw600dp -->
+    <!-- 目前這裡全部 -5dp -->
+    <dimen name="sw600dp_actionbar_item_height">70dp</dimen>
+    <dimen name="sw600dp_actionbar_height">85dp</dimen>
+    <dimen name="sw600dp_actionbar_height_little_higher">92dp</dimen>
+    <dimen name="sw600dp_actionbar_height_more_higher">104dp</dimen>
+    <dimen name="sw600dp_actionbar_height_higher">120dp</dimen>
+
+    <dimen name="sw600dp_font_size_super">43dp</dimen>
+    <dimen name="sw600dp_font_size_xxl">37dp</dimen>
+    <dimen name="sw600dp_font_size_xl">34dp</dimen>
+    <dimen name="sw600dp_font_size_l">31dp</dimen>
+    <dimen name="sw600dp_font_size_m">28dp</dimen>
+    <dimen name="sw600dp_font_size_s">20dp</dimen>
+    <dimen name="sw600dp_font_size_xs">15dp</dimen>
+
+    <dimen name="sw600dp_padding_size_super">78dp</dimen>
+    <dimen name="sw600dp_padding_size_xxl">38dp</dimen>
+    <dimen name="sw600dp_padding_size_xl">30dp</dimen>
+    <dimen name="sw600dp_padding_size_l">22dp</dimen>
+    <dimen name="sw600dp_padding_size_m">13dp</dimen>
+    <dimen name="sw600dp_padding_size_s">5dp</dimen>
+
+    <dimen name="sw600dp_ticket_edge_padding">6dp</dimen>
+
+    <dimen name="sw600dp_icon_common_size">48dp</dimen>
+    <dimen name="sw600dp_icon_common_size_l">60dp</dimen>
+    <dimen name="sw600dp_icon_common_size_xl">72dp</dimen>
+
+    <dimen name="sw600dp_icon_marker_common_size">53dp</dimen>
+    <dimen name="sw600dp_icon_marker_places_size">26dp</dimen>
+
+    <dimen name="sw600dp_poi_photo_edit_view">180dp</dimen>
+    <dimen name="sw600dp_poi_photo_edit_view_l">270dp</dimen>
+    <dimen name="sw600dp_poi_photo_edit_view_xl">350dp</dimen>
+
+    <dimen name="sw600dp_tab_layout_max_width">400dp</dimen>
+    <dimen name="sw600dp_floating_frame">105dp</dimen>
+
+    <dimen name="sw600dp_menu_icon">99dp</dimen>
+    <dimen name="sw600dp_menu_land_icon">140dp</dimen>
+
+    <dimen name="sw600dp_bus_stop_spot">8dp</dimen>
+
+    <!-- sw800dp -->
+    <dimen name="sw800dp_actionbar_item_height">110dp</dimen>
+    <dimen name="sw800dp_actionbar_height">130dp</dimen>
+    <dimen name="sw800dp_actionbar_height_little_higher">120dp</dimen>
+    <dimen name="sw800dp_actionbar_height_more_higher">140dp</dimen>
+    <dimen name="sw800dp_actionbar_height_higher">160dp</dimen>
+
+    <dimen name="sw800dp_font_size_super">73dp</dimen>
+    <dimen name="sw800dp_font_size_xxl">61dp</dimen>
+    <dimen name="sw800dp_font_size_xl">56dp</dimen>
+    <dimen name="sw800dp_font_size_l">50dp</dimen>
+    <dimen name="sw800dp_font_size_m">44dp</dimen>
+    <dimen name="sw800dp_font_size_s">33dp</dimen>
+    <dimen name="sw800dp_font_size_xs">25dp</dimen>
+
+    <dimen name="sw800dp_padding_size_super">100dp</dimen>
+    <dimen name="sw800dp_padding_size_xxl">50dp</dimen>
+    <dimen name="sw800dp_padding_size_xl">40dp</dimen>
+    <dimen name="sw800dp_padding_size_l">28dp</dimen>
+    <dimen name="sw800dp_padding_size_m">18dp</dimen>
+    <dimen name="sw800dp_padding_size_s">7dp</dimen>
+
+    <dimen name="sw800dp_ticket_edge_padding">7dp</dimen>
+
+    <dimen name="sw800dp_icon_common_size">60dp</dimen>
+    <dimen name="sw800dp_icon_common_size_l">75dp</dimen>
+    <dimen name="sw800dp_icon_common_size_xl">90dp</dimen>
+
+    <dimen name="sw800dp_icon_marker_common_size">60dp</dimen>
+    <dimen name="sw800dp_icon_marker_places_size">35dp</dimen>
+
+    <dimen name="sw800dp_kiosk_main_menu_width">180dp</dimen>
+    <dimen name="sw800dp_kiosk_icon_common_size">80dp</dimen>
+
+    <dimen name="sw800dp_poi_photo_edit_view">250dp</dimen>
+    <dimen name="sw800dp_poi_photo_edit_view_l">370dp</dimen>
+    <dimen name="sw800dp_poi_photo_edit_view_xl">490dp</dimen>
+
+    <dimen name="sw800dp_tab_layout_max_width">500dp</dimen>
+    <dimen name="sw800dp_floating_frame">147dp</dimen>
+
+    <dimen name="sw800dp_menu_icon">130dp</dimen>
+    <dimen name="sw800dp_menu_land_icon">185dp</dimen>
+
+    <dimen name="sw800dp_bus_stop_spot">12dp</dimen>
+
+</resources>

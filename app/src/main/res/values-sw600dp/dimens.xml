@@ -1,0 +1,50 @@
+<resources>
+
+    <!--
+         Customize dimensions originally defined in res/values/dimens.xml (such as
+         screen margins) for sw600dp devices (e.g. 7" tablets) here.
+    -->
+    
+    <!-- Keyboard textSize -->
+    <dimen name="actionbar_item_height">@dimen/sw600dp_actionbar_item_height</dimen>
+    <dimen name="actionbar_height">@dimen/sw600dp_actionbar_height</dimen>
+    <dimen name="actionbar_height_little_higher">@dimen/sw600dp_actionbar_height_little_higher</dimen>
+    <dimen name="actionbar_height_more_higher">@dimen/sw600dp_actionbar_height_more_higher</dimen>
+    <dimen name="actionbar_height_higher">@dimen/sw600dp_actionbar_height_higher</dimen>
+
+	<dimen name="font_text_size_xs">@dimen/sw600dp_font_size_xs</dimen>
+	<dimen name="font_text_size_s">@dimen/sw600dp_font_size_s</dimen>
+	<dimen name="font_text_size_m">@dimen/sw600dp_font_size_m</dimen>
+	<dimen name="font_text_size_l">@dimen/sw600dp_font_size_l</dimen>
+	<dimen name="font_text_size_xl">@dimen/sw600dp_font_size_xl</dimen>
+	<dimen name="font_text_size_xxl">@dimen/sw600dp_font_size_xxl</dimen>
+	<dimen name="font_text_size_super">@dimen/sw600dp_font_size_super</dimen>
+
+	<dimen name="padding_size_s">@dimen/sw600dp_padding_size_s</dimen>
+	<dimen name="padding_size_m">@dimen/sw600dp_padding_size_m</dimen>
+	<dimen name="padding_size_l">@dimen/sw600dp_padding_size_l</dimen>
+	<dimen name="padding_size_xl">@dimen/sw600dp_padding_size_xl</dimen>
+	<dimen name="padding_size_xxl">@dimen/sw600dp_padding_size_xxl</dimen>
+	<dimen name="padding_size_super">@dimen/sw600dp_padding_size_super</dimen>
+
+    <dimen name="icon_common_size">@dimen/sw600dp_icon_common_size</dimen>
+    <dimen name="icon_common_size_l">@dimen/sw600dp_icon_common_size_l</dimen>
+    <dimen name="icon_common_size_xl">@dimen/sw600dp_icon_common_size_xl</dimen>
+
+    <dimen name="icon_marker_common_size">@dimen/sw600dp_icon_marker_common_size</dimen>
+    <dimen name="icon_marker_places_size">@dimen/sw600dp_icon_marker_places_size</dimen>
+
+    <dimen name="poi_photo_edit_view">@dimen/sw600dp_poi_photo_edit_view</dimen>
+    <dimen name="poi_photo_edit_view_l">@dimen/sw600dp_poi_photo_edit_view_l</dimen>
+    <dimen name="poi_photo_edit_view_xl">@dimen/sw600dp_poi_photo_edit_view_xl</dimen>
+
+    <dimen name="tab_layout_max_width">@dimen/sw600dp_tab_layout_max_width</dimen>
+    <dimen name="floating_frame">@dimen/sw600dp_floating_frame</dimen>
+
+    <dimen name="menu_icon">@dimen/sw600dp_menu_icon</dimen>
+    <dimen name="menu_land_icon">@dimen/sw600dp_menu_land_icon</dimen>
+
+    <dimen name="bus_stop_spot">@dimen/sw600dp_bus_stop_spot</dimen>
+    <dimen name="ticket_edge_padding">@dimen/sw600dp_ticket_edge_padding</dimen>
+
+</resources>

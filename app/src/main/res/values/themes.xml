@@ -1,0 +1,72 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
+        <item name="colorOnSecondary">@color/colorOnSecondary</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Other colors -->
+        <item name="colorAccent">@color/md_lime_A700</item>
+        <item name="colorControlNormal">@color/md_amber_400</item>
+        <item name="android:textViewStyle">@style/MyTextViewStyle</item>
+        <item name="editTextStyle">@style/MyEditTextStyle</item>
+        <!-- It will cause style bugs on AutoCompleteTextView..
+        <item name="android:autoCompleteTextViewStyle">@style/MyAutoCompleteStyle</item>
+        -->
+        <item name="toolbarStyle">@style/MyToolbarStyle</item>
+        <item name="toolbarNavigationButtonStyle">@style/ToolbarNavigationStyle</item>
+        <item name="android:actionMenuTextColor">@android:color/white</item>
+        <item name="android:actionMenuTextAppearance">@style/MyMenuTextStyle</item>
+    </style>
+
+    <style name="MyMenuTextStyle">
+        <item name="android:textSize">@dimen/font_text_size_m</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppFullScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="MyTextViewStyle" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/md_grey_50</item>
+        <item name="android:textSize">@dimen/font_text_size_m</item>
+    </style>
+
+    <style name="MyEditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/md_white_1000</item>
+        <item name="android:textSize">@dimen/font_text_size_s</item>
+        <item name="android:textColorHint">@color/transparent_half_white</item>
+    </style>
+
+    <!-- Start of Toolbar Style -->
+    <style name="MyToolbarStyle" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="titleTextColor">@color/md_grey_50</item>
+        <item name="titleTextAppearance">@style/ToolbarTitleStyle</item>
+    </style>
+
+    <style name="ToolbarTitleStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">@dimen/font_text_size_m</item>
+        <item name="android:textColor">@color/md_grey_50</item>
+    </style>
+
+    <style name="ToolbarNavigationStyle" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="android:paddingTop">@dimen/padding_size_m</item>
+        <item name="android:paddingBottom">@dimen/padding_size_m</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
+    <!-- End of Toolbar Style -->
+
+</resources>

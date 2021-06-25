@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="icon_marker_places_size">@dimen/smaller_icon_marker_places_size</dimen>
+    <dimen name="floating_frame">@dimen/smaller_floating_frame</dimen>
+
+</resources>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0C6379</color>
+    <color name="colorPrimaryVariant">#006488</color>
+    <color name="colorOnPrimary">@color/md_grey_50</color>
+
+    <color name="colorSecondary">@color/md_teal_400</color>
+    <color name="colorSecondaryVariant">@color/md_teal_400</color>
+    <color name="colorOnSecondary">@color/md_teal_A700</color>
+
+    <color name="colorAccent">#03DAC5</color>
+    <color name="colorControlNormal">@color/md_amber_400</color>
+
+    <!-- App Colors -->
+    <color name="app_background_color">#1E1D23</color>
+
+    <!-- Transparent Colors -->
+    <color name="transparent_full">#00000000</color>
+    <color name="transparent_half_white">#4FFFFFFF</color>
+    <color name="transparent_quarter_white">#AFFFFFFF</color>
+    <color name="transparent_little_white">#D8FFFFFF</color>
+    <color name="transparent_half_gray">#4F838383</color>
+    <color name="transparent_more_gray">#9F838383</color>
+    <color name="transparent_quarter_gray">#CFE0E0E0</color>
+    <color name="transparent_little_black">#1F000000</color>
+    <color name="transparent_half_black">#4F000000</color>
+    <color name="transparent_half_more_black">#6F000000</color>
+    <color name="transparent_half_and_little_more_black">#6F000000</color>
+    <color name="transparent_quarter_black">#AF000000</color>
+    <color name="transparent_deep_blue">#EF384857</color>
+    <color name="transparent_crystal_light">#4F33BEE5</color>
+    <color name="transparent_crystal_lighter">#CF33BEE5</color>
+    <color name="transparent_crystal">#3F0092f4</color>
+    <color name="transparent_light_blue">#AF0277BD</color>
+    <color name="transparent_quarter_teal">#AF00BFA5</color>
+    <color name="transparent_half_teal">#6F00BFA5</color>
+    <color name="transparent_little_teal">#1F00BFA5</color>
+    <color name="transparent_quarter_red">#AFD50000</color>
+    <color name="transparent_half_red">#6FD50000</color>
+    <color name="transparent_little_red">#1FD50000</color>
+    <color name="transparent_quarter_primaryDark">#AF00887A</color>
+    <color name="transparent_half_primary">#6F01ABA0</color>
+</resources>
