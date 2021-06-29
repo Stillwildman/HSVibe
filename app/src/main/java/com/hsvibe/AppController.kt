@@ -15,6 +15,8 @@ class AppController : MultiDexApplication() {
     companion object {
         @get:Synchronized
         lateinit var instance: AppController
+
+        fun getAppContext(): Context = instance.applicationContext
     }
 
     override fun attachBaseContext(base: Context) {

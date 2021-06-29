@@ -8,11 +8,12 @@
     <color name="colorSecondaryVariant">@color/md_teal_400</color>
     <color name="colorOnSecondary">@color/md_teal_A700</color>
 
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorAccent">@color/main_theme_color</color>
     <color name="colorControlNormal">@color/md_amber_400</color>
 
     <!-- App Colors -->
     <color name="app_background_color">#1E1D23</color>
+    <color name="main_theme_color">#FECB7D</color>
 
     <!-- Transparent Colors -->
     <color name="transparent_full">#00000000</color>

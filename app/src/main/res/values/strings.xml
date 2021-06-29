@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">HSvibe</string>
+    <string name="app_name">H\'S VIBE</string>
+
+    <!-- Common -->
+    <string name="confirm_to_exit">Tap \'Back\' again to exit the app.</string>
+    <string name="loading">LOADING…</string>
+    <string name="ok">OK</string>
+
+    <!-- Security -->
+    <string name="ssl_certification_error">SSL certification error!</string>
+    <string name="ssl_error_confirm_to_continue">Are you sure you want to continue?</string>
+    <string name="go_on_anyway">Go On Anyway!</string>
+    <string name="cancel_eng">Cancel</string>
+
+    <!-- Member -->
+    <string name="login_with_hsvibe">使用HSVIBE登入</string>
+    <string name="later">稍後再說</string>
+
 </resources>
