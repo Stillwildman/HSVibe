@@ -41,4 +41,7 @@ object Utility {
         return dm.heightPixels
     }
 
+    fun convertSecondToMillisecond(second: Long): Long {
+        return second * 1000
+    }
 }

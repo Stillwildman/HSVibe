@@ -40,7 +40,7 @@ abstract class BaseFragmentActivity : BasePermissionActivity(), FragmentManager.
     protected fun isFragmentsMoreThanOne(): Boolean = fm.backStackEntryCount > 1
 
     protected fun popBack(@Nullable backName : String? = null) {
-        if (isFragmentsMoreThanOne()) {
+        if (isFragmentNotEmpty()) {
             if (backName == null) {
                 fm.popBackStackImmediate()
             }
@@ -69,7 +69,10 @@ abstract class BaseFragmentActivity : BasePermissionActivity(), FragmentManager.
         if (isFragmentNotEmpty()) {
             getContainerId()?.let {
                 fm.getBackStackEntryAt(fm.backStackEntryCount - 1).name?.let { backName ->
-                    fm.findFragmentById(it)?.onResume()
+                    fm.findFragmentById(it)?.apply {
+                        L.d("onResume: ${javaClass.name} BackName: $backName")
+                        onResume()
+                    }
                 }
             }
         }
@@ -78,7 +81,7 @@ abstract class BaseFragmentActivity : BasePermissionActivity(), FragmentManager.
     protected fun openDialogFragment(instance: DialogFragment, backName: String?, useSlideUpAnim: Boolean = false) {
         fm.beginTransaction().let {
             if (useSlideUpAnim) {
-                it.setCustomAnimations(R.anim.slide_in_from_bottom, R.anim.slide_out_to_bottom)
+                it.setCustomAnimations(0, 0, R.anim.slide_in_from_bottom, R.anim.slide_out_to_bottom)
             }
             it.addToBackStack(backName ?: Const.BACK_COMMON_DIALOG)
             instance.show(it, Const.DIALOG_FRAGMENT)
@@ -98,14 +101,26 @@ abstract class BaseFragmentActivity : BasePermissionActivity(), FragmentManager.
         }
     }
 
-    protected fun dismissLoadingDialog() {
+    protected fun hideLoadingDialog() {
         fm.findFragmentByTag(Const.LOADING_DIALOG_FRAGMENT)?.let {
             (it as DialogFragment).dismiss()
         }
     }
 
+    override fun setupActivityCallback(activityCallback: FragmentContract.ActivityCallback) {
+        this.activityCallback = activityCallback
+    }
+
     override fun onFragmentPopBack(backName: String?) {
         popBack(backName)
+    }
+
+    override fun showLoadingDialogFromFragment() {
+        showLoadingDialog()
+    }
+
+    override fun hideLoadingDialogFromFragment() {
+        hideLoadingDialog()
     }
 
     override fun onBackPressed() {

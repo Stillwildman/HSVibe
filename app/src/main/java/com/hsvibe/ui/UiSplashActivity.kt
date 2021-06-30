@@ -20,19 +20,22 @@ class UiSplashActivity : BaseFullScreenActivity() {
     }
 
     override fun onPermissionDenied(requestCode: Int) {
-        // TODO TBD
+        checkUserToken()
     }
 
     private fun checkUserToken() {
-        if (UserTokenManager.hasUserToken()) {
-            if (UserTokenManager.isTokenExpired()) {
-                // TODO Call refresh token
+        UserTokenManager.run {
+            when (getUserTokenStatus()) {
+                STATUS_NULL -> {
+                    goToNext(UiLoginActivity::class.java)
+                }
+                STATUS_EXPIRED -> {
+                    // TODO Call refresh token
+                }
+                STATUS_OK -> {
+                    // TODO Go to main page
+                }
             }
-            // TODO Go to main page
-        }
-        else {
-            // TODO Add ContextUtil and Add startActivitySafely() ext function.
-            goToNext(UiLoginActivity::class.java)
         }
     }
 

@@ -24,6 +24,11 @@
         <item name="toolbarNavigationButtonStyle">@style/ToolbarNavigationStyle</item>
         <item name="android:actionMenuTextColor">@android:color/white</item>
         <item name="android:actionMenuTextAppearance">@style/MyMenuTextStyle</item>
+        <!-- Make status bar transparent! -->
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowAnimationStyle">@style/BasicAnimationStyle</item>
     </style>
 
     <style name="MyMenuTextStyle">
@@ -36,17 +41,35 @@
         <item name="android:windowActionBar">false</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@style/BasicAnimationStyle</item>
     </style>
 
+    <style name="BasicAnimationStyle" parent="@android:style/Animation.Activity"/>
+
+    <!-- Start of DialogFragment -->
     <style name="FullScreenDialog" parent="Theme.AppCompat.Light.NoActionBar" >
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorControlNormal">@color/colorControlNormal</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
         <!--<item name="android:windowFullscreen">true</item>-->
-        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowAnimationStyle">@style/DialogSlideUpAnim</item>
     </style>
+
+    <style name="DialogAnimTheme" parent="@android:style/Theme.Panel">
+        <item name="android:windowAnimationStyle">@style/DialogSlideUpAnim</item>
+    </style>
+
+    <style name="DialogSlideUpAnim" parent="@android:style/Animation.Activity">
+        <item name="android:windowEnterAnimation">@anim/slide_in_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_to_bottom</item>
+    </style>
+    <!-- End of DialogFragment -->
 
     <style name="MyLoadingCircle">
         <item name="android:indeterminateOnly">true</item>

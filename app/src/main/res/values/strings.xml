@@ -2,6 +2,7 @@
     <string name="app_name">H\'S VIBE</string>
 
     <!-- Common -->
+    <string name="confirm">確認</string>
     <string name="confirm_to_exit">Tap \'Back\' again to exit the app.</string>
     <string name="loading">LOADING…</string>
     <string name="ok">OK</string>

@@ -1,6 +1,7 @@
 package com.hsvibe.ui.bases
 
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -9,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import com.hsvibe.R
+import com.hsvibe.callbacks.FragmentContract
 import com.hsvibe.utilities.L
 
 /**
@@ -17,7 +19,7 @@ import com.hsvibe.utilities.L
 abstract class BaseDialogFragment<BindingView : ViewDataBinding> : DialogFragment() {
 
     @Suppress("PropertyName")
-    protected val TAG = javaClass.simpleName
+    protected val TAG: String = javaClass.simpleName
 
     protected abstract fun getLayoutId(): Int
     protected abstract fun canCanceledOnTouchOutside(): Boolean
@@ -26,8 +28,23 @@ abstract class BaseDialogFragment<BindingView : ViewDataBinding> : DialogFragmen
 
     protected lateinit var bindingView: BindingView
 
+    private lateinit var fragmentCallback: FragmentContract.FragmentCallback
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            fragmentCallback = context as FragmentContract.FragmentCallback
+        }
+        catch (e: ClassCastException) {
+            e.printStackTrace()
+            L.e(TAG, context.javaClass.simpleName + " must implement " + FragmentContract.FragmentCallback::class.java.simpleName)
+        }
+        L.d(TAG, "onAttach!!!")
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        L.d(TAG, "onCreate!!!")
         setStyle(STYLE_NORMAL, R.style.FullScreenDialog)
     }
 
@@ -35,15 +52,17 @@ abstract class BaseDialogFragment<BindingView : ViewDataBinding> : DialogFragmen
         L.d(TAG, "onCreateDialog!!!")
 
         val dialog = super.onCreateDialog(savedInstanceState)
+        //val dialog = AlertDialog.Builder(requireContext(), R.style.DialogAnimTheme).create()
 
-        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-
-        dialog.setCanceledOnTouchOutside(canCanceledOnTouchOutside())
-
+        dialog.apply {
+            window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+            setCanceledOnTouchOutside(canCanceledOnTouchOutside())
+        }
         return dialog
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        L.d(TAG, "onCreateView!!!")
         bindingView = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
         init()
         return bindingView.root
@@ -51,11 +70,13 @@ abstract class BaseDialogFragment<BindingView : ViewDataBinding> : DialogFragmen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        L.d(TAG, "onViewCreated!!!")
         view.setBackgroundColor(Color.TRANSPARENT)
     }
 
     override fun onStart() {
         super.onStart()
+        L.d(TAG, "onStart!!!")
         setDialogSize()
     }
 
@@ -63,7 +84,7 @@ abstract class BaseDialogFragment<BindingView : ViewDataBinding> : DialogFragmen
         dialog?.window?.apply {
             setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-            setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
 
             attributes.run {
                 dimAmount = 0.5f
@@ -73,6 +94,18 @@ abstract class BaseDialogFragment<BindingView : ViewDataBinding> : DialogFragmen
 
             setDialogWindowAttrs(this)
         }
+    }
+
+    protected fun popBack(backName: String? = null) {
+        fragmentCallback.onFragmentPopBack(backName)
+    }
+
+    protected fun showLoadingDialog() {
+        fragmentCallback.showLoadingDialogFromFragment()
+    }
+
+    protected fun hideLoadingDialog() {
+        fragmentCallback.hideLoadingDialogFromFragment()
     }
 
     override fun onResume() {
@@ -99,4 +132,5 @@ abstract class BaseDialogFragment<BindingView : ViewDataBinding> : DialogFragmen
         super.onDestroy()
         L.d(TAG, "onDestroy!!!")
     }
+
 }

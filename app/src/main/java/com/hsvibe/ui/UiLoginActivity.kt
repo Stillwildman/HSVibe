@@ -9,6 +9,7 @@ import com.hsvibe.model.UserToken
 import com.hsvibe.model.UserTokenManager
 import com.hsvibe.ui.bases.BaseActivity
 import com.hsvibe.ui.fragments.login.UiLoginWebDialogFragment
+import com.hsvibe.utilities.L
 import com.hsvibe.viewmodel.LoginViewModel
 import com.hsvibe.viewmodel.LoginViewModelFactory
 
@@ -17,7 +18,7 @@ import com.hsvibe.viewmodel.LoginViewModelFactory
  */
 class UiLoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener {
 
-    private val loginViewModel: LoginViewModel by viewModels { LoginViewModelFactory() }
+    private val loginViewModel by viewModels<LoginViewModel> { LoginViewModelFactory() }
 
     override fun getLayoutId(): Int = R.layout.activity_login
 
@@ -48,7 +49,9 @@ class UiLoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListen
 
     private fun observeLoginStatus() {
         loginViewModel.liveUserToken.observe(this, { userToken ->
-            updateUserToken(userToken)
+            L.i("on UserToken Changed!!!")
+            dismissDialogFragment()
+            //updateUserToken(userToken)
         })
     }
 

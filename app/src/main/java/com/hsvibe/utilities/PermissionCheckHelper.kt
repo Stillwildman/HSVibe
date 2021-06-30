@@ -35,8 +35,12 @@ object PermissionCheckHelper {
         return checkPermission(activity, PERMISSION_REQUEST_CODE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, PERMISSIONS_LOCATION)
     }
 
+    fun hasPermission(activity: Activity, permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED
+    }
+
     private fun checkPermission(activity: Activity, requestCode: Int, permission: String, requestedPermissions: Array<String>): Boolean {
-        return if (ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED) {
+        return if (hasPermission(activity, permission)) {
             true
         } else {
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.ACCESS_FINE_LOCATION)) {

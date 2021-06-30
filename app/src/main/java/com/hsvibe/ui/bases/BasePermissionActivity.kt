@@ -1,5 +1,6 @@
 package com.hsvibe.ui.bases
 
+import android.Manifest
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import com.hsvibe.utilities.PermissionCheckHelper
@@ -17,6 +18,10 @@ abstract class BasePermissionActivity : AppCompatActivity() {
         if (PermissionCheckHelper.checkLocationPermission(this)) {
             onPermissionGranted(PermissionCheckHelper.PERMISSION_REQUEST_CODE_LOCATION)
         }
+    }
+
+    protected fun hasLocationPermission(): Boolean {
+        return PermissionCheckHelper.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
