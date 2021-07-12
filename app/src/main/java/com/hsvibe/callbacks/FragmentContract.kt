@@ -6,7 +6,7 @@ package com.hsvibe.callbacks
 class FragmentContract {
 
     interface FragmentCallback {
-        fun setupActivityCallback(activityCallback: ActivityCallback)
+        fun setupActivityCallback(activityCallback: ActivityCallback?)
         fun onFragmentPopBack(backName: String?)
         fun showLoadingDialogFromFragment()
         fun hideLoadingDialogFromFragment()

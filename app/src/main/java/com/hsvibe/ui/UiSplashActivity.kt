@@ -2,45 +2,52 @@ package com.hsvibe.ui
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import com.hsvibe.R
-import com.hsvibe.model.UserTokenManager
+import com.hsvibe.model.UserInfoManager
 import com.hsvibe.ui.bases.BaseFullScreenActivity
+import com.hsvibe.utilities.ContextExt.startActivitySafely
 
 class UiSplashActivity : BaseFullScreenActivity() {
 
     override fun getLayoutId(): Int = R.layout.activity_splash
 
     override fun init() {
-        checkLocationPermission()
-        // TODO Check Google Play service
+        checkGooglePlayService()
+    }
+
+    private fun checkGooglePlayService() {
+        if (checkPlayServices()) {
+            checkLocationPermission()
+        }
+        else {
+            // Continue without Location permission.
+            checkIfTheUserHasToken()
+        }
     }
 
     override fun onPermissionGranted(requestCode: Int) {
-        checkUserToken()
+        checkIfTheUserHasToken()
     }
 
     override fun onPermissionDenied(requestCode: Int) {
-        checkUserToken()
+        checkIfTheUserHasToken()
     }
 
-    private fun checkUserToken() {
-        UserTokenManager.run {
-            when (getUserTokenStatus()) {
-                STATUS_NULL -> {
-                    goToNext(UiLoginActivity::class.java)
-                }
-                STATUS_EXPIRED -> {
-                    // TODO Call refresh token
-                }
-                STATUS_OK -> {
-                    // TODO Go to main page
-                }
-            }
+    private fun checkIfTheUserHasToken() {
+        if (UserInfoManager.hasToken()) {
+            goToNext(UiMainActivity::class.java)
+        }
+        else {
+            goToNext(UiLoginActivity::class.java)
         }
     }
 
     private fun goToNext(targetClass: Class<out Activity>) {
-        this.startActivity(Intent(this, targetClass))
-        this.finish()
+        Handler(Looper.getMainLooper()).postDelayed({
+            this.startActivitySafely(Intent(this, targetClass))
+            this.finish()
+        }, 1000)
     }
 }

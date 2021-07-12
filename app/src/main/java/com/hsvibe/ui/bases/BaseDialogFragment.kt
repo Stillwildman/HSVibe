@@ -16,12 +16,14 @@ import com.hsvibe.utilities.L
 /**
  * Created by Vincent on 2021/06/27.
  */
+// TODO Improve: Create view async
 abstract class BaseDialogFragment<BindingView : ViewDataBinding> : DialogFragment() {
 
     @Suppress("PropertyName")
     protected val TAG: String = javaClass.simpleName
 
     protected abstract fun getLayoutId(): Int
+    protected abstract fun useSlideUpAnim(): Boolean
     protected abstract fun canCanceledOnTouchOutside(): Boolean
     protected abstract fun setDialogWindowAttrs(window: Window)
     protected abstract fun init()
@@ -45,7 +47,7 @@ abstract class BaseDialogFragment<BindingView : ViewDataBinding> : DialogFragmen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         L.d(TAG, "onCreate!!!")
-        setStyle(STYLE_NORMAL, R.style.FullScreenDialog)
+        setStyle(STYLE_NORMAL, R.style.FullScreenDialog_SlideUpAnim.takeIf { useSlideUpAnim() } ?: R.style.FullScreenDialog)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

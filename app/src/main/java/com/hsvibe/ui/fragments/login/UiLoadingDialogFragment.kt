@@ -12,6 +12,8 @@ class UiLoadingDialogFragment(private val loadingTextRes: Int? = null) : BaseDia
 
     override fun getLayoutId(): Int = R.layout.dialog_loading_circle
 
+    override fun useSlideUpAnim(): Boolean = false
+
     override fun canCanceledOnTouchOutside(): Boolean = false
 
     override fun setDialogWindowAttrs(window: Window) {
@@ -21,4 +23,5 @@ class UiLoadingDialogFragment(private val loadingTextRes: Int? = null) : BaseDia
     override fun init() {
         loadingTextRes?.let { bindingView.loadingTextView.setText(it) }
     }
+
 }

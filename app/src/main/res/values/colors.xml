@@ -13,7 +13,10 @@
 
     <!-- App Colors -->
     <color name="app_background_color">#1E1D23</color>
+    <color name="tab_bottom_color">#111111</color>
     <color name="main_theme_color">#FECB7D</color>
+    <color name="tab_selected_color">@color/md_white_1000</color>
+    <color name="tab_unselected_color">#8F8F8F</color>
 
     <!-- Transparent Colors -->
     <color name="transparent_full">#00000000</color>

@@ -3,7 +3,12 @@ package com.hsvibe.ui.bases
 import android.Manifest
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.hsvibe.model.Const
+import com.hsvibe.utilities.L
 import com.hsvibe.utilities.PermissionCheckHelper
+import com.hsvibe.utilities.Utility
 
 /**
  * Created by Vincent on 2021/6/28.
@@ -41,5 +46,21 @@ abstract class BasePermissionActivity : AppCompatActivity() {
         else {
             onPermissionDenied(requestCode)
         }
+    }
+
+    protected fun checkPlayServices(): Boolean {
+        val apiAvailability: GoogleApiAvailability = GoogleApiAvailability.getInstance()
+        val resultCode: Int = apiAvailability.isGooglePlayServicesAvailable(this)
+
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, Const.PLAY_SERVICES_RESOLUTION_REQUEST)?.show()
+            } else {
+                Utility.toastShort("This device is not supported PlayServices.")
+                L.i("This device is not supported PlayServices.")
+            }
+            return false
+        }
+        return true
     }
 }

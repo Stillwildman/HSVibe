@@ -17,6 +17,12 @@ data class UserToken(
         return field
     }
 
+    fun setupCreatedTime() {
+        if (createdTime == 0L) {
+            createdTime = System.currentTimeMillis()
+        }
+    }
+
     override fun toString(): String {
         return StringBuilder().run {
             append("[AccessToken]: $access_token\n")

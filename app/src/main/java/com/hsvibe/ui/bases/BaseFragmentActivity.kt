@@ -4,7 +4,6 @@ import androidx.annotation.Nullable
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.hsvibe.R
 import com.hsvibe.callbacks.FragmentContract
 import com.hsvibe.model.Const
 import com.hsvibe.ui.fragments.login.UiLoadingDialogFragment
@@ -50,6 +49,23 @@ abstract class BaseFragmentActivity : BasePermissionActivity(), FragmentManager.
         }
     }
 
+    protected fun addTabFragment(instance: Fragment) {
+        getContainerId()?.let {
+            fm.findFragmentById(it)?.let { lastFragment ->
+                if (lastFragment == instance) return
+            }
+            fm.beginTransaction().add(it, instance).commit()
+        }
+    }
+
+    protected fun showTabFragment(instance: Fragment) {
+        fm.beginTransaction().show(instance).commit()
+    }
+
+    protected fun hideTabFragment(instance: Fragment) {
+        fm.beginTransaction().hide(instance).commit()
+    }
+
     protected fun openFragment(instance: Fragment, useReplace: Boolean, backName: String?) {
         getContainerId()?.let {
             fm.findFragmentById(it)?.let { lastFragment ->
@@ -78,18 +94,15 @@ abstract class BaseFragmentActivity : BasePermissionActivity(), FragmentManager.
         }
     }
 
-    protected fun openDialogFragment(instance: DialogFragment, backName: String?, useSlideUpAnim: Boolean = false) {
+    protected fun openDialogFragment(instance: DialogFragment, backName: String?) {
         fm.beginTransaction().let {
-            if (useSlideUpAnim) {
-                it.setCustomAnimations(0, 0, R.anim.slide_in_from_bottom, R.anim.slide_out_to_bottom)
-            }
             it.addToBackStack(backName ?: Const.BACK_COMMON_DIALOG)
-            instance.show(it, Const.DIALOG_FRAGMENT)
+            instance.show(it, Const.TAG_DIALOG_FRAGMENT)
         }
     }
 
     protected fun dismissDialogFragment() {
-        fm.findFragmentByTag(Const.DIALOG_FRAGMENT)?.let {
+        fm.findFragmentByTag(Const.TAG_DIALOG_FRAGMENT)?.let {
             (it as DialogFragment).dismiss()
         }
     }
@@ -97,18 +110,19 @@ abstract class BaseFragmentActivity : BasePermissionActivity(), FragmentManager.
     protected fun showLoadingDialog() {
         UiLoadingDialogFragment().apply {
             isCancelable = false
-            show(fm.beginTransaction(), Const.LOADING_DIALOG_FRAGMENT)
+            show(fm.beginTransaction(), Const.TAG_LOADING_DIALOG_FRAGMENT)
         }
     }
 
     protected fun hideLoadingDialog() {
-        fm.findFragmentByTag(Const.LOADING_DIALOG_FRAGMENT)?.let {
+        fm.findFragmentByTag(Const.TAG_LOADING_DIALOG_FRAGMENT)?.let {
             (it as DialogFragment).dismiss()
         }
     }
 
-    override fun setupActivityCallback(activityCallback: FragmentContract.ActivityCallback) {
+    override fun setupActivityCallback(activityCallback: FragmentContract.ActivityCallback?) {
         this.activityCallback = activityCallback
+        L.i("setupActivityCallback!!!")
     }
 
     override fun onFragmentPopBack(backName: String?) {

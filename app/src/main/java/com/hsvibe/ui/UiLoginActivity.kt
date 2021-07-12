@@ -1,15 +1,16 @@
 package com.hsvibe.ui
 
+import android.content.Intent
 import android.view.View
 import androidx.activity.viewModels
 import com.hsvibe.R
 import com.hsvibe.databinding.ActivityLoginBinding
 import com.hsvibe.model.Const
+import com.hsvibe.model.UserInfoManager
 import com.hsvibe.model.UserToken
-import com.hsvibe.model.UserTokenManager
 import com.hsvibe.ui.bases.BaseActivity
 import com.hsvibe.ui.fragments.login.UiLoginWebDialogFragment
-import com.hsvibe.utilities.L
+import com.hsvibe.utilities.ContextExt.startActivitySafely
 import com.hsvibe.viewmodel.LoginViewModel
 import com.hsvibe.viewmodel.LoginViewModelFactory
 
@@ -39,24 +40,28 @@ class UiLoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListen
     override fun onClick(v: View) {
         when (v.id) {
             R.id.button_login -> {
-                openDialogFragment(UiLoginWebDialogFragment(), Const.BACK_LOGIN_DIALOG, true)
+                openDialogFragment(UiLoginWebDialogFragment(), Const.BACK_LOGIN_DIALOG)
             }
             R.id.button_later -> {
-                // TODO Go to Main
+                goToMain()
             }
         }
     }
 
     private fun observeLoginStatus() {
         loginViewModel.liveUserToken.observe(this, { userToken ->
-            L.i("on UserToken Changed!!!")
             dismissDialogFragment()
-            //updateUserToken(userToken)
+            updateUserToken(userToken)
         })
     }
 
     private fun updateUserToken(userToken: UserToken) {
-        UserTokenManager.setUserToken(userToken)
-        // TODO Go to Main
+        UserInfoManager.setUserToken(userToken)
+        goToMain()
+    }
+
+    private fun goToMain() {
+        this.startActivitySafely(Intent(this, UiMainActivity::class.java))
+        this.finish()
     }
 }

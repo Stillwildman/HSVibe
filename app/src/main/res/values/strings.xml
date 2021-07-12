@@ -17,4 +17,10 @@
     <string name="login_with_hsvibe">使用HSVIBE登入</string>
     <string name="later">稍後再說</string>
 
+    <!-- Main -->
+    <string name="tab_home">首頁</string>
+    <string name="tab_explore">瀏覽</string>
+    <string name="tab_coupon">優惠券</string>
+    <string name="tab_wallet">錢包</string>
+
 </resources>

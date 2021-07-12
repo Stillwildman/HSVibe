@@ -3,6 +3,11 @@ package com.hsvibe.network
 import com.hsvibe.callbacks.OnDataGetCallback
 import com.hsvibe.callbacks.OnLoadingCallback
 import com.hsvibe.model.Urls
+import com.hsvibe.model.UserInfo
+import com.hsvibe.model.UserToken
+import com.hsvibe.model.posts.PostRefreshToken
+import com.hsvibe.model.posts.PostUpdateUserInfo
+import com.hsvibe.tasks.ApiStatusException
 import com.hsvibe.utilities.L
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
@@ -10,6 +15,8 @@ import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Response
 
 /**
@@ -59,4 +66,49 @@ object DataCallbacks {
             }
         }
     }
+
+    private fun <ItemType> getResponseResult(response: Response<ItemType>, loadingCallback: OnLoadingCallback?): ItemType? {
+        L.d("Suspend API Call! Thread is ${Thread.currentThread().name}")
+
+        return if (response.isSuccessful) {
+            loadingCallback?.onLoadingEnd()
+            response.body() as ItemType
+        }
+        else {
+            val errorMessage = response.errorBody()?.charStream()?.readText()
+            loadingCallback?.onLoadingFailed(errorMessage)
+            loadingCallback?.onLoadingEnd()
+            throw ApiStatusException(response.code(), errorMessage)
+        }
+    }
+
+    suspend fun refreshUserToken(postBody: PostRefreshToken, loadingCallback: OnLoadingCallback?): UserToken? {
+        return withContext(Dispatchers.IO) {
+            loadingCallback?.onLoadingStart()
+            val response = getApiInterface().refreshTokenSuspend(Urls.API_REFRESH_TOKEN, postBody)
+            getResponseResult(response, loadingCallback)
+        }
+    }
+
+    suspend fun getUserInfo(auth: String, loadingCallback: OnLoadingCallback? = null): UserInfo? {
+        return withContext(Dispatchers.IO) {
+            loadingCallback?.onLoadingStart()
+
+            val response = getApiInterface().getUserInfo(auth)
+
+            getResponseResult(response, loadingCallback)
+        }
+    }
+
+    suspend fun updateUserInfo(auth: String, postBody: PostUpdateUserInfo, loadingCallback: OnLoadingCallback? = null): UserInfo? {
+        return withContext(Dispatchers.IO) {
+            loadingCallback?.onLoadingStart()
+
+            val response = getApiInterface().updateUserInfo(auth, postBody)
+
+            getResponseResult(response, loadingCallback)
+        }
+    }
+
+
 }

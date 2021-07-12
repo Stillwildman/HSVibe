@@ -33,6 +33,7 @@ object SettingManager {
         getTokenPrefs().edit().putString(PREF_USER_TOKEN, Gson().toJson(userToken)).also { L.d("Saved UserToken:\n$it") }.apply()
     }
 
+    @Synchronized
     fun getUserToken(): UserToken? {
         return getTokenPrefs().getString(PREF_USER_TOKEN, null)?.let { Gson().fromJson(it, UserToken::class.java) }
     }

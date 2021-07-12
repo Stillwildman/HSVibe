@@ -1,17 +1,20 @@
 package com.hsvibe.ui.bases
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.hsvibe.R
 import com.hsvibe.utilities.L
 import com.hsvibe.utilities.Utility
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 /**
  * Created by Vincent on 2021/6/28.
  */
-abstract class BaseActivity<BindingView : ViewDataBinding> : BaseFragmentActivity() {
+abstract class BaseActivity<BindingView : ViewDataBinding> : BaseFragmentActivity(), CoroutineScope {
 
     @Suppress("PropertyName")
     protected val TAG = javaClass.simpleName
@@ -26,12 +29,23 @@ abstract class BaseActivity<BindingView : ViewDataBinding> : BaseFragmentActivit
 
     private var exitTime : Long = 0
 
+    protected val mainHandler by lazy { Handler(mainLooper) }
+
+    private lateinit var job: Job
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + SupervisorJob()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        bindingView = DataBindingUtil.setContentView(this, getLayoutId())
-
-        init()
+        job = launch {
+            val deferredBindingView = async {
+                DataBindingUtil.setContentView(this@BaseActivity, getLayoutId()) as BindingView
+            }
+            bindingView = deferredBindingView.await()
+            init()
+        }
 
         L.d(TAG, "onCreate!!!")
     }
@@ -66,6 +80,7 @@ abstract class BaseActivity<BindingView : ViewDataBinding> : BaseFragmentActivit
 
     override fun onDestroy() {
         super.onDestroy()
+        job.cancel()
         L.d(TAG, "onDestroy!!!")
     }
 

@@ -11,5 +11,7 @@ object Urls {
 
     const val WEB_LOGIN = BASE_SANDBOX_URL + "redirect"
 
+    const val API_REFRESH_TOKEN = BASE_SANDBOX_URL + "api/token/refresh"
 
+    const val API_USER_INFO = "v1/code/user"
 }
