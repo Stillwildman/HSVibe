@@ -43,7 +43,9 @@ class UserRepoImpl : UserRepo {
     override suspend fun getUserInfo(): UserInfo? {
         return taskController.joinPreviousOrRun(TASK_KEY_GET_USER_INFO) {
             UserInfoManager.getAuthorization()?.let {
-                DataCallbacks.getUserInfo(it, callback)
+                DataCallbacks.getUserInfo(it, callback)?.also { userInfo ->
+                    UserInfoManager.setUserInfo(userInfo)
+                }
             }
         }
     }
@@ -52,8 +54,9 @@ class UserRepoImpl : UserRepo {
         return taskController.joinPreviousOrRun(TASK_KEY_UPDATE_USER_INFO) {
             UserInfoManager.getAuthorization()?.let {
                 val postBody = getUserInfoUpdateBody(userInfo, lat, lon)
-                DataCallbacks.updateUserInfo(it, postBody, callback).also { updatedUserInfo ->
-                    L.i("Update UserInfo: ${updatedUserInfo?.getMobileNumber()} Device: ${updatedUserInfo?.getDeviceModel()}")
+                DataCallbacks.updateUserInfo(it, postBody, callback)?.also { updatedUserInfo ->
+                    L.i("Update UserInfo: ${updatedUserInfo.getMobileNumber()} Device: ${updatedUserInfo.getDeviceModel()}")
+                    UserInfoManager.setUserInfo(userInfo)
                 }
             }
         }

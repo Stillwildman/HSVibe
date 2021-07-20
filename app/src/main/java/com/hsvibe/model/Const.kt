@@ -7,8 +7,6 @@ object Const {
 
     const val PLAY_SERVICES_RESOLUTION_REQUEST = 9000
 
-    const val AUTHORIZATION: String = "Authorization"
-
     const val TAG_DIALOG_FRAGMENT = "DialogFragment"
     const val TAG_LOADING_DIALOG_FRAGMENT = "LoadingDialogFragment"
 

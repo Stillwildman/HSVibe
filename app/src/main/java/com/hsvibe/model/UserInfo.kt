@@ -7,6 +7,7 @@ interface UserInfo {
 
     fun getFirstName(): String
     fun getLastName(): String
+    fun getName(): String = "${getFirstName()} ${getLastName()}"
     fun getMobileNumber(): String
     fun getGender(): String
     fun getBirthday(): String

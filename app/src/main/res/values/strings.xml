@@ -23,4 +23,20 @@
     <string name="tab_coupon">優惠券</string>
     <string name="tab_wallet">錢包</string>
 
+    <!-- Home -->
+    <string name="hi_guest">Hi, Guest</string>
+    <string name="hi_there">Hi, %s</string>
+    <string name="accumulation_points">累積總點數</string>
+    <string name="point">點</string>
+    <string name="refer_no_is">推薦序號：%s</string>
+    <string name="more">更多</string>
+    <string name="hot_news">熱門消息</string>
+    <string name="hot_coupon">熱門優惠券</string>
+    <string name="more_discount">更多優惠</string>
+    <string name="hilai_foods">漢來美食</string>
+    <string name="hilai_hotel">漢來大飯店</string>
+
+    <!-- Coupon -->
+    <string name="stock_is">剩餘 %d 張</string>
+
 </resources>

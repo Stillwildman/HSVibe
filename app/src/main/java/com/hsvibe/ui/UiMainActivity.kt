@@ -129,12 +129,6 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
         mainViewModel.liveErrorMessage.observe(this) { errorMessage ->
             Utility.toastLong(errorMessage)
         }
-
-        mainViewModel.liveUserInfo.observe(this) { userInfo ->
-            L.i("UserInfo Get!!!\n${userInfo.getLogInfo()}")
-            UserInfoManager.setUserInfo(userInfo)
-            // TODO Update UI
-        }
     }
 
     private fun checkLocationSetting() {

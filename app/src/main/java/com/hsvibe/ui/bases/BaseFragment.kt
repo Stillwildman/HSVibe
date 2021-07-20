@@ -18,12 +18,13 @@ import kotlinx.coroutines.async
 /**
  * Created by Vincent on 2021/7/4.
  */
-abstract class BaseFragment<BindingView : ViewDataBinding> : Fragment(), FragmentContract.ActivityCallback {
+abstract class BaseFragment<BindingView : ViewDataBinding> : Fragment(R.layout.fragment_empty_container), FragmentContract.ActivityCallback {
 
     @Suppress("PropertyName")
     protected val TAG: String = javaClass.simpleName
 
     protected abstract fun getLayoutId(): Int
+    protected abstract fun getLoadingView(): View?
     protected abstract fun init()
 
     protected lateinit var bindingView: BindingView
@@ -52,7 +53,7 @@ abstract class BaseFragment<BindingView : ViewDataBinding> : Fragment(), Fragmen
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         L.d(TAG, "onCreateView!!!")
-        return inflater.inflate(R.layout.fragment_empty_container, container, false)
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,6 +70,14 @@ abstract class BaseFragment<BindingView : ViewDataBinding> : Fragment(), Fragmen
 
             init()
         }
+    }
+
+    protected fun showLoading() {
+        getLoadingView()?.visibility = View.VISIBLE
+    }
+
+    protected fun hideLoading() {
+        getLoadingView()?.visibility = View.GONE
     }
 
     override fun onStart() {
@@ -93,6 +102,7 @@ abstract class BaseFragment<BindingView : ViewDataBinding> : Fragment(), Fragmen
 
     override fun onDestroyView() {
         super.onDestroyView()
+        lifecycleJob.cancel()
         L.d(TAG, "onDestroyView!!!")
     }
 

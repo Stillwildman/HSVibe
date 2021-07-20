@@ -16,7 +16,6 @@ import com.hsvibe.network.MyWebViewClient
 import com.hsvibe.ui.bases.BaseDialogFragment
 import com.hsvibe.utilities.L
 import com.hsvibe.viewmodel.LoginViewModel
-import com.hsvibe.viewmodel.LoginViewModelFactory
 
 /**
  * Created by Vincent on 2021/6/28.
@@ -27,7 +26,7 @@ class UiLoginWebDialogFragment : BaseDialogFragment<FragmentLoginWebViewBinding>
         private const val JS_FUNCTION_NAME = "token"
     }
 
-    private val loginViewModel by activityViewModels<LoginViewModel> { LoginViewModelFactory() }
+    private val loginViewModel by activityViewModels<LoginViewModel>()
 
     override fun getLayoutId(): Int = R.layout.fragment_login_web_view
 

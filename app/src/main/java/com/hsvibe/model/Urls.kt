@@ -5,7 +5,7 @@ package com.hsvibe.model
  */
 object Urls {
 
-    const val BASE_API_URL = "https://stg-oauth.hsvibe.com/api/"
+    const val BASE_API_URL = "https://stg-oauth.hsvibe.com/api/v1/code/"
 
     const val BASE_SANDBOX_URL = "https://sandbox.hsvibe.com/"
 
@@ -13,5 +13,9 @@ object Urls {
 
     const val API_REFRESH_TOKEN = BASE_SANDBOX_URL + "api/token/refresh"
 
-    const val API_USER_INFO = "v1/code/user"
+    const val API_USER_INFO = "user"
+
+    const val API_CONTENT = "content"
+
+    const val API_COUPON = "coupon"
 }

@@ -1,13 +1,14 @@
 package com.hsvibe.network
 
-import com.hsvibe.model.Const
+import com.hsvibe.model.ApiConst
 import com.hsvibe.model.Urls
 import com.hsvibe.model.UserToken
+import com.hsvibe.model.items.ItemContent
+import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.model.items.ItemUserInfo
 import com.hsvibe.model.items.ItemUserInfoUpdated
 import com.hsvibe.model.posts.PostRefreshToken
 import com.hsvibe.model.posts.PostUpdateUserInfo
-import io.reactivex.Observable
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -17,14 +18,28 @@ import retrofit2.http.*
 interface ApiInterface {
 
     @POST
-    fun refreshToken(@Url url: String, @Body body: PostRefreshToken): Observable<Response<UserToken>>
-
-    @POST
-    suspend fun refreshTokenSuspend(@Url url: String, @Body body: PostRefreshToken): Response<UserToken>
+    suspend fun refreshToken(@Url url: String, @Body body: PostRefreshToken): Response<UserToken>
 
     @GET(Urls.API_USER_INFO)
-    suspend fun getUserInfo(@Header(Const.AUTHORIZATION) auth: String?): Response<ItemUserInfo>
+    suspend fun getUserInfo(@Header(ApiConst.AUTHORIZATION) auth: String?): Response<ItemUserInfo>
 
     @POST(Urls.API_USER_INFO)
-    suspend fun updateUserInfo(@Header(Const.AUTHORIZATION) auth: String?, @Body body: PostUpdateUserInfo): Response<ItemUserInfoUpdated>
+    suspend fun updateUserInfo(@Header(ApiConst.AUTHORIZATION) auth: String?, @Body body: PostUpdateUserInfo): Response<ItemUserInfoUpdated>
+
+    @GET(Urls.API_CONTENT)
+    suspend fun getContent(
+        @Query(ApiConst.CATEGORY_ID) category: Int = ApiConst.CATEGORY_NEWS,
+        @Query(ApiConst.ORDER_BY) orderBy: String = ApiConst.ORDER_BY_UPDATED,
+        @Query(ApiConst.SORTED_BY) sortedBy: String = ApiConst.SORTED_BY_DESC,
+        @Query(ApiConst.LIMIT) limit: Int = ApiConst.DEFAULT_LIMIT,
+        @Query(ApiConst.PAGE) page: Int = 1
+    ): Response<ItemContent>
+
+    @GET(Urls.API_COUPON)
+    suspend fun getCoupon(
+        @Query(ApiConst.ORDER_BY) orderBy: String = ApiConst.ORDER_BY_UPDATED,
+        @Query(ApiConst.SORTED_BY) sortedBy: String = ApiConst.SORTED_BY_DESC,
+        @Query(ApiConst.LIMIT) limit: Int = ApiConst.DEFAULT_LIMIT,
+        @Query(ApiConst.PAGE) page: Int = 1
+    ): Response<ItemCoupon>
 }

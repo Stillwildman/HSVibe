@@ -85,7 +85,7 @@
     </style>
 
     <style name="MyTextViewStyle" parent="@android:style/Widget.TextView">
-        <item name="android:textColor">@color/md_grey_50</item>
+        <item name="android:textColor">@color/md_white_1000</item>
         <item name="android:textSize">@dimen/font_text_size_m</item>
     </style>
 
@@ -97,13 +97,13 @@
 
     <!-- Start of Toolbar Style -->
     <style name="MyToolbarStyle" parent="@style/Widget.AppCompat.Toolbar">
-        <item name="titleTextColor">@color/md_grey_50</item>
+        <item name="titleTextColor">@color/md_white_1000</item>
         <item name="titleTextAppearance">@style/ToolbarTitleStyle</item>
     </style>
 
     <style name="ToolbarTitleStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">@dimen/font_text_size_m</item>
-        <item name="android:textColor">@color/md_grey_50</item>
+        <item name="android:textColor">@color/md_white_1000</item>
     </style>
 
     <style name="ToolbarNavigationStyle" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">

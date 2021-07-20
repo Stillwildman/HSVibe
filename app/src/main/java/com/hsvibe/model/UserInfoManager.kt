@@ -9,10 +9,6 @@ import com.hsvibe.utilities.Utility
  */
 object UserInfoManager {
 
-    const val STATUS_NULL = 0
-    const val STATUS_EXPIRED = 1
-    const val STATUS_OK = 2
-
     private var userToken: UserToken? = null
     private var userInfo: UserInfo? = null
 

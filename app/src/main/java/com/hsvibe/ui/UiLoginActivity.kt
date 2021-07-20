@@ -12,14 +12,13 @@ import com.hsvibe.ui.bases.BaseActivity
 import com.hsvibe.ui.fragments.login.UiLoginWebDialogFragment
 import com.hsvibe.utilities.ContextExt.startActivitySafely
 import com.hsvibe.viewmodel.LoginViewModel
-import com.hsvibe.viewmodel.LoginViewModelFactory
 
 /**
  * Created by Vincent on 2021/6/28.
  */
 class UiLoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener {
 
-    private val loginViewModel by viewModels<LoginViewModel> { LoginViewModelFactory() }
+    private val loginViewModel by viewModels<LoginViewModel>()
 
     override fun getLayoutId(): Int = R.layout.activity_login
 

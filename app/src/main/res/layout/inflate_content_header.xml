@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="index"
+            type="Integer" />
+
+        <variable
+            name="viewModel"
+            type="com.hsvibe.viewmodel.HomeViewModel" />
+    </data>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/padding_size_xxl"
+        android:paddingEnd="@dimen/padding_size_l"
+        android:paddingTop="@dimen/padding_size_l"
+        android:paddingBottom="@dimen/padding_size_l"
+        android:layout_marginTop="@dimen/padding_size_m"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/text_contentHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            tools:text="@string/hot_news"
+            android:text="@{viewModel.headerList.get(index).title}"
+            android:textColor="@color/md_white_1000"
+            android:textSize="@dimen/font_text_size_m"/>
+
+        <TextView
+            android:id="@+id/text_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_size_m"
+            android:text="@string/more"
+            android:textColor="@color/md_grey_500"
+            android:textSize="@dimen/font_text_size_xs"
+            android:visibility="@{viewModel.headerList.get(index).hasMore ? View.VISIBLE : View.INVISIBLE, default=invisible}"
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="@{() -> viewModel.onMoreClick(viewModel.headerList.get(index).apiType)}"/>
+
+    </LinearLayout>
+
+</layout>

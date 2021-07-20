@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="index"
+            type="Integer" />
+
+        <variable
+            name="viewModel"
+            type="com.hsvibe.viewmodel.HomeViewModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_size_l"
+        android:layout_marginEnd="@dimen/padding_size_l"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?selectableItemBackground"
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="@color/md_grey_700">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/layout_couponCard"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintDimensionRatio="2:1"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/transparent_full">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/image_coupon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    app:glideImage="@{viewModel.getCouponContentData(index).thumbnailUrl}"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/text_couponTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_size_m"
+                android:layout_marginStart="@dimen/padding_size_m"
+                android:layout_marginEnd="@dimen/padding_size_m"
+                android:maxLines="1"
+                android:ellipsize="end"
+                tools:text="000000000000000000000000"
+                android:textSize="@dimen/font_text_size_s"
+                android:text="@{viewModel.getCouponContentData(index).title}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_couponCard"/>
+
+            <TextView
+                android:id="@+id/text_couponSubtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_size_s"
+                android:maxLines="2"
+                android:ellipsize="end"
+                tools:text="000000000000000000000000"
+                android:textSize="@dimen/font_text_size_s"
+                android:text="@{viewModel.getCouponContentData(index).subtitle}"
+                app:layout_constraintStart_toStartOf="@+id/text_couponTitle"
+                app:layout_constraintEnd_toEndOf="@+id/text_couponTitle"
+                app:layout_constraintTop_toBottomOf="@+id/text_couponTitle"/>
+
+            <TextView
+                android:id="@+id/text_couponBrief"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_size_l"
+                android:maxLines="2"
+                android:ellipsize="end"
+                tools:text="000000000000000000000000"
+                android:textSize="@dimen/font_text_size_xs"
+                android:textColor="@color/md_grey_400"
+                android:text="@{viewModel.getCouponContentData(index).brief}"
+                app:layout_constraintStart_toStartOf="@+id/text_couponTitle"
+                app:layout_constraintEnd_toEndOf="@+id/text_couponTitle"
+                app:layout_constraintTop_toBottomOf="@+id/text_couponSubtitle"/>
+
+            <TextView
+                android:id="@+id/text_couponStock"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_size_l"
+                tools:text="000000000000000000000000"
+                android:textSize="@dimen/font_text_size_xs"
+                android:textColor="@color/md_amber_200"
+                android:text="@{@string/stock_is(viewModel.getCouponContentData(index).stock)}"
+                app:layout_constraintStart_toStartOf="@+id/text_couponTitle"
+                app:layout_constraintEnd_toEndOf="@+id/text_couponTitle"
+                app:layout_constraintTop_toBottomOf="@+id/text_couponBrief"/>
+
+            <TextView
+                android:id="@+id/text_couponPointIcon"
+                android:layout_width="@dimen/font_text_size_m"
+                android:layout_height="@dimen/font_text_size_m"
+                android:layout_marginEnd="@dimen/padding_size_s"
+                android:gravity="center"
+                android:text="P"
+                android:textSize="11sp"
+                android:background="@drawable/background_round_point"
+                app:layout_constraintEnd_toStartOf="@+id/text_couponPoint"
+                app:layout_constraintTop_toTopOf="@+id/text_couponPoint"
+                app:layout_constraintBottom_toBottomOf="@+id/text_couponPoint"/>
+
+            <TextView
+                android:id="@+id/text_couponPoint"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_size_s"
+                android:layout_marginTop="@dimen/padding_size_l"
+                android:layout_marginBottom="@dimen/padding_size_m"
+                tools:text="100"
+                android:textSize="@dimen/font_text_size_s"
+                android:text="@{String.valueOf(viewModel.getCouponContentData(index).point)}"
+                app:layout_constraintEnd_toEndOf="@+id/text_couponTitle"
+                app:layout_constraintTop_toBottomOf="@+id/text_couponStock"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

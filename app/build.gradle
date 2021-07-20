@@ -61,6 +61,19 @@ android {
         dataBinding true
         viewBinding true
     }
+
+    flavorDimensions 'EnvType'
+
+    productFlavors {
+        formal {
+            dimension "EnvType"
+        }
+        dev {
+            dimension "EnvType"
+            applicationIdSuffix ".dev"
+            versionNameSuffix '-dev'
+        }
+    }
 }
 
 dependencies {
