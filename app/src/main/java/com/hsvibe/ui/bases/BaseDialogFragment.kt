@@ -9,28 +9,39 @@ import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import com.hsvibe.R
 import com.hsvibe.callbacks.FragmentContract
 import com.hsvibe.utilities.L
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 /**
  * Created by Vincent on 2021/06/27.
  */
-// TODO Improve: Create view async
-abstract class BaseDialogFragment<BindingView : ViewDataBinding> : DialogFragment() {
+abstract class BaseDialogFragment<BindingView : ViewDataBinding> : DialogFragment(R.layout.fragment_empty_container) {
+
+    sealed class AnimType {
+        object NoAnim : AnimType()
+        object SlideUp : AnimType()
+        object SlideFromRight : AnimType()
+    }
 
     @Suppress("PropertyName")
     protected val TAG: String = javaClass.simpleName
 
     protected abstract fun getLayoutId(): Int
-    protected abstract fun useSlideUpAnim(): Boolean
+    protected abstract fun getAnimType(): AnimType
     protected abstract fun canCanceledOnTouchOutside(): Boolean
     protected abstract fun setDialogWindowAttrs(window: Window)
     protected abstract fun init()
+    protected abstract fun onDialogBackPressed(): Boolean
 
     protected lateinit var bindingView: BindingView
 
     private lateinit var fragmentCallback: FragmentContract.FragmentCallback
+
+    protected var startTime: Long = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -41,19 +52,32 @@ abstract class BaseDialogFragment<BindingView : ViewDataBinding> : DialogFragmen
             e.printStackTrace()
             L.e(TAG, context.javaClass.simpleName + " must implement " + FragmentContract.FragmentCallback::class.java.simpleName)
         }
+        startTime = System.nanoTime()
         L.d(TAG, "onAttach!!!")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         L.d(TAG, "onCreate!!!")
-        setStyle(STYLE_NORMAL, R.style.FullScreenDialog_SlideUpAnim.takeIf { useSlideUpAnim() } ?: R.style.FullScreenDialog)
+
+        val styleRes = when (getAnimType()) {
+            is AnimType.NoAnim -> R.style.FullScreenDialog
+            is AnimType.SlideUp -> R.style.FullScreenDialog_SlideUpAnim
+            is AnimType.SlideFromRight -> R.style.FullScreenDialog_SlideRightAnim
+        }
+        setStyle(STYLE_NORMAL, styleRes)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         L.d(TAG, "onCreateDialog!!!")
 
-        val dialog = super.onCreateDialog(savedInstanceState)
+        val dialog = object : Dialog(requireContext(), theme) {
+            override fun onBackPressed() {
+                if (onDialogBackPressed().not()) {
+                    super.onBackPressed()
+                }
+            }
+        }
         //val dialog = AlertDialog.Builder(requireContext(), R.style.DialogAnimTheme).create()
 
         dialog.apply {
@@ -65,15 +89,23 @@ abstract class BaseDialogFragment<BindingView : ViewDataBinding> : DialogFragmen
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         L.d(TAG, "onCreateView!!!")
-        bindingView = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
-        init()
-        return bindingView.root
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         L.d(TAG, "onViewCreated!!!")
-        view.setBackgroundColor(Color.TRANSPARENT)
+
+        lifecycleScope.launch {
+            val bindingViewDeferred = async {
+                DataBindingUtil.inflate(LayoutInflater.from(view.context), getLayoutId(), view as ViewGroup?, false) as BindingView
+            }
+            bindingView = bindingViewDeferred.await()
+
+            //view.setBackgroundColor(Color.TRANSPARENT)
+            (view as ViewGroup?)?.addView(bindingView.root)
+            init()
+        }
     }
 
     override fun onStart() {
@@ -135,4 +167,8 @@ abstract class BaseDialogFragment<BindingView : ViewDataBinding> : DialogFragmen
         L.d(TAG, "onDestroy!!!")
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        L.d(TAG, "onDetach!!!")
+    }
 }

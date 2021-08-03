@@ -18,4 +18,6 @@ object Urls {
     const val API_CONTENT = "content"
 
     const val API_COUPON = "coupon"
+
+    const val API_BANNER = "banner"
 }

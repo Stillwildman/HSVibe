@@ -21,7 +21,8 @@
         android:layout_marginEnd="@dimen/padding_size_xl"
         android:clickable="true"
         android:focusable="true"
-        android:background="?selectableItemBackground">
+        android:background="?selectableItemBackground"
+        android:onClick="@{() -> viewModel.onNewsClick(viewModel.getContentData(index))}">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/layout_newsCard"
@@ -38,7 +39,6 @@
                 android:id="@+id/image_news"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
                 app:glideImage="@{viewModel.getContentData(index).thumbnailUrl}"/>
 
         </androidx.cardview.widget.CardView>

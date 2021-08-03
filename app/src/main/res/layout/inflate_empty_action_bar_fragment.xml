@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:id="@+id/layout_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/app_background_color" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/actionbar_height_little_higher"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingStart="@dimen/padding_size_l"
+            android:paddingEnd="@dimen/padding_size_l">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/button_back"
+                android:layout_width="@dimen/icon_common_size"
+                android:layout_height="@dimen/icon_common_size"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?selectableItemBackground"
+                app:srcCompat="@drawable/ic_back_arrow_light" />
+
+            <TextView
+                android:id="@+id/text_headerTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/padding_size_l"
+                android:layout_marginEnd="@dimen/padding_size_m"
+                android:maxLines="1"
+                android:ellipsize="end"
+                tools:text="000000000000000000000000000000000000000000000000000000000000000000000000000"
+                android:textSize="@dimen/font_text_size_m"
+                android:textColor="@color/md_white_1000"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/button_menuOption"
+                android:layout_width="@dimen/icon_common_size"
+                android:layout_height="@dimen/icon_common_size"
+                android:layout_weight="0"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?selectableItemBackground"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+        <!-- Add layout programmatically! -->
+
+    </LinearLayout>
+
+</layout>

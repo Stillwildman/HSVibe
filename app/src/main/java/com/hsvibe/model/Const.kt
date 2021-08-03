@@ -18,4 +18,6 @@ object Const {
     const val BACK_TAB_WALLET = "TabWallet"
 
     const val EMPTY_STRING = ""
+
+    const val BUNDLE_WEB_URL = "WebUrl"
 }

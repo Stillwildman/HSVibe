@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hsvibe.callbacks.OnLoadingCallback
 import com.hsvibe.model.ApiConst
+import com.hsvibe.model.Navigation
+import com.hsvibe.model.items.ItemBanner
 import com.hsvibe.model.items.ItemContent
 import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.repositories.ContentRepo
@@ -13,15 +15,16 @@ import kotlinx.coroutines.launch
 /**
  * Created by Vincent on 2021/7/17.
  */
-class HomeViewModel(private val contentRepo: ContentRepo) : ViewModel(), OnLoadingCallback {
+class HomeViewModel(private val contentRepo: ContentRepo, private val mainViewModel: MainViewModel) : ViewModel(), OnLoadingCallback {
 
     val liveLoadingStatus = MutableLiveData<Boolean>()
     val liveErrorMessage = MutableLiveData<String>()
 
+    val headerList by lazy { contentRepo.getHeaderItemList() }
+
     val liveNews = MutableLiveData<ItemContent>()
     val liveCoupons = MutableLiveData<ItemCoupon>()
-
-    val headerList by lazy { contentRepo.getHeaderItemList() }
+    val liveBanner = MutableLiveData<ItemBanner>()
 
     init {
         contentRepo.setLoadingCallback(this)
@@ -41,16 +44,31 @@ class HomeViewModel(private val contentRepo: ContentRepo) : ViewModel(), OnLoadi
 
     fun getHomePageNews() {
         viewModelScope.launch {
-            val newsItem = contentRepo.getNews(ApiConst.ORDER_BY_UPDATED, ApiConst.SORTED_BY_DESC, 5, 1)
-            newsItem?.let { liveNews.value = it }
+            val news = contentRepo.getNews(ApiConst.ORDER_BY_UPDATED, ApiConst.SORTED_BY_DESC, 5, 1)
+            news?.let { liveNews.value = it }
         }
     }
 
     fun getHomePageCoupons() {
         viewModelScope.launch {
-            val couponItem = contentRepo.getCoupon(ApiConst.ORDER_BY_UPDATED, ApiConst.SORTED_BY_DESC, 5, 1)
-            couponItem?.let { liveCoupons.value = it }
+            val coupons = contentRepo.getCoupon(ApiConst.ORDER_BY_UPDATED, ApiConst.SORTED_BY_DESC, 5, 1)
+            coupons?.let { liveCoupons.value = it }
         }
+    }
+
+    fun getHomePageBanner() {
+        viewModelScope.launch {
+            val banners = contentRepo.getBanner()
+            banners?.let { liveBanner.value = it }
+        }
+    }
+
+    fun getHomePageHilaiFoods() {
+
+    }
+
+    fun getHomePageHilaiHotel() {
+
     }
 
     fun getContentDataSize(): Int {
@@ -61,6 +79,10 @@ class HomeViewModel(private val contentRepo: ContentRepo) : ViewModel(), OnLoadi
         return liveCoupons.value?.contentData?.size ?: 0
     }
 
+    fun getBannerDataSize(): Int {
+        return liveBanner.value?.contentData?.size ?: 0
+    }
+
     fun getContentData(index: Int): ItemContent.ContentData? {
         return liveNews.value?.contentData?.get(index)
     }
@@ -69,23 +91,23 @@ class HomeViewModel(private val contentRepo: ContentRepo) : ViewModel(), OnLoadi
         return liveCoupons.value?.contentData?.get(index)
     }
 
+    fun getBannerContentData(index: Int): ItemBanner.ContentData? {
+        return liveBanner.value?.contentData?.get(index)
+    }
+
     fun onMoreClick(apiType: Int) {
-        when (apiType) {
-            ApiConst.API_TYPE_NEWS -> {
-                // TODO
-            }
-            ApiConst.API_TYPE_COUPON -> {
-                // TODO
-            }
-            ApiConst.API_TYPE_DISCOUNT -> {
-                // TODO
-            }
-            ApiConst.API_TYPE_FOODS -> {
-                // TODO
-            }
-            ApiConst.API_TYPE_HOTEL -> {
-                // TODO
-            }
-        }
+        mainViewModel.onNavigating(Navigation.ClickingMore(apiType))
+    }
+
+    fun onNewsClick(newsItem: ItemContent.ContentData?) {
+        mainViewModel.onNavigating(Navigation.ClickingNews(newsItem))
+    }
+
+    fun onCouponClick(couponItem: ItemCoupon.ContentData?) {
+        mainViewModel.onNavigating(Navigation.ClickingCoupon(couponItem))
+    }
+
+    fun onBannerClick(bannerItem: ItemBanner.ContentData?) {
+        mainViewModel.onNavigating(Navigation.ClickingBanner(bannerItem))
     }
 }

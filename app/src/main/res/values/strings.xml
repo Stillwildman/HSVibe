@@ -24,7 +24,7 @@
     <string name="tab_wallet">錢包</string>
 
     <!-- Home -->
-    <string name="hi_guest">Hi, Guest</string>
+    <string name="guest">Guest</string>
     <string name="hi_there">Hi, %s</string>
     <string name="accumulation_points">累積總點數</string>
     <string name="point">點</string>

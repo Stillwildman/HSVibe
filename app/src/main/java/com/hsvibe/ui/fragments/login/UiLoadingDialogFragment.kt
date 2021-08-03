@@ -12,7 +12,7 @@ class UiLoadingDialogFragment(private val loadingTextRes: Int? = null) : BaseDia
 
     override fun getLayoutId(): Int = R.layout.dialog_loading_circle
 
-    override fun useSlideUpAnim(): Boolean = false
+    override fun getAnimType(): AnimType = AnimType.SlideUp
 
     override fun canCanceledOnTouchOutside(): Boolean = false
 
@@ -23,5 +23,7 @@ class UiLoadingDialogFragment(private val loadingTextRes: Int? = null) : BaseDia
     override fun init() {
         loadingTextRes?.let { bindingView.loadingTextView.setText(it) }
     }
+
+    override fun onDialogBackPressed(): Boolean = false
 
 }

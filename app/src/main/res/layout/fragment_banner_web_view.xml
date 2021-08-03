@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/view_headerBackground"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/actionbar_height_little_higher"
+            android:background="@color/app_background_color"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/view_headerBackground"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/button_back"
+            android:layout_width="@dimen/icon_common_size"
+            android:layout_height="@dimen/icon_common_size"
+            android:layout_marginStart="@dimen/padding_size_m"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?selectableItemBackground"
+            app:srcCompat="@drawable/ic_close_light"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view_headerBackground"
+            app:layout_constraintBottom_toBottomOf="@+id/view_headerBackground"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/button_refresh"
+            android:layout_width="@dimen/icon_common_size"
+            android:layout_height="@dimen/icon_common_size"
+            android:layout_marginEnd="@dimen/padding_size_m"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?selectableItemBackground"
+            app:srcCompat="@drawable/ic_refresh_light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view_headerBackground"
+            app:layout_constraintBottom_toBottomOf="@+id/view_headerBackground"/>
+
+        <ProgressBar
+            android:id="@+id/loadingCircle"
+            android:layout_width="@dimen/font_text_size_xl"
+            android:layout_height="@dimen/font_text_size_xl"
+            android:layout_marginEnd="@dimen/padding_size_m"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/button_refresh"
+            app:layout_constraintTop_toTopOf="@+id/view_headerBackground"
+            app:layout_constraintBottom_toBottomOf="@+id/view_headerBackground"/>
+
+        <TextView
+            android:id="@+id/text_headerTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_size_l"
+            android:layout_marginEnd="@dimen/padding_size_m"
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="000000000000000"
+            android:textSize="@dimen/font_text_size_s"
+            android:textColor="@color/md_white_1000"
+            app:layout_constraintTop_toTopOf="@+id/view_headerBackground"
+            app:layout_constraintBottom_toBottomOf="@+id/view_headerBackground"
+            app:layout_constraintStart_toEndOf="@+id/button_back"
+            app:layout_constraintEnd_toStartOf="@+id/loadingCircle"
+            app:layout_goneMarginEnd="@dimen/padding_size_m"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

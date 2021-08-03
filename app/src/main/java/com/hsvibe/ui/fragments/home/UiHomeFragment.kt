@@ -24,7 +24,7 @@ import com.hsvibe.viewmodel.MainViewModelFactory
 class UiHomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private val mainViewModel by activityViewModels<MainViewModel> { MainViewModelFactory(UserRepoImpl()) }
-    private val homeViewModel by viewModels<HomeViewModel> { HomeViewModelFactory(ContentRepoImpl()) }
+    private val homeViewModel by viewModels<HomeViewModel> { HomeViewModelFactory(ContentRepoImpl(), mainViewModel) }
 
     override fun getLayoutId(): Int = R.layout.fragment_home
 
@@ -59,23 +59,26 @@ class UiHomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun startObserving() {
-        mainViewModel.liveUserInfo.observe(this) { userInfo ->
+        mainViewModel.liveUserInfo.observe(viewLifecycleOwner) { userInfo ->
             L.i("UserInfo Get!!!\n${userInfo.getLogInfo()}")
         }
 
         homeViewModel.let {
-            it.liveLoadingStatus.observe(this) { isLoading ->
+            it.liveLoadingStatus.observe(viewLifecycleOwner) { isLoading ->
                 if (isLoading) showLoading() else hideLoading()
             }
-            it.liveErrorMessage.observe(this) { errorMessage ->
+            it.liveErrorMessage.observe(viewLifecycleOwner) { errorMessage ->
                 Utility.toastLong(errorMessage)
             }
-            it.liveNews.observe(this) {
+            it.liveNews.observe(viewLifecycleOwner) {
                 notifyDataChanged(ContentListAdapter.LIST_POSITION_NEWS)
             }
 
-            it.liveCoupons.observe(this) {
+            it.liveCoupons.observe(viewLifecycleOwner) {
                 notifyDataChanged(ContentListAdapter.LIST_POSITION_COUPON)
+            }
+            it.liveBanner.observe(viewLifecycleOwner) {
+                notifyDataChanged(ContentListAdapter.LIST_POSITION_DISCOUNT)
             }
         }
     }
@@ -84,6 +87,7 @@ class UiHomeFragment : BaseFragment<FragmentHomeBinding>() {
         homeViewModel.run {
             getHomePageNews()
             getHomePageCoupons()
+            getHomePageBanner()
         }
     }
 

@@ -9,9 +9,16 @@ import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.databinding.ActivityMainBinding
 import com.hsvibe.location.MyFusedLocation
+import com.hsvibe.model.ApiConst
+import com.hsvibe.model.Const
+import com.hsvibe.model.Navigation
 import com.hsvibe.model.UserInfoManager
+import com.hsvibe.model.items.ItemBanner
+import com.hsvibe.model.items.ItemContent
+import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.repositories.UserRepoImpl
 import com.hsvibe.ui.bases.BaseActivity
+import com.hsvibe.ui.fragments.banner.UiBannerWebFragment
 import com.hsvibe.ui.fragments.home.UiHomeFragment
 import com.hsvibe.utilities.L
 import com.hsvibe.utilities.Utility
@@ -115,19 +122,29 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
 
     override fun onTokenNull() {
         L.i("onTokenNull!!!")
+        mainViewModel.setUserLoginStatus(false)
     }
 
     private fun startObserving() {
-        mainViewModel.liveLoadingStatus.observe(this) { isLoading ->
-            if (isLoading) {
-                showLoadingCircle()
-            } else {
-                hideLoadingCircle()
+        mainViewModel.let {
+            it.liveNavigation.observe(this) { navigation ->
+                when (navigation) {
+                    is Navigation.ClickingMore -> onMoreClick(navigation.apiType)
+                    is Navigation.ClickingNews -> onNewsClick(navigation.newsItem)
+                    is Navigation.ClickingCoupon -> onCouponClick(navigation.couponItem)
+                    is Navigation.ClickingBanner -> onBannerClick(navigation.bannerItem)
+                }
             }
-        }
-
-        mainViewModel.liveErrorMessage.observe(this) { errorMessage ->
-            Utility.toastLong(errorMessage)
+            it.liveLoadingStatus.observe(this) { isLoading ->
+                if (isLoading) {
+                    showLoadingCircle()
+                } else {
+                    hideLoadingCircle()
+                }
+            }
+            it.liveErrorMessage.observe(this) { errorMessage ->
+                Utility.toastLong(errorMessage)
+            }
         }
     }
 
@@ -141,5 +158,37 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
 
     private fun runUserInfoUpdating() {
         mainViewModel.runUserInfoUpdating()
+    }
+
+    private fun onMoreClick(apiType: Int) {
+        when (apiType) {
+            ApiConst.API_TYPE_NEWS -> {
+                // TODO
+            }
+            ApiConst.API_TYPE_COUPON -> {
+                // TODO
+            }
+            ApiConst.API_TYPE_DISCOUNT -> {
+                // TODO
+            }
+            ApiConst.API_TYPE_FOODS -> {
+                // TODO
+            }
+            ApiConst.API_TYPE_HOTEL -> {
+                // TODO
+            }
+        }
+    }
+
+    private fun onNewsClick(newsItem: ItemContent.ContentData?) {
+
+    }
+
+    private fun onCouponClick(couponItem: ItemCoupon.ContentData?) {
+
+    }
+
+    private fun onBannerClick(bannerItem: ItemBanner.ContentData?) {
+        bannerItem?.let { openDialogFragment(UiBannerWebFragment.newInstance(it.share_url), Const.BACK_COMMON_DIALOG) }
     }
 }

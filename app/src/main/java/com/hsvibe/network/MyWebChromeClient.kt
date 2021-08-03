@@ -11,7 +11,7 @@ import com.hsvibe.R
 /**
  * Created by vincent.chang on 2018/1/23.
  */
-class MyWebChromeClient : WebChromeClient() {
+open class MyWebChromeClient : WebChromeClient() {
     override fun onJsConfirm(view: WebView, url: String, message: String, result: JsResult): Boolean {
         AlertDialog.Builder(view.context, R.style.Theme_AppCompat_Light_Dialog).apply {
             setTitle(R.string.confirm)

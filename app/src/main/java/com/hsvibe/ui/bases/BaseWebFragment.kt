@@ -1,91 +1,141 @@
 package com.hsvibe.ui.bases
 
 import android.annotation.SuppressLint
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.webkit.WebSettings
 import android.webkit.WebView
-import androidx.appcompat.widget.AppCompatImageButton
-import androidx.databinding.DataBindingUtil
+import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
+import com.hsvibe.AppController
+import com.hsvibe.R
+import com.hsvibe.network.MyWebChromeClient
 import com.hsvibe.network.MyWebViewClient
+import com.hsvibe.utilities.L
 
 /**
  * Created by Vincent on 2021/6/28.
  */
-abstract class BaseWebFragment<BindingView : ViewDataBinding> : Fragment(), MyWebViewClient.OnWebLoadCallback, View.OnTouchListener {
-
-    protected abstract fun getLayoutId(): Int
+abstract class BaseWebFragment<BindingView : ViewDataBinding> : BaseDialogFragment<BindingView>(), MyWebViewClient.OnWebLoadCallback {
 
     protected abstract fun getLoadingView(): View?
 
-    protected abstract fun getBackButtonView(): AppCompatImageButton?
+    protected abstract fun getBackButtonView(): AppCompatImageView?
+
+    protected abstract fun getRefreshButtonView(): AppCompatImageView?
+
+    protected abstract fun getTitleView(): TextView?
 
     protected abstract fun getWebView(): WebView
 
+    protected abstract fun onInitializing(webView: WebView)
+
     protected abstract fun getInitialUrl(): String?
 
-    protected lateinit var bindingView: BindingView
+    override fun canCanceledOnTouchOutside(): Boolean = false
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        super.onCreate(savedInstanceState)
-        bindingView = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
+    override fun setDialogWindowAttrs(window: Window) {
 
+    }
+
+    override fun init() {
         initWebView()
-
-        return bindingView.root
+        setButtonsClick()
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun initWebView() {
-        getWebView().apply {
-            settings.run {
+        getWebView().also { webView ->
+            webView.settings.run {
                 mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
                 builtInZoomControls = true
                 javaScriptEnabled = true
                 loadsImagesAutomatically = true
                 allowContentAccess = true
                 domStorageEnabled = true
-                requestFocus()
             }
-            webViewClient = MyWebViewClient(this@BaseWebFragment)
+            webView.requestFocus()
+            webView.webChromeClient = object : MyWebChromeClient() {
+                override fun onReceivedTitle(view: WebView, title: String?) {
+                    title?.let { getTitleView()?.text = it }
+                }
+            }
+            webView.webViewClient = MyWebViewClient(this@BaseWebFragment)
 
-            getInitialUrl()?.let { loadUrl(it) }
+            onInitializing(webView)
+            getInitialUrl()?.let {
+                webView.loadUrl(it)
+                L.i("DialogFragment init duration: ${(System.nanoTime() - startTime) / 1000000}")
+            }
         }
     }
 
-    override fun onLoading() {
+    private fun setButtonsClick() {
+        getBackButtonView()?.setOnClickListener {
+            closeOrGoBack()
+        }
+        getRefreshButtonView()?.setOnClickListener {
+            getWebView().reload()
+        }
+    }
+
+    protected fun showLoading() {
         getLoadingView()?.visibility = View.VISIBLE
     }
 
-    override fun onFinished() {
+    protected fun hideLoading() {
         getLoadingView()?.visibility = View.GONE
     }
 
-    override fun onBackStackChanged(canGoBack: Boolean) {
+    override fun onLoading() {
+        showLoading()
+    }
 
+    override fun onFinished() {
+        hideLoading()
+    }
+
+    override fun onBackStackChanged(canGoBack: Boolean) {
+        val buttonIconRes = if (canGoBack) R.drawable.ic_back_arrow_light else R.drawable.ic_close_light
+        getBackButtonView()?.setImageDrawable(ContextCompat.getDrawable(AppController.getAppContext(), buttonIconRes))
+    }
+
+    override fun onDialogBackPressed(): Boolean {
+        closeOrGoBack()
+        return true
     }
 
     private fun closeWebView() {
         getWebView().run {
-            stopLoading()
-            loadUrl("about:blank")
-            clearCache(true)
-            clearHistory()
+            post {
+                //loadUrl("about:blank")
+                stopLoading()
+                clearCache(true)
+                clearHistory()
+                hideLoading()
+            }
         }
-        getLoadingView()?.visibility = View.GONE
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        view.setOnTouchListener(this)
+    private fun closeOrGoBack() {
+        getWebView().let {
+            if (it.canGoBack()) {
+                it.goBack()
+            }
+            else {
+                finish()
+            }
+        }
     }
 
-    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-        return true
+    private fun finish() {
+        closeWebView()
+        dismiss()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        closeWebView()
     }
 }

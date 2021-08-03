@@ -3,10 +3,7 @@ package com.hsvibe.network
 import com.hsvibe.model.ApiConst
 import com.hsvibe.model.Urls
 import com.hsvibe.model.UserToken
-import com.hsvibe.model.items.ItemContent
-import com.hsvibe.model.items.ItemCoupon
-import com.hsvibe.model.items.ItemUserInfo
-import com.hsvibe.model.items.ItemUserInfoUpdated
+import com.hsvibe.model.items.*
 import com.hsvibe.model.posts.PostRefreshToken
 import com.hsvibe.model.posts.PostUpdateUserInfo
 import retrofit2.Response
@@ -42,4 +39,11 @@ interface ApiInterface {
         @Query(ApiConst.LIMIT) limit: Int = ApiConst.DEFAULT_LIMIT,
         @Query(ApiConst.PAGE) page: Int = 1
     ): Response<ItemCoupon>
+
+    @GET(Urls.API_BANNER)
+    suspend fun getBanner(
+        @Query(ApiConst.ORDER_BY) orderBy: String = ApiConst.ORDER_BY_UPDATED,
+        @Query(ApiConst.SORTED_BY) sortedBy: String = ApiConst.SORTED_BY_DESC,
+        @Query(ApiConst.LIMIT) limit: Int = 5
+    ): Response<ItemBanner>
 }

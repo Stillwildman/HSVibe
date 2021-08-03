@@ -2,6 +2,8 @@
 <layout>
 
     <data>
+        <import type="android.view.View" />
+
         <variable
             name="mainViewModel"
             type="com.hsvibe.viewmodel.MainViewModel" />
@@ -45,10 +47,22 @@
                     android:fontFamily="serif"
                     android:textSize="@dimen/font_text_size_m"
                     android:textStyle="bold"
-                    android:text="@{@string/hi_there(mainViewModel.liveUserInfo.getName())}"
+                    android:text="@{@string/hi_there(mainViewModel.liveUserInfo.getName() ?? @string/guest)}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Hi, Vincent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/image_diamond"
+                    android:layout_width="@dimen/font_text_size_xxl"
+                    android:layout_height="@dimen/font_text_size_xxl"
+                    android:layout_marginStart="@dimen/padding_size_s"
+                    android:visibility="@{mainViewModel.liveUserInfoVisibility ?? View.GONE}"
+                    app:srcCompat="@drawable/ic_diamond"
+                    app:layout_constraintStart_toEndOf="@+id/text_hiThere"
+                    app:layout_constraintTop_toTopOf="@+id/text_hiThere"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_hiThere" />
+
 
                 <TextView
                     android:id="@+id/point"
@@ -59,6 +73,7 @@
                     android:text="P"
                     android:textSize="10sp"
                     android:background="@drawable/background_round_point"
+                    android:visibility="@{mainViewModel.liveUserInfoVisibility ?? View.INVISIBLE}"
                     app:layout_constraintStart_toStartOf="@+id/text_hiThere"
                     app:layout_constraintTop_toBottomOf="@+id/text_hiThere" />
 
@@ -69,6 +84,7 @@
                     android:layout_marginStart="@dimen/padding_size_s"
                     android:text="@string/accumulation_points"
                     android:textSize="@dimen/font_text_size_xs"
+                    android:visibility="@{mainViewModel.liveUserInfoVisibility ?? View.INVISIBLE}"
                     app:layout_constraintTop_toTopOf="@+id/point"
                     app:layout_constraintBottom_toBottomOf="@+id/point"
                     app:layout_constraintStart_toEndOf="@+id/point" />
@@ -80,6 +96,7 @@
                     android:layout_marginTop="@dimen/padding_size_s"
                     tools:text="0"
                     android:textSize="@dimen/font_text_size_m"
+                    android:visibility="@{mainViewModel.liveUserInfoVisibility ?? View.INVISIBLE}"
                     app:layout_constraintStart_toStartOf="@+id/text_hiThere"
                     app:layout_constraintTop_toBottomOf="@+id/point"/>
 
@@ -91,7 +108,7 @@
                     android:layout_marginBottom="@dimen/padding_size_s"
                     android:text="@string/point"
                     android:textSize="@dimen/font_text_size_xs"
-                    android:visibility="gone"
+                    android:visibility="@{mainViewModel.liveUserInfoVisibility ?? View.INVISIBLE}"
                     app:layout_constraintStart_toEndOf="@+id/text_pointNumber"
                     app:layout_constraintBottom_toBottomOf="@+id/text_pointNumber"/>
 
@@ -103,6 +120,7 @@
                     tools:text="@string/refer_no_is"
                     android:textSize="@dimen/font_text_size_xs"
                     android:text="@{@string/refer_no_is(mainViewModel.liveUserInfo.getReferNo)}"
+                    android:visibility="@{mainViewModel.liveUserInfoVisibility ?? View.INVISIBLE}"
                     app:layout_constraintStart_toStartOf="@+id/text_hiThere"
                     app:layout_constraintTop_toBottomOf="@+id/text_pointNumber"/>
 

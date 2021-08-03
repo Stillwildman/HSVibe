@@ -1,9 +1,11 @@
 package com.hsvibe.viewmodel
 
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hsvibe.callbacks.OnLoadingCallback
+import com.hsvibe.model.Navigation
 import com.hsvibe.model.UserInfo
 import com.hsvibe.repositories.UserRepo
 import com.hsvibe.tasks.ApiStatusException
@@ -27,10 +29,14 @@ class MainViewModel(private val userRepo: UserRepo) : ViewModel(), OnLoadingCall
         }
     }
 
+    val liveNavigation by lazy { MutableLiveData<Navigation>() }
+
     val liveLoadingStatus = MutableLiveData<Boolean>()
     val liveErrorMessage = MutableLiveData<String>()
 
     val liveUserInfo = MutableLiveData<UserInfo>()
+
+    val liveUserInfoVisibility = MutableLiveData<Int>()
 
     init {
         userRepo.setLoadingCallback(this)
@@ -48,6 +54,14 @@ class MainViewModel(private val userRepo: UserRepo) : ViewModel(), OnLoadingCall
         liveErrorMessage.postValue(errorMessage ?: "")
     }
 
+    fun onNavigating(navigation: Navigation) {
+        liveNavigation.value = navigation
+    }
+
+    fun setUserLoginStatus(isLoggedIn: Boolean) {
+        liveUserInfoVisibility.value = if (isLoggedIn) View.VISIBLE  else View.INVISIBLE
+    }
+
     fun runUserInfoUpdating() {
         viewModelScope.launch(getExceptionHandler {
             refreshUserToken()
@@ -60,6 +74,7 @@ class MainViewModel(private val userRepo: UserRepo) : ViewModel(), OnLoadingCall
         userRepo.getUserInfoAndUpdate()?.let {
             withContext(Dispatchers.Main) {
                 liveUserInfo.value = it
+                setUserLoginStatus(true)
             }
             userRepo.writeUserInfoToDB(it)
         }

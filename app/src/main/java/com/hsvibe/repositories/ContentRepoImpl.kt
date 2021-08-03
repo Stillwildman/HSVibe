@@ -5,6 +5,7 @@ import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.callbacks.OnLoadingCallback
 import com.hsvibe.model.ApiConst
+import com.hsvibe.model.items.ItemBanner
 import com.hsvibe.model.items.ItemContent
 import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.model.items.ItemHomeHeader
@@ -37,6 +38,10 @@ class ContentRepoImpl : ContentRepo {
 
     override suspend fun getCoupon(orderBy: String, sortedBy: String, limit: Int, page: Int): ItemCoupon? {
         return DataCallbacks.getCoupon(orderBy, sortedBy, limit, page, loadingCallback)
+    }
+
+    override suspend fun getBanner(): ItemBanner? {
+        return DataCallbacks.getBanner(loadingCallback)
     }
 
     private fun getTitleString(@StringRes titleRes: Int): String {

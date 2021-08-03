@@ -64,6 +64,10 @@
         <item name="android:windowAnimationStyle">@style/DialogSlideUpAnim</item>
     </style>
 
+    <style name="FullScreenDialog.SlideRightAnim" parent="FullScreenDialog">
+        <item name="android:windowAnimationStyle">@style/DialogSlideRightAnim</item>
+    </style>
+
     <style name="DialogAnimTheme" parent="@android:style/Theme.Panel">
         <item name="android:windowAnimationStyle">@style/DialogSlideUpAnim</item>
     </style>
@@ -71,6 +75,11 @@
     <style name="DialogSlideUpAnim" parent="@android:style/Animation.Activity">
         <item name="android:windowEnterAnimation">@anim/slide_in_from_bottom</item>
         <item name="android:windowExitAnimation">@anim/slide_out_to_bottom</item>
+    </style>
+
+    <style name="DialogSlideRightAnim" parent="@android:style/Animation.Activity">
+        <item name="android:windowEnterAnimation">@anim/slide_in_from_right</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_to_right</item>
     </style>
     <!-- End of DialogFragment -->
 

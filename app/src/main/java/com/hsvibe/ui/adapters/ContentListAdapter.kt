@@ -64,7 +64,7 @@ class ContentListAdapter(private val viewModel: HomeViewModel) : RecyclerView.Ad
                 when (position) {
                     LIST_POSITION_NEWS -> { holder.setupAdapter(HomeNewsListAdapter(viewModel)) }
                     LIST_POSITION_COUPON -> { holder.setupAdapter(HomeCouponListAdapter(viewModel)) }
-                    LIST_POSITION_DISCOUNT -> { }
+                    LIST_POSITION_DISCOUNT -> { holder.setupAdapter(HomeBannerListAdapter(viewModel)) }
                     LIST_POSITION_FOODS -> { }
                     LIST_POSITION_HOTEL -> { }
                 }

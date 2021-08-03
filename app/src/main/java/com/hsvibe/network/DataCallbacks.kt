@@ -5,6 +5,7 @@ import com.hsvibe.callbacks.OnLoadingCallback
 import com.hsvibe.model.Urls
 import com.hsvibe.model.UserInfo
 import com.hsvibe.model.UserToken
+import com.hsvibe.model.items.ItemBanner
 import com.hsvibe.model.items.ItemContent
 import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.model.posts.PostRefreshToken
@@ -117,6 +118,12 @@ object DataCallbacks {
     suspend fun getCoupon(orderBy: String, sortedBy: String, limit: Int, page: Int, loadingCallback: OnLoadingCallback? = null): ItemCoupon? {
         return getApiResult(loadingCallback) {
             getApiInterface().getCoupon(orderBy, sortedBy, limit, page)
+        }
+    }
+
+    suspend fun getBanner(loadingCallback: OnLoadingCallback? = null): ItemBanner? {
+        return getApiResult(loadingCallback) {
+            getApiInterface().getBanner()
         }
     }
 }
