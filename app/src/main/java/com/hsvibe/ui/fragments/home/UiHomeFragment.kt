@@ -7,12 +7,11 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hsvibe.R
 import com.hsvibe.databinding.FragmentHomeBinding
-import com.hsvibe.repositories.ContentRepoImpl
+import com.hsvibe.repositories.HomeContentRepoImpl
 import com.hsvibe.repositories.UserRepoImpl
-import com.hsvibe.ui.adapters.ContentListAdapter
+import com.hsvibe.ui.adapters.HomeContentListAdapter
 import com.hsvibe.ui.bases.BaseFragment
 import com.hsvibe.utilities.L
-import com.hsvibe.utilities.Utility
 import com.hsvibe.viewmodel.HomeViewModel
 import com.hsvibe.viewmodel.HomeViewModelFactory
 import com.hsvibe.viewmodel.MainViewModel
@@ -24,7 +23,7 @@ import com.hsvibe.viewmodel.MainViewModelFactory
 class UiHomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private val mainViewModel by activityViewModels<MainViewModel> { MainViewModelFactory(UserRepoImpl()) }
-    private val homeViewModel by viewModels<HomeViewModel> { HomeViewModelFactory(ContentRepoImpl(), mainViewModel) }
+    private val homeViewModel by viewModels<HomeViewModel> { HomeViewModelFactory(HomeContentRepoImpl(), mainViewModel) }
 
     override fun getLayoutId(): Int = R.layout.fragment_home
 
@@ -48,7 +47,7 @@ class UiHomeFragment : BaseFragment<FragmentHomeBinding>() {
         bindingView.recyclerHome.apply {
             isNestedScrollingEnabled = false
             layoutManager = LinearLayoutManager(context)
-            adapter = ContentListAdapter(homeViewModel)
+            adapter = HomeContentListAdapter(homeViewModel)
         }
     }
 
@@ -64,21 +63,18 @@ class UiHomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
 
         homeViewModel.let {
-            it.liveLoadingStatus.observe(viewLifecycleOwner) { isLoading ->
-                if (isLoading) showLoading() else hideLoading()
-            }
-            it.liveErrorMessage.observe(viewLifecycleOwner) { errorMessage ->
-                Utility.toastLong(errorMessage)
+            it.liveLoadingStatus.observe(viewLifecycleOwner) { loadingStatus ->
+                handleLoadingStatus(loadingStatus)
             }
             it.liveNews.observe(viewLifecycleOwner) {
-                notifyDataChanged(ContentListAdapter.LIST_POSITION_NEWS)
+                notifyDataChanged(HomeContentListAdapter.LIST_POSITION_NEWS)
             }
 
             it.liveCoupons.observe(viewLifecycleOwner) {
-                notifyDataChanged(ContentListAdapter.LIST_POSITION_COUPON)
+                notifyDataChanged(HomeContentListAdapter.LIST_POSITION_COUPON)
             }
             it.liveBanner.observe(viewLifecycleOwner) {
-                notifyDataChanged(ContentListAdapter.LIST_POSITION_DISCOUNT)
+                notifyDataChanged(HomeContentListAdapter.LIST_POSITION_DISCOUNT)
             }
         }
     }
@@ -92,7 +88,7 @@ class UiHomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun notifyDataChanged(dataPosition: Int) {
-        (bindingView.recyclerHome.adapter as ContentListAdapter).notifyDataGet(dataPosition)
+        (bindingView.recyclerHome.adapter as HomeContentListAdapter).notifyDataGet(dataPosition)
     }
 
     override fun onBackButtonPressed(): Boolean = false

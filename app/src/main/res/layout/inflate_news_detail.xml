@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="content"
+            type="com.hsvibe.model.items.ItemContent.ContentData" />
+
+        <variable
+            name="callback"
+            type="com.hsvibe.callbacks.OnContentDataClickCallback" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/padding_size_xl"
+        android:layout_marginEnd="@dimen/padding_size_xl"
+        android:layout_marginTop="@dimen/padding_size_l"
+        android:layout_marginBottom="@dimen/padding_size_l"
+        app:cardCornerRadius="15dp"
+        app:cardBackgroundColor="@color/md_white_1000">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_newsPic"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="3:2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:glideImage="@{content.getMediumUrl()}"
+                android:onClick="@{() -> callback.onContentDataClick(content)}"/>
+
+            <TextView
+                android:id="@+id/text_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="@string/hot_news"
+                android:textColor="@color/md_white_1000"
+                android:textSize="@dimen/font_text_size_xs"
+                android:text="@{content.getCategoryName()}"
+                android:paddingStart="@dimen/padding_size_l"
+                android:paddingEnd="@dimen/padding_size_l"
+                android:paddingTop="@dimen/padding_size_m"
+                android:paddingBottom="@dimen/padding_size_m"
+                android:background="@drawable/background_tag_orange"
+                android:layout_marginStart="@dimen/padding_size_xl"
+                android:layout_marginTop="@dimen/padding_size_xl"
+                app:layout_constraintTop_toBottomOf="@+id/image_newsPic"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/text_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                tools:text="00000000000000000000000000000"
+                android:textColor="@color/md_grey_900"
+                android:textSize="@dimen/font_text_size_m"
+                android:text="@{content.title}"
+                android:layout_marginTop="@dimen/padding_size_xxl"
+                android:layout_marginEnd="@dimen/padding_size_xl"
+                app:layout_constraintStart_toStartOf="@+id/text_tag"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_tag" />
+
+            <TextView
+                android:id="@+id/text_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                tools:text="2021/08/08"
+                android:textColor="@color/md_grey_400"
+                android:textSize="@dimen/font_text_size_s"
+                android:text="@{content.approval_at}"
+                android:layout_marginTop="@dimen/padding_size_xxl"
+                app:layout_constraintStart_toStartOf="@+id/text_title"
+                app:layout_constraintEnd_toEndOf="@+id/text_title"
+                app:layout_constraintTop_toBottomOf="@+id/text_title" />
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/padding_size_s"
+                android:layout_marginBottom="@dimen/padding_size_l"
+                android:scrollbars="vertical"
+                app:layout_constraintStart_toStartOf="@+id/text_title"
+                app:layout_constraintEnd_toEndOf="@+id/text_title"
+                app:layout_constraintTop_toBottomOf="@+id/text_date"
+                app:layout_constraintBottom_toBottomOf="parent" >
+
+                <TextView
+                    android:id="@+id/text_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="00000000000000000000000000000000000000000000000000000000000000000"
+                    android:textColor="@color/md_grey_900"
+                    android:textSize="@dimen/font_text_size_s"
+                    android:text="@{content.content}"
+                    android:autoLink="all"/>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

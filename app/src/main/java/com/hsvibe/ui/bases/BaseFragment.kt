@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.hsvibe.R
 import com.hsvibe.callbacks.FragmentContract
+import com.hsvibe.model.LoadingStatus
 import com.hsvibe.utilities.L
+import com.hsvibe.utilities.Utility
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 
@@ -60,7 +63,7 @@ abstract class BaseFragment<BindingView : ViewDataBinding> : Fragment(R.layout.f
         super.onViewCreated(view, savedInstanceState)
         L.d(TAG, "onViewCreated!!!")
 
-        lifecycleJob = lifecycleScope.launchWhenCreated {
+        lifecycleJob = viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             val bindingViewDeferred = async {
                 DataBindingUtil.inflate(LayoutInflater.from(view.context), getLayoutId(), view as ViewGroup?, false) as BindingView
             }
@@ -72,12 +75,24 @@ abstract class BaseFragment<BindingView : ViewDataBinding> : Fragment(R.layout.f
         }
     }
 
+    protected fun openDialogFragment(instance: DialogFragment, backName: String? = null) {
+        fragmentCallback?.onFragmentOpenDialogFragment(instance, backName)
+    }
+
     protected fun showLoading() {
         getLoadingView()?.visibility = View.VISIBLE
     }
 
     protected fun hideLoading() {
         getLoadingView()?.visibility = View.GONE
+    }
+
+    protected fun handleLoadingStatus(loadingStatus: LoadingStatus) {
+        when (loadingStatus) {
+            is LoadingStatus.OnLoadingStart -> showLoading()
+            is LoadingStatus.OnLoadingEnd -> hideLoading()
+            is LoadingStatus.OnError -> Utility.toastLong(loadingStatus.errorMessage)
+        }
     }
 
     override fun onStart() {

@@ -72,12 +72,12 @@
         <item name="android:windowAnimationStyle">@style/DialogSlideUpAnim</item>
     </style>
 
-    <style name="DialogSlideUpAnim" parent="@android:style/Animation.Activity">
+    <style name="DialogSlideUpAnim">
         <item name="android:windowEnterAnimation">@anim/slide_in_from_bottom</item>
         <item name="android:windowExitAnimation">@anim/slide_out_to_bottom</item>
     </style>
 
-    <style name="DialogSlideRightAnim" parent="@android:style/Animation.Activity">
+    <style name="DialogSlideRightAnim">
         <item name="android:windowEnterAnimation">@anim/slide_in_from_right</item>
         <item name="android:windowExitAnimation">@anim/slide_out_to_right</item>
     </style>

@@ -14,7 +14,7 @@ import com.hsvibe.network.DataCallbacks
 /**
  * Created by Vincent on 2021/7/19.
  */
-class ContentRepoImpl : ContentRepo {
+class HomeContentRepoImpl : HomeContentRepo {
 
     private var loadingCallback: OnLoadingCallback? = null
 

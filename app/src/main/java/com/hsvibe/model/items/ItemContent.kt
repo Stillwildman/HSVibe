@@ -47,7 +47,15 @@ data class ItemContent(
         )
 
         fun getCategoryName(): String? {
-            return categories?.categoryData.takeIf { it.isNullOrEmpty() }?.get(0)?.name
+            return categories?.categoryData?.takeIf { it.isNotEmpty() }?.get(0)?.name
+        }
+
+        fun getOriginalUrl(): String? {
+            return media?.mediaData?.takeIf { it.isNotEmpty() }?.get(0)?.original
+        }
+
+        fun getMediumUrl(): String? {
+            return media?.mediaData?.takeIf { it.isNotEmpty() }?.get(0)?.medium
         }
 
         fun getThumbnailUrl(): String? {

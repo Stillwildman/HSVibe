@@ -6,19 +6,33 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.hsvibe.callbacks.FragmentContract
 import com.hsvibe.model.Const
+import com.hsvibe.tasks.TaskController
+import com.hsvibe.ui.TagFragmentManager
 import com.hsvibe.ui.fragments.login.UiLoadingDialogFragment
 import com.hsvibe.utilities.L
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 /**
  * Created by Vincent on 2021/6/27.
  */
-abstract class BaseFragmentActivity : BasePermissionActivity(), FragmentManager.OnBackStackChangedListener, FragmentContract.FragmentCallback {
+abstract class BaseFragmentActivity : BasePermissionActivity(),
+    CoroutineScope,
+    FragmentManager.OnBackStackChangedListener,
+    FragmentContract.FragmentCallback {
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + SupervisorJob()
 
     protected abstract fun getContainerId(): Int?
 
     private val fm : FragmentManager by lazy {
         supportFragmentManager.also { it.addOnBackStackChangedListener(this) }
     }
+
+    private val taskController by lazy { TaskController<Unit>() }
+
+    private var fragmentJob: Job? = null
 
     private var activityCallback: FragmentContract.ActivityCallback? = null
 
@@ -49,12 +63,11 @@ abstract class BaseFragmentActivity : BasePermissionActivity(), FragmentManager.
         }
     }
 
-    protected fun addTabFragment(instance: Fragment) {
-        getContainerId()?.let {
-            fm.findFragmentById(it)?.let { lastFragment ->
-                if (lastFragment == instance) return
+    protected fun openTabFragment(tabKey: String) {
+        fragmentJob = launch {
+            taskController.joinPreviousOrRun(TaskController.KEY_SWITCH_TAB_FRAGMENT) {
+                getContainerId()?.let { TagFragmentManager.switchToTab(tabKey, it, fm) }
             }
-            fm.beginTransaction().add(it, instance).commit()
         }
     }
 
@@ -67,16 +80,19 @@ abstract class BaseFragmentActivity : BasePermissionActivity(), FragmentManager.
     }
 
     protected fun openFragment(instance: Fragment, useReplace: Boolean, backName: String?) {
-        getContainerId()?.let {
-            fm.findFragmentById(it)?.let { lastFragment ->
-                if (lastFragment == instance) return
-            }
+        fragmentJob = launch {
+            taskController.joinPreviousOrRun(TaskController.KEY_OPEN_FRAGMENT) {
+                getContainerId()?.let {
+                    fm.findFragmentById(it)?.let { lastFragment ->
+                        if (lastFragment == instance) return@joinPreviousOrRun
+                    }
 
-            if (useReplace) {
-                fm.beginTransaction().replace(it, instance).addToBackStack(backName).commit()
-            }
-            else {
-                fm.beginTransaction().add(it, instance).addToBackStack(backName).commit()
+                    if (useReplace) {
+                        fm.beginTransaction().replace(it, instance).addToBackStack(backName).commit()
+                    } else {
+                        fm.beginTransaction().add(it, instance).addToBackStack(backName).commit()
+                    }
+                }
             }
         }
     }
@@ -94,10 +110,14 @@ abstract class BaseFragmentActivity : BasePermissionActivity(), FragmentManager.
         }
     }
 
-    protected fun openDialogFragment(instance: DialogFragment, backName: String?) {
-        fm.beginTransaction().let {
-            it.addToBackStack(backName ?: Const.BACK_COMMON_DIALOG)
-            instance.show(it, Const.TAG_DIALOG_FRAGMENT)
+    protected fun openDialogFragment(instance: DialogFragment, backName: String? = null) {
+        fragmentJob = launch {
+            taskController.joinPreviousOrRun(TaskController.KEY_OPEN_DIALOG_FRAGMENT) {
+                fm.beginTransaction().let {
+                    it.addToBackStack(backName ?: Const.BACK_COMMON_DIALOG)
+                    instance.show(it, Const.TAG_DIALOG_FRAGMENT)
+                }
+            }
         }
     }
 
@@ -137,6 +157,10 @@ abstract class BaseFragmentActivity : BasePermissionActivity(), FragmentManager.
         hideLoadingDialog()
     }
 
+    override fun onFragmentOpenDialogFragment(instance: DialogFragment, backName: String?) {
+        openDialogFragment(instance, backName)
+    }
+
     override fun onBackPressed() {
         if (isFragmentNotEmpty()) {
             activityCallback?.let {
@@ -146,5 +170,10 @@ abstract class BaseFragmentActivity : BasePermissionActivity(), FragmentManager.
         else {
             super.onBackPressed()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        fragmentJob?.cancel()
     }
 }

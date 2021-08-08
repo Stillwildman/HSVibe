@@ -17,12 +17,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
  */
 class UserRepoImpl : UserRepo {
 
-    companion object {
-        private const val TASK_KEY_GET_USER_INFO = 0
-        private const val TASK_KEY_UPDATE_USER_INFO = 1
-        private const val TASK_KEY_GET_AND_UPDATE_USER_INFO = 2
-    }
-
     private var callback: OnLoadingCallback? = null
 
     private val taskController by lazy { TaskController<UserInfo?>() }
@@ -41,7 +35,7 @@ class UserRepoImpl : UserRepo {
     }
 
     override suspend fun getUserInfo(): UserInfo? {
-        return taskController.joinPreviousOrRun(TASK_KEY_GET_USER_INFO) {
+        return taskController.joinPreviousOrRun(TaskController.KEY_GET_USER_INFO) {
             UserInfoManager.getAuthorization()?.let {
                 DataCallbacks.getUserInfo(it, callback)?.also { userInfo ->
                     UserInfoManager.setUserInfo(userInfo)
@@ -51,7 +45,7 @@ class UserRepoImpl : UserRepo {
     }
 
     override suspend fun updateUserInfo(userInfo: UserInfo, lat: String, lon: String): UserInfo? {
-        return taskController.joinPreviousOrRun(TASK_KEY_UPDATE_USER_INFO) {
+        return taskController.joinPreviousOrRun(TaskController.KEY_UPDATE_USER_INFO) {
             UserInfoManager.getAuthorization()?.let {
                 val postBody = getUserInfoUpdateBody(userInfo, lat, lon)
                 DataCallbacks.updateUserInfo(it, postBody, callback)?.also { updatedUserInfo ->
@@ -64,7 +58,7 @@ class UserRepoImpl : UserRepo {
 
     @ExperimentalCoroutinesApi
     override suspend fun getUserInfoAndUpdate(): UserInfo? {
-        return taskController.joinPreviousOrRun(TASK_KEY_GET_AND_UPDATE_USER_INFO) {
+        return taskController.joinPreviousOrRun(TaskController.KEY_GET_AND_UPDATE_USER_INFO) {
             val userInfo = getUserInfo()
             L.i("Get UserInfo: ${userInfo?.getFirstName()} ${userInfo?.getLastName()}")
 

@@ -6,15 +6,15 @@ import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.hsvibe.R
+import com.hsvibe.model.LoadingStatus
 import com.hsvibe.utilities.L
 import com.hsvibe.utilities.Utility
 import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
 
 /**
  * Created by Vincent on 2021/6/28.
  */
-abstract class BaseActivity<BindingView : ViewDataBinding> : BaseFragmentActivity(), CoroutineScope {
+abstract class BaseActivity<BindingView : ViewDataBinding> : BaseFragmentActivity() {
 
     @Suppress("PropertyName")
     protected val TAG = javaClass.simpleName
@@ -32,9 +32,6 @@ abstract class BaseActivity<BindingView : ViewDataBinding> : BaseFragmentActivit
     protected val mainHandler by lazy { Handler(mainLooper) }
 
     private lateinit var job: Job
-
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + SupervisorJob()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +53,14 @@ abstract class BaseActivity<BindingView : ViewDataBinding> : BaseFragmentActivit
 
     protected fun hideLoadingCircle() {
         getLoadingView()?.visibility = View.GONE
+    }
+
+    protected fun handleLoadingStatus(loadingStatus: LoadingStatus) {
+        when (loadingStatus) {
+            is LoadingStatus.OnLoadingStart -> showLoadingCircle()
+            is LoadingStatus.OnLoadingEnd -> hideLoadingCircle()
+            is LoadingStatus.OnError -> Utility.toastLong(loadingStatus.errorMessage)
+        }
     }
 
     override fun onStart() {

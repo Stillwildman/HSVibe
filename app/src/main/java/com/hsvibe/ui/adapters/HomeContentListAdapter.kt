@@ -12,7 +12,7 @@ import kotlin.math.floor
 /**
  * Created by Vincent on 2021/7/19.
  */
-class ContentListAdapter(private val viewModel: HomeViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HomeContentListAdapter(private val viewModel: HomeViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         const val TYPE_HEADER = 0

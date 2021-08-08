@@ -66,7 +66,7 @@ abstract class BaseWebFragment<BindingView : ViewDataBinding> : BaseDialogFragme
             onInitializing(webView)
             getInitialUrl()?.let {
                 webView.loadUrl(it)
-                L.i("DialogFragment init duration: ${(System.nanoTime() - startTime) / 1000000}")
+                L.i("DialogFragment init duration: ${getInitializeDuration()}")
             }
         }
     }

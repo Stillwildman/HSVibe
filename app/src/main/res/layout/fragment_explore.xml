@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_main_gradient">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image_appLogo"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/font_text_size_xxl"
+            android:layout_marginTop="@dimen/padding_size_xl"
+            app:srcCompat="@drawable/ic_hsvibe_group"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_explore"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/padding_size_xl"
+            android:scrollbars="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/image_appLogo"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ProgressBar
+            android:id="@+id/loadingCircle"
+            android:layout_width="@dimen/font_text_size_xl"
+            android:layout_height="@dimen/font_text_size_xl"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/padding_size_xl"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="@+id/image_appLogo"
+            app:layout_constraintBottom_toBottomOf="@+id/image_appLogo"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

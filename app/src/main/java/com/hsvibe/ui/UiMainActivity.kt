@@ -14,14 +14,12 @@ import com.hsvibe.model.Const
 import com.hsvibe.model.Navigation
 import com.hsvibe.model.UserInfoManager
 import com.hsvibe.model.items.ItemBanner
-import com.hsvibe.model.items.ItemContent
 import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.repositories.UserRepoImpl
 import com.hsvibe.ui.bases.BaseActivity
-import com.hsvibe.ui.fragments.banner.UiBannerWebFragment
-import com.hsvibe.ui.fragments.home.UiHomeFragment
+import com.hsvibe.ui.fragments.UiBasicWebFragment
+import com.hsvibe.ui.fragments.news.UiNewsFragment
 import com.hsvibe.utilities.L
-import com.hsvibe.utilities.Utility
 import com.hsvibe.viewmodel.MainViewModel
 import com.hsvibe.viewmodel.MainViewModelFactory
 import kotlinx.coroutines.async
@@ -85,11 +83,16 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
     }
 
     private fun openFirstFragment() {
-        addTabFragment(UiHomeFragment())
+        openTabFragment(TagFragmentManager.TAG_HOME)
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
-
+        when (tab?.position) {
+            TagFragmentManager.INDEX_HOME -> openTabFragment(TagFragmentManager.TAG_HOME)
+            TagFragmentManager.INDEX_EXPLORE -> openTabFragment(TagFragmentManager.TAG_EXPLORE)
+            TagFragmentManager.INDEX_COUPON -> openTabFragment(TagFragmentManager.TAG_COUPON)
+            TagFragmentManager.INDEX_WALLET -> openTabFragment(TagFragmentManager.TAG_WALLET)
+        }
     }
 
     override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -130,20 +133,13 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
             it.liveNavigation.observe(this) { navigation ->
                 when (navigation) {
                     is Navigation.ClickingMore -> onMoreClick(navigation.apiType)
-                    is Navigation.ClickingNews -> onNewsClick(navigation.newsItem)
+                    is Navigation.ClickingNews -> onNewsClick(navigation.itemIndex)
                     is Navigation.ClickingCoupon -> onCouponClick(navigation.couponItem)
                     is Navigation.ClickingBanner -> onBannerClick(navigation.bannerItem)
                 }
             }
-            it.liveLoadingStatus.observe(this) { isLoading ->
-                if (isLoading) {
-                    showLoadingCircle()
-                } else {
-                    hideLoadingCircle()
-                }
-            }
-            it.liveErrorMessage.observe(this) { errorMessage ->
-                Utility.toastLong(errorMessage)
+            it.liveLoadingStatus.observe(this) { loadingStatus ->
+                handleLoadingStatus(loadingStatus)
             }
         }
     }
@@ -163,7 +159,7 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
     private fun onMoreClick(apiType: Int) {
         when (apiType) {
             ApiConst.API_TYPE_NEWS -> {
-                // TODO
+                openDialogFragment(UiNewsFragment.newInstance())
             }
             ApiConst.API_TYPE_COUPON -> {
                 // TODO
@@ -180,8 +176,8 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
         }
     }
 
-    private fun onNewsClick(newsItem: ItemContent.ContentData?) {
-
+    private fun onNewsClick(itemIndex: Int) {
+        openDialogFragment(UiNewsFragment.newInstance(itemIndex))
     }
 
     private fun onCouponClick(couponItem: ItemCoupon.ContentData?) {
@@ -189,6 +185,6 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
     }
 
     private fun onBannerClick(bannerItem: ItemBanner.ContentData?) {
-        bannerItem?.let { openDialogFragment(UiBannerWebFragment.newInstance(it.share_url), Const.BACK_COMMON_DIALOG) }
+        bannerItem?.let { openDialogFragment(UiBasicWebFragment.newInstance(it.share_url), Const.BACK_COMMON_DIALOG) }
     }
 }

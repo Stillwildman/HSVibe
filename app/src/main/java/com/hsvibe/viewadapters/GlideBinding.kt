@@ -13,6 +13,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.utilities.DrawableUtil
+import com.hsvibe.utilities.L
 import kotlinx.coroutines.*
 
 /**
@@ -71,7 +72,16 @@ object GlideBinding {
                     emptyImagePlaceHolder
                 }
                 val placeHolder = placeHolderDeferred.await()
-                imageView.setPadding(padding_iconSize_l, padding_iconSize_l, padding_iconSize_l, padding_iconSize_l)
+                val offsetWidth: Int = imageView.measuredWidth.let {
+                    L.i("ImageView width: $it")
+                    (it * 0.25).toInt()
+                }
+                val offsetHeight: Int = imageView.measuredHeight.let {
+                    L.i("ImageView height: $it")
+                    (it * 0.25).toInt()
+                }
+                imageView.scaleType = ImageView.ScaleType.FIT_CENTER
+                imageView.setPadding(offsetWidth, offsetHeight, offsetWidth, offsetHeight)
                 imageView.setImageDrawable(placeHolder)
             }
         }

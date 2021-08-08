@@ -1,4 +1,4 @@
-package com.hsvibe.ui.fragments.banner
+package com.hsvibe.ui.fragments
 
 import android.os.Bundle
 import android.view.View
@@ -13,13 +13,12 @@ import com.hsvibe.ui.bases.BaseWebFragment
 /**
  * Created by Vincent on 2021/8/2.
  */
-class UiBannerWebFragment private constructor() : BaseWebFragment<FragmentBannerWebViewBinding>() {
+class UiBasicWebFragment private constructor() : BaseWebFragment<FragmentBannerWebViewBinding>() {
 
     companion object {
-        fun newInstance(webUrl: String): UiBannerWebFragment {
-            return UiBannerWebFragment().apply {
+        fun newInstance(webUrl: String): UiBasicWebFragment {
+            return UiBasicWebFragment().apply {
                 arguments = Bundle(1).also { it.putString(Const.BUNDLE_WEB_URL, webUrl) }
-                childFragmentManager
             }
         }
     }

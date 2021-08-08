@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
+import com.hsvibe.BuildConfig
 import com.hsvibe.R
 import com.hsvibe.callbacks.FragmentContract
 import com.hsvibe.utilities.L
@@ -52,7 +53,9 @@ abstract class BaseDialogFragment<BindingView : ViewDataBinding> : DialogFragmen
             e.printStackTrace()
             L.e(TAG, context.javaClass.simpleName + " must implement " + FragmentContract.FragmentCallback::class.java.simpleName)
         }
-        startTime = System.nanoTime()
+        if (BuildConfig.DEBUG) {
+            startTime = System.nanoTime()
+        }
         L.d(TAG, "onAttach!!!")
     }
 
@@ -78,7 +81,7 @@ abstract class BaseDialogFragment<BindingView : ViewDataBinding> : DialogFragmen
                 }
             }
         }
-        //val dialog = AlertDialog.Builder(requireContext(), R.style.DialogAnimTheme).create()
+        //val alertDialog = AlertDialog.Builder(requireContext(), R.style.DialogAnimTheme).create()
 
         dialog.apply {
             window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
@@ -96,7 +99,7 @@ abstract class BaseDialogFragment<BindingView : ViewDataBinding> : DialogFragmen
         super.onViewCreated(view, savedInstanceState)
         L.d(TAG, "onViewCreated!!!")
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val bindingViewDeferred = async {
                 DataBindingUtil.inflate(LayoutInflater.from(view.context), getLayoutId(), view as ViewGroup?, false) as BindingView
             }
@@ -140,6 +143,17 @@ abstract class BaseDialogFragment<BindingView : ViewDataBinding> : DialogFragmen
 
     protected fun hideLoadingDialog() {
         fragmentCallback.hideLoadingDialogFromFragment()
+    }
+
+    protected fun openDialogFragment(instance: DialogFragment, backName: String? = null) {
+        fragmentCallback.onFragmentOpenDialogFragment(instance, backName)
+    }
+
+    protected fun getInitializeDuration(): Long {
+        return if (BuildConfig.DEBUG) {
+            (System.nanoTime() - startTime) / 1000000
+        }
+        else -1
     }
 
     override fun onResume() {

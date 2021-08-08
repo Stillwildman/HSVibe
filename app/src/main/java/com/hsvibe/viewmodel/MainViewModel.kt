@@ -2,9 +2,7 @@ package com.hsvibe.viewmodel
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hsvibe.callbacks.OnLoadingCallback
 import com.hsvibe.model.Navigation
 import com.hsvibe.model.UserInfo
 import com.hsvibe.repositories.UserRepo
@@ -18,7 +16,7 @@ import kotlinx.coroutines.withContext
 /**
  * Created by Vincent on 2021/7/5.
  */
-class MainViewModel(private val userRepo: UserRepo) : ViewModel(), OnLoadingCallback {
+class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
 
     private fun getExceptionHandler(runIfTokenStatusExpired: () -> Unit): CoroutineExceptionHandler {
         return CoroutineExceptionHandler { _, throwable ->
@@ -31,27 +29,12 @@ class MainViewModel(private val userRepo: UserRepo) : ViewModel(), OnLoadingCall
 
     val liveNavigation by lazy { MutableLiveData<Navigation>() }
 
-    val liveLoadingStatus = MutableLiveData<Boolean>()
-    val liveErrorMessage = MutableLiveData<String>()
-
     val liveUserInfo = MutableLiveData<UserInfo>()
 
     val liveUserInfoVisibility = MutableLiveData<Int>()
 
     init {
         userRepo.setLoadingCallback(this)
-    }
-
-    override fun onLoadingStart() {
-        liveLoadingStatus.postValue(true)
-    }
-
-    override fun onLoadingEnd() {
-        liveLoadingStatus.postValue(false)
-    }
-
-    override fun onLoadingFailed(errorMessage: String?) {
-        liveErrorMessage.postValue(errorMessage ?: "")
     }
 
     fun onNavigating(navigation: Navigation) {

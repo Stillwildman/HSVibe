@@ -1,8 +1,8 @@
 package com.hsvibe.tasks
 
 import android.util.ArrayMap
+import com.hsvibe.utilities.L
 import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 
@@ -11,13 +11,23 @@ import kotlinx.coroutines.coroutineScope
  */
 class TaskController<T> {
 
-    private val activeTasks: ArrayMap<Int, Deferred<T>?> by lazy { ArrayMap() }
+    companion object {
+        private const val TAG = "TaskController"
 
-    private var cachedJob: Job? = null
+        const val KEY_GET_USER_INFO = 0
+        const val KEY_UPDATE_USER_INFO = 1
+        const val KEY_GET_AND_UPDATE_USER_INFO = 2
+        const val KEY_SWITCH_TAB_FRAGMENT = 3
+        const val KEY_OPEN_FRAGMENT = 4
+        const val KEY_OPEN_DIALOG_FRAGMENT = 5
+    }
+
+    private val activeTasks: ArrayMap<Int, Deferred<T>?> by lazy { ArrayMap() }
 
     suspend fun joinPreviousOrRun(key: Int, block: suspend () -> T): T {
         // 如果當前有正在執行的 activeTask ，直接返回
         activeTasks[key]?.let {
+            L.d(TAG, "Has ActiveTask!!! Key: $key")
             return it.await()
         }
 
@@ -28,6 +38,7 @@ class TaskController<T> {
             }
 
             newTask.invokeOnCompletion {
+                L.d(TAG, "Nes Task Completed!!! Key: $key")
                 activeTasks[key] = null
                 @Suppress("DeferredResultUnused")
                 activeTasks.remove(key)

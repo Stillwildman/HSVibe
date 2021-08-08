@@ -10,7 +10,7 @@ import com.hsvibe.model.items.ItemHomeHeader
 /**
  * Created by Vincent on 2021/7/19.
  */
-interface ContentRepo {
+interface HomeContentRepo {
 
     fun setLoadingCallback(loadingCallback: OnLoadingCallback?)
 

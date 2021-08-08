@@ -12,12 +12,11 @@ object Const {
 
     const val BACK_COMMON_DIALOG = "CommonDialog"
     const val BACK_LOGIN_DIALOG = "LoginDialog"
-    const val BACK_TAB_HOME = "TabHome"
-    const val BACK_TAB_EXPLORE = "TabExplore"
-    const val BACK_TAB_COUPON = "TabCoupon"
-    const val BACK_TAB_WALLET = "TabWallet"
 
     const val EMPTY_STRING = ""
 
     const val BUNDLE_WEB_URL = "WebUrl"
+    const val BUNDLE_SPECIFIC_POSITION = "SpecificPosition"
+
+    const val NO_POSITION = -1
 }

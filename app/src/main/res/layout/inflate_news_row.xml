@@ -3,72 +3,80 @@
 
     <data>
         <variable
-            name="index"
+            name="position"
             type="Integer" />
 
         <variable
-            name="viewModel"
-            type="com.hsvibe.viewmodel.HomeViewModel" />
-    </data>
+            name="content"
+            type="com.hsvibe.model.items.ItemContent.ContentData" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+        <variable
+            name="callback"
+            type="com.hsvibe.callbacks.OnContentDataClickCallback" />
+    </data>
+    
+    <androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/poi_photo_edit_view"
         android:layout_marginStart="@dimen/padding_size_xl"
         android:layout_marginEnd="@dimen/padding_size_xl"
+        android:layout_marginTop="@dimen/padding_size_m"
+        android:layout_marginBottom="@dimen/padding_size_l"
         android:clickable="true"
         android:focusable="true"
         android:background="?selectableItemBackground"
-        android:onClick="@{() -> viewModel.onNewsClick(viewModel.getContentData(index))}">
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="@color/md_white_1000"
+        android:onClick="@{() -> callback.onContentDataClick(content, position)}">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/layout_newsCard"
-            android:layout_width="@dimen/poi_photo_edit_view_xl"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintDimensionRatio="5:3"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="2dp"
-            app:cardBackgroundColor="@color/transparent_full">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/image_news"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                app:glideImage="@{viewModel.getContentData(index).thumbnailUrl}"/>
+                android:layout_marginStart="@dimen/padding_size_m"
+                android:layout_marginTop="@dimen/padding_size_m"
+                android:layout_marginBottom="@dimen/padding_size_m"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintDimensionRatio="7:5"
+                app:glideImage="@{content.getThumbnailUrl()}"/>
 
-        </androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/text_newsTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                tools:text="0000000000000000000000"
+                android:textColor="@color/md_grey_700"
+                android:textSize="@dimen/font_text_size_s"
+                android:layout_marginStart="@dimen/padding_size_l"
+                android:layout_marginEnd="@dimen/padding_size_l"
+                android:text="@{content.title}"
+                app:layout_constraintStart_toEndOf="@+id/image_news"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/text_newsDate" />
 
-        <TextView
-            android:id="@+id/text_newsTitle"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/actionbar_item_height"
-            android:layout_marginTop="@dimen/padding_size_m"
-            android:maxLines="2"
-            android:ellipsize="end"
-            tools:text="000000000000000000000000"
-            android:textSize="@dimen/font_text_size_s"
-            android:text="@{viewModel.getContentData(index).title}"
-            app:layout_constraintStart_toStartOf="@+id/layout_newsCard"
-            app:layout_constraintEnd_toEndOf="@+id/layout_newsCard"
-            app:layout_constraintTop_toBottomOf="@+id/layout_newsCard"/>
+            <TextView
+                android:id="@+id/text_newsDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                tools:text="2021/01/01"
+                android:textColor="@color/md_grey_500"
+                android:textSize="@dimen/font_text_size_s"
+                android:text="@{content.approval_at}"
+                android:layout_marginBottom="@dimen/padding_size_l"
+                app:layout_constraintStart_toStartOf="@+id/text_newsTitle"
+                app:layout_constraintEnd_toEndOf="@+id/text_newsTitle"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
-        <TextView
-            android:id="@+id/text_newsDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_size_l"
-            tools:text="0000000000000000"
-            android:textSize="@dimen/font_text_size_xs"
-            android:textColor="@color/md_grey_500"
-            android:text="@{viewModel.getContentData(index).approval_at}"
-            app:layout_constraintStart_toStartOf="@+id/layout_newsCard"
-            app:layout_constraintTop_toBottomOf="@+id/text_newsTitle"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </androidx.cardview.widget.CardView >
+    
 </layout>

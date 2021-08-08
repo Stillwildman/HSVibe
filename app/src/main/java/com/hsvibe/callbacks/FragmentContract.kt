@@ -1,5 +1,7 @@
 package com.hsvibe.callbacks
 
+import androidx.fragment.app.DialogFragment
+
 /**
  * Created by Vincent on 2021/6/28.
  */
@@ -10,6 +12,7 @@ class FragmentContract {
         fun onFragmentPopBack(backName: String?)
         fun showLoadingDialogFromFragment()
         fun hideLoadingDialogFromFragment()
+        fun onFragmentOpenDialogFragment(instance: DialogFragment, backName: String?)
     }
 
     interface ActivityCallback {
