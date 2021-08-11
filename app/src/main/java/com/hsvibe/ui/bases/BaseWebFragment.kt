@@ -97,7 +97,7 @@ abstract class BaseWebFragment<BindingView : ViewDataBinding> : BaseDialogFragme
     }
 
     override fun onBackStackChanged(canGoBack: Boolean) {
-        val buttonIconRes = if (canGoBack) R.drawable.ic_back_arrow_light else R.drawable.ic_close_light
+        val buttonIconRes = if (canGoBack) R.drawable.selector_back else R.drawable.selector_close
         getBackButtonView()?.setImageDrawable(ContextCompat.getDrawable(AppController.getAppContext(), buttonIconRes))
     }
 

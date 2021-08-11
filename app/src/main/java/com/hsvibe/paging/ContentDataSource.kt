@@ -3,7 +3,6 @@ package com.hsvibe.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.hsvibe.callbacks.OnLoadingCallback
-import com.hsvibe.model.ApiConst
 import com.hsvibe.model.items.ItemContent
 import com.hsvibe.network.DataCallbacks
 import com.hsvibe.utilities.L
@@ -30,8 +29,6 @@ class ContentDataSource(private val category: Int, private val loadingCallback: 
 
             val response = DataCallbacks.getContent(
                 category = category,
-                orderBy = ApiConst.ORDER_BY_UPDATED,
-                sortedBy = ApiConst.SORTED_BY_DESC,
                 limit = params.loadSize,
                 page = pageKey,
                 loadingCallback = loadingCallback)

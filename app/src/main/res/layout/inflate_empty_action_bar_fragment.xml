@@ -52,6 +52,7 @@
                 android:layout_width="@dimen/icon_common_size"
                 android:layout_height="@dimen/icon_common_size"
                 android:layout_weight="0"
+                android:padding="@dimen/padding_size_s"
                 android:layout_marginStart="@dimen/padding_size_m"
                 android:clickable="true"
                 android:focusable="true"

@@ -20,12 +20,12 @@
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/padding_size_l"
         android:layout_marginEnd="@dimen/padding_size_l"
-        android:layout_marginTop="@dimen/padding_size_s"
-        android:layout_marginBottom="@dimen/padding_size_xxl"
+        android:layout_marginTop="@dimen/padding_size_m"
+        android:layout_marginBottom="@dimen/padding_size_m"
         android:background="?selectableItemBackground"
         app:cardCornerRadius="20dp"
         app:cardBackgroundColor="@color/transparent_full"
-        android:onClick="@{() -> callback.onContentDataClick(content)}">
+        app:singleClick="@{() -> callback.onContentDataClick(content, -1)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -35,15 +35,17 @@
                 android:id="@+id/image_explorePic"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:glideImage="@{content.getOriginalUrl()}"/>
+                android:scaleType="fitCenter"
+                app:glideImage="@{content.getOriginalUrl()}"
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <View
                 android:id="@+id/view_gradientBackground"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:background="@drawable/background_explore_gradient"
-                app:layout_constraintTop_toTopOf="@+id/text_title"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHeight_percent="0.5" />
 
             <TextView
                 android:id="@+id/text_title"
@@ -53,7 +55,7 @@
                 android:layout_marginEnd="@dimen/padding_size_xxl"
                 android:layout_marginBottom="@dimen/padding_size_l"
                 tools:text="HS APP全新改版"
-                android:textSize="@dimen/font_text_size_m"
+                android:textSize="@dimen/font_text_size_l"
                 android:textColor="@color/md_white_1000"
                 android:text="@{content.title}"
                 app:layout_constraintStart_toStartOf="parent"

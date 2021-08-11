@@ -10,6 +10,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.lifecycleScope
 import com.hsvibe.AppController
 import com.hsvibe.R
+import com.hsvibe.callbacks.SingleClickListener
 import com.hsvibe.databinding.InflateEmptyActionBarFragmentBinding
 import com.hsvibe.model.LoadingStatus
 import com.hsvibe.utilities.Utility
@@ -29,7 +30,7 @@ abstract class BaseActionBarFragment<BindingView : ViewDataBinding> : BaseDialog
 
     abstract fun getFragmentLayoutId(): Int
 
-    abstract fun getTitleRes(): Int
+    abstract fun getTitleRes(): Int?
 
     abstract fun onInitCompleted()
 
@@ -62,37 +63,42 @@ abstract class BaseActionBarFragment<BindingView : ViewDataBinding> : BaseDialog
             getTitle()?.let {
                 textHeaderTitle.text = it
             } ?: run {
-                textHeaderTitle.setText(getTitleRes())
+                getTitleRes()?.let { textHeaderTitle.setText(it) }
             }
 
             val backButtonRes = when (getAnimType()) {
                 is AnimType.NoAnim,
-                is AnimType.SlideFromRight -> R.drawable.ic_back_arrow_light
-                is AnimType.SlideUp -> R.drawable.ic_close_light
+                is AnimType.SlideFromRight -> R.drawable.selector_back
+                is AnimType.SlideUp -> R.drawable.selector_close
             }
 
             buttonBack.setImageDrawable(ContextCompat.getDrawable(AppController.getAppContext(), backButtonRes))
             buttonBack.setOnClickListener {
                 onDialogBackPressed()
             }
-
             getMenuOptionIconRes()?.let {
                 buttonMenuOption.visibility = View.VISIBLE
                 buttonMenuOption.setImageDrawable(ContextCompat.getDrawable(AppController.getAppContext(), it))
-                buttonMenuOption.setOnClickListener {
-                    onMenuOptionClick()
-                }
+                buttonMenuOption.setOnClickListener(object : SingleClickListener() {
+                    override fun onSingleClick(v: View) {
+                        onMenuOptionClick()
+                    }
+                })
             }
         }
     }
 
-    protected fun getTitle(): String? = null
+    protected open fun getTitle(): String? = null
 
-    protected fun getBackgroundColorRes(): Int? = null
+    protected fun setTitle(title: String) {
+        bindingView.textHeaderTitle.text = title
+    }
 
-    protected fun getMenuOptionIconRes(): Int? = null
+    protected open fun getBackgroundColorRes(): Int? = null
 
-    protected fun onMenuOptionClick() {
+    protected open fun getMenuOptionIconRes(): Int? = null
+
+    protected open fun onMenuOptionClick() {
 
     }
 

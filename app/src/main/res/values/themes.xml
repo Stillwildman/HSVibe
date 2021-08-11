@@ -83,6 +83,10 @@
     </style>
     <!-- End of DialogFragment -->
 
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
     <style name="MyLoadingCircle">
         <item name="android:indeterminateOnly">true</item>
         <item name="android:indeterminateDrawable">@drawable/custom_loading_circle</item>

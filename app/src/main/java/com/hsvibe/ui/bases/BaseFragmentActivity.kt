@@ -4,10 +4,11 @@ import androidx.annotation.Nullable
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
 import com.hsvibe.callbacks.FragmentContract
 import com.hsvibe.model.Const
 import com.hsvibe.tasks.TaskController
-import com.hsvibe.ui.TagFragmentManager
+import com.hsvibe.ui.TabFragmentManager
 import com.hsvibe.ui.fragments.login.UiLoadingDialogFragment
 import com.hsvibe.utilities.L
 import kotlinx.coroutines.*
@@ -29,6 +30,8 @@ abstract class BaseFragmentActivity : BasePermissionActivity(),
     private val fm : FragmentManager by lazy {
         supportFragmentManager.also { it.addOnBackStackChangedListener(this) }
     }
+
+    protected val tabFragmentManager by lazy { TabFragmentManager(fm, lifecycleScope) }
 
     private val taskController by lazy { TaskController<Unit>() }
 
@@ -66,7 +69,7 @@ abstract class BaseFragmentActivity : BasePermissionActivity(),
     protected fun openTabFragment(tabKey: String) {
         fragmentJob = launch {
             taskController.joinPreviousOrRun(TaskController.KEY_SWITCH_TAB_FRAGMENT) {
-                getContainerId()?.let { TagFragmentManager.switchToTab(tabKey, it, fm) }
+                getContainerId()?.let { tabFragmentManager.switchToTab(tabKey, it) }
             }
         }
     }
@@ -102,7 +105,7 @@ abstract class BaseFragmentActivity : BasePermissionActivity(),
             getContainerId()?.let {
                 fm.getBackStackEntryAt(fm.backStackEntryCount - 1).name?.let { backName ->
                     fm.findFragmentById(it)?.apply {
-                        L.d("onResume: ${javaClass.name} BackName: $backName")
+                        L.d("onResume: ${javaClass.simpleName} BackName: $backName")
                         onResume()
                     }
                 }

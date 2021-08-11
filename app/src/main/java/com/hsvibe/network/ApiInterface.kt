@@ -25,19 +25,19 @@ interface ApiInterface {
 
     @GET(Urls.API_CONTENT)
     suspend fun getContent(
-        @Query(ApiConst.CATEGORY_ID) category: Int = ApiConst.CATEGORY_NEWS,
-        @Query(ApiConst.ORDER_BY) orderBy: String = ApiConst.ORDER_BY_UPDATED,
-        @Query(ApiConst.SORTED_BY) sortedBy: String = ApiConst.SORTED_BY_DESC,
-        @Query(ApiConst.LIMIT) limit: Int = ApiConst.DEFAULT_LIMIT,
-        @Query(ApiConst.PAGE) page: Int = 1
+        @Query(ApiConst.CATEGORY_ID) category: Int,
+        @Query(ApiConst.ORDER_BY) orderBy: String,
+        @Query(ApiConst.SORTED_BY) sortedBy: String,
+        @Query(ApiConst.LIMIT) limit: Int,
+        @Query(ApiConst.PAGE) page: Int
     ): Response<ItemContent>
 
     @GET(Urls.API_COUPON)
     suspend fun getCoupon(
-        @Query(ApiConst.ORDER_BY) orderBy: String = ApiConst.ORDER_BY_UPDATED,
-        @Query(ApiConst.SORTED_BY) sortedBy: String = ApiConst.SORTED_BY_DESC,
-        @Query(ApiConst.LIMIT) limit: Int = ApiConst.DEFAULT_LIMIT,
-        @Query(ApiConst.PAGE) page: Int = 1
+        @Query(ApiConst.ORDER_BY) orderBy: String,
+        @Query(ApiConst.SORTED_BY) sortedBy: String,
+        @Query(ApiConst.LIMIT) limit: Int,
+        @Query(ApiConst.PAGE) page: Int
     ): Response<ItemCoupon>
 
     @GET(Urls.API_BANNER)
@@ -46,4 +46,9 @@ interface ApiInterface {
         @Query(ApiConst.SORTED_BY) sortedBy: String = ApiConst.SORTED_BY_DESC,
         @Query(ApiConst.LIMIT) limit: Int = 5
     ): Response<ItemBanner>
+
+    @GET("${Urls.API_COUPON}/{uuid}")
+    suspend fun getCouponDetail(
+        @Path("uuid") uuid: String
+    ): Response<ItemCoupon>
 }

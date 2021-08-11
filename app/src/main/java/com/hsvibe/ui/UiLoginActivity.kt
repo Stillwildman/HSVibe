@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.View
 import androidx.activity.viewModels
 import com.hsvibe.R
+import com.hsvibe.callbacks.SingleClickListener
 import com.hsvibe.databinding.ActivityLoginBinding
 import com.hsvibe.model.Const
 import com.hsvibe.model.UserInfoManager
@@ -16,7 +17,7 @@ import com.hsvibe.viewmodel.LoginViewModel
 /**
  * Created by Vincent on 2021/6/28.
  */
-class UiLoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener {
+class UiLoginActivity : BaseActivity<ActivityLoginBinding>() {
 
     private val loginViewModel by viewModels<LoginViewModel>()
 
@@ -32,19 +33,17 @@ class UiLoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListen
     }
 
     private fun setButtonClick() {
-        bindingView.buttonLogin.setOnClickListener(this)
-        bindingView.buttonLater.setOnClickListener(this)
-    }
-
-    override fun onClick(v: View) {
-        when (v.id) {
-            R.id.button_login -> {
+        bindingView.buttonLogin.setOnClickListener(object : SingleClickListener() {
+            override fun onSingleClick(v: View) {
                 openDialogFragment(UiLoginWebDialogFragment(), Const.BACK_LOGIN_DIALOG)
             }
-            R.id.button_later -> {
+        })
+
+        bindingView.buttonLater.setOnClickListener(object : SingleClickListener() {
+            override fun onSingleClick(v: View) {
                 goToMain()
             }
-        }
+        })
     }
 
     private fun observeLoginStatus() {

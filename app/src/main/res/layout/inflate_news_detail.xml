@@ -17,12 +17,14 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/padding_size_xl"
-        android:layout_marginEnd="@dimen/padding_size_xl"
-        android:layout_marginTop="@dimen/padding_size_l"
-        android:layout_marginBottom="@dimen/padding_size_l"
+        android:layout_marginStart="@dimen/padding_size_l"
+        android:layout_marginEnd="@dimen/padding_size_l"
+        android:layout_marginTop="@dimen/padding_size_xl"
+        android:layout_marginBottom="@dimen/padding_size_xl"
+        android:background="?selectableItemBackground"
         app:cardCornerRadius="15dp"
-        app:cardBackgroundColor="@color/md_white_1000">
+        app:cardBackgroundColor="@color/md_white_1000"
+        app:singleClick="@{() -> callback.onContentDataClick(content, -1)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -35,8 +37,7 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintDimensionRatio="3:2"
                 app:layout_constraintTop_toTopOf="parent"
-                app:glideImage="@{content.getMediumUrl()}"
-                android:onClick="@{() -> callback.onContentDataClick(content)}"/>
+                app:glideImage="@{content.getMediumUrl()}"/>
 
             <TextView
                 android:id="@+id/text_tag"

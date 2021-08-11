@@ -17,6 +17,7 @@ object Const {
 
     const val BUNDLE_WEB_URL = "WebUrl"
     const val BUNDLE_SPECIFIC_POSITION = "SpecificPosition"
+    const val BUNDLE_COUPON_DATA = "CouponData"
 
     const val NO_POSITION = -1
 }

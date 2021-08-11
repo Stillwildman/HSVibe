@@ -32,12 +32,19 @@ class HomeContentRepoImpl : HomeContentRepo {
         )
     }
 
-    override suspend fun getNews(orderBy: String, sortedBy: String, limit: Int, page: Int): ItemContent? {
-        return DataCallbacks.getContent(ApiConst.CATEGORY_NEWS, orderBy, sortedBy, limit, page, loadingCallback)
+    override suspend fun getNews(): ItemContent? {
+        return DataCallbacks.getContent(
+            category = ApiConst.CATEGORY_NEWS,
+            limit = 5,
+            page = 1,
+            loadingCallback = loadingCallback)
     }
 
-    override suspend fun getCoupon(orderBy: String, sortedBy: String, limit: Int, page: Int): ItemCoupon? {
-        return DataCallbacks.getCoupon(orderBy, sortedBy, limit, page, loadingCallback)
+    override suspend fun getCoupon(): ItemCoupon? {
+        return DataCallbacks.getCoupon(
+            limit = 5,
+            page = 1,
+            loadingCallback = loadingCallback)
     }
 
     override suspend fun getBanner(): ItemBanner? {

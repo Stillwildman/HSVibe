@@ -87,6 +87,7 @@ class UiNewsFragment private constructor() : BaseActionBarFragment<InflateNewsLi
         }
     }
 
+    // TODO [Improve] Scroll to center!
     private fun scrollToSpecificPosition(specificPosition: Int) {
         binding.recyclerNews.layoutManager.let {
             (it as? LinearLayoutManager)?.scrollToPositionWithOffset(specificPosition, if (specificPosition > 0) 1 else 0)

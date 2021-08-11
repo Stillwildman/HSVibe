@@ -9,6 +9,6 @@ import com.hsvibe.model.items.ItemCoupon
 sealed class Navigation {
     class ClickingMore(val apiType: Int): Navigation()
     class ClickingNews(val itemIndex: Int): Navigation()
-    class ClickingCoupon(val couponItem: ItemCoupon.ContentData?): Navigation()
-    class ClickingBanner(val bannerItem: ItemBanner.ContentData?): Navigation()
+    class ClickingCoupon(val couponItem: ItemCoupon.ContentData): Navigation()
+    class ClickingBanner(val bannerItem: ItemBanner.ContentData): Navigation()
 }

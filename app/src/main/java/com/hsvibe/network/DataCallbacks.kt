@@ -2,6 +2,7 @@ package com.hsvibe.network
 
 import com.hsvibe.callbacks.OnDataGetCallback
 import com.hsvibe.callbacks.OnLoadingCallback
+import com.hsvibe.model.ApiConst
 import com.hsvibe.model.Urls
 import com.hsvibe.model.UserInfo
 import com.hsvibe.model.UserToken
@@ -109,13 +110,24 @@ object DataCallbacks {
         }
     }
 
-    suspend fun getContent(category: Int, orderBy: String, sortedBy: String, limit: Int, page: Int, loadingCallback: OnLoadingCallback? = null): ItemContent? {
+    suspend fun getContent(category: Int,
+                           orderBy: String = ApiConst.ORDER_BY_UPDATED,
+                           sortedBy: String = ApiConst.SORTED_BY_DESC,
+                           limit: Int = ApiConst.DEFAULT_LIMIT,
+                           page: Int = 1,
+                           loadingCallback: OnLoadingCallback? = null
+    ): ItemContent? {
         return getApiResult(loadingCallback) {
             getApiInterface().getContent(category, orderBy, sortedBy, limit, page)
         }
     }
 
-    suspend fun getCoupon(orderBy: String, sortedBy: String, limit: Int, page: Int, loadingCallback: OnLoadingCallback? = null): ItemCoupon? {
+    suspend fun getCoupon(orderBy: String = ApiConst.ORDER_BY_UPDATED,
+                          sortedBy: String = ApiConst.SORTED_BY_DESC,
+                          limit: Int = ApiConst.DEFAULT_LIMIT,
+                          page: Int = 1,
+                          loadingCallback: OnLoadingCallback? = null
+    ): ItemCoupon? {
         return getApiResult(loadingCallback) {
             getApiInterface().getCoupon(orderBy, sortedBy, limit, page)
         }
@@ -125,5 +137,9 @@ object DataCallbacks {
         return getApiResult(loadingCallback) {
             getApiInterface().getBanner()
         }
+    }
+
+    suspend fun getCouponDetail(uuid: String, loadingCallback: OnLoadingCallback? = null) {
+
     }
 }

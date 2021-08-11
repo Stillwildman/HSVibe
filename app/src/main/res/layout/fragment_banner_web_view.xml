@@ -30,7 +30,7 @@
             android:clickable="true"
             android:focusable="true"
             android:background="?selectableItemBackground"
-            app:srcCompat="@drawable/ic_close_light"
+            app:srcCompat="@drawable/selector_close"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/view_headerBackground"
             app:layout_constraintBottom_toBottomOf="@+id/view_headerBackground"/>
@@ -43,7 +43,7 @@
             android:clickable="true"
             android:focusable="true"
             android:background="?selectableItemBackground"
-            app:srcCompat="@drawable/ic_refresh_light"
+            app:srcCompat="@drawable/selector_refresh"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/view_headerBackground"
             app:layout_constraintBottom_toBottomOf="@+id/view_headerBackground"/>

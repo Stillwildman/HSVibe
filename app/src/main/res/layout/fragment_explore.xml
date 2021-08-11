@@ -7,6 +7,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="@dimen/padding_size_xxl"
         android:background="@drawable/background_main_gradient">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -22,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/padding_size_xl"
-            android:scrollbars="horizontal"
+            android:scrollbars="vertical"
             app:layout_constraintTop_toBottomOf="@+id/image_appLogo"
             app:layout_constraintBottom_toBottomOf="parent"/>
 

@@ -8,6 +8,7 @@ import com.hsvibe.model.UserInfo
 import com.hsvibe.repositories.UserRepo
 import com.hsvibe.tasks.ApiStatusException
 import com.hsvibe.utilities.L
+import com.hsvibe.utilities.Utility
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,7 +22,11 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     private fun getExceptionHandler(runIfTokenStatusExpired: () -> Unit): CoroutineExceptionHandler {
         return CoroutineExceptionHandler { _, throwable ->
             L.i("Handle Coroutine Exception!!!")
-            if (throwable is ApiStatusException && throwable.isTokenStatusExpired()) {
+            if (Utility.isNetworkEnabled()) {
+                L.e("Network is not working!!!")
+                throwable.printStackTrace()
+            }
+            else if (throwable is ApiStatusException && throwable.isTokenStatusExpired()) {
                 runIfTokenStatusExpired()
             }
         }

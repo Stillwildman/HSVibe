@@ -18,6 +18,7 @@ import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.repositories.UserRepoImpl
 import com.hsvibe.ui.bases.BaseActivity
 import com.hsvibe.ui.fragments.UiBasicWebFragment
+import com.hsvibe.ui.fragments.coupons.UiCouponDetailFragment
 import com.hsvibe.ui.fragments.news.UiNewsFragment
 import com.hsvibe.utilities.L
 import com.hsvibe.viewmodel.MainViewModel
@@ -83,15 +84,15 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
     }
 
     private fun openFirstFragment() {
-        openTabFragment(TagFragmentManager.TAG_HOME)
+        openTabFragment(TabFragmentManager.TAG_HOME)
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
         when (tab?.position) {
-            TagFragmentManager.INDEX_HOME -> openTabFragment(TagFragmentManager.TAG_HOME)
-            TagFragmentManager.INDEX_EXPLORE -> openTabFragment(TagFragmentManager.TAG_EXPLORE)
-            TagFragmentManager.INDEX_COUPON -> openTabFragment(TagFragmentManager.TAG_COUPON)
-            TagFragmentManager.INDEX_WALLET -> openTabFragment(TagFragmentManager.TAG_WALLET)
+            TabFragmentManager.INDEX_HOME -> openTabFragment(TabFragmentManager.TAG_HOME)
+            TabFragmentManager.INDEX_EXPLORE -> openTabFragment(TabFragmentManager.TAG_EXPLORE)
+            TabFragmentManager.INDEX_COUPON -> openTabFragment(TabFragmentManager.TAG_COUPON)
+            TabFragmentManager.INDEX_WALLET -> openTabFragment(TabFragmentManager.TAG_WALLET)
         }
     }
 
@@ -180,11 +181,11 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
         openDialogFragment(UiNewsFragment.newInstance(itemIndex))
     }
 
-    private fun onCouponClick(couponItem: ItemCoupon.ContentData?) {
-
+    private fun onCouponClick(couponItem: ItemCoupon.ContentData) {
+        openDialogFragment(UiCouponDetailFragment.newInstance(couponItem))
     }
 
-    private fun onBannerClick(bannerItem: ItemBanner.ContentData?) {
-        bannerItem?.let { openDialogFragment(UiBasicWebFragment.newInstance(it.share_url), Const.BACK_COMMON_DIALOG) }
+    private fun onBannerClick(bannerItem: ItemBanner.ContentData) {
+        openDialogFragment(UiBasicWebFragment.newInstance(bannerItem.share_url), Const.BACK_COMMON_DIALOG)
     }
 }

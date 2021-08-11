@@ -24,7 +24,7 @@
         android:background="?selectableItemBackground"
         app:cardCornerRadius="10dp"
         app:cardBackgroundColor="@color/md_grey_800"
-        android:onClick="@{() -> viewModel.onCouponClick(viewModel.getCouponContentData(index))}">
+        app:singleClick="@{() -> viewModel.onCouponClick(viewModel.getCouponContentData(index))}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -113,6 +113,7 @@
                 android:layout_height="@dimen/font_text_size_m"
                 android:layout_marginEnd="@dimen/padding_size_s"
                 android:gravity="center"
+                style="@style/Widget.AppCompat.Button"
                 android:text="P"
                 android:textSize="11sp"
                 android:background="@drawable/background_round_point"

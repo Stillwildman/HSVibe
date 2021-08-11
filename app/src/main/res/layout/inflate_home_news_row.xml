@@ -22,7 +22,7 @@
         android:clickable="true"
         android:focusable="true"
         android:background="?selectableItemBackground"
-        android:onClick="@{() -> viewModel.onNewsClick(index)}">
+        app:singleClick="@{() -> viewModel.onNewsClick(index)}">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/layout_newsCard"

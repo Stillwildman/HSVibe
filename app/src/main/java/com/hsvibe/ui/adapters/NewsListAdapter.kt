@@ -12,6 +12,7 @@ import com.hsvibe.databinding.InflateNewsDetailBinding
 import com.hsvibe.databinding.InflateNewsRowBinding
 import com.hsvibe.model.DifferItems
 import com.hsvibe.model.items.ItemContent
+import com.hsvibe.utilities.Utility
 
 /**
  * Created by Vincent on 2021/8/5.
@@ -24,6 +25,8 @@ class NewsListAdapter(
         private const val VIEW_TYPE_ROW = 1
         private const val VIEW_TYPE_DETAIL = 2
     }
+
+    private val detailWidth: Int by lazy { (Utility.getScreenWidth() * 0.75).toInt() }
 
     fun changeLayout() {
         layoutManager.apply {
@@ -72,5 +75,9 @@ class NewsListAdapter(
     }
 
     inner class NewsRowViewHolder(val bindingView: InflateNewsRowBinding): RecyclerView.ViewHolder(bindingView.root)
-    inner class NewsDetailViewHolder(val bindingView: InflateNewsDetailBinding): RecyclerView.ViewHolder(bindingView.root)
+    inner class NewsDetailViewHolder(val bindingView: InflateNewsDetailBinding): RecyclerView.ViewHolder(bindingView.root) {
+        init {
+            itemView.layoutParams.width = detailWidth
+        }
+    }
 }

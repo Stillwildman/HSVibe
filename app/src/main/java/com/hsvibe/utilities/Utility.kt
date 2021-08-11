@@ -1,5 +1,9 @@
 package com.hsvibe.utilities
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Process
 import android.util.DisplayMetrics
 import android.widget.Toast
@@ -43,5 +47,37 @@ object Utility {
 
     fun convertSecondToMillisecond(second: Long): Long {
         return second * 1000
+    }
+
+    fun isNetworkEnabled(): Boolean {
+        val connectivityManager = AppController.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+
+            if (capabilities != null) {
+                when {
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
+                        L.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
+                        return true
+                    }
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
+                        L.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
+                        return true
+                    }
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> {
+                        L.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
+                        return true
+                    }
+                }
+            }
+        }
+        else {
+            val activeNetworkInfo = connectivityManager.activeNetworkInfo
+            if (activeNetworkInfo != null && activeNetworkInfo.isConnected) {
+                return true
+            }
+        }
+        return false
     }
 }

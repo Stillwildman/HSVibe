@@ -18,6 +18,8 @@
     <color name="tab_selected_color">@color/md_white_1000</color>
     <color name="tab_unselected_color">#8F8F8F</color>
     <color name="point_background">#EEC273</color>
+    <color name="icon_pressed_color">#8F8F8F</color>
+    <color name="tag_background">#FF9A63</color>
 
     <!-- Transparent Colors -->
     <color name="transparent_full">#00000000</color>

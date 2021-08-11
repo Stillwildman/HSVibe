@@ -7,6 +7,12 @@
     <string name="loading">LOADING…</string>
     <string name="ok">OK</string>
 
+    <!-- Permissions -->
+    <string name="permission_requires_location_title">為何需要位置權限?</string>
+    <string name="permission_requires_location_content">分享您的位置資訊，可獲得周邊餐廳的即時優惠</string>
+    <string name="permission_requires_camera_title">為何需要相機權限?</string>
+    <string name="permission_requires_camera_content">我們需要使用您的攝影機，啟用掃描QRCode的功能</string>
+
     <!-- Security -->
     <string name="ssl_certification_error">SSL certification error!</string>
     <string name="ssl_error_confirm_to_continue">Are you sure you want to continue?</string>
@@ -38,5 +44,8 @@
 
     <!-- Coupon -->
     <string name="stock_is">剩餘 %d 張</string>
+    <string name="expires_at">有效日期 %s</string>
+    <string name="point_has">%d 點</string>
+    <string name="redeem_point">點數兌換</string>
 
 </resources>

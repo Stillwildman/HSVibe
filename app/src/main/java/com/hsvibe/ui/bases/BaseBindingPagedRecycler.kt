@@ -27,7 +27,7 @@ abstract class BaseBindingPagedRecycler<DataType: Any, T : ViewDataBinding>(diff
         return BindingViewHolder(binding)
     }
 
-    private inner class BindingViewHolder(val bindingView: T) : RecyclerView.ViewHolder(bindingView.root)
+    protected open inner class BindingViewHolder(val bindingView: T) : RecyclerView.ViewHolder(bindingView.root)
 
     @Suppress("UNCHECKED_CAST")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

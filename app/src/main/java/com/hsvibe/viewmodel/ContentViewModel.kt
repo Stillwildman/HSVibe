@@ -16,10 +16,14 @@ class ContentViewModel : LoadingStatusViewModel(), BasePagingConfig {
 
     override fun getPerPageSize(): Int = 10
 
+    private var contentFlow: Flow<PagingData<ItemContent.ContentData>>? = null
+
     fun getContentFlow(category: Int): Flow<PagingData<ItemContent.ContentData>> {
-        return Pager(pageConfig) {
-            ContentDataSource(category, this)
-        }.flow.cachedIn(viewModelScope)
+        return contentFlow ?: run {
+            Pager(pageConfig) {
+                ContentDataSource(category, this)
+            }.flow.cachedIn(viewModelScope)
+        }.also { contentFlow = it }
     }
 
 }

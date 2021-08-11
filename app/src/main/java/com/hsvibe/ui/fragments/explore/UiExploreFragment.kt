@@ -4,7 +4,6 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.hsvibe.R
 import com.hsvibe.callbacks.OnContentDataClickCallback
 import com.hsvibe.databinding.FragmentExploreBinding
@@ -36,7 +35,7 @@ class UiExploreFragment : BaseFragment<FragmentExploreBinding>(), OnContentDataC
 
     private fun initRecycler() {
         bindingView.recyclerExplore.apply {
-            layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            layoutManager = LinearLayoutManager(context)
             adapter = ExploreListAdapter(this@UiExploreFragment)
         }
     }

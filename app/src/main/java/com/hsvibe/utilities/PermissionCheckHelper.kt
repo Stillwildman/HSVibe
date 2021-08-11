@@ -60,12 +60,12 @@ object PermissionCheckHelper {
 
         when (requestCode) {
             PERMISSION_REQUEST_CODE_LOCATION -> {
-                titleRes = 0
-                contentRes = 0
+                titleRes = R.string.permission_requires_location_title
+                contentRes = R.string.permission_requires_location_content
             }
             PERMISSION_REQUEST_CODE_CAMERA -> {
-                titleRes = 0
-                contentRes = 0
+                titleRes = R.string.permission_requires_camera_title
+                contentRes = R.string.permission_requires_camera_content
             }
             else -> {
                 titleRes = 0
@@ -74,8 +74,8 @@ object PermissionCheckHelper {
         }
 
         AlertDialog.Builder(activity)
-            .setTitle("Location Permission Needed") // TODO Use the right wording.
-            .setMessage("This app needs the Location permission, please accept to use location functionality")
+            .setTitle(titleRes)
+            .setMessage(contentRes)
             .setPositiveButton(R.string.ok, clickListener)
             .setCancelable(false)
             .create()

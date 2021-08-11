@@ -30,7 +30,7 @@
         android:background="?selectableItemBackground"
         app:cardCornerRadius="10dp"
         app:cardBackgroundColor="@color/md_white_1000"
-        android:onClick="@{() -> callback.onContentDataClick(content, position)}">
+        app:singleClick="@{() -> callback.onContentDataClick(content, position)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -48,18 +48,38 @@
                 app:glideImage="@{content.getThumbnailUrl()}"/>
 
             <TextView
+                android:id="@+id/text_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="@string/hot_news"
+                android:textColor="@color/md_white_1000"
+                android:textSize="@dimen/font_text_size_xs"
+                android:text="@{content.getCategoryName()}"
+                android:paddingStart="@dimen/padding_size_l"
+                android:paddingEnd="@dimen/padding_size_l"
+                android:paddingTop="@dimen/padding_size_s"
+                android:paddingBottom="@dimen/padding_size_s"
+                android:layout_marginStart="@dimen/padding_size_l"
+                android:background="@drawable/background_tag_orange"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_bias="0.1"
+                app:layout_constraintStart_toEndOf="@+id/image_news"/>
+
+            <TextView
                 android:id="@+id/text_newsTitle"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 tools:text="0000000000000000000000"
                 android:textColor="@color/md_grey_700"
                 android:textSize="@dimen/font_text_size_s"
-                android:layout_marginStart="@dimen/padding_size_l"
                 android:layout_marginEnd="@dimen/padding_size_l"
+                android:layout_marginTop="@dimen/padding_size_m"
+                android:layout_marginBottom="@dimen/padding_size_m"
                 android:text="@{content.title}"
-                app:layout_constraintStart_toEndOf="@+id/image_news"
+                app:layout_constraintStart_toStartOf="@+id/text_tag"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_tag"
                 app:layout_constraintBottom_toTopOf="@+id/text_newsDate" />
 
             <TextView
@@ -70,7 +90,7 @@
                 android:textColor="@color/md_grey_500"
                 android:textSize="@dimen/font_text_size_s"
                 android:text="@{content.approval_at}"
-                android:layout_marginBottom="@dimen/padding_size_l"
+                android:layout_marginBottom="@dimen/padding_size_m"
                 app:layout_constraintStart_toStartOf="@+id/text_newsTitle"
                 app:layout_constraintEnd_toEndOf="@+id/text_newsTitle"
                 app:layout_constraintBottom_toBottomOf="parent" />

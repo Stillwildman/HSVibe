@@ -2,12 +2,14 @@ package com.hsvibe.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.hsvibe.model.ApiConst
 import com.hsvibe.model.Navigation
 import com.hsvibe.model.items.ItemBanner
 import com.hsvibe.model.items.ItemContent
 import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.repositories.HomeContentRepo
+import com.hsvibe.utilities.L
+import com.hsvibe.utilities.Utility
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 
 /**
@@ -21,26 +23,36 @@ class HomeViewModel(private val homeContentRepo: HomeContentRepo, private val ma
     val liveCoupons = MutableLiveData<ItemCoupon>()
     val liveBanner = MutableLiveData<ItemBanner>()
 
+    private fun getExceptionHandler(): CoroutineExceptionHandler {
+        return CoroutineExceptionHandler { _, throwable ->
+            L.i("Handle Coroutine Exception!!!")
+            if (Utility.isNetworkEnabled()) {
+                L.e("Network is not working!!!")
+                throwable.printStackTrace()
+            }
+        }
+    }
+
     init {
         homeContentRepo.setLoadingCallback(this)
     }
 
     fun getHomePageNews() {
-        viewModelScope.launch {
-            val news = homeContentRepo.getNews(ApiConst.ORDER_BY_UPDATED, ApiConst.SORTED_BY_DESC, 5, 1)
+        viewModelScope.launch(getExceptionHandler()) {
+            val news = homeContentRepo.getNews()
             news?.let { liveNews.value = it }
         }
     }
 
     fun getHomePageCoupons() {
-        viewModelScope.launch {
-            val coupons = homeContentRepo.getCoupon(ApiConst.ORDER_BY_UPDATED, ApiConst.SORTED_BY_DESC, 5, 1)
+        viewModelScope.launch(getExceptionHandler()) {
+            val coupons = homeContentRepo.getCoupon()
             coupons?.let { liveCoupons.value = it }
         }
     }
 
     fun getHomePageBanner() {
-        viewModelScope.launch {
+        viewModelScope.launch(getExceptionHandler()) {
             val banners = homeContentRepo.getBanner()
             banners?.let { liveBanner.value = it }
         }
@@ -87,10 +99,10 @@ class HomeViewModel(private val homeContentRepo: HomeContentRepo, private val ma
     }
 
     fun onCouponClick(couponItem: ItemCoupon.ContentData?) {
-        mainViewModel.onNavigating(Navigation.ClickingCoupon(couponItem))
+        couponItem?.let { mainViewModel.onNavigating(Navigation.ClickingCoupon(it)) }
     }
 
     fun onBannerClick(bannerItem: ItemBanner.ContentData?) {
-        mainViewModel.onNavigating(Navigation.ClickingBanner(bannerItem))
+        bannerItem?.let { mainViewModel.onNavigating(Navigation.ClickingBanner(it)) }
     }
 }
