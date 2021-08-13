@@ -11,4 +11,6 @@ sealed class Navigation {
     class ClickingNews(val itemIndex: Int): Navigation()
     class ClickingCoupon(val couponItem: ItemCoupon.ContentData): Navigation()
     class ClickingBanner(val bannerItem: ItemBanner.ContentData): Navigation()
+    object ClickingBell: Navigation()
+    object ClickingUserName: Navigation()
 }

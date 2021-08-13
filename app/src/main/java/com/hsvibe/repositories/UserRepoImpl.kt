@@ -1,16 +1,20 @@
 package com.hsvibe.repositories
 
 import com.hsvibe.callbacks.OnLoadingCallback
+import com.hsvibe.database.UserDatabase
 import com.hsvibe.location.MyFusedLocation
 import com.hsvibe.model.UserInfo
 import com.hsvibe.model.UserInfoManager
+import com.hsvibe.model.entities.UserInfoEntity
 import com.hsvibe.model.posts.PostRefreshToken
 import com.hsvibe.model.posts.PostUpdateUserInfo
 import com.hsvibe.network.DataCallbacks
 import com.hsvibe.tasks.TaskController
 import com.hsvibe.utilities.DeviceUtil
 import com.hsvibe.utilities.L
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.withContext
 
 /**
  * Created by Vincent on 2021/7/5.
@@ -50,7 +54,17 @@ class UserRepoImpl : UserRepo {
                 val postBody = getUserInfoUpdateBody(userInfo, lat, lon)
                 DataCallbacks.updateUserInfo(it, postBody, callback)?.also { updatedUserInfo ->
                     L.i("Update UserInfo: ${updatedUserInfo.getMobileNumber()} Device: ${updatedUserInfo.getDeviceModel()}")
-                    UserInfoManager.setUserInfo(userInfo)
+                    UserInfoManager.setUserInfo(updatedUserInfo)
+                }
+            }
+        }
+    }
+
+    override suspend fun updatePayPassword(payPassword: String): UserInfo? {
+        return taskController.joinPreviousOrRun(TaskController.KEY_UPDATE_PAY_PASSWORD) {
+            UserInfoManager.getAuthorization()?.let {
+                DataCallbacks.updateUserInfo(it, PostUpdateUserInfo(pay_password = payPassword), callback)?.also { updatedUserInfo ->
+                    UserInfoManager.setUserInfo(updatedUserInfo)
                 }
             }
         }
@@ -86,6 +100,21 @@ class UserRepoImpl : UserRepo {
     }
 
     override suspend fun writeUserInfoToDB(userInfo: UserInfo) {
-        // TODO
+        withContext(Dispatchers.IO) {
+            val insertedId = UserDatabase.getInstance().getUserInfoDao().insertUserInfo(UserInfoEntity(userInfo))
+            L.i("Write UserInfo Info DB!!! InsertedID: $insertedId")
+        }
+    }
+
+    override suspend fun getUserInfoFromDB(): UserInfo? {
+        return withContext(Dispatchers.IO) {
+            UserDatabase.getInstance().getUserInfoDao().getUserInfo()
+        }
+    }
+
+    override suspend fun clearUserInfoFromDB(): Int {
+        return withContext(Dispatchers.IO) {
+            UserDatabase.getInstance().getUserInfoDao().clearUserInfo()
+        }
     }
 }

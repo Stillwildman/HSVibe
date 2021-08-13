@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="notification_tabs">
+        <item>@string/announcement</item>
+        <item>@string/personal_notification</item>
+    </string-array>
+
+    <string-array name="member_center_options">
+        <item>@string/personal_info</item>
+        <item>@string/point_record</item>
+        <item>@string/my_coupons</item>
+        <item>@string/terms</item>
+        <item>@string/contact_us</item>
+        <item>@string/version_is</item>
+    </string-array>
+
+</resources>

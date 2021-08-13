@@ -33,12 +33,12 @@ class ExploreListAdapter(private val onContentClickCallback: OnContentDataClickC
         }
     }
 
-    override fun onBindingViewHolder(holder: RecyclerView.ViewHolder?, bindingView: InflateExploreBinding, position: Int) {
+    override fun onBindingViewHolder(holder: RecyclerView.ViewHolder, bindingView: InflateExploreBinding, position: Int) {
         bindingView.content = getItem(position)
         bindingView.callback = onContentClickCallback
     }
 
-    override fun onBindingViewHolder(holder: RecyclerView.ViewHolder?, bindingView: InflateExploreBinding, position: Int, payload: Any?) {
+    override fun onBindingViewHolder(holder: RecyclerView.ViewHolder, bindingView: InflateExploreBinding, position: Int, payload: Any?) {
 
     }
 }

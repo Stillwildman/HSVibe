@@ -10,16 +10,15 @@ import com.hsvibe.R
 import com.hsvibe.databinding.ActivityMainBinding
 import com.hsvibe.location.MyFusedLocation
 import com.hsvibe.model.ApiConst
-import com.hsvibe.model.Const
 import com.hsvibe.model.Navigation
 import com.hsvibe.model.UserInfoManager
 import com.hsvibe.model.items.ItemBanner
 import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.repositories.UserRepoImpl
 import com.hsvibe.ui.bases.BaseActivity
-import com.hsvibe.ui.fragments.UiBasicWebFragment
 import com.hsvibe.ui.fragments.coupons.UiCouponDetailFragment
 import com.hsvibe.ui.fragments.news.UiNewsFragment
+import com.hsvibe.ui.fragments.news.UiNotificationFragment
 import com.hsvibe.utilities.L
 import com.hsvibe.viewmodel.MainViewModel
 import com.hsvibe.viewmodel.MainViewModelFactory
@@ -115,17 +114,20 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
 
     override fun onTokenOk() {
         L.i("onTokenOk!!!")
+        setupUserInfoFromDb()
         checkLocationSetting()
 
     }
 
     override fun onTokenExpired() {
         L.i("onTokenExpired!!!")
+        setupUserInfoFromDb()
         mainViewModel.refreshUserToken()
     }
 
     override fun onTokenNull() {
         L.i("onTokenNull!!!")
+        mainViewModel.clearUserInfoFromDB()
         mainViewModel.setUserLoginStatus(false)
     }
 
@@ -137,12 +139,18 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
                     is Navigation.ClickingNews -> onNewsClick(navigation.itemIndex)
                     is Navigation.ClickingCoupon -> onCouponClick(navigation.couponItem)
                     is Navigation.ClickingBanner -> onBannerClick(navigation.bannerItem)
+                    is Navigation.ClickingBell -> openDialogFragment(UiNotificationFragment())
+                    is Navigation.ClickingUserName -> openDialogFragment(UiNotificationFragment())
                 }
             }
             it.liveLoadingStatus.observe(this) { loadingStatus ->
                 handleLoadingStatus(loadingStatus)
             }
         }
+    }
+
+    private fun setupUserInfoFromDb() {
+        mainViewModel.setupUserInfoFromDb()
     }
 
     private fun checkLocationSetting() {
@@ -166,7 +174,7 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
                 // TODO
             }
             ApiConst.API_TYPE_DISCOUNT -> {
-                // TODO
+                // This type doesn't have "more"!
             }
             ApiConst.API_TYPE_FOODS -> {
                 // TODO
@@ -186,6 +194,23 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
     }
 
     private fun onBannerClick(bannerItem: ItemBanner.ContentData) {
-        openDialogFragment(UiBasicWebFragment.newInstance(bannerItem.share_url), Const.BACK_COMMON_DIALOG)
+        openWebDialogFragment(bannerItem.share_url)
+    }
+
+    private fun isAtHomeTab(): Boolean {
+        return bindingView.mainTabLayout.selectedTabPosition == 0
+    }
+
+    private fun moveTabToHome() {
+        bindingView.mainTabLayout.getTabAt(0)?.select()
+    }
+
+    override fun onBackPressed() {
+        if (isAtHomeTab()) {
+            super.onBackPressed()
+        }
+        else {
+            moveTabToHome()
+        }
     }
 }

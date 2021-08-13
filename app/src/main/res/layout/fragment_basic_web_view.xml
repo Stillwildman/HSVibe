@@ -24,8 +24,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/button_back"
-            android:layout_width="@dimen/icon_common_size"
-            android:layout_height="@dimen/icon_common_size"
+            android:layout_width="@dimen/font_text_size_xxl"
+            android:layout_height="@dimen/font_text_size_xxl"
             android:layout_marginStart="@dimen/padding_size_m"
             android:clickable="true"
             android:focusable="true"
@@ -37,8 +37,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/button_refresh"
-            android:layout_width="@dimen/icon_common_size"
-            android:layout_height="@dimen/icon_common_size"
+            android:layout_width="@dimen/font_text_size_xxl"
+            android:layout_height="@dimen/font_text_size_xxl"
             android:layout_marginEnd="@dimen/padding_size_m"
             android:clickable="true"
             android:focusable="true"

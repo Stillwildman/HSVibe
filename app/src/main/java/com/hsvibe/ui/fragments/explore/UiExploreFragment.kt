@@ -11,7 +11,6 @@ import com.hsvibe.model.ApiConst
 import com.hsvibe.model.items.ItemContent
 import com.hsvibe.ui.adapters.ExploreListAdapter
 import com.hsvibe.ui.bases.BaseFragment
-import com.hsvibe.ui.fragments.UiBasicWebFragment
 import com.hsvibe.viewmodel.ContentViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -59,7 +58,7 @@ class UiExploreFragment : BaseFragment<FragmentExploreBinding>(), OnContentDataC
     }
 
     override fun onContentDataClick(contentItem: ItemContent.ContentData, position: Int) {
-        openDialogFragment(UiBasicWebFragment.newInstance(contentItem.share_url))
+        openWebDialogFragment(contentItem.share_url)
     }
 
     override fun onBackButtonPressed(): Boolean = false

@@ -25,5 +25,4 @@ class ContentViewModel : LoadingStatusViewModel(), BasePagingConfig {
             }.flow.cachedIn(viewModelScope)
         }.also { contentFlow = it }
     }
-
 }

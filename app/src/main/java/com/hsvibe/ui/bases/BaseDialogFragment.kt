@@ -40,7 +40,7 @@ abstract class BaseDialogFragment<BindingView : ViewDataBinding> : DialogFragmen
 
     protected lateinit var bindingView: BindingView
 
-    private lateinit var fragmentCallback: FragmentContract.FragmentCallback
+    private var fragmentCallback: FragmentContract.FragmentCallback? = null
 
     protected var startTime: Long = 0
 
@@ -134,19 +134,23 @@ abstract class BaseDialogFragment<BindingView : ViewDataBinding> : DialogFragmen
     }
 
     protected fun popBack(backName: String? = null) {
-        fragmentCallback.onFragmentPopBack(backName)
+        fragmentCallback?.onFragmentPopBack(backName)
     }
 
     protected fun showLoadingDialog() {
-        fragmentCallback.showLoadingDialogFromFragment()
+        fragmentCallback?.showLoadingDialogFromFragment()
     }
 
     protected fun hideLoadingDialog() {
-        fragmentCallback.hideLoadingDialogFromFragment()
+        fragmentCallback?.hideLoadingDialogFromFragment()
     }
 
     protected fun openDialogFragment(instance: DialogFragment, backName: String? = null) {
-        fragmentCallback.onFragmentOpenDialogFragment(instance, backName)
+        fragmentCallback?.onFragmentOpenDialogFragment(instance, backName)
+    }
+
+    protected fun openWebDialogFragment(url: String) {
+        fragmentCallback?.onFragmentOpenWebDialogFragment(url)
     }
 
     protected fun getInitializeDuration(): Long {

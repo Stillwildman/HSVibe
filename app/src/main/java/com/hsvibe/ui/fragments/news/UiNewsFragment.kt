@@ -13,7 +13,6 @@ import com.hsvibe.model.Const
 import com.hsvibe.model.items.ItemContent
 import com.hsvibe.ui.adapters.NewsListAdapter
 import com.hsvibe.ui.bases.BaseActionBarFragment
-import com.hsvibe.ui.fragments.UiBasicWebFragment
 import com.hsvibe.viewmodel.ContentViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -100,7 +99,7 @@ class UiNewsFragment private constructor() : BaseActionBarFragment<InflateNewsLi
 
     override fun onContentDataClick(contentItem: ItemContent.ContentData, position: Int) {
         if (position == Const.NO_POSITION) {
-            openDialogFragment(UiBasicWebFragment.newInstance(contentItem.share_url))
+            openWebDialogFragment(contentItem.share_url)
         }
         else {
             getNewsListAdapter().changeLayout()

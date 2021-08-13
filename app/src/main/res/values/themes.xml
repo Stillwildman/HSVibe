@@ -128,13 +128,25 @@
     </style>
     <!-- End of Toolbar Style -->
 
-    <style name="MyTabLayoutStyle" parent="Base.Widget.Design.TabLayout">
+    <style name="HomeTabLayoutStyle" parent="Base.Widget.Design.TabLayout">
         <item name="tabBackground">@drawable/background_tab_gradient</item>
         <item name="tabIndicatorColor">@color/colorAccent</item>
         <item name="tabIndicatorHeight">0dp</item>
         <item name="tabSelectedTextColor">@color/tab_selected_color</item>
         <item name="tabTextColor">@color/tab_unselected_color</item>
         <item name="android:textSize">@dimen/font_text_size_s</item>
+        <item name="tabPaddingStart">0dp</item>
+        <item name="tabPaddingEnd">0dp</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabMode">fixed</item>
+    </style>
+
+    <style name="CommonTabLayoutStyle" parent="Base.Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@color/colorAccent</item>
+        <item name="tabIndicatorHeight">@dimen/padding_size_s</item>
+        <item name="tabSelectedTextColor">@color/tab_selected_color</item>
+        <item name="tabTextColor">@color/tab_unselected_color</item>
+        <item name="android:textSize">@dimen/font_text_size_m</item>
         <item name="tabPaddingStart">0dp</item>
         <item name="tabPaddingEnd">0dp</item>
         <item name="tabGravity">fill</item>

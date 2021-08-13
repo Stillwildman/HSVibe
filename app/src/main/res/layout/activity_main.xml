@@ -19,7 +19,7 @@
             android:id="@+id/mainTabLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/actionbar_height_higher"
-            style="@style/MyTabLayoutStyle"
+            style="@style/HomeTabLayoutStyle"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <ProgressBar

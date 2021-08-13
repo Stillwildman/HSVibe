@@ -13,9 +13,15 @@ class FragmentContract {
         fun showLoadingDialogFromFragment()
         fun hideLoadingDialogFromFragment()
         fun onFragmentOpenDialogFragment(instance: DialogFragment, backName: String?)
+        fun onFragmentOpenWebDialogFragment(url: String)
     }
 
     interface ActivityCallback {
+        /**
+         * @return Return true to consume the Back pressed event.
+         *
+         * false to call Fragment's popBack method.
+         */
         fun onBackButtonPressed(): Boolean
     }
 

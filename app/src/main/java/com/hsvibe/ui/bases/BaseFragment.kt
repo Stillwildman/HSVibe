@@ -15,7 +15,6 @@ import com.hsvibe.callbacks.FragmentContract
 import com.hsvibe.model.LoadingStatus
 import com.hsvibe.utilities.L
 import com.hsvibe.utilities.Utility
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 
 /**
@@ -33,8 +32,6 @@ abstract class BaseFragment<BindingView : ViewDataBinding> : Fragment(R.layout.f
     protected lateinit var bindingView: BindingView
 
     private var fragmentCallback: FragmentContract.FragmentCallback? = null
-
-    private lateinit var lifecycleJob: Job
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -63,7 +60,7 @@ abstract class BaseFragment<BindingView : ViewDataBinding> : Fragment(R.layout.f
         super.onViewCreated(view, savedInstanceState)
         L.d(TAG, "onViewCreated!!!")
 
-        lifecycleJob = viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             val bindingViewDeferred = async {
                 DataBindingUtil.inflate(LayoutInflater.from(view.context), getLayoutId(), view as ViewGroup?, false) as BindingView
             }
@@ -79,15 +76,19 @@ abstract class BaseFragment<BindingView : ViewDataBinding> : Fragment(R.layout.f
         fragmentCallback?.onFragmentOpenDialogFragment(instance, backName)
     }
 
-    protected fun showLoading() {
+    protected fun openWebDialogFragment(url: String) {
+        fragmentCallback?.onFragmentOpenWebDialogFragment(url)
+    }
+
+    protected open fun showLoading() {
         getLoadingView()?.visibility = View.VISIBLE
     }
 
-    protected fun hideLoading() {
+    protected open fun hideLoading() {
         getLoadingView()?.visibility = View.GONE
     }
 
-    protected fun handleLoadingStatus(loadingStatus: LoadingStatus) {
+    protected open fun handleLoadingStatus(loadingStatus: LoadingStatus) {
         when (loadingStatus) {
             is LoadingStatus.OnLoadingStart -> showLoading()
             is LoadingStatus.OnLoadingEnd -> hideLoading()
@@ -117,7 +118,6 @@ abstract class BaseFragment<BindingView : ViewDataBinding> : Fragment(R.layout.f
 
     override fun onDestroyView() {
         super.onDestroyView()
-        lifecycleJob.cancel()
         L.d(TAG, "onDestroyView!!!")
     }
 

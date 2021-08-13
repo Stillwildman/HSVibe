@@ -18,9 +18,9 @@ abstract class BaseBindingPagedRecycler<DataType: Any, T : ViewDataBinding>(diff
 
     protected abstract fun getLayoutId(): Int
 
-    protected abstract fun onBindingViewHolder(holder: RecyclerView.ViewHolder?, bindingView: T, position: Int)
+    protected abstract fun onBindingViewHolder(holder: RecyclerView.ViewHolder, bindingView: T, position: Int)
 
-    protected abstract fun onBindingViewHolder(holder: RecyclerView.ViewHolder?, bindingView: T, position: Int, payload: Any?)
+    protected abstract fun onBindingViewHolder(holder: RecyclerView.ViewHolder, bindingView: T, position: Int, payload: Any?)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding: T = DataBindingUtil.inflate(LayoutInflater.from(parent.context), getLayoutId(), parent, false)

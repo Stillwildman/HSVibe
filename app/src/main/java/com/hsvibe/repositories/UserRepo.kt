@@ -16,8 +16,14 @@ interface UserRepo {
 
     suspend fun updateUserInfo(userInfo: UserInfo, lat: String, lon: String): UserInfo?
 
+    suspend fun updatePayPassword(payPassword: String): UserInfo?
+
     suspend fun getUserInfoAndUpdate(): UserInfo?
 
     suspend fun writeUserInfoToDB(userInfo: UserInfo)
+
+    suspend fun getUserInfoFromDB(): UserInfo?
+
+    suspend fun clearUserInfoFromDB(): Int
 
 }

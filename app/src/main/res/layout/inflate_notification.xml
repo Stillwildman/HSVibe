@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="itemClickCallback"
+            type="com.hsvibe.callbacks.OnAnyItemClickCallback" />
+
+        <variable
+            name="content"
+            type="com.hsvibe.model.items.ItemContent.ContentData" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_size_xl"
+        android:layout_marginEnd="@dimen/padding_size_xl"
+        android:layout_marginTop="@dimen/padding_size_m"
+        android:layout_marginBottom="@dimen/padding_size_m"
+        android:background="?selectableItemBackground"
+        app:singleClick="@{() -> itemClickCallback.onItemClick(content)}"
+        app:cardCornerRadius="10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="@dimen/padding_size_l"
+            android:paddingEnd="@dimen/padding_size_l"
+            android:paddingTop="@dimen/padding_size_l"
+            android:paddingBottom="@dimen/padding_size_xl"
+            android:background="@drawable/background_main_gradient" >
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_unreadDot"
+                android:layout_width="@dimen/padding_size_m"
+                android:layout_height="@dimen/padding_size_m"
+                app:srcCompat="@drawable/ic_unread_dot"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/text_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_text_size_s"
+                android:textColor="@color/highlight_text_color"
+                android:layout_marginTop="@dimen/padding_size_s"
+                android:text="@{content.approval_at}"
+                tools:text="2021/08/08"
+                app:layout_constraintTop_toBottomOf="@+id/image_unreadDot"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_goneMarginTop="0dp" />
+
+            <TextView
+                android:id="@+id/text_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_text_size_m"
+                android:textColor="@color/md_white_1000"
+                android:text="@{content.title}"
+                android:layout_marginTop="@dimen/padding_size_s"
+                tools:text="00000000000000000"
+                app:layout_constraintTop_toBottomOf="@+id/text_date"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/text_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_text_size_s"
+                android:textColor="@color/md_grey_500"
+                android:textStyle="bold"
+                android:text="@{content.content}"
+                android:layout_marginTop="@dimen/padding_size_l"
+                android:autoLink="all"
+                tools:text="0000000000000000000000000000000000000000000000000000000000000000000000000000"
+                app:layout_constraintTop_toBottomOf="@+id/text_title"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

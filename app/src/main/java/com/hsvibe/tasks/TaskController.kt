@@ -16,10 +16,11 @@ class TaskController<T> {
 
         const val KEY_GET_USER_INFO = 0
         const val KEY_UPDATE_USER_INFO = 1
-        const val KEY_GET_AND_UPDATE_USER_INFO = 2
-        const val KEY_SWITCH_TAB_FRAGMENT = 3
-        const val KEY_OPEN_FRAGMENT = 4
-        const val KEY_OPEN_DIALOG_FRAGMENT = 5
+        const val KEY_UPDATE_PAY_PASSWORD = 2
+        const val KEY_GET_AND_UPDATE_USER_INFO = 3
+        const val KEY_SWITCH_TAB_FRAGMENT = 10
+        const val KEY_OPEN_FRAGMENT = 11
+        const val KEY_OPEN_DIALOG_FRAGMENT = 12
     }
 
     private val activeTasks: ArrayMap<Int, Deferred<T>?> by lazy { ArrayMap() }

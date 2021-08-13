@@ -11,6 +11,7 @@ data class ItemUserInfo(
     val userData: List<UserInfo>
 ) : UserInfo {
     data class UserInfo(
+        val uuid: String,
         val first_name: String,
         val last_name: String,
         val mobile_number: String,
@@ -34,6 +35,8 @@ data class ItemUserInfo(
         val name: String,
         val zip_code: String
     )
+
+    override fun getUuid(): String = userData[0].uuid
 
     override fun getFirstName(): String = userData[0].first_name
 
@@ -64,4 +67,6 @@ data class ItemUserInfo(
     override fun getRegionZip(): String? {
         return userData[0].regions.regionData.takeIf { it.isNotEmpty() }?.let { it[0].zip_code }
     }
+
+    override fun getPayPassword(): String? = null
 }

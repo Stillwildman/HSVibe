@@ -6,14 +6,14 @@ import android.webkit.WebView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import com.hsvibe.R
-import com.hsvibe.databinding.FragmentBannerWebViewBinding
+import com.hsvibe.databinding.FragmentBasicWebViewBinding
 import com.hsvibe.model.Const
 import com.hsvibe.ui.bases.BaseWebFragment
 
 /**
  * Created by Vincent on 2021/8/2.
  */
-class UiBasicWebFragment private constructor() : BaseWebFragment<FragmentBannerWebViewBinding>() {
+class UiBasicWebFragment private constructor() : BaseWebFragment<FragmentBasicWebViewBinding>() {
 
     companion object {
         fun newInstance(webUrl: String): UiBasicWebFragment {
@@ -23,7 +23,7 @@ class UiBasicWebFragment private constructor() : BaseWebFragment<FragmentBannerW
         }
     }
 
-    override fun getLayoutId(): Int = R.layout.fragment_banner_web_view
+    override fun getLayoutId(): Int = R.layout.fragment_basic_web_view
 
     override fun getAnimType(): AnimType = AnimType.SlideUp
 

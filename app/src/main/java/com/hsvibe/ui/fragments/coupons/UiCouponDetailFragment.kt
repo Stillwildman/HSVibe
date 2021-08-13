@@ -2,7 +2,7 @@ package com.hsvibe.ui.fragments.coupons
 
 import android.os.Bundle
 import com.hsvibe.R
-import com.hsvibe.callbacks.OnCouponRedeemClickCallback
+import com.hsvibe.callbacks.OnAnyItemClickCallback
 import com.hsvibe.databinding.FragmentCouponDetailBinding
 import com.hsvibe.model.Const
 import com.hsvibe.model.items.ItemCoupon
@@ -11,7 +11,7 @@ import com.hsvibe.ui.bases.BaseActionBarFragment
 /**
  * Created by Vincent on 2021/8/11.
  */
-class UiCouponDetailFragment private constructor() : BaseActionBarFragment<FragmentCouponDetailBinding>(), OnCouponRedeemClickCallback {
+class UiCouponDetailFragment private constructor() : BaseActionBarFragment<FragmentCouponDetailBinding>(), OnAnyItemClickCallback<ItemCoupon.ContentData> {
 
     companion object {
         fun newInstance(couponItem: ItemCoupon.ContentData): UiCouponDetailFragment {
@@ -39,7 +39,7 @@ class UiCouponDetailFragment private constructor() : BaseActionBarFragment<Fragm
         couponItem?.let {
             setTitle(it.title)
             binding.coupon = it
-            binding.redeemClickCallback = this
+            binding.itemClickCallback = this
         }
     }
 
@@ -47,7 +47,7 @@ class UiCouponDetailFragment private constructor() : BaseActionBarFragment<Fragm
         // TODO Share coupon info
     }
 
-    override fun onRedeemClick(couponItem: ItemCoupon.ContentData) {
-        // TODO Redeem API?
+    override fun onItemClick(item: ItemCoupon.ContentData) {
+        // TODO Redeem the coupon!
     }
 }

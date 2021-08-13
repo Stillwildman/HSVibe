@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingStart="@dimen/padding_size_xxl"
-        android:paddingEnd="@dimen/padding_size_l"
+        android:paddingEnd="@dimen/padding_size_xl"
         android:paddingTop="@dimen/padding_size_l"
         android:paddingBottom="@dimen/padding_size_l"
         android:layout_marginTop="@dimen/padding_size_m"

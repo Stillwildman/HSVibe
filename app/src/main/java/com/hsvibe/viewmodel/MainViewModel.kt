@@ -46,8 +46,27 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
         liveNavigation.value = navigation
     }
 
+    fun onBellClick() {
+        liveNavigation.value = Navigation.ClickingBell
+    }
+
+    fun onUserNameClick() {
+        liveNavigation.value = Navigation.ClickingUserName
+    }
+
     fun setUserLoginStatus(isLoggedIn: Boolean) {
         liveUserInfoVisibility.value = if (isLoggedIn) View.VISIBLE  else View.INVISIBLE
+    }
+
+    fun setupUserInfoFromDb() {
+        viewModelScope.launch {
+            userRepo.getUserInfoFromDB()?.let {
+                L.i("Setting up UserInfo from DB!!!")
+                liveUserInfo.value = it
+            } ?: run {
+                L.i("UserInfo was null in DB!!!")
+            }
+        }
     }
 
     fun runUserInfoUpdating() {
@@ -77,7 +96,11 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
         }
     }
 
-    private fun writeUserInfoAndCheck(userInfo: UserInfo) {
-
+    fun clearUserInfoFromDB() {
+        viewModelScope.launch {
+            userRepo.clearUserInfoFromDB().also {
+                if (it > 0) L.i("UserInfo deleted!!!")
+            }
+        }
     }
 }

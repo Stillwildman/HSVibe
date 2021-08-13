@@ -9,6 +9,7 @@ import com.hsvibe.callbacks.FragmentContract
 import com.hsvibe.model.Const
 import com.hsvibe.tasks.TaskController
 import com.hsvibe.ui.TabFragmentManager
+import com.hsvibe.ui.fragments.UiBasicWebFragment
 import com.hsvibe.ui.fragments.login.UiLoadingDialogFragment
 import com.hsvibe.utilities.L
 import kotlinx.coroutines.*
@@ -39,16 +40,16 @@ abstract class BaseFragmentActivity : BasePermissionActivity(),
 
     private var activityCallback: FragmentContract.ActivityCallback? = null
 
-    private var backStackLastCount = 0
+    private var lastBackStackCount = 0
 
     override fun onBackStackChanged() {
         val backStackCount = fm.backStackEntryCount
         L.i("onBackStackChanged!!! Count: $backStackCount")
 
-        if (backStackCount < backStackLastCount) {
+        if (backStackCount < lastBackStackCount) {
             resumeFragment()
         }
-        backStackLastCount = backStackCount
+        lastBackStackCount = backStackCount
     }
 
     private fun isFragmentNotEmpty(): Boolean = fm.backStackEntryCount > 0
@@ -124,6 +125,10 @@ abstract class BaseFragmentActivity : BasePermissionActivity(),
         }
     }
 
+    protected fun openWebDialogFragment(url: String) {
+        url.takeIf { it.isNotEmpty() }?.let { openDialogFragment(UiBasicWebFragment.newInstance(it), Const.BACK_WEB_VIEW_DIALOG) }
+    }
+
     protected fun dismissDialogFragment() {
         fm.findFragmentByTag(Const.TAG_DIALOG_FRAGMENT)?.let {
             (it as DialogFragment).dismiss()
@@ -162,6 +167,10 @@ abstract class BaseFragmentActivity : BasePermissionActivity(),
 
     override fun onFragmentOpenDialogFragment(instance: DialogFragment, backName: String?) {
         openDialogFragment(instance, backName)
+    }
+
+    override fun onFragmentOpenWebDialogFragment(url: String) {
+        openWebDialogFragment(url)
     }
 
     override fun onBackPressed() {

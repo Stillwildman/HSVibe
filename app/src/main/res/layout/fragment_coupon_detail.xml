@@ -3,8 +3,8 @@
 
     <data>
         <variable
-            name="redeemClickCallback"
-            type="com.hsvibe.callbacks.OnCouponRedeemClickCallback" />
+            name="itemClickCallback"
+            type="com.hsvibe.callbacks.OnAnyItemClickCallback" />
 
         <variable
             name="coupon"
@@ -194,7 +194,7 @@
             android:textColor="@color/md_grey_900"
             android:textSize="@dimen/font_text_size_m"
             android:background="@drawable/background_main_theme_button"
-            app:singleClick="@{() -> redeemClickCallback.onRedeemClick(coupon)}"/>
+            app:singleClick="@{() -> itemClickCallback.onItemClick(coupon)}"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

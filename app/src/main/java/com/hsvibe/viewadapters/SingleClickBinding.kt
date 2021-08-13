@@ -17,7 +17,6 @@ object SingleClickBinding {
                 onClick()
             }
         })
-
     }
 
 }

@@ -5,6 +5,7 @@ package com.hsvibe.model
  */
 interface UserInfo {
 
+    fun getUuid(): String
     fun getFirstName(): String
     fun getLastName(): String
     fun getName(): String = "${getFirstName()} ${getLastName()}"
@@ -19,9 +20,11 @@ interface UserInfo {
     fun getUpdatedTime(): String
     fun getRegionName(): String?
     fun getRegionZip(): String?
+    fun getPayPassword(): String?
 
     fun getLogInfo(): String {
-        return "FirstName: ${getFirstName()}\n" +
+        return "UUID: ${getUuid()}\n" +
+                "FirstName: ${getFirstName()}\n" +
                 "LastName: ${getLastName()}\n" +
                 "MobileNumber: ${getMobileNumber()}\n" +
                 "Gender: ${getGender()}\n" +
@@ -33,6 +36,8 @@ interface UserInfo {
                 "CreatedTime: ${getCreatedTime()}\n" +
                 "UpdatedTime: ${getUpdatedTime()}\n" +
                 "RegionName: ${getRegionName()}\n" +
-                "RegionZip: ${getRegionZip()}"
+                "RegionZip: ${getRegionZip()}\n" +
+                "PayPassword: ${getPayPassword()}"
+
     }
 }

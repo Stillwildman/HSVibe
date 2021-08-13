@@ -11,6 +11,7 @@ object Const {
     const val TAG_LOADING_DIALOG_FRAGMENT = "LoadingDialogFragment"
 
     const val BACK_COMMON_DIALOG = "CommonDialog"
+    const val BACK_WEB_VIEW_DIALOG = "WebViewDialog"
     const val BACK_LOGIN_DIALOG = "LoginDialog"
 
     const val EMPTY_STRING = ""
@@ -18,6 +19,7 @@ object Const {
     const val BUNDLE_WEB_URL = "WebUrl"
     const val BUNDLE_SPECIFIC_POSITION = "SpecificPosition"
     const val BUNDLE_COUPON_DATA = "CouponData"
+    const val BUNDLE_CATEGORY = "Category"
 
     const val NO_POSITION = -1
 }
