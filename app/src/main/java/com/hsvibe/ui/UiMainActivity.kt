@@ -193,7 +193,7 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
                 openDialogFragment(UiNewsFragment.newInstance())
             }
             ApiConst.API_TYPE_COUPON -> {
-                // TODO
+                bindingView.mainTabLayout.getTabAt(TabFragmentManager.INDEX_COUPON)?.select()
             }
             ApiConst.API_TYPE_DISCOUNT -> {
                 // This type doesn't have "more"!
@@ -272,11 +272,11 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
     }
 
     private fun isAtHomeTab(): Boolean {
-        return bindingView.mainTabLayout.selectedTabPosition == 0
+        return bindingView.mainTabLayout.selectedTabPosition == TabFragmentManager.INDEX_HOME
     }
 
     private fun moveTabToHome() {
-        bindingView.mainTabLayout.getTabAt(0)?.select()
+        bindingView.mainTabLayout.getTabAt(TabFragmentManager.INDEX_HOME)?.select()
     }
 
     override fun onBackPressed() {

@@ -12,7 +12,6 @@ import com.hsvibe.model.entities.RegionCityEntity
 import com.hsvibe.model.entities.RegionPostalEntity
 import com.hsvibe.model.items.ItemDistricts
 import com.hsvibe.network.DataCallbacks
-import com.hsvibe.utilities.L
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -29,17 +28,12 @@ class ProfileRepo(val userInfo: UserInfo?) {
 
     suspend fun getDistricts(): List<DistrictsEntity>? {
         return withContext(Dispatchers.IO) {
-            UserDatabase.getInstance().getDistrictsDao().getDistricts()?.takeIf {
-                it.isNotEmpty()
-            }?.also {
-                L.i("Has Districts in DB!!!")
-            } ?: createDistrictsData()
+            UserDatabase.getInstance().getDistrictsDao().getDistricts()?.takeIf { it.isNotEmpty() } ?: createDistrictsData()
         }
     }
 
     private suspend fun createDistrictsData(): List<DistrictsEntity>? {
         return withContext(Dispatchers.Default) {
-            L.i("createDistrictsData!!!")
             val districtsItem = getDistrictsDataFromServer()
 
             districtsItem?.let {

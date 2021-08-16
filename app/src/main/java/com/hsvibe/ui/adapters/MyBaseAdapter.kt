@@ -42,7 +42,7 @@ class MyBaseAdapter(private val pairList: MutableList<Pair<String, String?>>, pr
         val view: View
 
         if (convertView == null) {
-            view = LayoutInflater.from(parent.context).inflate(R.layout.inflate_simple_spinner_text_align_center, parent, false)
+            view = LayoutInflater.from(parent.context).inflate(R.layout.inflate_spinner_text_align_center, parent, false)
             holder = ViewHolder(view.findViewById(R.id.text_spinnerText))
             view.tag = holder
         }

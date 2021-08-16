@@ -51,7 +51,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:background="?selectableItemBackground"
-                    android:onClick="@{() -> mainViewModel.onUserNameClick()}"
+                    app:singleClick="@{() -> mainViewModel.onUserNameClick()}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Hi, Vincent" />

@@ -11,8 +11,8 @@ object SingleClickBinding {
 
     @JvmStatic
     @BindingAdapter("singleClick")
-    fun onSingleClick(view: View, onClick: () -> Unit) {
-        view.setOnSingleClickListener { onClick() }
+    fun onSingleClick(view: View, clickListener: View.OnClickListener?) {
+        view.setOnSingleClickListener { clickListener?.onClick(it) }
     }
 
 }

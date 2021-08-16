@@ -1,5 +1,6 @@
 package com.hsvibe.network
 
+import com.google.gson.GsonBuilder
 import com.hsvibe.utilities.L
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -27,8 +28,13 @@ object RetrofitAgent {
     }
 
     private fun newRetrofit(baseUrl: String): Retrofit {
+        val gson = GsonBuilder()
+            .registerTypeAdapter(Int::class.java, IntTypeAdapter())
+            .registerTypeAdapter(Integer::class.java, IntTypeAdapter())
+            .create()
+
         return Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .baseUrl(baseUrl)
             .client(getOkHttpClient())

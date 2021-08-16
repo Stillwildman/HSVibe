@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/text_spinnerText"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/padding_size_s"
+    android:paddingEnd="@dimen/padding_size_s"
+    android:paddingTop="@dimen/padding_size_l"
+    android:paddingBottom="@dimen/padding_size_l"
+    android:textSize="@dimen/font_text_size_l"
+    android:textColor="@color/md_white_1000"
+    tools:text="0000000000000000"
+    android:gravity="end"
+    android:textStyle="bold"/>

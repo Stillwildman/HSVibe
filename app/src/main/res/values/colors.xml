@@ -23,6 +23,8 @@
     <color name="highlight_text_color">#FFE7BD</color>
     <color name="unread_dot">#FF8E8E</color>
     <color name="money_color">#FCD389</color>
+    <color name="coupon_background_color">#F8F8F8</color>
+    <color name="coupon_stock_color">#A49161</color>
 
     <!-- Transparent Colors -->
     <color name="transparent_full">#00000000</color>

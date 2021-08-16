@@ -21,11 +21,14 @@ object ApiConst {
     const val SORTED_BY_ASC = "asc"
     const val SORTED_BY_DESC = "desc"
 
-    // Category Params
+    // Content Category Params
     const val CATEGORY_ANNOUNCEMENT = 4
     const val CATEGORY_NEWS = 5
     const val CATEGORY_PERSONAL_NOTIFICATION = 6
     const val CATEGORY_EXPLORE = 7
+
+    // Coupon Category Params
+    const val CATEGORY_ALL = 0
 
     const val DEFAULT_LIMIT = 10 // Server default is 15, but I prefer 10!
 
