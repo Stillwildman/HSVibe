@@ -43,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/padding_size_xxl"
-                    android:layout_marginTop="@dimen/normal_actionbar_height_higher"
+                    android:layout_marginTop="@dimen/actionbar_height_more_higher"
                     android:fontFamily="serif"
                     android:textSize="@dimen/font_text_size_m"
                     android:textStyle="bold"
@@ -66,7 +66,6 @@
                     app:layout_constraintStart_toEndOf="@+id/text_hiThere"
                     app:layout_constraintTop_toTopOf="@+id/text_hiThere"
                     app:layout_constraintBottom_toBottomOf="@+id/text_hiThere" />
-
 
                 <TextView
                     android:id="@+id/point"
@@ -98,9 +97,10 @@
                     android:id="@+id/text_pointNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/padding_size_s"
-                    tools:text="0"
+                    android:layout_marginTop="@dimen/padding_size_m"
                     android:textSize="@dimen/font_text_size_m"
+                    android:text="@{String.valueOf(mainViewModel.liveCurrentBalance.balance)}"
+                    tools:text="0"
                     android:visibility="@{mainViewModel.liveUserInfoVisibility ?? View.INVISIBLE}"
                     app:layout_constraintStart_toStartOf="@+id/text_hiThere"
                     app:layout_constraintTop_toBottomOf="@+id/point"/>
@@ -121,7 +121,7 @@
                     android:id="@+id/text_referNo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/padding_size_s"
+                    android:layout_marginTop="@dimen/padding_size_m"
                     tools:text="@string/refer_no_is"
                     android:textSize="@dimen/font_text_size_xs"
                     android:text="@{@string/refer_no_is(mainViewModel.liveUserInfo.getReferNo)}"
@@ -146,7 +146,6 @@
                     android:layout_marginEnd="@dimen/padding_size_xxl"
                     android:clickable="true"
                     android:focusable="true"
-                    android:background="?selectableItemBackground"
                     app:singleClick="@{() -> mainViewModel.onBellClick()}"
                     app:srcCompat="@drawable/selector_notification"
                     app:layout_constraintTop_toTopOf="@+id/text_hiThere"

@@ -38,7 +38,7 @@ object MyFusedLocation {
         }
     }
 
-    fun checkLocationSetting(activity: Activity, listener: OnSuccessListener<LocationSettingsResponse>) {
+    fun checkLocationSetting(activity: Activity, listener: OnSuccessListener<LocationSettingsResponse>, onFailed: () -> Unit) {
         val builder = LocationSettingsRequest.Builder()
 
         builder.addLocationRequest(getLocationRequest())
@@ -58,6 +58,7 @@ object MyFusedLocation {
                 } catch (sendEx: SendIntentException) {
                     // Ignore the error.
                 }
+                onFailed()
             }
         }
     }

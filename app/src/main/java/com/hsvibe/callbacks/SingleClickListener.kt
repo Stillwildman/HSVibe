@@ -1,6 +1,7 @@
 package com.hsvibe.callbacks
 
 import android.view.View
+import com.hsvibe.utilities.L
 
 /**
  * Created by Vincent on 2021/8/12.
@@ -19,7 +20,11 @@ abstract class SingleClickListener : View.OnClickListener {
         val now = System.currentTimeMillis()
 
         if (lastClickTime == 0L || now - lastClickTime > MIN_CLICK_INTERVAL) {
+            L.i("onSingleClick!!!")
             onSingleClick(v)
+        }
+        else {
+            L.i("Click still not available!!!")
         }
 
         lastClickTime = now

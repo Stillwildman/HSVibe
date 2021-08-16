@@ -22,6 +22,7 @@
     <color name="tag_background">#FF9A63</color>
     <color name="highlight_text_color">#FFE7BD</color>
     <color name="unread_dot">#FF8E8E</color>
+    <color name="money_color">#FCD389</color>
 
     <!-- Transparent Colors -->
     <color name="transparent_full">#00000000</color>

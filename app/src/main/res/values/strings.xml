@@ -2,10 +2,12 @@
     <string name="app_name">H\'S VIBE</string>
 
     <!-- Common -->
-    <string name="confirm">確認</string>
+    <string name="confirm">確定</string>
     <string name="confirm_to_exit">Tap \'Back\' again to exit the app.</string>
     <string name="loading">LOADING…</string>
     <string name="ok">OK</string>
+    <string name="done">完成</string>
+    <string name="cancel">取消</string>
 
     <!-- Permissions -->
     <string name="permission_requires_location_title">為何需要位置權限?</string>
@@ -18,6 +20,16 @@
     <string name="ssl_error_confirm_to_continue">Are you sure you want to continue?</string>
     <string name="go_on_anyway">Go On Anyway!</string>
     <string name="cancel_eng">Cancel</string>
+
+    <!-- Dialog -->
+    <string name="hint_complete_info_title">會員資料尚未填寫完整</string>
+    <string name="hint_complete_info_content">填寫會員資料以獲得完整服務</string>
+    <string name="require_login_title">尚未登入</string>
+    <string name="require_login_content">使用此功能需先登入</string>
+    <string name="require_complete_info_title">尚未提供會員資料</string>
+    <string name="require_complete_info_content">功能需提供完整會員資料</string>
+    <string name="input_member_info">填入資料</string>
+    <string name="login">登入</string>
 
     <!-- Member -->
     <string name="login_with_hsvibe">使用HSVIBE登入</string>
@@ -34,6 +46,33 @@
     <string name="terms">使用條款</string>
     <string name="contact_us">聯絡我們</string>
     <string name="version_is">版本 %s</string>
+
+    <!-- Member Profile -->
+    <string name="member_info">會員資料</string>
+    <string name="first_name">姓</string>
+    <string name="last_name">名</string>
+    <string name="mobile_number">手機號碼</string>
+    <string name="gender">性別</string>
+    <string name="birthday">生日</string>
+    <string name="place_of_residence">居住地</string>
+    <string name="referrer_no">推薦人序號</string>
+    <string name="hint_first_name">請輸入姓氏</string>
+    <string name="hint_last_name">請輸入名子</string>
+    <string name="hint_birthday">請選擇出生日期</string>
+    <string name="hint_referrer_name">請輸入推薦人序號</string>
+    <string name="please_select">(請選擇)</string>
+    <string name="gender_male_cht">男</string>
+    <string name="gender_female_cht">女</string>
+    <string name="gender_other_cht">其他</string>
+    <string name="gender_male_eng">Male</string>
+    <string name="gender_female_eng">Female</string>
+    <string name="gender_other_eng">Other</string>
+    <string name="birthday_format">%1$d-%2$02d-%3$02d</string>
+    <string name="data_error">資料有誤</string>
+    <string name="name_is_necessary">姓名為必填欄位</string>
+    <string name="update_success">更新成功</string>
+    <string name="update_failed">更新失敗</string>
+
 
     <!-- Main -->
     <string name="tab_home">首頁</string>
@@ -59,6 +98,11 @@
     <string name="expires_at">有效日期 %s</string>
     <string name="point_has">%d 點</string>
     <string name="redeem_point">點數兌換</string>
+    <string name="redeem_coupon">兌換優惠券</string>
+    <string name="confirm_to_redeem">是否花費 %d 點數，兌換此張優惠券?</string>
+    <string name="redeem">兌換</string>
+    <string name="redeem_success">兌換成功！</string>
+    <string name="redeem_failed">兌換失敗</string>
 
     <!-- Notification -->
     <string name="newest_info">最新消息</string>

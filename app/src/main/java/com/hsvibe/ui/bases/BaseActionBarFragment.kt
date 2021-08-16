@@ -4,15 +4,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.lifecycleScope
 import com.hsvibe.AppController
 import com.hsvibe.R
-import com.hsvibe.callbacks.SingleClickListener
 import com.hsvibe.databinding.InflateEmptyActionBarFragmentBinding
 import com.hsvibe.model.LoadingStatus
+import com.hsvibe.utilities.Extensions.setOnSingleClickListener
 import com.hsvibe.utilities.Utility
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -42,7 +43,10 @@ abstract class BaseActionBarFragment<BindingView : ViewDataBinding> : BaseDialog
 
     private fun initViews() {
         viewLifecycleOwner.lifecycleScope.launch {
-            initHeader()
+            val headerInitDeferred = async {
+                initHeader()
+            }
+            headerInitDeferred.await()
 
             bindingView.layoutContainer.let { container ->
                 val bindingDeferred = async {
@@ -51,8 +55,6 @@ abstract class BaseActionBarFragment<BindingView : ViewDataBinding> : BaseDialog
                 binding = bindingDeferred.await()
 
                 container.addView(binding.root)
-
-                getBackgroundColorRes()?.let { container.setBackgroundColor(ContextCompat.getColor(AppController.getAppContext(), it)) }
             }
             onInitCompleted()
         }
@@ -65,6 +67,8 @@ abstract class BaseActionBarFragment<BindingView : ViewDataBinding> : BaseDialog
             } ?: run {
                 getTitleRes()?.let { textHeaderTitle.setText(it) }
             }
+
+            getActionBarBackgroundColor()?.let { layoutActionBar.setBackgroundColor(it) }
 
             val backButtonRes = when (getAnimType()) {
                 is AnimType.NoAnim,
@@ -79,11 +83,7 @@ abstract class BaseActionBarFragment<BindingView : ViewDataBinding> : BaseDialog
             getMenuOptionIconRes()?.let {
                 buttonMenuOption.visibility = View.VISIBLE
                 buttonMenuOption.setImageDrawable(ContextCompat.getDrawable(AppController.getAppContext(), it))
-                buttonMenuOption.setOnClickListener(object : SingleClickListener() {
-                    override fun onSingleClick(v: View) {
-                        onMenuOptionClick()
-                    }
-                })
+                buttonMenuOption.setOnSingleClickListener { onMenuOptionClick() }
             }
         }
     }
@@ -94,7 +94,8 @@ abstract class BaseActionBarFragment<BindingView : ViewDataBinding> : BaseDialog
         bindingView.textHeaderTitle.text = title
     }
 
-    protected open fun getBackgroundColorRes(): Int? = null
+    @ColorInt
+    protected open fun getActionBarBackgroundColor(): Int? = null
 
     protected open fun getMenuOptionIconRes(): Int? = null
 

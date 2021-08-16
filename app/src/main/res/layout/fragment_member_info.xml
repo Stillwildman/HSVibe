@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="profileViewModel"
+            type="com.hsvibe.viewmodel.ProfileViewModel" />
+    </data>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/background_main_gradient">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scrollbars="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="@dimen/padding_size_xxl"
+                android:paddingEnd="@dimen/padding_size_xxl"
+                android:paddingBottom="@dimen/padding_size_xl" >
+
+                <LinearLayout
+                    android:id="@+id/layout_userName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/padding_size_xl"
+                    android:paddingBottom="@dimen/padding_size_xl"
+                    android:gravity="center_vertical"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/text_firstName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:text="@string/first_name"
+                        android:textColor="@color/md_grey_300"
+                        android:textSize="@dimen/font_text_size_s" />
+
+                    <EditText
+                        android:id="@+id/edit_firstName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_marginStart="@dimen/padding_size_l"
+                        android:layout_marginEnd="@dimen/padding_size_l"
+                        android:paddingStart="@dimen/padding_size_m"
+                        android:paddingEnd="@dimen/padding_size_m"
+                        android:paddingTop="@dimen/padding_size_l"
+                        android:paddingBottom="@dimen/padding_size_l"
+                        android:textColorHint="@color/md_grey_600"
+                        android:hint="@string/hint_first_name"
+                        android:textSize="@dimen/font_text_size_s"
+                        android:textColor="@color/md_grey_50"
+                        android:text="@={profileViewModel.livePostUserInfo.first_name}"
+                        android:inputType="text"
+                        android:autofillHints="name"
+                        tools:targetApi="O" />
+
+                    <TextView
+                        android:id="@+id/text_lastName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:text="@string/last_name"
+                        android:textColor="@color/md_grey_300"
+                        android:textSize="@dimen/font_text_size_s"/>
+
+                    <EditText
+                        android:id="@+id/edit_lastName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_marginStart="@dimen/padding_size_l"
+                        android:paddingStart="@dimen/padding_size_m"
+                        android:paddingEnd="@dimen/padding_size_m"
+                        android:paddingTop="@dimen/padding_size_l"
+                        android:paddingBottom="@dimen/padding_size_l"
+                        android:textColorHint="@color/md_grey_600"
+                        android:hint="@string/hint_last_name"
+                        android:textSize="@dimen/font_text_size_s"
+                        android:textColor="@color/md_grey_50"
+                        android:text="@={profileViewModel.livePostUserInfo.last_name}"
+                        android:inputType="text"
+                        android:autofillHints="name"
+                        tools:targetApi="O" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/view_divider_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/md_grey_600"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_userName" />
+
+                <TextView
+                    android:id="@+id/text_mobileNumberIs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_size_xxl"
+                    android:text="@string/mobile_number"
+                    android:textColor="@color/md_grey_300"
+                    android:textSize="@dimen/font_text_size_s"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view_divider_1" />
+
+                <TextView
+                    android:id="@+id/text_mobileNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="0960077319"
+                    android:textColor="@color/md_grey_500"
+                    android:textSize="@dimen/font_text_size_s"
+                    android:text="@{profileViewModel.livePostUserInfo.mobile_number}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/text_mobileNumberIs" />
+
+                <View
+                    android:id="@+id/view_divider_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/padding_size_xxl"
+                    android:background="@color/md_grey_600"
+                    app:layout_constraintTop_toBottomOf="@+id/text_mobileNumberIs" />
+
+                <TextView
+                    android:id="@+id/text_gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_size_xxl"
+                    android:text="@string/gender"
+                    android:textColor="@color/md_grey_300"
+                    android:textSize="@dimen/font_text_size_s"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view_divider_2" />
+
+                <Spinner
+                    android:id="@+id/spinner_gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                    android:popupBackground="@color/transparent_quarter_black"
+                    android:selection="@{profileViewModel.liveGenderSelection}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/text_gender"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_gender"
+                    app:pairList="@{profileViewModel.liveGenderPairList}"
+                    app:hasHintHeader="@{true}"/>
+
+                <View
+                    android:id="@+id/view_divider_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/padding_size_xxl"
+                    android:background="@color/md_grey_600"
+                    app:layout_constraintTop_toBottomOf="@+id/text_gender" />
+
+                <TextView
+                    android:id="@+id/text_birthdayIs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_size_xxl"
+                    android:text="@string/birthday"
+                    android:textColor="@color/md_grey_300"
+                    android:textSize="@dimen/font_text_size_s"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view_divider_3" />
+
+                <TextView
+                    android:id="@+id/text_birthday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/md_grey_50"
+                    android:textSize="@dimen/font_text_size_s"
+                    android:textColorHint="@color/md_grey_600"
+                    android:hint="@string/hint_birthday"
+                    android:text="@={profileViewModel.livePostUserInfo.birthday}"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/text_birthdayIs"
+                    style="@style/Widget.AppCompat.Spinner"/>
+
+                <View
+                    android:id="@+id/view_divider_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/padding_size_xxl"
+                    android:background="@color/md_grey_600"
+                    app:layout_constraintTop_toBottomOf="@+id/text_birthdayIs" />
+
+                <TextView
+                    android:id="@+id/text_placeOfResidence"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_size_xxl"
+                    android:text="@string/place_of_residence"
+                    android:textColor="@color/md_grey_300"
+                    android:textSize="@dimen/font_text_size_s"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view_divider_4" />
+
+                <Spinner
+                    android:id="@+id/spinner_city"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:layout_marginStart="@dimen/padding_size_l"
+                    android:layout_marginEnd="@dimen/padding_size_s"
+                    android:popupBackground="@color/transparent_quarter_black"
+                    android:selection="@{profileViewModel.liveCitySelection}"
+                    app:layout_constraintTop_toTopOf="@+id/text_placeOfResidence"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_placeOfResidence"
+                    app:layout_constraintStart_toEndOf="@+id/text_placeOfResidence"
+                    app:layout_constraintEnd_toStartOf="@+id/spinner_postal"
+                    app:pairList="@{profileViewModel.liveCityPairList}"
+                    app:hasHintHeader="@{true}" />
+
+                <Spinner
+                    android:id="@+id/spinner_postal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:layout_marginStart="@dimen/padding_size_s"
+                    android:popupBackground="@color/transparent_quarter_black"
+                    android:selection="@{profileViewModel.livePostalSelection}"
+                    app:layout_constraintTop_toTopOf="@+id/text_placeOfResidence"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_placeOfResidence"
+                    app:layout_constraintStart_toEndOf="@+id/spinner_city"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <View
+                    android:id="@+id/view_divider_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/padding_size_xxl"
+                    android:background="@color/md_grey_600"
+                    app:layout_constraintTop_toBottomOf="@+id/text_placeOfResidence" />
+
+                <TextView
+                    android:id="@+id/text_referrerNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_size_xxl"
+                    android:text="@string/referrer_no"
+                    android:textColor="@color/md_grey_300"
+                    android:textSize="@dimen/font_text_size_s"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view_divider_5" />
+
+                <EditText
+                    android:id="@+id/edit_referrerNo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:layout_marginStart="@dimen/padding_size_xxl"
+                    android:paddingStart="@dimen/padding_size_m"
+                    android:paddingEnd="@dimen/padding_size_m"
+                    android:paddingTop="@dimen/padding_size_xl"
+                    android:paddingBottom="@dimen/padding_size_xl"
+                    android:textColorHint="@color/md_grey_600"
+                    android:hint="@string/hint_referrer_name"
+                    android:textSize="@dimen/font_text_size_s"
+                    android:textColor="@color/md_grey_50"
+                    android:text="@={profileViewModel.livePostUserInfo.referrer_no}"
+                    android:inputType="text"
+                    android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                    android:autofillHints="name"
+                    tools:targetApi="O"
+                    app:layout_constraintTop_toTopOf="@+id/text_referrerNo"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_referrerNo"
+                    app:layout_constraintStart_toEndOf="@+id/text_referrerNo"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_done"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:layout_marginStart="@dimen/padding_size_xxl"
+            android:layout_marginEnd="@dimen/padding_size_xxl"
+            android:layout_marginBottom="@dimen/padding_size_xxl"
+            android:text="@string/done"
+            android:textSize="@dimen/font_text_size_m"
+            android:textColor="@color/md_grey_800"
+            android:background="@drawable/background_main_theme_button" />
+
+    </LinearLayout>
+
+</layout>
+

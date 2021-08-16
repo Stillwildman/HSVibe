@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.hsvibe.model.ApiConst
 import com.hsvibe.model.items.ItemContent
 import com.hsvibe.paging.BasePagingConfig
 import com.hsvibe.paging.ContentDataSource
@@ -14,7 +15,7 @@ import kotlinx.coroutines.flow.Flow
  */
 class ContentViewModel : LoadingStatusViewModel(), BasePagingConfig {
 
-    override fun getPerPageSize(): Int = 10
+    override fun getPerPageSize(): Int = ApiConst.DEFAULT_LIMIT
 
     private var contentFlow: Flow<PagingData<ItemContent.ContentData>>? = null
 

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "8dd2bcea6f9c2b06d8548c9f4ae7418f",
+    "identityHash": "64c31ac5ba07ce2a40818806d9553d88",
     "entities": [
       {
         "tableName": "UserInfo",
@@ -15,85 +15,85 @@
             "notNull": true
           },
           {
-            "fieldPath": "uuid",
+            "fieldPath": "column_uuid",
             "columnName": "uuid",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "firstName",
+            "fieldPath": "column_firstName",
             "columnName": "FirstName",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "lastName",
+            "fieldPath": "column_lastName",
             "columnName": "LastName",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "mobileNumber",
+            "fieldPath": "column_mobileNumber",
             "columnName": "MobileNumber",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "gender",
+            "fieldPath": "column_gender",
             "columnName": "Gender",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "birthday",
+            "fieldPath": "column_birthday",
             "columnName": "Birthday",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "referNo",
+            "fieldPath": "column_referNo",
             "columnName": "ReferNo",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "referrerNo",
+            "fieldPath": "column_referrerNo",
             "columnName": "ReferrerNo",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "deviceType",
+            "fieldPath": "column_deviceType",
             "columnName": "DeviceType",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "deviceModel",
+            "fieldPath": "column_deviceModel",
             "columnName": "DeviceModel",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "createdTime",
+            "fieldPath": "column_createdTime",
             "columnName": "CreatedTime",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "updatedTime",
+            "fieldPath": "column_updatedTime",
             "columnName": "UpdatedTime",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "regionName",
+            "fieldPath": "column_regionName",
             "columnName": "RegionName",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "regionZip",
+            "fieldPath": "column_regionZip",
             "columnName": "RegionZip",
             "affinity": "TEXT",
             "notNull": true
@@ -107,12 +107,82 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "RegionCities",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `CityName` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "CityName",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "RegionPostal",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`CityId` INTEGER NOT NULL, `AreaName` TEXT NOT NULL, `ZipCode` TEXT NOT NULL, PRIMARY KEY(`ZipCode`), FOREIGN KEY(`CityId`) REFERENCES `RegionCities`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "cityId",
+            "columnName": "CityId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "AreaName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "zipCode",
+            "columnName": "ZipCode",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "ZipCode"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "RegionCities",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "CityId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8dd2bcea6f9c2b06d8548c9f4ae7418f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '64c31ac5ba07ce2a40818806d9553d88')"
     ]
   }
 }

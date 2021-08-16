@@ -11,101 +11,71 @@ import com.hsvibe.model.UserInfo
  */
 @Suppress("PropertyName")
 @Entity(tableName = DBParams.TABLE_USER_INFO)
-class UserInfoEntity : UserInfo {
+data class UserInfoEntity(
 
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = DBParams.COLUMN_ID)
-    var id: Int = DBParams.DEFAULT_USER_ID
+    val id: Int = DBParams.DEFAULT_USER_ID,
 
     @ColumnInfo(name = DBParams.COLUMN_UUID)
-    var column_uuid: String
+    val column_uuid: String,
 
     @ColumnInfo(name = DBParams.COLUMN_FIRST_NAME)
-    var column_firstName: String
+    val column_firstName: String,
 
     @ColumnInfo(name = DBParams.COLUMN_LAST_NAME)
-    var column_lastName: String
+    val column_lastName: String,
 
     @ColumnInfo(name = DBParams.COLUMN_MOBILE_NUMBER)
-    var column_mobileNumber: String
+    val column_mobileNumber: String,
 
     @ColumnInfo(name = DBParams.COLUMN_GENDER)
-    var column_gender: String
+    val column_gender: String,
 
     @ColumnInfo(name = DBParams.COLUMN_BIRTHDAY)
-    var column_birthday: String
+    val column_birthday: String,
 
     @ColumnInfo(name = DBParams.COLUMN_REFER_NO)
-    var column_referNo: String
+    val column_referNo: String,
 
     @ColumnInfo(name = DBParams.COLUMN_REFERRER_NO)
-    var column_referrerNo: String
+    val column_referrerNo: String,
 
     @ColumnInfo(name = DBParams.COLUMN_DEVICE_TYPE)
-    var column_deviceType: String
+    val column_deviceType: String,
 
     @ColumnInfo(name = DBParams.COLUMN_DEVICE_MODEL)
-    var column_deviceModel: String
+    val column_deviceModel: String,
 
     @ColumnInfo(name = DBParams.COLUMN_CREATED_TIME)
-    var column_createdTime: String
+    val column_createdTime: String,
 
     @ColumnInfo(name = DBParams.COLUMN_UPDATED_TIME)
-    var column_updatedTime: String
+    val column_updatedTime: String,
 
     @ColumnInfo(name = DBParams.COLUMN_REGION_NAME)
-    var column_regionName: String
+    val column_regionName: String,
 
     @ColumnInfo(name = DBParams.COLUMN_REGION_ZIP)
-    var column_regionZip: String
+    val column_regionZip: String
 
-    constructor(
-        column_uuid: String,
-        column_firstName: String,
-        column_lastName: String,
-        column_mobileNumber: String,
-        column_gender: String,
-        column_birthday: String,
-        column_referNo: String,
-        column_referrerNo: String,
-        column_deviceType: String,
-        column_deviceModel: String,
-        column_createdTime: String,
-        column_updatedTime: String,
-        column_regionName: String?,
-        column_regionZip: String?
-    ) {
-        this.column_uuid = column_uuid
-        this.column_firstName = column_firstName
-        this.column_lastName = column_lastName
-        this.column_mobileNumber = column_mobileNumber
-        this.column_gender = column_gender
-        this.column_birthday = column_birthday
-        this.column_referNo = column_referNo
-        this.column_referrerNo = column_referrerNo
-        this.column_deviceType = column_deviceType
-        this.column_deviceModel = column_deviceModel
-        this.column_createdTime = column_createdTime
-        this.column_updatedTime = column_updatedTime
-        this.column_regionName = column_regionName ?: ""
-        this.column_regionZip = column_regionZip ?: ""
-    }
+) : UserInfo {
 
     constructor(userInfo: UserInfo) : this(
-        userInfo.getUuid(),
-        userInfo.getFirstName(),
-        userInfo.getLastName(),
-        userInfo.getMobileNumber(),
-        userInfo.getGender(),
-        userInfo.getBirthday(),
-        userInfo.getReferNo(),
-        userInfo.getReferrerNo(),
-        userInfo.getDeviceType(),
-        userInfo.getDeviceModel(),
-        userInfo.getCreatedTime(),
-        userInfo.getUpdatedTime(),
-        userInfo.getRegionName(),
-        userInfo.getRegionZip(),
+        column_uuid = userInfo.getUuid(),
+        column_firstName = userInfo.getFirstName(),
+        column_lastName = userInfo.getLastName(),
+        column_mobileNumber = userInfo.getMobileNumber(),
+        column_gender = userInfo.getGender(),
+        column_birthday = userInfo.getBirthday(),
+        column_referNo = userInfo.getReferNo(),
+        column_referrerNo = userInfo.getReferrerNo(),
+        column_deviceType = userInfo.getDeviceType(),
+        column_deviceModel = userInfo.getDeviceModel(),
+        column_createdTime = userInfo.getCreatedTime(),
+        column_updatedTime = userInfo.getUpdatedTime(),
+        column_regionName = userInfo.getRegionName() ?: "",
+        column_regionZip = userInfo.getRegionZip() ?: "",
     )
 
     override fun getUuid(): String = column_uuid

@@ -6,9 +6,7 @@ import com.hsvibe.model.ApiConst
 import com.hsvibe.model.Urls
 import com.hsvibe.model.UserInfo
 import com.hsvibe.model.UserToken
-import com.hsvibe.model.items.ItemBanner
-import com.hsvibe.model.items.ItemContent
-import com.hsvibe.model.items.ItemCoupon
+import com.hsvibe.model.items.*
 import com.hsvibe.model.posts.PostRefreshToken
 import com.hsvibe.model.posts.PostUpdateUserInfo
 import com.hsvibe.tasks.ApiStatusException
@@ -139,7 +137,27 @@ object DataCallbacks {
         }
     }
 
-    suspend fun getCouponDetail(uuid: String, loadingCallback: OnLoadingCallback? = null) {
+    suspend fun getCouponDetail(uuid: String, loadingCallback: OnLoadingCallback? = null): ItemCoupon? {
+        return getApiResult(loadingCallback) {
+            getApiInterface().getCouponDetail(uuid)
+        }
+    }
 
+    suspend fun getUserBonus(auth: String, loadingCallback: OnLoadingCallback?): ItemUserBonus? {
+        return getApiResult(loadingCallback) {
+            getApiInterface().getUserBonus(auth)
+        }
+    }
+
+    suspend fun getAccountBonus(auth: String, limit: Int, page: Int, loadingCallback: OnLoadingCallback?): ItemAccountBonus? {
+        return getApiResult(loadingCallback) {
+            getApiInterface().getAccountBonus(auth, limit, page)
+        }
+    }
+
+    suspend fun getDistricts(auth: String, loadingCallback: OnLoadingCallback?): ItemDistricts? {
+        return getApiResult(loadingCallback) {
+            getApiInterface().getDistricts(auth)
+        }
     }
 }

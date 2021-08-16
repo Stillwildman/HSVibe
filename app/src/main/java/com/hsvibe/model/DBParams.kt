@@ -11,7 +11,8 @@ object DBParams {
 
     const val TABLE_USER_INFO = "UserInfo"
 
-    const val TABLE_DISTRICTS = "Districts"
+    const val TABLE_REGION_CITIES = "RegionCities"
+    const val TABLE_REGION_POSTAL = "RegionPostal"
 
     const val COLUMN_ID = "id"
 
@@ -31,4 +32,9 @@ object DBParams {
     const val COLUMN_REGION_ZIP = "RegionZip"
 
     const val DEFAULT_USER_ID = 1
+
+    const val COLUMN_CITY_NAME = "CityName"
+    const val COLUMN_CITY_ID = "CityId"
+    const val COLUMN_AREA_NAME = "AreaName"
+    const val COLUMN_ZIP_CODE = "ZipCode"
 }

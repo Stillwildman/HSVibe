@@ -13,14 +13,14 @@ class HomeBannerListAdapter(private val viewModel: HomeViewModel) : BaseBindingR
 
     override fun getLayoutId(): Int = R.layout.inflate_home_banner_row
 
-    override fun onBindingViewHolder(holder: RecyclerView.ViewHolder?, bindingView: InflateHomeBannerRowBinding, position: Int) {
+    override fun onBindingViewHolder(holder: RecyclerView.ViewHolder, bindingView: InflateHomeBannerRowBinding, position: Int) {
         bindingView.apply {
             index = position
             viewModel = this@HomeBannerListAdapter.viewModel
         }
     }
 
-    override fun onBindingViewHolder(holder: RecyclerView.ViewHolder?, bindingView: InflateHomeBannerRowBinding, position: Int, payload: Any?) {
+    override fun onBindingViewHolder(holder: RecyclerView.ViewHolder, bindingView: InflateHomeBannerRowBinding, position: Int, payload: Any?) {
 
     }
 

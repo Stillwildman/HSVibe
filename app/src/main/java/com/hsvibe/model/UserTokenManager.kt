@@ -7,10 +7,9 @@ import com.hsvibe.utilities.Utility
 /**
  * Created by Vincent on 2021/6/29.
  */
-object UserInfoManager {
+object UserTokenManager {
 
     private var userToken: UserToken? = null
-    private var userInfo: UserInfo? = null
 
     fun setUserToken(userToken: UserToken) {
         userToken.setupCreatedTime()
@@ -20,16 +19,6 @@ object UserInfoManager {
 
     fun getUserToken(): UserToken? {
         return userToken ?: SettingManager.getUserToken().also { userToken = it }
-    }
-
-    fun setUserInfo(userInfo: UserInfo) {
-        this.userInfo = userInfo
-    }
-
-    fun isUserInfoNotCompletely(): Boolean {
-        return userInfo?.let {
-            it.getFirstName().isEmpty() || it.getLastName().isEmpty() || it.getBirthday().isEmpty() || it.getGender().isEmpty()
-        } ?: true
     }
 
     fun hasToken(): Boolean {

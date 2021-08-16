@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import com.hsvibe.BuildConfig
 import com.hsvibe.R
 import com.hsvibe.callbacks.FragmentContract
+import com.hsvibe.utilities.Extensions.getContextSafely
 import com.hsvibe.utilities.L
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -74,7 +75,7 @@ abstract class BaseDialogFragment<BindingView : ViewDataBinding> : DialogFragmen
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         L.d(TAG, "onCreateDialog!!!")
 
-        val dialog = object : Dialog(requireContext(), theme) {
+        val dialog = object : Dialog(getContextSafely(), theme) {
             override fun onBackPressed() {
                 if (onDialogBackPressed().not()) {
                     super.onBackPressed()

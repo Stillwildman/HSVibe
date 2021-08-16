@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="itemClickCallback"
+            type="com.hsvibe.callbacks.OnAnyItemClickCallback" />
+
+        <variable
+            name="item"
+            type="com.hsvibe.model.items.ItemMemberOption" />
+    </data>
+
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/text_memberOption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_text_size_m"
+        android:textColor="@color/md_grey_700"
+        tools:text="@string/personal_info"
+        android:paddingStart="@dimen/padding_size_m"
+        android:paddingEnd="@dimen/padding_size_m"
+        android:paddingTop="@dimen/padding_size_xxl"
+        android:paddingBottom="@dimen/padding_size_xxl"
+        android:text="@{item.title}"
+        app:singleClick="@{() -> itemClickCallback.onItemClick(item)}"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?selectableItemBackground" />
+
+</layout>

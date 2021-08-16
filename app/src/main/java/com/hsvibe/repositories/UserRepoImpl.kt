@@ -1,11 +1,14 @@
 package com.hsvibe.repositories
 
+import android.location.Location
 import com.hsvibe.callbacks.OnLoadingCallback
 import com.hsvibe.database.UserDatabase
 import com.hsvibe.location.MyFusedLocation
 import com.hsvibe.model.UserInfo
-import com.hsvibe.model.UserInfoManager
+import com.hsvibe.model.UserTokenManager
 import com.hsvibe.model.entities.UserInfoEntity
+import com.hsvibe.model.items.ItemAccountBonus
+import com.hsvibe.model.items.ItemUserBonus
 import com.hsvibe.model.posts.PostRefreshToken
 import com.hsvibe.model.posts.PostUpdateUserInfo
 import com.hsvibe.network.DataCallbacks
@@ -30,31 +33,38 @@ class UserRepoImpl : UserRepo {
     }
 
     override suspend fun refreshToken() {
-        UserInfoManager.getUserToken()?.refresh_token?.let {
+        UserTokenManager.getUserToken()?.refresh_token?.let {
             val userToken = DataCallbacks.refreshUserToken(PostRefreshToken(it), callback)
             userToken?.run {
-                UserInfoManager.setUserToken(this)
+                UserTokenManager.setUserToken(this)
             }
         }
     }
 
     override suspend fun getUserInfo(): UserInfo? {
         return taskController.joinPreviousOrRun(TaskController.KEY_GET_USER_INFO) {
-            UserInfoManager.getAuthorization()?.let {
-                DataCallbacks.getUserInfo(it, callback)?.also { userInfo ->
-                    UserInfoManager.setUserInfo(userInfo)
+            UserTokenManager.getAuthorization()?.let {
+                DataCallbacks.getUserInfo(it, callback)
+            }
+        }
+    }
+
+    override suspend fun updateUserInfo(userInfo: UserInfo, lat: String?, lon: String?): UserInfo? {
+        return taskController.joinPreviousOrRun(TaskController.KEY_UPDATE_USER_INFO) {
+            UserTokenManager.getAuthorization()?.let {
+                val postBody = getUserInfoUpdateBody(userInfo, lat, lon)
+                DataCallbacks.updateUserInfo(it, postBody, callback)?.also { updatedUserInfo ->
+                    L.i("Update UserInfo: ${updatedUserInfo.getMobileNumber()} Device: ${updatedUserInfo.getDeviceModel()}")
                 }
             }
         }
     }
 
-    override suspend fun updateUserInfo(userInfo: UserInfo, lat: String, lon: String): UserInfo? {
+    override suspend fun updateUserInfo(postBody: PostUpdateUserInfo): UserInfo? {
         return taskController.joinPreviousOrRun(TaskController.KEY_UPDATE_USER_INFO) {
-            UserInfoManager.getAuthorization()?.let {
-                val postBody = getUserInfoUpdateBody(userInfo, lat, lon)
+            UserTokenManager.getAuthorization()?.let {
                 DataCallbacks.updateUserInfo(it, postBody, callback)?.also { updatedUserInfo ->
                     L.i("Update UserInfo: ${updatedUserInfo.getMobileNumber()} Device: ${updatedUserInfo.getDeviceModel()}")
-                    UserInfoManager.setUserInfo(updatedUserInfo)
                 }
             }
         }
@@ -62,40 +72,50 @@ class UserRepoImpl : UserRepo {
 
     override suspend fun updatePayPassword(payPassword: String): UserInfo? {
         return taskController.joinPreviousOrRun(TaskController.KEY_UPDATE_PAY_PASSWORD) {
-            UserInfoManager.getAuthorization()?.let {
-                DataCallbacks.updateUserInfo(it, PostUpdateUserInfo(pay_password = payPassword), callback)?.also { updatedUserInfo ->
-                    UserInfoManager.setUserInfo(updatedUserInfo)
-                }
+            UserTokenManager.getAuthorization()?.let {
+                DataCallbacks.updateUserInfo(it, PostUpdateUserInfo(pay_password = payPassword), callback)
+            }
+        }
+    }
+
+    override suspend fun updateFcmToken(fcmToken: String): UserInfo? {
+        return taskController.joinPreviousOrRun(TaskController.KEY_UPDATE_FCM_TOKEN) {
+            UserTokenManager.getAuthorization()?.let {
+                DataCallbacks.updateUserInfo(it, PostUpdateUserInfo(fcm_token = fcmToken), callback)
             }
         }
     }
 
     @ExperimentalCoroutinesApi
-    override suspend fun getUserInfoAndUpdate(): UserInfo? {
+    override suspend fun getUserInfoAndUpdate(hasLocationPermission: Boolean): UserInfo? {
         return taskController.joinPreviousOrRun(TaskController.KEY_GET_AND_UPDATE_USER_INFO) {
             val userInfo = getUserInfo()
             L.i("Get UserInfo: ${userInfo?.getFirstName()} ${userInfo?.getLastName()}")
 
-            val location = MyFusedLocation.awaitLastLocation()
-            L.i("Get Location: ${location.latitude} , ${location.longitude}")
+            val location: Location? = if (hasLocationPermission) {
+                MyFusedLocation.awaitLastLocation().also {
+                    L.i("Get Location: ${it.latitude} , ${it.longitude}")
+                }
+            } else null
 
             userInfo?.let {
-                updateUserInfo(it, location.latitude.toString(), location.longitude.toString())
+                updateUserInfo(it, location?.latitude?.toString(), location?.longitude?.toString()) ?: it
             }
         }
     }
 
-    private fun getUserInfoUpdateBody(userInfo: UserInfo, lat: String, lon: String): PostUpdateUserInfo {
+    private fun getUserInfoUpdateBody(userInfo: UserInfo, lat: String?, lon: String?): PostUpdateUserInfo {
         return PostUpdateUserInfo(
-            userInfo.getFirstName(),
-            userInfo.getLastName(),
-            userInfo.getMobileNumber(),
-            userInfo.getGender(),
-            userInfo.getBirthday(),
-            DeviceUtil.getDeviceType(),
-            DeviceUtil.getCombinedDeviceModel(),
-            lat,
-            lon
+            first_name = userInfo.getFirstName(),
+            last_name = userInfo.getLastName(),
+            mobile_number = userInfo.getMobileNumber(),
+            gender = userInfo.getGender(),
+            birthday = userInfo.getBirthday(),
+            device_type = DeviceUtil.getDeviceType(),
+            device_model = DeviceUtil.getCombinedDeviceModel(),
+            referrer_no = userInfo.getReferrerNo(),
+            lat = lat,
+            long = lon
         )
     }
 
@@ -115,6 +135,18 @@ class UserRepoImpl : UserRepo {
     override suspend fun clearUserInfoFromDB(): Int {
         return withContext(Dispatchers.IO) {
             UserDatabase.getInstance().getUserInfoDao().clearUserInfo()
+        }
+    }
+
+    override suspend fun getUserBonus(): ItemUserBonus? {
+        return UserTokenManager.getAuthorization()?.let {
+            DataCallbacks.getUserBonus(it, callback)
+        }
+    }
+
+    override suspend fun getAccountBonus(limit: Int, page: Int): ItemAccountBonus? {
+        return UserTokenManager.getAuthorization()?.let {
+            DataCallbacks.getAccountBonus(it, limit, page, callback)
         }
     }
 }

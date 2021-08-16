@@ -18,7 +18,4 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    fun refreshUserToken() {
-        // TODO
-    }
 }

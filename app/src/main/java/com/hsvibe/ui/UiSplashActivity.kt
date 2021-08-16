@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import com.hsvibe.R
-import com.hsvibe.model.UserInfoManager
+import com.hsvibe.model.UserTokenManager
 import com.hsvibe.ui.bases.BaseFullScreenActivity
 import com.hsvibe.utilities.ContextExt.startActivitySafely
 
@@ -36,7 +36,7 @@ class UiSplashActivity : BaseFullScreenActivity() {
     }
 
     private fun checkIfTheUserHasToken() {
-        if (UserInfoManager.hasToken()) {
+        if (UserTokenManager.hasToken()) {
             goToNext(UiMainActivity::class.java)
         }
         else {

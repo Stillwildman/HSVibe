@@ -23,5 +23,11 @@ object Urls {
 
     const val API_BANNER = "banner"
 
+    const val API_USER_BONUS = "user/bonus"
+
+    const val API_ACCOUNT_BONUS = "account/bonus"
+
+    const val API_TICKET_HOLDER = "ticketHolder"
+
     const val API_DISTRICTS = OLD_BASE_API_URL + "member/districts"
 }

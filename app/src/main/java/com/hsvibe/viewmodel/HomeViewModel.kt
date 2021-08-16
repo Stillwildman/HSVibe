@@ -26,7 +26,7 @@ class HomeViewModel(private val homeContentRepo: HomeContentRepo, private val ma
     private fun getExceptionHandler(): CoroutineExceptionHandler {
         return CoroutineExceptionHandler { _, throwable ->
             L.i("Handle Coroutine Exception!!!")
-            if (Utility.isNetworkEnabled()) {
+            if (!Utility.isNetworkEnabled()) {
                 L.e("Network is not working!!!")
                 throwable.printStackTrace()
             }

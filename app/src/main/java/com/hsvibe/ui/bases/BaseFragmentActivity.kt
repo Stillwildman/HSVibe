@@ -114,12 +114,12 @@ abstract class BaseFragmentActivity : BasePermissionActivity(),
         }
     }
 
-    protected fun openDialogFragment(instance: DialogFragment, backName: String? = null) {
+    protected fun openDialogFragment(instance: DialogFragment, backName: String? = null, tag: String = Const.TAG_DIALOG_FRAGMENT) {
         fragmentJob = launch {
             taskController.joinPreviousOrRun(TaskController.KEY_OPEN_DIALOG_FRAGMENT) {
                 fm.beginTransaction().let {
                     it.addToBackStack(backName ?: Const.BACK_COMMON_DIALOG)
-                    instance.show(it, Const.TAG_DIALOG_FRAGMENT)
+                    instance.show(it, tag)
                 }
             }
         }
@@ -129,8 +129,8 @@ abstract class BaseFragmentActivity : BasePermissionActivity(),
         url.takeIf { it.isNotEmpty() }?.let { openDialogFragment(UiBasicWebFragment.newInstance(it), Const.BACK_WEB_VIEW_DIALOG) }
     }
 
-    protected fun dismissDialogFragment() {
-        fm.findFragmentByTag(Const.TAG_DIALOG_FRAGMENT)?.let {
+    protected fun dismissDialogFragment(tag: String = Const.TAG_DIALOG_FRAGMENT) {
+        fm.findFragmentByTag(tag)?.let {
             (it as DialogFragment).dismiss()
         }
     }

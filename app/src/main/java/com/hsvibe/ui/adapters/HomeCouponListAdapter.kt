@@ -13,14 +13,14 @@ class HomeCouponListAdapter(private val viewModel: HomeViewModel) : BaseBindingR
 
     override fun getLayoutId(): Int = R.layout.inflate_home_coupon_row
 
-    override fun onBindingViewHolder(holder: RecyclerView.ViewHolder?, bindingView: InflateHomeCouponRowBinding, position: Int) {
+    override fun onBindingViewHolder(holder: RecyclerView.ViewHolder, bindingView: InflateHomeCouponRowBinding, position: Int) {
         bindingView.apply {
             index = position
             viewModel = this@HomeCouponListAdapter.viewModel
         }
     }
 
-    override fun onBindingViewHolder(holder: RecyclerView.ViewHolder?, bindingView: InflateHomeCouponRowBinding, position: Int, payload: Any?) {
+    override fun onBindingViewHolder(holder: RecyclerView.ViewHolder, bindingView: InflateHomeCouponRowBinding, position: Int, payload: Any?) {
 
     }
 

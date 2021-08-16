@@ -4,35 +4,45 @@ import android.content.Intent
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.databinding.ActivityMainBinding
 import com.hsvibe.location.MyFusedLocation
 import com.hsvibe.model.ApiConst
+import com.hsvibe.model.Const
 import com.hsvibe.model.Navigation
-import com.hsvibe.model.UserInfoManager
+import com.hsvibe.model.UserTokenManager
 import com.hsvibe.model.items.ItemBanner
 import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.repositories.UserRepoImpl
 import com.hsvibe.ui.bases.BaseActivity
 import com.hsvibe.ui.fragments.coupons.UiCouponDetailFragment
+import com.hsvibe.ui.fragments.login.UiLoginWebDialogFragment
+import com.hsvibe.ui.fragments.member.UiMemberCenterFragment
+import com.hsvibe.ui.fragments.member.UiMemberInfoFragment
 import com.hsvibe.ui.fragments.news.UiNewsFragment
 import com.hsvibe.ui.fragments.news.UiNotificationFragment
+import com.hsvibe.utilities.DialogHelper
+import com.hsvibe.utilities.Extensions.observeOnce
 import com.hsvibe.utilities.L
+import com.hsvibe.viewmodel.LoginViewModel
 import com.hsvibe.viewmodel.MainViewModel
 import com.hsvibe.viewmodel.MainViewModelFactory
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 /**
  * Created by Vincent on 2021/7/4.
  */
 class UiMainActivity : BaseActivity<ActivityMainBinding>(),
     TabLayout.OnTabSelectedListener,
-    UserInfoManager.TokenStatusListener {
+    UserTokenManager.TokenStatusListener {
 
     private val mainViewModel by viewModels<MainViewModel> { MainViewModelFactory(UserRepoImpl()) }
+
+    private val loginViewModel by lazy { ViewModelProvider(this).get(LoginViewModel::class.java) }
 
     override fun getLayoutId(): Int = R.layout.activity_main
 
@@ -46,6 +56,7 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
     }
 
     override fun init() {
+        checkLocationSetting()
         initTabLayout()
         startObserving()
     }
@@ -109,20 +120,19 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
     }
 
     private fun checkUserToken() {
-        UserInfoManager.checkUserTokenStatus(this)
+        UserTokenManager.checkUserTokenStatus(this)
     }
 
     override fun onTokenOk() {
         L.i("onTokenOk!!!")
         setupUserInfoFromDb()
-        checkLocationSetting()
-
+        runUserInfoSynchronize()
     }
 
     override fun onTokenExpired() {
         L.i("onTokenExpired!!!")
         setupUserInfoFromDb()
-        mainViewModel.refreshUserToken()
+        refreshUserTokenAndUpdate()
     }
 
     override fun onTokenNull() {
@@ -140,7 +150,7 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
                     is Navigation.ClickingCoupon -> onCouponClick(navigation.couponItem)
                     is Navigation.ClickingBanner -> onBannerClick(navigation.bannerItem)
                     is Navigation.ClickingBell -> openDialogFragment(UiNotificationFragment())
-                    is Navigation.ClickingUserName -> openDialogFragment(UiNotificationFragment())
+                    is Navigation.ClickingUserName -> checkBeforeGo(UiMemberCenterFragment())
                 }
             }
             it.liveLoadingStatus.observe(this) { loadingStatus ->
@@ -155,14 +165,26 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
 
     private fun checkLocationSetting() {
         if (hasLocationPermission()) {
-            MyFusedLocation.checkLocationSetting(this) {
-                runUserInfoUpdating()
-            }
+            MyFusedLocation.checkLocationSetting(this@UiMainActivity, {
+                mainViewModel.setLocationPermissionCheck(true)
+            }, {
+                mainViewModel.setLocationPermissionCheck(false) // Location Settings check failed.
+            })
+        } else {
+            mainViewModel.setLocationPermissionCheck(false)
         }
     }
 
-    private fun runUserInfoUpdating() {
-        mainViewModel.runUserInfoUpdating()
+    private fun runUserInfoSynchronize() {
+        mainViewModel.liveLocationPermissionChecked.observeOnce(this) {
+            mainViewModel.runUserInfoSynchronize()
+        }
+    }
+
+    private fun refreshUserTokenAndUpdate() {
+        mainViewModel.liveLocationPermissionChecked.observeOnce(this) {
+            mainViewModel.refreshTokenAndUpdate()
+        }
     }
 
     private fun onMoreClick(apiType: Int) {
@@ -195,6 +217,58 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
 
     private fun onBannerClick(bannerItem: ItemBanner.ContentData) {
         openWebDialogFragment(bannerItem.share_url)
+    }
+
+    private fun checkBeforeGo(target: DialogFragment) {
+        if (checkIsLoggedInAndProfileCompleted()) {
+            openDialogFragment(target)
+        }
+    }
+
+    private fun checkIsLoggedInAndProfileCompleted(): Boolean {
+        return when {
+            UserTokenManager.hasToken().not() -> {
+                showLoginRequireDialog()
+                false
+            }
+            mainViewModel.isUserInfoNotCompletely() -> {
+                showCompleteInfoRequireDialog()
+                false
+            }
+            else -> true
+        }
+    }
+
+    private fun showLoginRequireDialog() {
+        DialogHelper.showLargeViewDialog(
+            this,
+            R.string.require_login_title,
+            R.string.require_login_content,
+            R.string.login
+        ) {
+            openLoginPageAndObserve()
+        }
+    }
+
+    private fun showCompleteInfoRequireDialog() {
+        DialogHelper.showLargeViewDialog(
+            this,
+            R.string.require_complete_info_title,
+            R.string.require_complete_info_content,
+            R.string.input_member_info
+        ) {
+            openDialogFragment(UiMemberInfoFragment.newInstance(true))
+        }
+    }
+
+    private fun openLoginPageAndObserve() {
+        openDialogFragment(UiLoginWebDialogFragment(), tag = Const.TAG_DIALOG_LOGIN_WEB)
+
+        loginViewModel.liveUserToken.observeOnce(this) { userToken ->
+            dismissDialogFragment(Const.TAG_DIALOG_LOGIN_WEB)
+            UserTokenManager.setUserToken(userToken)
+            UserTokenManager.checkUserTokenStatus(this)
+        }
     }
 
     private fun isAtHomeTab(): Boolean {

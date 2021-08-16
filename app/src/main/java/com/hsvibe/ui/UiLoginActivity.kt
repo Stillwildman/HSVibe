@@ -4,14 +4,14 @@ import android.content.Intent
 import android.view.View
 import androidx.activity.viewModels
 import com.hsvibe.R
-import com.hsvibe.callbacks.SingleClickListener
 import com.hsvibe.databinding.ActivityLoginBinding
 import com.hsvibe.model.Const
-import com.hsvibe.model.UserInfoManager
 import com.hsvibe.model.UserToken
+import com.hsvibe.model.UserTokenManager
 import com.hsvibe.ui.bases.BaseActivity
 import com.hsvibe.ui.fragments.login.UiLoginWebDialogFragment
 import com.hsvibe.utilities.ContextExt.startActivitySafely
+import com.hsvibe.utilities.Extensions.setOnSingleClickListener
 import com.hsvibe.viewmodel.LoginViewModel
 
 /**
@@ -33,17 +33,13 @@ class UiLoginActivity : BaseActivity<ActivityLoginBinding>() {
     }
 
     private fun setButtonClick() {
-        bindingView.buttonLogin.setOnClickListener(object : SingleClickListener() {
-            override fun onSingleClick(v: View) {
-                openDialogFragment(UiLoginWebDialogFragment(), Const.BACK_LOGIN_DIALOG)
-            }
-        })
+        bindingView.buttonLogin.setOnSingleClickListener {
+            openDialogFragment(UiLoginWebDialogFragment(), Const.BACK_LOGIN_DIALOG)
+        }
 
-        bindingView.buttonLater.setOnClickListener(object : SingleClickListener() {
-            override fun onSingleClick(v: View) {
-                goToMain()
-            }
-        })
+        bindingView.buttonLater.setOnSingleClickListener {
+            goToMain()
+        }
     }
 
     private fun observeLoginStatus() {
@@ -54,7 +50,7 @@ class UiLoginActivity : BaseActivity<ActivityLoginBinding>() {
     }
 
     private fun updateUserToken(userToken: UserToken) {
-        UserInfoManager.setUserToken(userToken)
+        UserTokenManager.setUserToken(userToken)
         goToMain()
     }
 

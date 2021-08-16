@@ -13,14 +13,14 @@ class HomeNewsListAdapter(private val viewModel: HomeViewModel) : BaseBindingRec
 
     override fun getLayoutId(): Int = R.layout.inflate_home_news_row
 
-    override fun onBindingViewHolder(holder: RecyclerView.ViewHolder?, bindingView: InflateHomeNewsRowBinding, position: Int) {
+    override fun onBindingViewHolder(holder: RecyclerView.ViewHolder, bindingView: InflateHomeNewsRowBinding, position: Int) {
         bindingView.apply {
             index = position
             viewModel = this@HomeNewsListAdapter.viewModel
         }
     }
 
-    override fun onBindingViewHolder(holder: RecyclerView.ViewHolder?, bindingView: InflateHomeNewsRowBinding, position: Int, payload: Any?) {
+    override fun onBindingViewHolder(holder: RecyclerView.ViewHolder, bindingView: InflateHomeNewsRowBinding, position: Int, payload: Any?) {
 
     }
 

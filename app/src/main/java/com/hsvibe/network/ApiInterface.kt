@@ -18,10 +18,10 @@ interface ApiInterface {
     suspend fun refreshToken(@Url url: String, @Body body: PostRefreshToken): Response<UserToken>
 
     @GET(Urls.API_USER_INFO)
-    suspend fun getUserInfo(@Header(ApiConst.AUTHORIZATION) auth: String?): Response<ItemUserInfo>
+    suspend fun getUserInfo(@Header(ApiConst.AUTHORIZATION) auth: String): Response<ItemUserInfo>
 
     @POST(Urls.API_USER_INFO)
-    suspend fun updateUserInfo(@Header(ApiConst.AUTHORIZATION) auth: String?, @Body body: PostUpdateUserInfo): Response<ItemUserInfoUpdated>
+    suspend fun updateUserInfo(@Header(ApiConst.AUTHORIZATION) auth: String, @Body body: PostUpdateUserInfo): Response<ItemUserInfoUpdated>
 
     @GET(Urls.API_CONTENT)
     suspend fun getContent(
@@ -51,4 +51,22 @@ interface ApiInterface {
     suspend fun getCouponDetail(
         @Path("uuid") uuid: String
     ): Response<ItemCoupon>
+
+    @GET(Urls.API_USER_BONUS)
+    suspend fun getUserBonus(
+        @Header(ApiConst.AUTHORIZATION) auth: String
+    ): Response<ItemUserBonus>
+
+    @GET(Urls.API_ACCOUNT_BONUS)
+    suspend fun getAccountBonus(
+        @Header(ApiConst.AUTHORIZATION) auth: String,
+        @Query(ApiConst.LIMIT) limit: Int,
+        @Query(ApiConst.PAGE) page: Int
+    ): Response<ItemAccountBonus>
+
+    @GET
+    suspend fun getDistricts(
+        @Header(ApiConst.AUTHORIZATION) auth: String,
+        @Url url: String = Urls.API_DISTRICTS
+    ): Response<ItemDistricts>
 }

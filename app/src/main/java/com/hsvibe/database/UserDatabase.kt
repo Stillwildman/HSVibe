@@ -7,15 +7,22 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.hsvibe.AppController
+import com.hsvibe.database.dao.DaoDistricts
 import com.hsvibe.database.dao.DaoUserInfo
 import com.hsvibe.model.DBParams
+import com.hsvibe.model.entities.RegionCityEntity
+import com.hsvibe.model.entities.RegionPostalEntity
 import com.hsvibe.model.entities.UserInfoEntity
 import java.lang.ref.SoftReference
 
 /**
  * Created by Vincent on 2021/8/13.
  */
-@Database(entities = [(UserInfoEntity::class)], version = DBParams.DB_VERSION)
+@Database(entities = [
+    UserInfoEntity::class,
+    RegionCityEntity::class,
+    RegionPostalEntity::class
+], version = DBParams.DB_VERSION)
 abstract class UserDatabase : RoomDatabase() {
 
     companion object {
@@ -46,4 +53,5 @@ abstract class UserDatabase : RoomDatabase() {
     }
 
     abstract fun getUserInfoDao(): DaoUserInfo
+    abstract fun getDistrictsDao(): DaoDistricts
 }

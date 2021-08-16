@@ -9,6 +9,8 @@ import android.util.DisplayMetrics
 import android.widget.Toast
 import androidx.annotation.StringRes
 import com.hsvibe.AppController
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Created by Vincent on 2021/6/28.
@@ -79,5 +81,9 @@ object Utility {
             }
         }
         return false
+    }
+
+    fun convertDateStringToDate(dateString: String, datePattern: String = "yyyy-MM-dd"): Date? {
+        return SimpleDateFormat(datePattern, Locale.getDefault()).parse(dateString)
     }
 }
