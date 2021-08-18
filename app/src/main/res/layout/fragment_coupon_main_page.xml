@@ -1,55 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <LinearLayout
+    <data>
+        <variable
+            name="viewModel"
+            type="com.hsvibe.viewmodel.CouponViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:fitsSystemWindows="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/app_background_color">
+            android:background="@color/transparent_full"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-            <Spinner
-                android:id="@+id/spinner_region"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_size_xl"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:backgroundTint="@color/md_white_1000"/>
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/button_switch"
-                android:layout_width="@dimen/font_text_size_xxl"
-                android:layout_height="@dimen/font_text_size_xxl"
-                android:layout_marginEnd="@dimen/padding_size_xl"
-                android:clickable="true"
-                android:focusable="true"
-                app:srcCompat="@drawable/selector_switch"
-                app:layout_constraintTop_toTopOf="@+id/spinner_region"
-                app:layout_constraintBottom_toBottomOf="@+id/spinner_region"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_couponCategory"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_size_l"
-                android:scrollbars="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/spinner_region"/>
+                android:background="@color/app_background_color"
+                app:layout_scrollFlags="scroll|enterAlways">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <Spinner
+                    android:id="@+id/spinner_region"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_size_xl"
+                    android:backgroundTint="@color/md_white_1000"
+                    android:popupBackground="@color/transparent_quarter_black"
+                    android:gravity="end"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:largePairList="@{viewModel.liveCouponDistrictPairList}"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/button_switch"
+                    android:layout_width="@dimen/font_text_size_xxl"
+                    android:layout_height="@dimen/font_text_size_xxl"
+                    android:layout_marginEnd="@dimen/padding_size_xl"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:srcCompat="@drawable/selector_switch"
+                    app:layout_constraintTop_toTopOf="@+id/spinner_region"
+                    app:layout_constraintBottom_toBottomOf="@+id/spinner_region"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_couponCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="horizontal"
+                    app:layout_constraintTop_toBottomOf="@+id/spinner_region"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/layout_swipeRefresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_couponList"
@@ -59,6 +76,6 @@
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

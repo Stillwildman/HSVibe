@@ -160,4 +160,18 @@ object DataCallbacks {
             getApiInterface().getDistricts(auth)
         }
     }
+
+    // TODO Note that if the parameters need to be changed.
+    suspend fun getCouponDistricts(loadingCallback: OnLoadingCallback?): ItemCouponCategories? {
+        return getApiResult(loadingCallback) {
+            getApiInterface().getCouponDistricts()
+        }
+    }
+
+    // TODO Note that if the parameters need to be changed.
+    suspend fun getCouponCategories(loadingCallback: OnLoadingCallback?): ItemCouponCategories? {
+        return getApiResult(loadingCallback) {
+            getApiInterface().getCouponCategories()
+        }
+    }
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="itemClickCallback"
+            type="com.hsvibe.callbacks.OnAnyItemClickCallback" />
+
+        <variable
+            name="item"
+            type="com.hsvibe.model.items.ItemCouponCategories.ContentData" />
+    </data>
+
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/text_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/padding_size_l"
+        android:paddingEnd="@dimen/padding_size_l"
+        android:paddingTop="@dimen/padding_size_m"
+        android:paddingBottom="@dimen/padding_size_m"
+        android:layout_marginStart="@dimen/padding_size_m"
+        android:layout_marginEnd="@dimen/padding_size_m"
+        android:layout_marginTop="@dimen/padding_size_l"
+        android:layout_marginBottom="@dimen/padding_size_l"
+        android:clickable="true"
+        android:focusable="true"
+        android:textSize="@dimen/font_text_size_xs"
+        android:textColor="@color/color_tag_selector"
+        android:text="@{item.name}"
+        tools:text="@string/all"
+        android:background="@drawable/background_category_tag"
+        app:singleClick="@{() -> itemClickCallback.onItemClick(item)}"/>
+
+</layout>

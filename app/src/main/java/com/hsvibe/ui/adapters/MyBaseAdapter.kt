@@ -12,7 +12,11 @@ import com.hsvibe.R
 /**
  * Created by Vincent on 2021/8/15.
  */
-class MyBaseAdapter(private val pairList: MutableList<Pair<String, String?>>, private val hasHintHeader: Boolean) : BaseAdapter() {
+class MyBaseAdapter(
+    private val pairList: MutableList<Pair<String, String?>>,
+    private val hasHintHeader: Boolean,
+    private val useLargeLayout: Boolean = false
+) : BaseAdapter() {
 
     override fun getCount(): Int = pairList.size
 
@@ -42,7 +46,9 @@ class MyBaseAdapter(private val pairList: MutableList<Pair<String, String?>>, pr
         val view: View
 
         if (convertView == null) {
-            view = LayoutInflater.from(parent.context).inflate(R.layout.inflate_spinner_text_align_center, parent, false)
+            val layoutRes = if (useLargeLayout) R.layout.inflate_spinner_text_align_center_size_l else R.layout.inflate_spinner_text_align_center
+
+            view = LayoutInflater.from(parent.context).inflate(layoutRes, parent, false)
             holder = ViewHolder(view.findViewById(R.id.text_spinnerText))
             view.tag = holder
         }

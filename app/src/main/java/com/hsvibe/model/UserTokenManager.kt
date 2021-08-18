@@ -1,5 +1,6 @@
 package com.hsvibe.model
 
+import com.hsvibe.utilities.Extensions.isNotNullOrEmpty
 import com.hsvibe.utilities.L
 import com.hsvibe.utilities.SettingManager
 import com.hsvibe.utilities.Utility
@@ -21,6 +22,10 @@ object UserTokenManager {
         return userToken ?: SettingManager.getUserToken().also { userToken = it }
     }
 
+    fun clearUserToken() {
+        SettingManager.clearUserToken()
+    }
+
     fun hasToken(): Boolean {
         return getUserToken() != null
     }
@@ -31,6 +36,8 @@ object UserTokenManager {
         }
         userToken.also {
             L.i("CheckUserTokenStatus:\n$it")
+        }?.takeIf {
+            it.access_token.isNotNullOrEmpty()
         }?.let {
             if (isTokenExpired(it)) {
                 tokenStatusListener.onTokenExpired()
@@ -42,7 +49,9 @@ object UserTokenManager {
 
     private fun isTokenExpired(userToken: UserToken): Boolean {
         return userToken.run {
-            System.currentTimeMillis() > (createdTime + Utility.convertSecondToMillisecond(expires_in))
+            expires_in?.let {
+                System.currentTimeMillis() > (createdTime + Utility.convertSecondToMillisecond(it))
+            } ?: true
         }
     }
 

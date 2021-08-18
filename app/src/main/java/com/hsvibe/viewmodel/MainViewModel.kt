@@ -112,6 +112,7 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     private fun refreshUserToken(jobAfterRefreshed: suspend () -> Unit) {
         viewModelScope.launch(getExceptionHandler {
             L.e("RefreshToken failed!!!")
+            liveNavigation.value = Navigation.OnAuthorizationFailed
         }) {
             userRepo.refreshToken()
             jobAfterRefreshed()

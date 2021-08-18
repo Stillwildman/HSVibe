@@ -41,4 +41,8 @@ object Extensions {
     fun Fragment.getContextSafely(): Context {
         return context ?: activity ?: AppController.getAppContext()
     }
+
+    fun String?.isNotNullOrEmpty(): Boolean {
+        return !this.isNullOrEmpty() && this != "null"
+    }
 }

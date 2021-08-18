@@ -10,7 +10,7 @@ import com.hsvibe.model.UserToken
 import com.hsvibe.model.UserTokenManager
 import com.hsvibe.ui.bases.BaseActivity
 import com.hsvibe.ui.fragments.login.UiLoginWebDialogFragment
-import com.hsvibe.utilities.ContextExt.startActivitySafely
+import com.hsvibe.utilities.ContextExt.startActivitySafelyAndFinish
 import com.hsvibe.utilities.Extensions.setOnSingleClickListener
 import com.hsvibe.viewmodel.LoginViewModel
 
@@ -55,7 +55,6 @@ class UiLoginActivity : BaseActivity<ActivityLoginBinding>() {
     }
 
     private fun goToMain() {
-        this.startActivitySafely(Intent(this, UiMainActivity::class.java))
-        this.finish()
+        this.startActivitySafelyAndFinish(Intent(this, UiMainActivity::class.java))
     }
 }

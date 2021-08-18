@@ -13,4 +13,5 @@ sealed class Navigation {
     class ClickingBanner(val bannerItem: ItemBanner.ContentData): Navigation()
     object ClickingBell: Navigation()
     object ClickingUserName: Navigation()
+    object OnAuthorizationFailed: Navigation()
 }

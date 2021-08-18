@@ -69,4 +69,12 @@ interface ApiInterface {
         @Header(ApiConst.AUTHORIZATION) auth: String,
         @Url url: String = Urls.API_DISTRICTS
     ): Response<ItemDistricts>
+
+    // TODO Need to replaced with new API
+    @GET
+    suspend fun getCouponDistricts(@Url url: String = Urls.API_COUPON_DISTRICTS): Response<ItemCouponCategories>
+
+    // TODO Need to replaced with new API
+    @GET
+    suspend fun getCouponCategories(@Url url: String = Urls.API_COUPON_CATEGORIES): Response<ItemCouponCategories>
 }

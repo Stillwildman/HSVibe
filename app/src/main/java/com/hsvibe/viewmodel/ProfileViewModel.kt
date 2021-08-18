@@ -32,12 +32,12 @@ class ProfileViewModel(private val profileRepo: ProfileRepo) : LoadingStatusView
 
     fun setupPostUserInfo() {
         PostUpdateUserInfo(
-            first_name = profileRepo.userInfo?.getFirstName(),
-            last_name = profileRepo.userInfo?.getLastName(),
-            mobile_number = profileRepo.userInfo?.getMobileNumber(),
-            gender = profileRepo.userInfo?.getGender(),
-            birthday = profileRepo.userInfo?.getBirthday(),
-            referrer_no = profileRepo.userInfo?.getReferrerNo()
+            first_name = profileRepo.getUserInfo()?.getFirstName(),
+            last_name = profileRepo.getUserInfo()?.getLastName(),
+            mobile_number = profileRepo.getUserInfo()?.getMobileNumber(),
+            gender = profileRepo.getUserInfo()?.getGender(),
+            birthday = profileRepo.getUserInfo()?.getBirthday(),
+            referrer_no = profileRepo.getUserInfo()?.getReferrerNo()
         ).also {
             livePostUserInfo.value = it
         }
@@ -55,7 +55,7 @@ class ProfileViewModel(private val profileRepo: ProfileRepo) : LoadingStatusView
     fun setupDistrictsList() {
         viewModelScope.launch(Dispatchers.Default) {
             profileRepo.getDistricts()?.let {
-                val userRegionZip = profileRepo.userInfo?.getRegionZip()
+                val userRegionZip = profileRepo.getUserInfo()?.getRegionZip()
                 var citySelection = -1
                 var postalSelection = -1
 

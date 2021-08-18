@@ -7,9 +7,6 @@ import com.hsvibe.model.items.ItemBanner
 import com.hsvibe.model.items.ItemContent
 import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.repositories.HomeContentRepo
-import com.hsvibe.utilities.L
-import com.hsvibe.utilities.Utility
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 
 /**
@@ -22,16 +19,6 @@ class HomeViewModel(private val homeContentRepo: HomeContentRepo, private val ma
     val liveNews = MutableLiveData<ItemContent>()
     val liveCoupons = MutableLiveData<ItemCoupon>()
     val liveBanner = MutableLiveData<ItemBanner>()
-
-    private fun getExceptionHandler(): CoroutineExceptionHandler {
-        return CoroutineExceptionHandler { _, throwable ->
-            L.i("Handle Coroutine Exception!!!")
-            if (!Utility.isNetworkEnabled()) {
-                L.e("Network is not working!!!")
-                throwable.printStackTrace()
-            }
-        }
-    }
 
     init {
         homeContentRepo.setLoadingCallback(this)

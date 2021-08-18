@@ -7,9 +7,9 @@ object Urls {
 
     const val BASE_API_URL = "https://stg-oauth.hsvibe.com/api/v1/code/"
 
-    const val OLD_BASE_API_URL = "https://stg2-api.hsvibe.com/api/v1/"
+    private const val OLD_BASE_API_URL = "https://stg2-api.hsvibe.com/api/v1/"
 
-    const val BASE_SANDBOX_URL = "https://sandbox.hsvibe.com/"
+    private const val BASE_SANDBOX_URL = "https://sandbox.hsvibe.com/"
 
     const val WEB_LOGIN = BASE_SANDBOX_URL + "redirect"
 
@@ -29,5 +29,9 @@ object Urls {
 
     const val API_TICKET_HOLDER = "ticketHolder"
 
-    const val API_DISTRICTS = OLD_BASE_API_URL + "member/districts"
+    const val API_DISTRICTS = OLD_BASE_API_URL + "member/districts" // TODO Need to be replaced with new API
+
+    const val API_COUPON_DISTRICTS = OLD_BASE_API_URL + "tag?search=type:BusinessCounterDistrict" // TODO Need to be replaced with new API
+
+    const val API_COUPON_CATEGORIES = OLD_BASE_API_URL + "coupon/tag?orderBy=id&sortedBy=desc" // TODO Need to be replaced with new API
 }

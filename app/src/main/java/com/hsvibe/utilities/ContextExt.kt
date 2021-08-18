@@ -62,6 +62,13 @@ object ContextExt {
         } else false
     }
 
+    fun Context?.startActivitySafelyAndFinish(intent: Intent, exceptionHandler: (throwable: Throwable) -> Unit = { throwable ->
+        throwable.printStackTrace()
+    }) {
+        startActivitySafely(intent, exceptionHandler)
+        getActivity()?.finish()
+    }
+
     fun Context?.launchBrowser(url: String): Boolean {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(if (url.startsWith("http")) url else "http://$url")

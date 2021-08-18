@@ -27,4 +27,17 @@ object SpinnerBinding {
             }
         }
     }
+
+    @JvmStatic
+    @BindingAdapter(value = ["largePairList"])
+    fun setupSpinnerByPairList(spinner: Spinner, pairList: MutableList<Pair<String, String?>>?) {
+        pairList?.let {
+            if (spinner.adapter == null || spinner.adapter.count == 0) {
+                spinner.adapter = MyBaseAdapter(it, hasHintHeader = false, useLargeLayout = true)
+            }
+            else {
+                (spinner.adapter as MyBaseAdapter).updateList(it)
+            }
+        }
+    }
 }

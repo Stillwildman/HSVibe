@@ -25,9 +25,12 @@ import com.hsvibe.ui.fragments.member.UiMemberCenterFragment
 import com.hsvibe.ui.fragments.member.UiMemberInfoFragment
 import com.hsvibe.ui.fragments.news.UiNewsFragment
 import com.hsvibe.ui.fragments.news.UiNotificationFragment
+import com.hsvibe.utilities.ContextExt.startActivitySafelyAndFinish
 import com.hsvibe.utilities.DialogHelper
 import com.hsvibe.utilities.Extensions.observeOnce
 import com.hsvibe.utilities.L
+import com.hsvibe.utilities.SettingManager
+import com.hsvibe.utilities.Utility
 import com.hsvibe.viewmodel.LoginViewModel
 import com.hsvibe.viewmodel.MainViewModel
 import com.hsvibe.viewmodel.MainViewModelFactory
@@ -151,6 +154,7 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
                     is Navigation.ClickingBanner -> onBannerClick(navigation.bannerItem)
                     is Navigation.ClickingBell -> openDialogFragment(UiNotificationFragment())
                     is Navigation.ClickingUserName -> checkBeforeGo(UiMemberCenterFragment())
+                    is Navigation.OnAuthorizationFailed -> notifyAuthFailedAndGoToLogin()
                 }
             }
             it.liveLoadingStatus.observe(this) { loadingStatus ->
@@ -277,6 +281,16 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
 
     private fun moveTabToHome() {
         bindingView.mainTabLayout.getTabAt(TabFragmentManager.INDEX_HOME)?.select()
+    }
+
+    private fun notifyAuthFailedAndGoToLogin() {
+        launch {
+            Utility.toastLong(R.string.authorization_error)
+            UserTokenManager.clearUserToken()
+            SettingManager.setFullProfileIsAlreadyAsked(false)
+            delay(3000)
+            this@UiMainActivity.startActivitySafelyAndFinish(Intent(this@UiMainActivity, UiLoginActivity::class.java))
+        }
     }
 
     override fun onBackPressed() {

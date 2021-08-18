@@ -1,5 +1,6 @@
 package com.hsvibe.utilities
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
@@ -33,13 +34,18 @@ object SettingManager {
         getTokenPrefs().edit().putString(PREF_USER_TOKEN, Gson().toJson(userToken)).also { L.d("Saved UserToken:\n$it") }.apply()
     }
 
+    @SuppressLint("ApplySharedPref")
+    fun clearUserToken() {
+        getTokenPrefs().edit().remove(PREF_USER_TOKEN).commit()
+    }
+
     @Synchronized
     fun getUserToken(): UserToken? {
         return getTokenPrefs().getString(PREF_USER_TOKEN, null)?.let { Gson().fromJson(it, UserToken::class.java) }
     }
 
-    fun setFullProfileAlreadyAsked() {
-        getDefaultPrefs().edit().putBoolean(PREF_ALREADY_ASKED_FOR_FULL_PROFILE, true).apply()
+    fun setFullProfileIsAlreadyAsked(isAlreadyAsked: Boolean) {
+        getDefaultPrefs().edit().putBoolean(PREF_ALREADY_ASKED_FOR_FULL_PROFILE, isAlreadyAsked).apply()
     }
     
     fun isNeedToAskForFullProfile(): Boolean {

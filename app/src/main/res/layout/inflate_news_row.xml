@@ -20,7 +20,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/poi_photo_edit_view"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/padding_size_xl"
         android:layout_marginEnd="@dimen/padding_size_xl"
         android:layout_marginTop="@dimen/padding_size_m"
@@ -39,12 +39,14 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/image_news"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/poi_photo_edit_view"
                 android:layout_marginStart="@dimen/padding_size_m"
                 android:layout_marginTop="@dimen/padding_size_m"
                 android:layout_marginBottom="@dimen/padding_size_m"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintDimensionRatio="7:5"
+                app:layout_constraintDimensionRatio="9:7"
                 app:glideImage="@{content.getThumbnailUrl()}"/>
 
             <TextView
@@ -69,18 +71,19 @@
             <TextView
                 android:id="@+id/text_newsTitle"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                tools:text="0000000000000000000000"
-                android:textColor="@color/md_grey_700"
-                android:textSize="@dimen/font_text_size_s"
-                android:layout_marginEnd="@dimen/padding_size_l"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/padding_size_m"
                 android:layout_marginTop="@dimen/padding_size_m"
                 android:layout_marginBottom="@dimen/padding_size_m"
+                android:textColor="@color/md_grey_700"
+                android:textSize="@dimen/font_text_size_s"
+                tools:text="0000000000000000"
                 android:text="@{content.title}"
                 app:layout_constraintStart_toStartOf="@+id/text_tag"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_tag"
-                app:layout_constraintBottom_toTopOf="@+id/text_newsDate" />
+                app:layout_constraintBottom_toTopOf="@+id/text_newsDate"
+                />
 
             <TextView
                 android:id="@+id/text_newsDate"

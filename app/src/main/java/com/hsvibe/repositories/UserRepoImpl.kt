@@ -14,6 +14,7 @@ import com.hsvibe.model.posts.PostUpdateUserInfo
 import com.hsvibe.network.DataCallbacks
 import com.hsvibe.tasks.TaskController
 import com.hsvibe.utilities.DeviceUtil
+import com.hsvibe.utilities.Extensions.isNotNullOrEmpty
 import com.hsvibe.utilities.L
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -33,9 +34,9 @@ class UserRepoImpl : UserRepo {
     }
 
     override suspend fun refreshToken() {
-        UserTokenManager.getUserToken()?.refresh_token?.let {
-            val userToken = DataCallbacks.refreshUserToken(PostRefreshToken(it), callback)
-            userToken?.run {
+        UserTokenManager.getUserToken()?.refresh_token?.let { refreshToken ->
+            val userToken = DataCallbacks.refreshUserToken(PostRefreshToken(refreshToken), callback)
+            userToken?.takeIf { it.access_token.isNotNullOrEmpty() }?.run {
                 UserTokenManager.setUserToken(this)
             }
         }

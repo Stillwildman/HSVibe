@@ -98,7 +98,7 @@ class UiHomeFragment : BaseFragment<FragmentHomeBinding>() {
                 ) {
                     openDialogFragment(UiMemberInfoFragment.newInstance(true))
                 }
-                SettingManager.setFullProfileAlreadyAsked()
+                SettingManager.setFullProfileIsAlreadyAsked(true)
             }
         }
     }

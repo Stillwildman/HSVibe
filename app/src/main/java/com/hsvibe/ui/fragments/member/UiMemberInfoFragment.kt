@@ -12,7 +12,7 @@ import com.hsvibe.R
 import com.hsvibe.databinding.FragmentMemberInfoBinding
 import com.hsvibe.model.Const
 import com.hsvibe.model.posts.PostUpdateUserInfo
-import com.hsvibe.repositories.ProfileRepo
+import com.hsvibe.repositories.ProfileRepoImpl
 import com.hsvibe.repositories.UserRepoImpl
 import com.hsvibe.ui.adapters.MyBaseAdapter
 import com.hsvibe.ui.bases.BaseActionBarFragment
@@ -43,7 +43,7 @@ class UiMemberInfoFragment private constructor() : BaseActionBarFragment<Fragmen
     private val mainViewModel by activityViewModels<MainViewModel> { MainViewModelFactory(UserRepoImpl()) }
 
     private val profileViewModel by viewModels<ProfileViewModel> {
-        ProfileViewModelFactory(ProfileRepo(mainViewModel.liveUserInfo.value))
+        ProfileViewModelFactory(ProfileRepoImpl(mainViewModel.liveUserInfo.value))
     }
 
     override fun getFragmentLayoutId(): Int = R.layout.fragment_member_info
