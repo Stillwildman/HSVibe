@@ -2,6 +2,7 @@ package com.hsvibe.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.hsvibe.R
 import com.hsvibe.callbacks.OnLoadingCallback
 import com.hsvibe.model.LoadingStatus
 import com.hsvibe.utilities.L
@@ -30,10 +31,17 @@ open class LoadingStatusViewModel : ViewModel(), OnLoadingCallback {
     open fun getExceptionHandler(): CoroutineExceptionHandler {
         return CoroutineExceptionHandler { _, throwable ->
             L.i("Handle Coroutine Exception!!!")
-            if (!Utility.isNetworkEnabled()) {
-                L.e("Network is not working!!!")
-                throwable.printStackTrace()
+            when {
+                !Utility.isNetworkEnabled() -> {
+                    L.e("Network is not working!!!")
+                    Utility.toastLong("Network is not working!!!")
+                }
+                else -> {
+                    Utility.toastLong(R.string.unknown_network_error)
+                }
             }
+            onLoadingEnd()
+            throwable.printStackTrace()
         }
     }
 }

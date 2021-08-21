@@ -20,7 +20,7 @@ import kotlinx.coroutines.async
 /**
  * Created by Vincent on 2021/7/4.
  */
-abstract class BaseFragment<BindingView : ViewDataBinding> : Fragment(R.layout.fragment_empty_container), FragmentContract.ActivityCallback {
+abstract class  BaseFragment<BindingView : ViewDataBinding> : Fragment(R.layout.fragment_empty_container), FragmentContract.ActivityCallback {
 
     @Suppress("PropertyName")
     protected val TAG: String = javaClass.simpleName

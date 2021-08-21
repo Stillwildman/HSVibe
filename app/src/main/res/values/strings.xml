@@ -9,6 +9,7 @@
     <string name="done">完成</string>
     <string name="cancel">取消</string>
     <string name="all">全部</string>
+    <string name="unknown_network_error">Unknown network error! Please check your connection.</string>
 
     <!-- Permissions -->
     <string name="permission_requires_location_title">為何需要位置權限?</string>

@@ -3,6 +3,7 @@ package com.hsvibe.viewmodel
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.hsvibe.R
 import com.hsvibe.model.Navigation
 import com.hsvibe.model.UserInfo
 import com.hsvibe.model.items.ItemUserBonus
@@ -24,11 +25,23 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     private fun getExceptionHandler(runIfTokenStatusExpired: () -> Unit): CoroutineExceptionHandler {
         return CoroutineExceptionHandler { _, throwable ->
             L.i("Handle Coroutine Exception!!!")
-            if (!Utility.isNetworkEnabled()) {
-                L.e("Network is not working!!!")
-            }
-            else if (throwable is ApiStatusException && throwable.isTokenStatusExpired()) {
-                runIfTokenStatusExpired()
+            when {
+                !Utility.isNetworkEnabled() -> {
+                    L.e("Network is not working!!!")
+                    Utility.toastLong("Network is not working!!!")
+                    onLoadingEnd()
+                }
+                throwable is ApiStatusException && throwable.isTokenStatusExpired() -> {
+                    runIfTokenStatusExpired()
+                }
+                throwable is ApiStatusException -> {
+                    Utility.toastLong("Api Error!!\nCode: ${throwable.statusCode}\nMsg: ${throwable.errorMessage}")
+                    onLoadingEnd()
+                }
+                else -> {
+                    Utility.toastLong(R.string.unknown_network_error)
+                    onLoadingEnd()
+                }
             }
             throwable.printStackTrace()
         }

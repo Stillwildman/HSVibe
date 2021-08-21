@@ -23,6 +23,10 @@ object Extensions {
         })
     }
 
+    fun View.setOnSingleClickListener(onSingleClickListener: SingleClickListener) {
+        setOnClickListener(onSingleClickListener)
+    }
+
     fun Spinner.getPairFirstValue(): String {
         return (adapter as? MyBaseAdapter)?.getFirst(selectedItemPosition) ?: ""
     }

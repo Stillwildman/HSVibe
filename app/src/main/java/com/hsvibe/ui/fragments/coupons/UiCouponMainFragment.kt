@@ -137,7 +137,7 @@ class UiCouponMainFragment private constructor(): BaseFragment<FragmentCouponMai
 
         bindingView.recyclerCouponCategory.apply {
             layoutManager = LinearLayoutManager(context, if (category == ApiConst.CATEGORY_ALL) RecyclerView.HORIZONTAL else RecyclerView.VERTICAL, false)
-            adapter = CouponCategoryListAdapter(layoutManager as LinearLayoutManager, categoryList, onCategoryClickCallback)
+            adapter = CouponCategoryListAdapter(layoutManager as LinearLayoutManager, categoryList, onCategoryClickCallback, viewLifecycleOwner.lifecycleScope)
         }
     }
 
