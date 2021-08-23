@@ -47,6 +47,8 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
 
     private val loginViewModel by lazy { ViewModelProvider(this).get(LoginViewModel::class.java) }
 
+    private var lastTabIndex = 0
+
     override fun getLayoutId(): Int = R.layout.activity_main
 
     override fun getContainerId(): Int = R.id.fragment_container
@@ -105,12 +107,12 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
             TabFragmentManager.INDEX_HOME -> openTabFragment(TabFragmentManager.TAG_HOME)
             TabFragmentManager.INDEX_EXPLORE -> openTabFragment(TabFragmentManager.TAG_EXPLORE)
             TabFragmentManager.INDEX_COUPON -> openTabFragment(TabFragmentManager.TAG_COUPON)
-            TabFragmentManager.INDEX_WALLET -> openTabFragment(TabFragmentManager.TAG_WALLET)
+            TabFragmentManager.INDEX_WALLET -> checkBeforeGoWalletMainPage()
         }
     }
 
     override fun onTabUnselected(tab: TabLayout.Tab?) {
-
+        lastTabIndex = tab?.position ?: 0
     }
 
     override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -197,7 +199,7 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
                 openDialogFragment(UiNewsFragment.newInstance())
             }
             ApiConst.API_TYPE_COUPON -> {
-                bindingView.mainTabLayout.getTabAt(TabFragmentManager.INDEX_COUPON)?.select()
+                selectTab(TabFragmentManager.INDEX_COUPON)
             }
             ApiConst.API_TYPE_DISCOUNT -> {
                 // This type doesn't have "more"!
@@ -226,6 +228,14 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
     private fun checkBeforeGo(target: DialogFragment) {
         if (checkIsLoggedInAndProfileCompleted()) {
             openDialogFragment(target)
+        }
+    }
+
+    private fun checkBeforeGoWalletMainPage() {
+        if (checkIsLoggedInAndProfileCompleted()) {
+            openTabFragment(TabFragmentManager.TAG_WALLET)
+        } else {
+            selectTab(lastTabIndex)
         }
     }
 
@@ -280,7 +290,11 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
     }
 
     private fun moveTabToHome() {
-        bindingView.mainTabLayout.getTabAt(TabFragmentManager.INDEX_HOME)?.select()
+        selectTab(TabFragmentManager.INDEX_HOME)
+    }
+
+    private fun selectTab(tabIndex: Int) {
+        bindingView.mainTabLayout.getTabAt(tabIndex)?.select()
     }
 
     private fun notifyAuthFailedAndGoToLogin() {

@@ -1,10 +1,10 @@
 package com.hsvibe.ui.fragments.member
 
 import android.app.DatePickerDialog
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.hsvibe.AppController
@@ -58,7 +58,7 @@ class UiMemberInfoFragment private constructor() : BaseActionBarFragment<Fragmen
     }
 
     override fun getActionBarBackgroundColor(): Int {
-        return Color.parseColor("#45434E")
+        return ContextCompat.getColor(AppController.getAppContext(), R.color.app_background_gradient_top)
     }
 
     override fun onInitCompleted() {

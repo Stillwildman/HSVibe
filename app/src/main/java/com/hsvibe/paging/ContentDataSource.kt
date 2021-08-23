@@ -49,9 +49,13 @@ class ContentDataSource(private val category: Int, private val loadingCallback: 
             )
         }
         catch (e: IOException) {
+            loadingCallback?.onLoadingFailed(e.message)
+            loadingCallback?.onLoadingEnd()
             return LoadResult.Error(e)
         }
         catch (e: HttpException) {
+            loadingCallback?.onLoadingFailed(e.message)
+            loadingCallback?.onLoadingEnd()
             return LoadResult.Error(e)
         }
     }

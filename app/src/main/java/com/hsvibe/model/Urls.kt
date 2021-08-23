@@ -34,4 +34,10 @@ object Urls {
     const val API_COUPON_DISTRICTS = OLD_BASE_API_URL + "tag?search=type:BusinessCounterDistrict" // TODO Need to be replaced with new API
 
     const val API_COUPON_CATEGORIES = OLD_BASE_API_URL + "coupon/tag?orderBy=id&sortedBy=desc" // TODO Need to be replaced with new API
+
+    const val WEB_HS_VIBE = "https://www.hsvibe.com/"
+
+    const val WEB_HS_VIBE_TERMS = "https://www.hsvibe.com/terms"
+
+    const val WEB_HS_VIBE_PRIVACY = "https://www.hsvibe.com/privacy"
 }

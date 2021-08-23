@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.databinding.DialogLargeViewBinding
+import com.hsvibe.databinding.DialogMemberTermsBinding
 import com.hsvibe.databinding.DialogSmallViewBinding
 import com.hsvibe.databinding.DialogSmallViewSingleButtonBinding
 import com.hsvibe.utilities.Extensions.setOnSingleClickListener
@@ -115,6 +116,31 @@ object DialogHelper {
             }
         }
         return dialog.also { it.show() }
+    }
+
+    fun showMemberTermsDialog(context: Context, onTermsClick: () -> Unit, onPrivacyClick: () -> Unit) {
+        val bindingView = DataBindingUtil.inflate<DialogMemberTermsBinding>(LayoutInflater.from(context), R.layout.dialog_member_terms, null, false)
+
+        val dialog = AlertDialog.Builder(context, R.style.DialogAnimTheme).apply {
+            setView(bindingView.root)
+            setCancelable(true)
+        }.create()
+
+        setupDialogWindowAttribute(dialog)
+
+        bindingView.buttonTerms.setOnSingleClickListener {
+            dialog.dismiss()
+            onTermsClick()
+        }
+        bindingView.buttonPrivacy.setOnSingleClickListener {
+            dialog.dismiss()
+            onPrivacyClick()
+        }
+        dialog.apply {
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            window?.setDimAmount(0.6f)
+            show()
+        }
     }
 
     private fun setupDialogWindowAttribute(dialog: AlertDialog) {

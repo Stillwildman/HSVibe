@@ -22,6 +22,7 @@ object Const {
     const val BUNDLE_COUPON_DATA = "CouponData"
     const val BUNDLE_CATEGORY = "Category"
     const val BUNDLE_USE_SLIDE_UP_ANIM = "UseSlideUpAnim"
+    const val BUNDLE_VIEW_TYPE = "ViewType"
 
     const val NO_POSITION = -1
 }

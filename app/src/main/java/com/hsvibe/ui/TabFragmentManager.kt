@@ -7,6 +7,7 @@ import com.hsvibe.model.ApiConst
 import com.hsvibe.ui.fragments.coupons.UiCouponMainFragment
 import com.hsvibe.ui.fragments.explore.UiExploreFragment
 import com.hsvibe.ui.fragments.home.UiHomeFragment
+import com.hsvibe.ui.fragments.payment.UiWalletMainFragment
 
 /**
  * Created by Vincent on 2021/8/9.
@@ -56,7 +57,7 @@ class TabFragmentManager(private val fm: FragmentManager, private val scope: Lif
             TAG_HOME -> UiHomeFragment()
             TAG_EXPLORE -> UiExploreFragment()
             TAG_COUPON -> UiCouponMainFragment.newInstance(ApiConst.CATEGORY_ALL)
-            TAG_WALLET -> UiHomeFragment() // TODO
+            TAG_WALLET -> UiWalletMainFragment()
             else -> UiHomeFragment()
         }
     }

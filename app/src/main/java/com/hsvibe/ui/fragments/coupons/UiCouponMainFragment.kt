@@ -144,6 +144,7 @@ class UiCouponMainFragment private constructor(): BaseFragment<FragmentCouponMai
     private val onCategoryClickCallback = object : OnAnyItemClickCallback<ItemCouponCategories.ContentData> {
         override fun onItemClick(item: ItemCouponCategories.ContentData) {
             getCategoryListAdapter()?.setSelected(item)
+            // TODO Change coupon category?
         }
     }
 

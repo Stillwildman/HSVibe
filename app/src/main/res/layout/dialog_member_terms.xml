@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" >
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/layout_termsCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:cardCornerRadius="15dp"
+            app:cardBackgroundColor="@color/md_white_1000"
+            app:cardElevation="0dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/padding_size_l"
+                android:paddingEnd="@dimen/padding_size_l"
+                android:paddingTop="@dimen/padding_size_xxl"
+                android:paddingBottom="@dimen/padding_size_xxl" >
+
+                <TextView
+                    android:id="@+id/text_hs_vibe_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding_size_xxl"
+                    android:layout_marginEnd="@dimen/padding_size_xxl"
+                    android:layout_marginTop="@dimen/padding_size_l"
+                    android:text="@string/hs_vibe_card"
+                    android:textColor="@color/md_grey_800"
+                    android:textSize="@dimen/font_text_size_l"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/text_pleaseRead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding_size_xxl"
+                    android:layout_marginEnd="@dimen/padding_size_xxl"
+                    android:layout_marginTop="@dimen/padding_size_l"
+                    android:text="@string/please_read_carefully"
+                    android:textColor="@color/md_grey_700"
+                    android:textSize="@dimen/font_text_size_m"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_hs_vibe_card"
+                    app:layout_constraintBottom_toTopOf="@+id/button_terms"/>
+
+                <TextView
+                    android:id="@+id/button_terms"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding_size_xl"
+                    android:layout_marginEnd="@dimen/padding_size_xl"
+                    android:layout_marginTop="@dimen/padding_size_super"
+                    android:paddingTop="@dimen/padding_size_m"
+                    android:paddingBottom="@dimen/padding_size_m"
+                    android:gravity="center"
+                    android:text="@string/member_register_apply"
+                    android:textColor="@color/md_grey_50"
+                    android:textSize="@dimen/font_text_size_s"
+                    android:background="@drawable/background_main_theme_dark_button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_pleaseRead"/>
+
+                <TextView
+                    android:id="@+id/button_privacy"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding_size_xl"
+                    android:layout_marginEnd="@dimen/padding_size_xl"
+                    android:layout_marginTop="@dimen/padding_size_l"
+                    android:paddingTop="@dimen/padding_size_m"
+                    android:paddingBottom="@dimen/padding_size_m"
+                    android:gravity="center"
+                    android:text="@string/privacy_claim"
+                    android:textColor="@color/md_grey_50"
+                    android:textSize="@dimen/font_text_size_s"
+                    android:background="@drawable/background_main_theme_dark_button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/button_terms"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image_appSign"
+            android:layout_width="@dimen/icon_common_size_l"
+            android:layout_height="@dimen/icon_common_size_l"
+            android:padding="@dimen/padding_size_m"
+            android:background="@drawable/background_black_icon_edge"
+            app:srcCompat="@drawable/ic_app_sign"
+            app:layout_constraintStart_toStartOf="@+id/layout_termsCard"
+            app:layout_constraintEnd_toEndOf="@+id/layout_termsCard"
+            app:layout_constraintTop_toTopOf="@+id/layout_termsCard"
+            app:layout_constraintBottom_toTopOf="@+id/layout_termsCard" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
