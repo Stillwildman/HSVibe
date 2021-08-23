@@ -3,6 +3,8 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 def static getDate() {
@@ -43,7 +45,7 @@ android {
             manifestPlaceholders = [appName: "H\'S VIBE"]
         }
         debug {
-            applicationIdSuffix ".dev"
+            //applicationIdSuffix ".dev"
             versionNameSuffix '-dev'
             manifestPlaceholders = [appName: "H\'S VIBE dev"]
         }
@@ -95,6 +97,11 @@ dependencies {
 
     // Google API
     implementation "com.google.android.gms:play-services-location:18.0.0"
+
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:28.4.0')
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.9.0'

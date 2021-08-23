@@ -68,7 +68,7 @@
         <item name="android:windowAnimationStyle">@style/DialogSlideRightAnim</item>
     </style>
 
-    <style name="DialogAnimTheme" parent="@android:style/Theme.Panel">
+    <style name="DialogAnimTheme" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowAnimationStyle">@style/DialogSlideUpAnim</item>
     </style>
 

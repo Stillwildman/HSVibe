@@ -77,7 +77,7 @@
                     app:layout_constraintStart_toEndOf="@+id/view_divider"/>
 
                 <TextView
-                    android:id="@+id/text_couponHas"
+                    android:id="@+id/text_ntDollars"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/padding_size_xl"

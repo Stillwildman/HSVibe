@@ -1,0 +1,72 @@
+{
+  "project_info": {
+    "project_number": "54808789693",
+    "firebase_url": "https://hsvibe-2fc03.firebaseio.com",
+    "project_id": "hsvibe-2fc03",
+    "storage_bucket": "hsvibe-2fc03.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:54808789693:android:9f4035a36567ce4b462dd4",
+        "android_client_info": {
+          "package_name": "com.hsvibe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "54808789693-e8uc7rbk1aufnqv7d1ta3pl412avt09v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hsvibe",
+            "certificate_hash": "c452068504edf89aac75cd695ac96b40901e8fa9"
+          }
+        },
+        {
+          "client_id": "54808789693-ffotjmenbcbp30c88ssaq3t8dl7dkpul.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hsvibe",
+            "certificate_hash": "2d3ad0e8fc49009a653e7648fa392726f3c98063"
+          }
+        },
+        {
+          "client_id": "54808789693-rbs08fpanc2urra4e0cqslpd5hpck670.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hsvibe",
+            "certificate_hash": "ab4edcf9f774a5206d4905e256b714239b48b5d9"
+          }
+        },
+        {
+          "client_id": "54808789693-db81oadirjsi0dcdgh5p5ngkouk3unn2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6TkvQlYSXLBn_cNCRmAsDE7URHitldLs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "54808789693-db81oadirjsi0dcdgh5p5ngkouk3unn2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "54808789693-62lkof37e1n4c99fbphv9me96ashhtqa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hs.vibe",
+                "app_store_id": "1449947800"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

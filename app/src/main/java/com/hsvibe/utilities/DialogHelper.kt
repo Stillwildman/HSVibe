@@ -126,15 +126,13 @@ object DialogHelper {
             setCancelable(true)
         }.create()
 
-        setupDialogWindowAttribute(dialog)
-
         bindingView.buttonTerms.setOnSingleClickListener {
-            dialog.dismiss()
             onTermsClick()
+            dialog.dismiss()
         }
         bindingView.buttonPrivacy.setOnSingleClickListener {
-            dialog.dismiss()
             onPrivacyClick()
+            dialog.dismiss()
         }
         dialog.apply {
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
