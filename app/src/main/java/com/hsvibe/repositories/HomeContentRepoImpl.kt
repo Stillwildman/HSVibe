@@ -10,6 +10,12 @@ import com.hsvibe.model.items.ItemContent
 import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.model.items.ItemHomeHeader
 import com.hsvibe.network.DataCallbacks
+import com.hsvibe.utilities.SettingManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Created by Vincent on 2021/7/19.
@@ -30,6 +36,35 @@ class HomeContentRepoImpl : HomeContentRepo {
             ItemHomeHeader(getTitleString(R.string.hilai_foods), true, ApiConst.API_TYPE_FOODS),
             ItemHomeHeader(getTitleString(R.string.hilai_hotel), true, ApiConst.API_TYPE_HOTEL)
         )
+    }
+
+    override suspend fun getNotificationUnreadCount(): Int {
+        return withContext(Dispatchers.Default) {
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            val lastNewestTime = SettingManager.getNewestNotificationTime()
+
+            val notificationItems = DataCallbacks.getContent(
+                category = ApiConst.CATEGORY_PERSONAL_NOTIFICATION,
+                limit = 10,
+                page = 1,
+                loadingCallback = loadingCallback)
+
+            var unreadCount = 0
+
+            notificationItems?.contentData?.forEach {
+                try {
+                    val itemTime: Long = dateFormat.parse(it.approval_at)?.time ?: 0L
+                    if (itemTime > lastNewestTime) {
+                        unreadCount++
+                    }
+                }
+                catch (e: ParseException) {
+                    e.printStackTrace()
+                }
+            }
+
+            unreadCount
+        }
     }
 
     override suspend fun getNews(): ItemContent? {

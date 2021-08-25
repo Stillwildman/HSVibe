@@ -3,6 +3,7 @@ package com.hsvibe.viewmodel
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.messaging.FirebaseMessaging
 import com.hsvibe.R
 import com.hsvibe.model.Navigation
 import com.hsvibe.model.UserInfo
@@ -72,14 +73,6 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
         liveNavigation.value = navigation
     }
 
-    fun onBellClick() {
-        liveNavigation.value = Navigation.ClickingBell
-    }
-
-    fun onUserNameClick() {
-        liveNavigation.value = Navigation.ClickingUserName
-    }
-
     fun isUserInfoNotCompletely(): Boolean {
         return liveUserInfo.value?.let {
             it.getFirstName().isEmpty() || it.getLastName().isEmpty() || it.getBirthday().isEmpty() || it.getGender().isEmpty()
@@ -120,6 +113,7 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
             userRepo.writeUserInfoToDB(it)
         }
         getUserBonus()
+        updateFcmToken()
     }
 
     private fun refreshUserToken(jobAfterRefreshed: suspend () -> Unit) {
@@ -135,6 +129,22 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     fun refreshTokenAndUpdate() {
         viewModelScope.launch {
             refreshUserToken { getUserInfoAndUpdate() }
+        }
+    }
+
+    private fun updateFcmToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                task.result.let {
+                    viewModelScope.launch {
+                        userRepo.updateFcmToken(it)
+                    }
+                    L.i("FCM Token Get!!! $it")
+                }
+            }
+            else {
+                L.e("Retrieve FCM Token Failed!!! ${task.exception}")
+            }
         }
     }
 

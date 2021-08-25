@@ -1,6 +1,5 @@
 package com.hsvibe.utilities
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
@@ -20,6 +19,8 @@ object SettingManager {
 
     private const val PREF_ALREADY_ASKED_FOR_FULL_PROFILE = "AlreadyAskedForFullProfile"
 
+    private const val PREF_NEWEST_NOTIFICATION_TIME = "NewestNotificationTime"
+
     private fun appContext(): Context = AppController.getAppContext()
 
     private fun getDefaultPrefs(): SharedPreferences {
@@ -34,9 +35,8 @@ object SettingManager {
         getTokenPrefs().edit().putString(PREF_USER_TOKEN, Gson().toJson(userToken)).also { L.d("Saved UserToken:\n$it") }.apply()
     }
 
-    @SuppressLint("ApplySharedPref")
     fun clearUserToken() {
-        getTokenPrefs().edit().remove(PREF_USER_TOKEN).commit()
+        getTokenPrefs().edit().remove(PREF_USER_TOKEN).apply()
     }
 
     @Synchronized
@@ -50,5 +50,13 @@ object SettingManager {
     
     fun isNeedToAskForFullProfile(): Boolean {
         return getDefaultPrefs().getBoolean(PREF_ALREADY_ASKED_FOR_FULL_PROFILE, false).not()
+    }
+
+    fun setNewestNotificationTime(time: Long) {
+        getDefaultPrefs().edit().putLong(PREF_NEWEST_NOTIFICATION_TIME, time).apply()
+    }
+
+    fun getNewestNotificationTime(): Long {
+        return getDefaultPrefs().getLong(PREF_NEWEST_NOTIFICATION_TIME, 0L)
     }
 }

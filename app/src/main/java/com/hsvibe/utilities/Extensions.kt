@@ -2,6 +2,7 @@ package com.hsvibe.utilities
 
 import android.content.Context
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
@@ -44,6 +45,15 @@ object Extensions {
 
     fun Fragment.getContextSafely(): Context {
         return context ?: activity ?: AppController.getAppContext()
+    }
+
+    fun View.getInflatedSize(onMeasuredSizeGet: (width: Int, height: Int) -> Unit) {
+        viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                viewTreeObserver.removeOnGlobalLayoutListener(this)
+                onMeasuredSizeGet(width, height)
+            }
+        })
     }
 
     fun String?.isNotNullOrEmpty(): Boolean {

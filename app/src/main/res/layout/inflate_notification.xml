@@ -7,6 +7,10 @@
             type="com.hsvibe.callbacks.OnAnyItemClickCallback" />
 
         <variable
+            name="position"
+            type="Integer" />
+
+        <variable
             name="content"
             type="com.hsvibe.model.items.ItemContent.ContentData" />
     </data>
@@ -22,7 +26,7 @@
         android:layout_marginTop="@dimen/padding_size_m"
         android:layout_marginBottom="@dimen/padding_size_m"
         android:background="?selectableItemBackground"
-        app:singleClick="@{() -> itemClickCallback.onItemClick(content)}"
+        app:singleClick="@{() -> itemClickCallback.onItemClick(position)}"
         app:cardCornerRadius="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,7 +45,7 @@
                 app:srcCompat="@drawable/ic_unread_dot"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:visibility="gone"/>
+                android:visibility="@{content.getUnreadDotVisibility(), default=gone}"/>
 
             <TextView
                 android:id="@+id/text_date"

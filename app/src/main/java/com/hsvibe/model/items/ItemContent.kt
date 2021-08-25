@@ -1,6 +1,10 @@
 package com.hsvibe.model.items
 
+import android.view.View
 import com.google.gson.annotations.SerializedName
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Created by Vincent on 2021/7/19.
@@ -18,7 +22,8 @@ data class ItemContent(
         val share_url: String,
         val approval_at: String,
         val categories: Categories?,
-        val media: Media?
+        val media: Media?,
+        var isUnread: Boolean = false
     ) {
         data class Categories(
             @SerializedName("data")
@@ -60,6 +65,20 @@ data class ItemContent(
 
         fun getThumbnailUrl(): String? {
             return media?.mediaData?.takeIf { it.isNotEmpty() }?.get(0)?.thumbnail
+        }
+
+        fun setUnreadStatus(lastNewestTime: Long, dateFormat: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())) {
+            try {
+                val time: Long = dateFormat.parse(approval_at)?.time ?: 0L
+                isUnread = time > lastNewestTime
+            }
+            catch (e: ParseException) {
+                e.printStackTrace()
+            }
+        }
+
+        fun getUnreadDotVisibility(): Int {
+            return if (isUnread) View.VISIBLE else View.GONE
         }
     }
 

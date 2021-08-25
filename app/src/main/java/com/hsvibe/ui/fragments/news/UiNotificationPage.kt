@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
+import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.hsvibe.R
@@ -14,15 +16,22 @@ import com.hsvibe.model.Const
 import com.hsvibe.model.items.ItemContent
 import com.hsvibe.ui.adapters.NotificationListAdapter
 import com.hsvibe.ui.bases.BaseFragment
+import com.hsvibe.utilities.L
+import com.hsvibe.utilities.SettingManager
 import com.hsvibe.viewmodel.ContentViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.withContext
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Created by Vincent on 2021/8/13.
  */
 class UiNotificationPage private constructor() : BaseFragment<FragmentNotificationListBinding>(),
     SwipeRefreshLayout.OnRefreshListener,
-    OnAnyItemClickCallback<ItemContent.ContentData> {
+    OnAnyItemClickCallback<Int> {
 
     companion object {
         fun newInstance(category: Int): UiNotificationPage {
@@ -33,6 +42,9 @@ class UiNotificationPage private constructor() : BaseFragment<FragmentNotificati
     }
 
     private val viewModel by viewModels<ContentViewModel>()
+
+    private val dateFormat by lazy { SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()) }
+    private val lastNewestTime by lazy { SettingManager.getNewestNotificationTime() }
 
     override fun getLayoutId(): Int = R.layout.fragment_notification_list
 
@@ -88,8 +100,17 @@ class UiNotificationPage private constructor() : BaseFragment<FragmentNotificati
         val category = arguments?.getInt(Const.BUNDLE_CATEGORY) ?: ApiConst.CATEGORY_PERSONAL_NOTIFICATION
 
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
-            viewModel.getContentFlow(category).collectLatest { pagingContentDataList ->
-                getNotificationAdapter().submitData(pagingContentDataList)
+            viewModel.getContentFlow(category).collectLatest { pagingContentData ->
+                updateUnreadStatus(pagingContentData)
+                getNotificationAdapter().submitData(pagingContentData)
+            }
+        }
+    }
+
+    private suspend fun updateUnreadStatus(pagingContentData: PagingData<ItemContent.ContentData>) {
+        withContext(Dispatchers.IO) {
+            pagingContentData.map {
+                it.setUnreadStatus(lastNewestTime, dateFormat)
             }
         }
     }
@@ -102,8 +123,25 @@ class UiNotificationPage private constructor() : BaseFragment<FragmentNotificati
         getNotificationAdapter().refresh()
     }
 
-    override fun onItemClick(item: ItemContent.ContentData) {
-        openWebDialogFragment(item.share_url)
+    override fun onItemClick(item: Int) {
+        getNotificationAdapter().getItemAndSetRead(item)?.let { openWebDialogFragment(it.share_url) }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        saveNewestItemTime()
+    }
+
+    private fun saveNewestItemTime() {
+        getNotificationAdapter().getFirstItemTime()?.let { it ->
+            try {
+                val itemTime = dateFormat.parse(it)?.time ?: 0
+                SettingManager.setNewestNotificationTime(itemTime.also { time -> L.i("SaveNewestNotificationTime: $time") })
+            }
+            catch (e: ParseException) {
+                e.printStackTrace()
+            }
+        }
     }
 
     override fun onBackButtonPressed(): Boolean = true

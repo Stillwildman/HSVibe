@@ -121,7 +121,7 @@ object DialogHelper {
     fun showMemberTermsDialog(context: Context, onTermsClick: () -> Unit, onPrivacyClick: () -> Unit) {
         val bindingView = DataBindingUtil.inflate<DialogMemberTermsBinding>(LayoutInflater.from(context), R.layout.dialog_member_terms, null, false)
 
-        val dialog = AlertDialog.Builder(context, R.style.DialogAnimTheme).apply {
+        val dialog = AlertDialog.Builder(context, R.style.DialogFasterAnimTheme).apply {
             setView(bindingView.root)
             setCancelable(true)
         }.create()

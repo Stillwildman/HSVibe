@@ -94,6 +94,7 @@
     <string name="accumulation_points">累積總點數</string>
     <string name="point">點</string>
     <string name="refer_no_is">推薦序號：%s</string>
+    <string name="more_than_nine">9+</string>
     <string name="more">更多</string>
     <string name="hot_news">熱門消息</string>
     <string name="hot_coupon">熱門優惠券</string>

@@ -15,6 +15,8 @@ interface HomeContentRepo {
 
     fun getHeaderItemList(): List<ItemHomeHeader>
 
+    suspend fun getNotificationUnreadCount(): Int
+
     suspend fun getNews(): ItemContent?
 
     suspend fun getCoupon(): ItemCoupon?

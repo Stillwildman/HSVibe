@@ -2,7 +2,6 @@ package com.hsvibe.ui.fragments.payment
 
 import android.content.res.TypedArray
 import android.view.View
-import android.view.ViewTreeObserver
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hsvibe.AppController
 import com.hsvibe.R
@@ -12,6 +11,7 @@ import com.hsvibe.ui.adapters.WalletMenuAdapter
 import com.hsvibe.ui.bases.BaseFragment
 import com.hsvibe.ui.fragments.member.UiCouponHistoryFragment
 import com.hsvibe.ui.fragments.member.UiPointHistoryFragment
+import com.hsvibe.utilities.Extensions.getInflatedSize
 
 /**
  * Created by Vincent on 2021/8/23.
@@ -27,16 +27,12 @@ class UiWalletMainFragment : BaseFragment<FragmentWalletMainBinding>(), OnAnyIte
     }
 
     private fun initWalletMenuRecycler() {
-        bindingView.recyclerWalletMenu.also {
-            it.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    it.viewTreeObserver.removeOnGlobalLayoutListener(this)
-
-                    val heightPerGrid: Int = it.height / 3
-                    it.layoutManager = GridLayoutManager(context, 3)
-                    it.adapter = WalletMenuAdapter(getMenuIconTextList(), heightPerGrid, this@UiWalletMainFragment)
-                }
-            })
+        bindingView.recyclerWalletMenu.apply {
+            getInflatedSize { _, height ->
+                val heightPerGrid: Int = height / 3
+                layoutManager = GridLayoutManager(context, 3)
+                adapter = WalletMenuAdapter(getMenuIconTextList(), heightPerGrid, this@UiWalletMainFragment)
+            }
         }
     }
 

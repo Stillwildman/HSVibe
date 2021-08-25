@@ -45,8 +45,11 @@ class UiHomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setupBinding() {
-        bindingView.mainViewModel = mainViewModel
-        bindingView.lifecycleOwner = this
+        bindingView.apply {
+            homeViewModel = homeViewModel
+            mainViewModel = mainViewModel
+            lifecycleOwner = this@UiHomeFragment
+        }
     }
 
     private fun initRecycler() {

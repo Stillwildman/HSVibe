@@ -5,6 +5,10 @@
         <import type="android.view.View" />
 
         <variable
+            name="homeViewModel"
+            type="com.hsvibe.viewmodel.HomeViewModel" />
+
+        <variable
             name="mainViewModel"
             type="com.hsvibe.viewmodel.MainViewModel" />
     </data>
@@ -51,7 +55,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:background="?selectableItemBackground"
-                    app:singleClick="@{() -> mainViewModel.onUserNameClick()}"
+                    app:singleClick="@{() -> homeViewModel.onUserNameClick()}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Hi, Vincent" />
@@ -146,7 +150,7 @@
                     android:layout_marginEnd="@dimen/padding_size_xxl"
                     android:clickable="true"
                     android:focusable="true"
-                    app:singleClick="@{() -> mainViewModel.onBellClick()}"
+                    app:singleClick="@{() -> homeViewModel.onBellClick()}"
                     app:srcCompat="@drawable/selector_notification"
                     app:layout_constraintTop_toTopOf="@+id/text_hiThere"
                     app:layout_constraintBottom_toBottomOf="@+id/text_hiThere"
@@ -161,13 +165,14 @@
                     tools:text="9+"
                     tools:visibility="visible"
                     android:textSize="11sp"
+                    android:text="@{homeViewModel.liveUnreadCount > 9 ? @string/more_than_nine : homeViewModel.liveUnreadCount}"
                     android:background="@drawable/background_unread_dot"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintCircle="@id/image_bell"
                     app:layout_constraintCircleAngle="45"
                     app:layout_constraintCircleRadius="@dimen/font_text_size_s"
-                    android:visibility="gone"/>
+                    android:visibility="@{homeViewModel.liveUnreadCount == 0 ? View.GONE : View.VISIBLE}"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_home"

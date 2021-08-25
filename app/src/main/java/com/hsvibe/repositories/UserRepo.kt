@@ -36,5 +36,4 @@ interface UserRepo {
     suspend fun getUserBonus(): ItemUserBonus?
 
     suspend fun getAccountBonus(limit: Int, page: Int): ItemAccountBonus?
-
 }

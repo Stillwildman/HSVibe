@@ -11,17 +11,31 @@ import com.hsvibe.ui.bases.BaseBindingPagedRecycler
 /**
  * Created by Vincent on 2021/8/13.
  */
-class NotificationListAdapter(private val itemClickCallback: OnAnyItemClickCallback<ItemContent.ContentData>) :
+class NotificationListAdapter(private val itemClickCallback: OnAnyItemClickCallback<Int>) :
     BaseBindingPagedRecycler<ItemContent.ContentData, InflateNotificationBinding>(DifferItems.ContentItemDiffer) {
 
     override fun getLayoutId(): Int = R.layout.inflate_notification
 
     override fun onBindingViewHolder(holder: RecyclerView.ViewHolder, bindingView: InflateNotificationBinding, position: Int) {
+        bindingView.position = position
         bindingView.content = getItem(position)
         bindingView.itemClickCallback = itemClickCallback
     }
 
     override fun onBindingViewHolder(holder: RecyclerView.ViewHolder, bindingView: InflateNotificationBinding, position: Int, payload: Any?) {
+        payload?.let {
+            bindingView.content = getItem(position)
+        }
+    }
 
+    fun getItemAndSetRead(position: Int): ItemContent.ContentData? {
+        return getItem(position)?.apply {
+            isUnread = false
+            notifyItemChanged(position, true)
+        }
+    }
+
+    fun getFirstItemTime(): String? {
+        return if (itemCount > 0) getItem(0)?.approval_at else null
     }
 }

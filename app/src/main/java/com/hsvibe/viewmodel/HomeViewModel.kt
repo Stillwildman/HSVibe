@@ -7,6 +7,7 @@ import com.hsvibe.model.items.ItemBanner
 import com.hsvibe.model.items.ItemContent
 import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.repositories.HomeContentRepo
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
@@ -16,18 +17,30 @@ class HomeViewModel(private val homeContentRepo: HomeContentRepo, private val ma
 
     val headerList by lazy { homeContentRepo.getHeaderItemList() }
 
-    val liveNews = MutableLiveData<ItemContent>()
-    val liveCoupons = MutableLiveData<ItemCoupon>()
-    val liveBanner = MutableLiveData<ItemBanner>()
+    val liveNews by lazy { MutableLiveData<ItemContent>() }
+    val liveCoupons by lazy { MutableLiveData<ItemCoupon>() }
+    val liveBanner by lazy { MutableLiveData<ItemBanner>() }
+
+    val liveUnreadCount by lazy { MutableLiveData<Int>() }
 
     init {
         homeContentRepo.setLoadingCallback(this)
+    }
+
+    private fun getNotificationUnreadCount() {
+        viewModelScope.launch(getExceptionHandler()) {
+            val unreadCount = homeContentRepo.getNotificationUnreadCount()
+            liveUnreadCount.value = unreadCount
+        }
     }
 
     fun getHomePageNews() {
         viewModelScope.launch(getExceptionHandler()) {
             val news = homeContentRepo.getNews()
             news?.let { liveNews.value = it }
+
+            delay(300)
+            getNotificationUnreadCount()
         }
     }
 
@@ -91,5 +104,14 @@ class HomeViewModel(private val homeContentRepo: HomeContentRepo, private val ma
 
     fun onBannerClick(bannerItem: ItemBanner.ContentData?) {
         bannerItem?.let { mainViewModel.onNavigating(Navigation.ClickingBanner(it)) }
+    }
+
+    fun onUserNameClick() {
+        mainViewModel.onNavigating(Navigation.ClickingUserName)
+    }
+
+    fun onBellClick() {
+        liveUnreadCount.value = 0
+        mainViewModel.onNavigating(Navigation.ClickingBell)
     }
 }

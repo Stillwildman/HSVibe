@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayout
 import com.hsvibe.AppController
 import com.hsvibe.R
@@ -64,6 +65,10 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
         checkLocationSetting()
         initTabLayout()
         startObserving()
+
+        lifecycleScope.launchWhenResumed {
+            checkUserToken()
+        }
     }
 
     private fun initTabLayout() {
@@ -117,11 +122,6 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
 
     override fun onTabReselected(tab: TabLayout.Tab?) {
 
-    }
-
-    override fun onResume() {
-        super.onResume()
-        checkUserToken()
     }
 
     private fun checkUserToken() {

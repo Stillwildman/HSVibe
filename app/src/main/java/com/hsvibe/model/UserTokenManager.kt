@@ -24,6 +24,7 @@ object UserTokenManager {
 
     fun clearUserToken() {
         SettingManager.clearUserToken()
+        userToken = null
     }
 
     fun hasToken(): Boolean {
@@ -50,7 +51,7 @@ object UserTokenManager {
     private fun isTokenExpired(userToken: UserToken): Boolean {
         return userToken.run {
             expires_in?.let {
-                System.currentTimeMillis() > (createdTime + Utility.convertSecondToMillisecond(it))
+                System.currentTimeMillis() > (createdTime + Utility.convertSecondToMillisecond(it)).also { expiredTime -> L.i("Token expiredTime: $expiredTime") }
             } ?: true
         }
     }
