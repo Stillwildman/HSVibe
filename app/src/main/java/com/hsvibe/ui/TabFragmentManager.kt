@@ -56,7 +56,7 @@ class TabFragmentManager(private val fm: FragmentManager, private val scope: Lif
         return when (tabKey) {
             TAG_HOME -> UiHomeFragment()
             TAG_EXPLORE -> UiExploreFragment()
-            TAG_COUPON -> UiCouponMainFragment.newInstance(ApiConst.CATEGORY_ALL)
+            TAG_COUPON -> UiCouponMainFragment.newInstance(ApiConst.ALL)
             TAG_WALLET -> UiWalletMainFragment()
             else -> UiHomeFragment()
         }

@@ -19,7 +19,7 @@ class UiSplashActivity : BaseFullScreenActivity() {
 
     private fun checkGooglePlayService() {
         if (checkPlayServices()) {
-            checkLocationPermission()
+            requireLocationPermission()
         }
         else {
             // Continue without Location permission.

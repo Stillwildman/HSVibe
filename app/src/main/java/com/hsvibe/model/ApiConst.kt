@@ -14,6 +14,7 @@ object ApiConst {
     const val LIMIT = "limit"
     const val PAGE = "page"
     const val CATEGORY_ID = "category_id"
+    const val STORE_ID = "store_id"
 
     // Common Params
     const val ORDER_BY_TOP = "is_top"
@@ -28,7 +29,8 @@ object ApiConst {
     const val CATEGORY_EXPLORE = 7
 
     // Coupon Category Params
-    const val CATEGORY_ALL = 0
+    const val ALL = 0
+    const val CATEGORY_DISTRICTS = 2
 
     const val DEFAULT_LIMIT = 10 // Server default is 15, but I prefer 10!
 

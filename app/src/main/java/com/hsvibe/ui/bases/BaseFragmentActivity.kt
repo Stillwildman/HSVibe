@@ -12,6 +12,7 @@ import com.hsvibe.ui.TabFragmentManager
 import com.hsvibe.ui.fragments.UiBasicWebFragment
 import com.hsvibe.ui.fragments.login.UiLoadingDialogFragment
 import com.hsvibe.utilities.L
+import com.hsvibe.utilities.PermissionCheckHelper
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -41,6 +42,8 @@ abstract class BaseFragmentActivity : BasePermissionActivity(),
     private var activityCallback: FragmentContract.ActivityCallback? = null
 
     private var lastBackStackCount = 0
+
+    private var pendingTarget: DialogFragment? = null
 
     override fun onBackStackChanged() {
         val backStackCount = fm.backStackEntryCount
@@ -171,6 +174,29 @@ abstract class BaseFragmentActivity : BasePermissionActivity(),
 
     override fun onFragmentOpenWebDialogFragment(url: String) {
         openWebDialogFragment(url)
+    }
+
+    override fun checkPermissionThenOpenDialogFragment(permissionRequestCode: Int, instance: DialogFragment) {
+        when (permissionRequestCode) {
+            PermissionCheckHelper.PERMISSION_REQUEST_CODE_CAMERA -> {
+                if (hasCameraPermission()) {
+                    openDialogFragment(instance)
+                }
+                else {
+                    pendingTarget = instance
+                    requireCameraPermission()
+                }
+            }
+        }
+    }
+
+    override fun onPermissionGranted(requestCode: Int) {
+        pendingTarget?.let { openDialogFragment(it) }
+        pendingTarget = null
+    }
+
+    override fun onPermissionDenied(requestCode: Int) {
+        pendingTarget = null
     }
 
     override fun onBackPressed() {

@@ -165,7 +165,7 @@
                     tools:text="9+"
                     tools:visibility="visible"
                     android:textSize="11sp"
-                    android:text="@{homeViewModel.liveUnreadCount > 9 ? @string/more_than_nine : homeViewModel.liveUnreadCount}"
+                    android:text="@{homeViewModel.liveUnreadCount > 9 ? @string/more_than_nine : homeViewModel.liveUnreadCount.toString()}"
                     android:background="@drawable/background_unread_dot"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

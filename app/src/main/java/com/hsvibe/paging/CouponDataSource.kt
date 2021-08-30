@@ -12,7 +12,12 @@ import java.io.IOException
 /**
  * Created by Vincent on 2021/8/5.
  */
-class CouponDataSource(private val category: Int, private val loadingCallback: OnLoadingCallback?) : PagingSource<Int, ItemCoupon.ContentData>() {
+class CouponDataSource(private var storeId: Int, private val loadingCallback: OnLoadingCallback?) : PagingSource<Int, ItemCoupon.ContentData>() {
+
+    fun setStoreId(storeId: Int) {
+        this.storeId = storeId
+        this.invalidate()
+    }
 
     override fun getRefreshKey(state: PagingState<Int, ItemCoupon.ContentData>): Int? {
         return state.anchorPosition?.let {
@@ -27,7 +32,8 @@ class CouponDataSource(private val category: Int, private val loadingCallback: O
 
             L.i("LoadSize: ${params.loadSize}")
 
-            val response = DataCallbacks.getCoupon(     // TODO Add category parameter.
+            val response = DataCallbacks.getCoupon(
+                storeId = storeId,
                 limit = params.loadSize,
                 page = pageKey,
                 loadingCallback = loadingCallback)

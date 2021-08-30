@@ -19,7 +19,7 @@ abstract class BasePermissionActivity : AppCompatActivity() {
 
     abstract fun onPermissionDenied(requestCode: Int)
 
-    protected fun checkLocationPermission() {
+    protected fun requireLocationPermission() {
         if (PermissionCheckHelper.checkLocationPermission(this)) {
             onPermissionGranted(PermissionCheckHelper.PERMISSION_REQUEST_CODE_LOCATION)
         }
@@ -27,6 +27,16 @@ abstract class BasePermissionActivity : AppCompatActivity() {
 
     protected fun hasLocationPermission(): Boolean {
         return PermissionCheckHelper.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+    }
+
+    protected fun requireCameraPermission() {
+        if (PermissionCheckHelper.checkCameraPermission(this)) {
+            onPermissionGranted(PermissionCheckHelper.PERMISSION_REQUEST_CODE_CAMERA)
+        }
+    }
+
+    protected fun hasCameraPermission(): Boolean {
+        return PermissionCheckHelper.hasPermission(this, Manifest.permission.CAMERA)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

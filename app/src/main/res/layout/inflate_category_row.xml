@@ -8,7 +8,7 @@
 
         <variable
             name="item"
-            type="com.hsvibe.model.items.ItemCouponCategories.ContentData" />
+            type="com.hsvibe.model.items.ItemCouponStores.ContentData" />
     </data>
 
     <TextView
@@ -30,7 +30,7 @@
         android:focusable="true"
         android:textSize="@dimen/font_text_size_xs"
         android:textColor="@color/color_tag_selector"
-        android:text="@{item.name}"
+        android:text="@{item.fullname}"
         tools:text="@string/all"
         android:background="@drawable/background_category_tag"
         app:singleClick="@{() -> itemClickCallback.onItemClick(item)}"/>

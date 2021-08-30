@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.PagingData
-import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.hsvibe.R
@@ -13,15 +11,12 @@ import com.hsvibe.callbacks.OnAnyItemClickCallback
 import com.hsvibe.databinding.FragmentNotificationListBinding
 import com.hsvibe.model.ApiConst
 import com.hsvibe.model.Const
-import com.hsvibe.model.items.ItemContent
 import com.hsvibe.ui.adapters.NotificationListAdapter
 import com.hsvibe.ui.bases.BaseFragment
 import com.hsvibe.utilities.L
 import com.hsvibe.utilities.SettingManager
 import com.hsvibe.viewmodel.ContentViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.withContext
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -42,9 +37,6 @@ class UiNotificationPage private constructor() : BaseFragment<FragmentNotificati
     }
 
     private val viewModel by viewModels<ContentViewModel>()
-
-    private val dateFormat by lazy { SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()) }
-    private val lastNewestTime by lazy { SettingManager.getNewestNotificationTime() }
 
     override fun getLayoutId(): Int = R.layout.fragment_notification_list
 
@@ -101,16 +93,7 @@ class UiNotificationPage private constructor() : BaseFragment<FragmentNotificati
 
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.getContentFlow(category).collectLatest { pagingContentData ->
-                updateUnreadStatus(pagingContentData)
                 getNotificationAdapter().submitData(pagingContentData)
-            }
-        }
-    }
-
-    private suspend fun updateUnreadStatus(pagingContentData: PagingData<ItemContent.ContentData>) {
-        withContext(Dispatchers.IO) {
-            pagingContentData.map {
-                it.setUnreadStatus(lastNewestTime, dateFormat)
             }
         }
     }
@@ -135,6 +118,7 @@ class UiNotificationPage private constructor() : BaseFragment<FragmentNotificati
     private fun saveNewestItemTime() {
         getNotificationAdapter().getFirstItemTime()?.let { it ->
             try {
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
                 val itemTime = dateFormat.parse(it)?.time ?: 0
                 SettingManager.setNewestNotificationTime(itemTime.also { time -> L.i("SaveNewestNotificationTime: $time") })
             }

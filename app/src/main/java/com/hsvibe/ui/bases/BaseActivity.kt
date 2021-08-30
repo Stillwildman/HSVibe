@@ -109,12 +109,4 @@ abstract class BaseActivity<BindingView : ViewDataBinding> : BaseFragmentActivit
             Utility.forceCloseTask()
         }
     }
-
-    override fun onPermissionGranted(requestCode: Int) {
-
-    }
-
-    override fun onPermissionDenied(requestCode: Int) {
-
-    }
 }

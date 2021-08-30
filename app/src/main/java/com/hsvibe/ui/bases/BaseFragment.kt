@@ -80,6 +80,10 @@ abstract class  BaseFragment<BindingView : ViewDataBinding> : Fragment(R.layout.
         fragmentCallback?.onFragmentOpenWebDialogFragment(url)
     }
 
+    protected fun checkPermissionThenOpenDialogFragment(permissionRequestCode: Int, instance: DialogFragment) {
+        fragmentCallback?.checkPermissionThenOpenDialogFragment(permissionRequestCode, instance)
+    }
+
     protected open fun showLoading() {
         getLoadingView()?.visibility = View.VISIBLE
     }

@@ -14,6 +14,7 @@ class FragmentContract {
         fun hideLoadingDialogFromFragment()
         fun onFragmentOpenDialogFragment(instance: DialogFragment, backName: String?)
         fun onFragmentOpenWebDialogFragment(url: String)
+        fun checkPermissionThenOpenDialogFragment(permissionRequestCode: Int, instance: DialogFragment)
     }
 
     interface ActivityCallback {

@@ -61,7 +61,7 @@ class UiWalletMainFragment : BaseFragment<FragmentWalletMainBinding>(), OnAnyIte
             R.drawable.ic_point_history -> openDialogFragment(UiPointHistoryFragment())
             R.drawable.ic_ticket_holder -> openDialogFragment(UiCouponHistoryFragment())
             R.drawable.ic_transaction_history -> {}
-            R.drawable.ic_scan -> {}
+            R.drawable.ic_scan -> {  }
         }
     }
 

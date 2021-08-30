@@ -23,7 +23,7 @@ data class ItemContent(
         val approval_at: String,
         val categories: Categories?,
         val media: Media?,
-        var isUnread: Boolean = false
+        var isUnread: Boolean?
     ) {
         data class Categories(
             @SerializedName("data")
@@ -68,6 +68,9 @@ data class ItemContent(
         }
 
         fun setUnreadStatus(lastNewestTime: Long, dateFormat: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())) {
+            if (isUnread == false) {
+                return
+            }
             try {
                 val time: Long = dateFormat.parse(approval_at)?.time ?: 0L
                 isUnread = time > lastNewestTime
@@ -78,7 +81,7 @@ data class ItemContent(
         }
 
         fun getUnreadDotVisibility(): Int {
-            return if (isUnread) View.VISIBLE else View.GONE
+            return if (isUnread == true) View.VISIBLE else View.GONE
         }
     }
 

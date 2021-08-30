@@ -1,7 +1,8 @@
 package com.hsvibe.repositories
 
 import com.hsvibe.callbacks.OnLoadingCallback
-import com.hsvibe.model.items.ItemCouponCategories
+import com.hsvibe.model.items.ItemCouponDistricts
+import com.hsvibe.model.items.ItemCouponStores
 import com.hsvibe.network.DataCallbacks
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,15 +18,15 @@ class CouponRepoImpl : CouponRepo {
         this.callback = loadingCallback
     }
 
-    override suspend fun getCouponDistricts(): ItemCouponCategories? {
+    override suspend fun getCouponDistricts(): ItemCouponDistricts? {
         return withContext(Dispatchers.IO) {
             DataCallbacks.getCouponDistricts(callback)
         }
     }
 
-    override suspend fun getCouponCategories(): ItemCouponCategories? {
+    override suspend fun getCouponStores(categoryId: Int): ItemCouponStores? {
         return withContext(Dispatchers.IO) {
-            DataCallbacks.getCouponCategories(callback)
+            DataCallbacks.getCouponStores(categoryId, callback)
         }
     }
 }

@@ -31,8 +31,14 @@ object PermissionCheckHelper {
         )
     }
 
+    private val PERMISSIONS_CAMERA = arrayOf(Manifest.permission.CAMERA)
+
     fun checkLocationPermission(activity: Activity): Boolean {
         return checkPermission(activity, PERMISSION_REQUEST_CODE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, PERMISSIONS_LOCATION)
+    }
+
+    fun checkCameraPermission(activity: Activity): Boolean {
+        return checkPermission(activity, PERMISSION_REQUEST_CODE_CAMERA, Manifest.permission.CAMERA, PERMISSIONS_CAMERA)
     }
 
     fun hasPermission(activity: Activity, permission: String): Boolean {

@@ -9,7 +9,8 @@ import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.model.ApiConst
 import com.hsvibe.model.items.ItemCoupon
-import com.hsvibe.model.items.ItemCouponCategories
+import com.hsvibe.model.items.ItemCouponDistricts
+import com.hsvibe.model.items.ItemCouponStores
 import com.hsvibe.paging.BasePagingConfig
 import com.hsvibe.paging.CouponDataSource
 import com.hsvibe.repositories.CouponRepo
@@ -25,21 +26,27 @@ class CouponViewModel(private val couponRepo: CouponRepo) : LoadingStatusViewMod
 
     override fun getPerPageSize(): Int = ApiConst.DEFAULT_LIMIT
 
+    private var couponDataSource: CouponDataSource? = null
+
     private var contentFlow: Flow<PagingData<ItemCoupon.ContentData>>? = null
 
     val liveCouponDistrictPairList by lazy { MutableLiveData<List<Pair<String, String>>>() }
-    val liveCouponCategories by lazy { MutableLiveData<ItemCouponCategories>() }
+    val liveCouponStores by lazy { MutableLiveData<ItemCouponStores>() }
 
     init {
         couponRepo.setLoadingCallback(this)
     }
 
-    fun getCouponFlow(category: Int): Flow<PagingData<ItemCoupon.ContentData>> {
+    fun getCouponFlow(storeId: Int): Flow<PagingData<ItemCoupon.ContentData>> {
         return contentFlow ?: run {
             Pager(pageConfig) {
-                CouponDataSource(category, this)
+                CouponDataSource(storeId, this).also { couponDataSource = it }
             }.flow.cachedIn(viewModelScope)
         }.also { contentFlow = it }
+    }
+
+    fun refreshCouponFlowByStoreId(storeId: Int) {
+        couponDataSource?.setStoreId(storeId)
     }
 
     fun getCouponDistricts() {
@@ -50,23 +57,25 @@ class CouponViewModel(private val couponRepo: CouponRepo) : LoadingStatusViewMod
         }
     }
 
-    private suspend fun createCouponDistrictParList(item: ItemCouponCategories): List<Pair<String, String>> {
+    private suspend fun createCouponDistrictParList(item: ItemCouponDistricts): List<Pair<String, String>> {
         return withContext(Dispatchers.Default) {
             val pairList = mutableListOf<Pair<String, String>>()
 
             pairList.add(Pair(AppController.getAppContext().getString(R.string.all_districts), "0"))
 
             item.contentData.forEach {
-                pairList.add(Pair(it.name, it.id.toString()))
+                it.children.childrenData.forEach { data ->
+                    pairList.add(Pair(data.name, data.id.toString()))
+                }
             }
             pairList
         }
     }
 
-    fun getCouponCategories() {
+    fun getCouponStores(categoryId: Int) {
         viewModelScope.launch(getExceptionHandler()) {
-            couponRepo.getCouponCategories()?.let {
-                liveCouponCategories.value = it
+            couponRepo.getCouponStores(categoryId)?.let {
+                liveCouponStores.value = it
             }
         }
     }

@@ -17,7 +17,7 @@ import com.hsvibe.callbacks.SingleClickListener
 import com.hsvibe.databinding.InflateCategoryRowBinding
 import com.hsvibe.databinding.InflateCategoryVerticalBinding
 import com.hsvibe.model.Const
-import com.hsvibe.model.items.ItemCouponCategories
+import com.hsvibe.model.items.ItemCouponStores
 import com.hsvibe.utilities.Extensions.setOnSingleClickListener
 import com.hsvibe.utilities.L
 import com.hsvibe.utilities.Utility
@@ -26,10 +26,10 @@ import kotlinx.coroutines.*
 /**
  * Created by Vincent on 2021/8/18.
  */
-class CouponCategoryListAdapter(
+class CouponStoreListAdapter(
     private val layoutManage: LinearLayoutManager,
-    private val categoryList: List<ItemCouponCategories.ContentData>,
-    private val onClickCallback: OnAnyItemClickCallback<ItemCouponCategories.ContentData>,
+    private val storeList: MutableList<ItemCouponStores.ContentData>,
+    private val onClickCallback: OnAnyItemClickCallback<ItemCouponStores.ContentData>,
     private val scope: CoroutineScope
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -51,6 +51,15 @@ class CouponCategoryListAdapter(
         private const val VIEW_TYPE_VERTICAL = 1
     }
 
+    fun updateList(storeList: List<ItemCouponStores.ContentData>) {
+        // TODO This is WRONG!!!
+        this.storeList.apply {
+            clear()
+            addAll(storeList)
+        }
+        notifyItemRangeChanged(0, storeList.size)
+    }
+
     private fun isRowType(): Boolean {
         return layoutManage.orientation == RecyclerView.HORIZONTAL
     }
@@ -70,7 +79,7 @@ class CouponCategoryListAdapter(
 
             val marginSizeM = AppController.getAppContext().resources.getDimensionPixelSize(R.dimen.padding_size_m)
 
-            categoryList.forEachIndexed { i, item ->
+            storeList.forEachIndexed { i, item ->
                 if (tempWidth != 0) {
                     totalWidth = tempWidth
                     tempWidth = 0
@@ -78,22 +87,22 @@ class CouponCategoryListAdapter(
                 }
 
                 val tagView = inflater.inflate(R.layout.inflate_category_row, null, false) as TextView
-                tagView.text = item.name
+                tagView.text = item.fullname
                 tagView.measure(0, 0)
                 val textWidth = tagView.measuredWidth
 
-                totalWidth += textWidth.also { L.i("Text: ${item.name} Width: $it") } + (marginSizeM * 2)
+                totalWidth += textWidth.also { L.i("Text: ${item.fullname} Width: $it") } + (marginSizeM * 2)
 
                 L.i("TotalWidth: $totalWidth/$screenWidth")
 
                 if (totalWidth < screenWidth) {
                     rowSize++
-                    if (i == categoryList.lastIndex) {
+                    if (i == storeList.lastIndex) {
                         verticalCategorySize[verticalCategorySize.size] = rowSize
                     }
                 }
                 else {
-                    if (i == categoryList.lastIndex) {
+                    if (i == storeList.lastIndex) {
                         rowSize++
                     }
                     verticalCategorySize[verticalCategorySize.size] = rowSize
@@ -114,13 +123,13 @@ class CouponCategoryListAdapter(
                     currentIndex = 0
                     calculateVerticalLayout().also { L.i("LayoutCount: $it") }
                     lastSelectedIndex = rowSelectedIndex
-                    this@CouponCategoryListAdapter.notifyItemRangeChanged(0, itemCount)
+                    this@CouponStoreListAdapter.notifyItemRangeChanged(0, itemCount)
                 }
                 else {
                     orientation = RecyclerView.HORIZONTAL
                     lastSelectedIndex = findSelectedItemIndex()
                     lastRowSelectedIndex = lastSelectedIndex
-                    this@CouponCategoryListAdapter.notifyItemRangeChanged(0, itemCount.also { L.i("NotifyItemCount: $it") })
+                    this@CouponStoreListAdapter.notifyItemRangeChanged(0, itemCount.also { L.i("NotifyItemCount: $it") })
 
                     verticalCategorySize.clear()
                 }
@@ -129,7 +138,7 @@ class CouponCategoryListAdapter(
     }
 
     override fun getItemCount(): Int {
-        return if (isRowType()) categoryList.size else verticalCategorySize.size
+        return if (isRowType()) storeList.size else verticalCategorySize.size
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -161,7 +170,7 @@ class CouponCategoryListAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is CategoryRowViewHolder -> {
-                categoryList[position].let {
+                storeList[position].let {
                     it.columnPosition = 0
                     it.rowPosition = position
                     holder.bindingView.item = it
@@ -193,7 +202,7 @@ class CouponCategoryListAdapter(
 
     private val eachItemSingleClickListener = object : SingleClickListener() {
         override fun onSingleClick(v: View) {
-            onClickCallback.onItemClick(categoryList[v.tag as Int])
+            onClickCallback.onItemClick(storeList[v.tag as Int])
         }
     }
 
@@ -211,7 +220,7 @@ class CouponCategoryListAdapter(
         }
     }
 
-    fun setSelected(item: ItemCouponCategories.ContentData) {
+    fun setSelected(item: ItemCouponStores.ContentData) {
         columnSelectedIndex = item.columnPosition
         rowSelectedIndex = item.rowPosition
 
@@ -235,7 +244,7 @@ class CouponCategoryListAdapter(
     private suspend fun findSelectedItemIndex(): Int {
         return withContext(Dispatchers.Default) {
             if (isPositionValid(columnSelectedIndex) && isPositionValid(rowSelectedIndex)) {
-                categoryList.forEachIndexed { index, item ->
+                storeList.forEachIndexed { index, item ->
                     if (item.columnPosition == columnSelectedIndex && item.rowPosition == rowSelectedIndex) {
                         return@withContext index
                     }
@@ -263,13 +272,13 @@ class CouponCategoryListAdapter(
 
                 for (i in 0 until rowCount) {
                     L.i("InflateCategoryTag!!! CurrentIndex: $currentIndex")
-                    if (currentIndex < categoryList.size) {
-                        val item = categoryList[currentIndex]
+                    if (currentIndex < storeList.size) {
+                        val item = storeList[currentIndex]
                         item.columnPosition = position
                         item.rowPosition = i
 
                         val tagView = inflater.inflate(R.layout.inflate_category_row, bindingView.layoutCategoryTagRoot, false) as TextView
-                        tagView.text = item.name
+                        tagView.text = item.fullname
                         tagView.tag = currentIndex
 
                         LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {

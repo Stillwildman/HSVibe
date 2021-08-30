@@ -23,6 +23,7 @@ object Const {
     const val BUNDLE_CATEGORY = "Category"
     const val BUNDLE_USE_SLIDE_UP_ANIM = "UseSlideUpAnim"
     const val BUNDLE_VIEW_TYPE = "ViewType"
+    const val BUNDLE_STORE_ID = "storeId"
 
     const val NO_POSITION = -1
 }

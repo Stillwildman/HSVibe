@@ -7,6 +7,9 @@ import com.hsvibe.databinding.InflateNotificationBinding
 import com.hsvibe.model.DifferItems
 import com.hsvibe.model.items.ItemContent
 import com.hsvibe.ui.bases.BaseBindingPagedRecycler
+import com.hsvibe.utilities.SettingManager
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Created by Vincent on 2021/8/13.
@@ -14,12 +17,19 @@ import com.hsvibe.ui.bases.BaseBindingPagedRecycler
 class NotificationListAdapter(private val itemClickCallback: OnAnyItemClickCallback<Int>) :
     BaseBindingPagedRecycler<ItemContent.ContentData, InflateNotificationBinding>(DifferItems.ContentItemDiffer) {
 
+    private val dateFormat by lazy { SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()) }
+    private val lastNewestTime by lazy { SettingManager.getNewestNotificationTime() }
+
     override fun getLayoutId(): Int = R.layout.inflate_notification
 
     override fun onBindingViewHolder(holder: RecyclerView.ViewHolder, bindingView: InflateNotificationBinding, position: Int) {
-        bindingView.position = position
-        bindingView.content = getItem(position)
-        bindingView.itemClickCallback = itemClickCallback
+        getItem(position)?.let {
+            it.setUnreadStatus(lastNewestTime, dateFormat)
+
+            bindingView.position = position
+            bindingView.content = it
+            bindingView.itemClickCallback = itemClickCallback
+        }
     }
 
     override fun onBindingViewHolder(holder: RecyclerView.ViewHolder, bindingView: InflateNotificationBinding, position: Int, payload: Any?) {
