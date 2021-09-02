@@ -87,6 +87,6 @@ class HomeContentRepoImpl : HomeContentRepo {
     }
 
     private fun getTitleString(@StringRes titleRes: Int): String {
-        return AppController.getAppContext().getString(titleRes)
+        return AppController.getString(titleRes)
     }
 }

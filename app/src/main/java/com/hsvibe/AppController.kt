@@ -3,6 +3,7 @@ package com.hsvibe
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
@@ -17,6 +18,8 @@ class AppController : MultiDexApplication() {
         lateinit var instance: AppController
 
         fun getAppContext(): Context = instance.applicationContext
+
+        fun getString(@StringRes stringRes: Int): String = instance.applicationContext.getString(stringRes)
     }
 
     override fun attachBaseContext(base: Context) {

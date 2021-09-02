@@ -20,6 +20,7 @@ import com.hsvibe.ui.adapters.CouponListAdapter
 import com.hsvibe.ui.adapters.CouponStoreListAdapter
 import com.hsvibe.ui.bases.BaseFragment
 import com.hsvibe.utilities.Extensions.getPairSecondValue
+import com.hsvibe.utilities.Extensions.init
 import com.hsvibe.utilities.Extensions.setOnSingleClickListener
 import com.hsvibe.viewmodel.CouponViewModel
 import com.hsvibe.viewmodel.CouponViewModelFactory
@@ -61,13 +62,7 @@ class UiCouponMainFragment private constructor(): BaseFragment<FragmentCouponMai
     }
 
     private fun initSwipeRefreshLayout() {
-        bindingView.layoutSwipeRefresh.apply {
-            setColorSchemeResources(
-                R.color.md_green_500, R.color.md_amber_400,
-                R.color.md_light_blue_A700, R.color.md_red_500
-            )
-            setOnRefreshListener(this@UiCouponMainFragment)
-        }
+        bindingView.layoutSwipeRefresh.init(this)
     }
 
     private fun initCouponRecycler() {

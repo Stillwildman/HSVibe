@@ -103,11 +103,11 @@ abstract class BaseActionBarFragment<BindingView : ViewDataBinding> : BaseDialog
 
     }
 
-    protected fun showLoadingCircle() {
+    protected open fun showLoadingCircle() {
         bindingView.loadingCircle.visibility = View.VISIBLE
     }
 
-    protected fun hideLoadingCircle() {
+    protected open fun hideLoadingCircle() {
         bindingView.loadingCircle.visibility = View.GONE
     }
 

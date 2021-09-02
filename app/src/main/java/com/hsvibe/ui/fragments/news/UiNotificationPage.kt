@@ -13,6 +13,7 @@ import com.hsvibe.model.ApiConst
 import com.hsvibe.model.Const
 import com.hsvibe.ui.adapters.NotificationListAdapter
 import com.hsvibe.ui.bases.BaseFragment
+import com.hsvibe.utilities.Extensions.init
 import com.hsvibe.utilities.L
 import com.hsvibe.utilities.SettingManager
 import com.hsvibe.viewmodel.ContentViewModel
@@ -50,13 +51,7 @@ class UiNotificationPage private constructor() : BaseFragment<FragmentNotificati
     }
 
     private fun initSwipeRefreshLayout() {
-        bindingView.layoutSwipeRefresh.apply {
-            setColorSchemeResources(
-                R.color.md_green_500, R.color.md_amber_400,
-                R.color.md_light_blue_A700, R.color.md_red_500
-            )
-            setOnRefreshListener(this@UiNotificationPage)
-        }
+        bindingView.layoutSwipeRefresh.init(this)
     }
 
     private fun initRecycler() {

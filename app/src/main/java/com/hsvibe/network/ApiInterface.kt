@@ -4,6 +4,7 @@ import com.hsvibe.model.ApiConst
 import com.hsvibe.model.Urls
 import com.hsvibe.model.UserToken
 import com.hsvibe.model.items.*
+import com.hsvibe.model.posts.PostCouponRedeem
 import com.hsvibe.model.posts.PostRefreshToken
 import com.hsvibe.model.posts.PostUpdateUserInfo
 import retrofit2.Response
@@ -51,6 +52,12 @@ interface ApiInterface {
     @GET("${Urls.API_COUPON}/{uuid}")
     suspend fun getCouponDetail(
         @Path("uuid") uuid: String
+    ): Response<ItemCoupon>
+
+    @POST("${Urls.API_COUPON_REDEEM}/{uuid}")
+    suspend fun redeemCoupon(
+        @Path("uuid") uuid: String,
+        @Body body: PostCouponRedeem = PostCouponRedeem(1)
     ): Response<ItemCoupon>
 
     @GET(Urls.API_USER_BONUS)

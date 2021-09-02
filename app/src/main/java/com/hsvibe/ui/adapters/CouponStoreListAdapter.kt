@@ -52,7 +52,7 @@ class CouponStoreListAdapter(
     }
 
     fun updateList(storeList: List<ItemCouponStores.ContentData>) {
-        // TODO This is WRONG!!!
+        notifyItemRangeRemoved(0, itemCount)
         this.storeList.apply {
             clear()
             addAll(storeList)

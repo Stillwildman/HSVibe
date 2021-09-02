@@ -92,19 +92,19 @@ class ProfileRepoImpl(private val _userInfo: UserInfo?) : ProfileRepo {
 
     private fun getGenderEngText(chtText: String): String {
         val engTextRes = when (chtText) {
-            AppController.getAppContext().getString(R.string.gender_male_cht) -> R.string.gender_male_eng
-            AppController.getAppContext().getString(R.string.gender_female_cht) -> R.string.gender_female_eng
+            AppController.getString(R.string.gender_male_cht) -> R.string.gender_male_eng
+            AppController.getString(R.string.gender_female_cht) -> R.string.gender_female_eng
             else -> R.string.gender_other_eng
         }
-        return AppController.getAppContext().getString(engTextRes)
+        return AppController.getString(engTextRes)
     }
 
     override fun getGenderSelection(): Int {
         return getUserInfo()?.run {
             when (getGender()) {
                 Const.EMPTY_STRING -> 0
-                AppController.getAppContext().getString(R.string.gender_male_eng) -> 1
-                AppController.getAppContext().getString(R.string.gender_female_eng) -> 2
+                AppController.getString(R.string.gender_male_eng) -> 1
+                AppController.getString(R.string.gender_female_eng) -> 2
                 else -> 3
             }
         } ?: 0

@@ -132,6 +132,12 @@ object DataCallbacks {
         }
     }
 
+    suspend fun redeemCoupon(uuid: String, loadingCallback: OnLoadingCallback?): ItemCoupon? {
+        return getApiResult(loadingCallback) {
+            getApiInterface().redeemCoupon(uuid)
+        }
+    }
+
     suspend fun getBanner(loadingCallback: OnLoadingCallback? = null): ItemBanner? {
         return getApiResult(loadingCallback) {
             getApiInterface().getBanner()

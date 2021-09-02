@@ -2,6 +2,7 @@ package com.hsvibe.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.hsvibe.callbacks.DataSourceParamInterface
 import com.hsvibe.callbacks.OnLoadingCallback
 import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.network.DataCallbacks
@@ -12,12 +13,10 @@ import java.io.IOException
 /**
  * Created by Vincent on 2021/8/5.
  */
-class CouponDataSource(private var storeId: Int, private val loadingCallback: OnLoadingCallback?) : PagingSource<Int, ItemCoupon.ContentData>() {
-
-    fun setStoreId(storeId: Int) {
-        this.storeId = storeId
-        this.invalidate()
-    }
+class CouponDataSource(
+    private val paramInterface: DataSourceParamInterface<Int>,
+    private val loadingCallback: OnLoadingCallback?
+) : PagingSource<Int, ItemCoupon.ContentData>() {
 
     override fun getRefreshKey(state: PagingState<Int, ItemCoupon.ContentData>): Int? {
         return state.anchorPosition?.let {
@@ -31,9 +30,10 @@ class CouponDataSource(private var storeId: Int, private val loadingCallback: On
             val pageKey = params.key ?: 1
 
             L.i("LoadSize: ${params.loadSize}")
+            L.i("Load storeId: ${paramInterface.getParams()}")
 
             val response = DataCallbacks.getCoupon(
-                storeId = storeId,
+                storeId = paramInterface.getParams(),
                 limit = params.loadSize,
                 page = pageKey,
                 loadingCallback = loadingCallback)

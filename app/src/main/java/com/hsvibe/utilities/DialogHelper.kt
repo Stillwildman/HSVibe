@@ -39,10 +39,44 @@ object DialogHelper {
         setupDialogWindowAttribute(dialog)
 
         bindingView.apply {
-            textDialogTitle.text = AppController.getAppContext().getString(titleRes)
-            textDialogContent.text = AppController.getAppContext().getString(contentRes)
-            buttonPositive.text = AppController.getAppContext().getString(positiveButtonRes)
-            buttonNegative.text = AppController.getAppContext().getString(negativeButtonRes)
+            textDialogTitle.text = AppController.getString(titleRes)
+            textDialogContent.text = AppController.getString(contentRes)
+            buttonPositive.text = AppController.getString(positiveButtonRes)
+            buttonNegative.text = AppController.getString(negativeButtonRes)
+
+            buttonNegative.setOnClickListener {
+                dialog.dismiss()
+            }
+            buttonPositive.setOnSingleClickListener {
+                dialog.dismiss()
+                onButtonClick(true)
+            }
+        }
+        return dialog.also { it.show() }
+    }
+
+    fun showSmallViewDialog(
+        context: Context,
+        title: String,
+        content: String,
+        @StringRes positiveButtonRes: Int,
+        @StringRes negativeButtonRes: Int = R.string.cancel,
+        onButtonClick: (isPositive: Boolean) -> Unit
+    ): AlertDialog {
+        val bindingView = DataBindingUtil.inflate<DialogSmallViewBinding>(LayoutInflater.from(context), R.layout.dialog_small_view, null, false)
+
+        val dialog = AlertDialog.Builder(context).apply {
+            setView(bindingView.root)
+            setCancelable(true)
+        }.create()
+
+        setupDialogWindowAttribute(dialog)
+
+        bindingView.apply {
+            textDialogTitle.text = title
+            textDialogContent.text = content
+            buttonPositive.text = AppController.getString(positiveButtonRes)
+            buttonNegative.text = AppController.getString(negativeButtonRes)
 
             buttonNegative.setOnClickListener {
                 dialog.dismiss()
@@ -63,30 +97,14 @@ object DialogHelper {
         @StringRes negativeButtonRes: Int = R.string.cancel,
         onButtonClick: (isPositive: Boolean) -> Unit
     ): AlertDialog {
-        val bindingView = DataBindingUtil.inflate<DialogSmallViewBinding>(LayoutInflater.from(context), R.layout.dialog_small_view, null, false)
-
-        val dialog = AlertDialog.Builder(context).apply {
-            setView(bindingView.root)
-            setCancelable(true)
-        }.create()
-
-        setupDialogWindowAttribute(dialog)
-
-        bindingView.apply {
-            textDialogTitle.text = AppController.getAppContext().getString(titleRes)
-            textDialogContent.text = AppController.getAppContext().getString(contentRes)
-            buttonPositive.text = AppController.getAppContext().getString(positiveButtonRes)
-            buttonNegative.text = AppController.getAppContext().getString(negativeButtonRes)
-
-            buttonNegative.setOnClickListener {
-                dialog.dismiss()
-            }
-            buttonPositive.setOnSingleClickListener {
-                dialog.dismiss()
-                onButtonClick(true)
-            }
-        }
-        return dialog.also { it.show() }
+        return showSmallViewDialog(
+            context,
+            AppController.getString(titleRes),
+            AppController.getString(contentRes),
+            positiveButtonRes,
+            negativeButtonRes,
+            onButtonClick
+        )
     }
 
     fun showSingleButtonDialog(
@@ -107,9 +125,9 @@ object DialogHelper {
         setupDialogWindowAttribute(dialog)
 
         bindingView.apply {
-            textDialogTitle.text = AppController.getAppContext().getString(titleRes)
-            textDialogContent.text = AppController.getAppContext().getString(contentRes)
-            buttonConfirm.text = AppController.getAppContext().getString(buttonRes)
+            textDialogTitle.text = AppController.getString(titleRes)
+            textDialogContent.text = AppController.getString(contentRes)
+            buttonConfirm.text = AppController.getString(buttonRes)
 
             buttonConfirm.setOnClickListener {
                 dialog.dismiss()

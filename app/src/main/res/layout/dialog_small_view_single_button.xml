@@ -27,8 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_size_xxl"
             tools:text="@string/confirm_to_redeem"
-            android:textColor="@color/md_grey_800"
-            android:textSize="@dimen/font_text_size_s"
+            android:textColor="@color/md_grey_700"
+            android:textSize="@dimen/font_text_size_m"
             app:layout_constraintTop_toBottomOf="@+id/text_dialogTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

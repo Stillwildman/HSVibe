@@ -1,11 +1,10 @@
 package com.hsvibe.repositories
 
 import com.hsvibe.callbacks.OnLoadingCallback
+import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.model.items.ItemCouponDistricts
 import com.hsvibe.model.items.ItemCouponStores
 import com.hsvibe.network.DataCallbacks
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 /**
  * Created by Vincent on 2021/8/18.
@@ -19,14 +18,18 @@ class CouponRepoImpl : CouponRepo {
     }
 
     override suspend fun getCouponDistricts(): ItemCouponDistricts? {
-        return withContext(Dispatchers.IO) {
-            DataCallbacks.getCouponDistricts(callback)
-        }
+        return DataCallbacks.getCouponDistricts(callback)
     }
 
     override suspend fun getCouponStores(categoryId: Int): ItemCouponStores? {
-        return withContext(Dispatchers.IO) {
-            DataCallbacks.getCouponStores(categoryId, callback)
-        }
+        return DataCallbacks.getCouponStores(categoryId, callback)
+    }
+
+    override suspend fun getCouponDetail(uuid: String): ItemCoupon? {
+        return DataCallbacks.getCouponDetail(uuid, callback)
+    }
+
+    override suspend fun redeemCoupon(uuid: String): ItemCoupon? {
+        return DataCallbacks.redeemCoupon(uuid, callback)
     }
 }

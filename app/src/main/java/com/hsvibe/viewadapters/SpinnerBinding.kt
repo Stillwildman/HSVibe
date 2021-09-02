@@ -16,7 +16,7 @@ object SpinnerBinding {
     fun setupSpinnerByPairList(spinner: Spinner, pairList: MutableList<Pair<String, String?>>?, hasHintHeader: Boolean) {
         pairList?.let {
             if (hasHintHeader) {
-                it.add(0, Pair(AppController.getAppContext().getString(R.string.please_select), null))
+                it.add(0, Pair(AppController.getString(R.string.please_select), null))
             }
 
             if (spinner.adapter == null || spinner.adapter.count == 0) {

@@ -7,7 +7,9 @@ import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.hsvibe.AppController
+import com.hsvibe.R
 import com.hsvibe.callbacks.SingleClickListener
 import com.hsvibe.ui.adapters.MyBaseAdapter
 
@@ -54,6 +56,14 @@ object Extensions {
                 onMeasuredSizeGet(width, height)
             }
         })
+    }
+
+    fun SwipeRefreshLayout.init(onRefreshListener: SwipeRefreshLayout.OnRefreshListener) {
+        setColorSchemeResources(
+            R.color.md_green_500, R.color.md_amber_400,
+            R.color.md_light_blue_A700, R.color.md_red_500
+        )
+        setOnRefreshListener(onRefreshListener)
     }
 
     fun String?.isNotNullOrEmpty(): Boolean {

@@ -26,7 +26,7 @@ object Utility {
     }
 
     fun toastShort(@StringRes msgResId: Int) {
-        toastShort(AppController.getAppContext().getString(msgResId))
+        toastShort(AppController.getString(msgResId))
     }
 
     fun toastLong(msg: String) {
@@ -34,7 +34,7 @@ object Utility {
     }
 
     fun toastLong(@StringRes msgResId: Int) {
-        toastLong(AppController.getAppContext().getString(msgResId))
+        toastLong(AppController.getString(msgResId))
     }
 
     fun getScreenWidth(): Int {

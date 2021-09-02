@@ -7,6 +7,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.hsvibe.AppController
 import com.hsvibe.R
+import com.hsvibe.callbacks.DataSourceParamInterface
 import com.hsvibe.model.ApiConst
 import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.model.items.ItemCouponDistricts
@@ -22,7 +23,7 @@ import kotlinx.coroutines.withContext
 /**
  * Created by Vincent on 2021/8/5.
  */
-class CouponViewModel(private val couponRepo: CouponRepo) : LoadingStatusViewModel(), BasePagingConfig {
+class CouponViewModel(private val couponRepo: CouponRepo) : LoadingStatusViewModel(), DataSourceParamInterface<Int>, BasePagingConfig {
 
     override fun getPerPageSize(): Int = ApiConst.DEFAULT_LIMIT
 
@@ -32,21 +33,31 @@ class CouponViewModel(private val couponRepo: CouponRepo) : LoadingStatusViewMod
 
     val liveCouponDistrictPairList by lazy { MutableLiveData<List<Pair<String, String>>>() }
     val liveCouponStores by lazy { MutableLiveData<ItemCouponStores>() }
+    val liveCouponDetail by lazy { MutableLiveData<ItemCoupon.ContentData>() }
+
+    private var storeId = ApiConst.ALL
 
     init {
         couponRepo.setLoadingCallback(this)
     }
 
     fun getCouponFlow(storeId: Int): Flow<PagingData<ItemCoupon.ContentData>> {
+        this.storeId = storeId
+
         return contentFlow ?: run {
             Pager(pageConfig) {
-                CouponDataSource(storeId, this).also { couponDataSource = it }
+                CouponDataSource(this, this).also { couponDataSource = it }
             }.flow.cachedIn(viewModelScope)
         }.also { contentFlow = it }
     }
 
     fun refreshCouponFlowByStoreId(storeId: Int) {
-        couponDataSource?.setStoreId(storeId)
+        this.storeId = storeId
+        couponDataSource?.invalidate()
+    }
+
+    override fun getParams(): Int {
+        return storeId
     }
 
     fun getCouponDistricts() {
@@ -61,7 +72,7 @@ class CouponViewModel(private val couponRepo: CouponRepo) : LoadingStatusViewMod
         return withContext(Dispatchers.Default) {
             val pairList = mutableListOf<Pair<String, String>>()
 
-            pairList.add(Pair(AppController.getAppContext().getString(R.string.all_districts), "0"))
+            pairList.add(Pair(AppController.getString(R.string.all_districts), "0"))
 
             item.contentData.forEach {
                 it.children.childrenData.forEach { data ->
@@ -76,6 +87,23 @@ class CouponViewModel(private val couponRepo: CouponRepo) : LoadingStatusViewMod
         viewModelScope.launch(getExceptionHandler()) {
             couponRepo.getCouponStores(categoryId)?.let {
                 liveCouponStores.value = it
+            }
+        }
+    }
+
+    fun redeemCoupon(uuid: String, onSuccess: () -> Unit) {
+        viewModelScope.launch {
+            couponRepo.redeemCoupon(uuid)?.takeIf { it.contentData.isNotEmpty() }?.let {
+                liveCouponDetail.value = it.contentData.first()
+                onSuccess()
+            }
+        }
+    }
+
+    fun updateCouponDetail(uuid: String) {
+        viewModelScope.launch {
+            couponRepo.getCouponDetail(uuid)?.takeIf { it.contentData.isNotEmpty() }?.let {
+                liveCouponDetail.value = it.contentData.first()
             }
         }
     }

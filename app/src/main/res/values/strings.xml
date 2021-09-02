@@ -115,6 +115,7 @@
     <string name="redeem_failed">兌換失敗</string>
     <string name="coupon">優惠券</string>
     <string name="used_record">使用紀錄</string>
+    <string name="insufficient_balance">您的餘額不足！</string>
 
     <!-- Notification -->
     <string name="newest_info">最新消息</string>

@@ -1,6 +1,7 @@
 package com.hsvibe.repositories
 
 import com.hsvibe.callbacks.OnLoadingCallback
+import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.model.items.ItemCouponDistricts
 import com.hsvibe.model.items.ItemCouponStores
 
@@ -14,5 +15,9 @@ interface CouponRepo {
     suspend fun getCouponDistricts(): ItemCouponDistricts?
 
     suspend fun getCouponStores(categoryId: Int): ItemCouponStores?
+
+    suspend fun getCouponDetail(uuid: String): ItemCoupon?
+
+    suspend fun redeemCoupon(uuid: String): ItemCoupon?
 
 }

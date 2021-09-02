@@ -11,6 +11,7 @@ import com.hsvibe.databinding.FragmentCouponListBinding
 import com.hsvibe.model.Const
 import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.ui.bases.BaseFragment
+import com.hsvibe.utilities.Extensions.init
 
 /**
  * Created by Vincent on 2021/8/13.
@@ -41,13 +42,7 @@ class UiCouponListPage private constructor() : BaseFragment<FragmentCouponListBi
     }
 
     private fun initSwipeRefreshLayout() {
-        bindingView.layoutSwipeRefresh.apply {
-            setColorSchemeResources(
-                R.color.md_green_500, R.color.md_amber_400,
-                R.color.md_light_blue_A700, R.color.md_red_500
-            )
-            setOnRefreshListener(this@UiCouponListPage)
-        }
+        bindingView.layoutSwipeRefresh.init(this)
     }
 
     private fun initRecycler() {
