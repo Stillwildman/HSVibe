@@ -103,12 +103,19 @@
             android:textColor="@color/money_color"
             android:textSize="@dimen/font_text_size_xs" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_pointHistory"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/layout_swipeRefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/padding_size_l"
-            android:scrollbars="vertical" />
+            android:layout_marginTop="@dimen/padding_size_l" >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_pointHistory"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </LinearLayout>
 

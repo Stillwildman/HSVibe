@@ -1,6 +1,7 @@
 package com.hsvibe.model
 
 import androidx.recyclerview.widget.DiffUtil
+import com.hsvibe.model.items.ItemAccountBonus
 import com.hsvibe.model.items.ItemContent
 import com.hsvibe.model.items.ItemCoupon
 
@@ -35,5 +36,19 @@ object DifferItems {
                     && oldItem.stock == newItem.stock
                     && oldItem.approval_at == newItem.approval_at
         }
+    }
+
+    object BonusItemDiffer : DiffUtil.ItemCallback<ItemAccountBonus.ContentData>() {
+        override fun areItemsTheSame(oldItem: ItemAccountBonus.ContentData, newItem: ItemAccountBonus.ContentData): Boolean {
+            return oldItem.balance == newItem.balance && oldItem.point == newItem.point
+        }
+
+        override fun areContentsTheSame(oldItem: ItemAccountBonus.ContentData, newItem: ItemAccountBonus.ContentData): Boolean {
+            return oldItem.balance == newItem.balance
+                    && oldItem.point == newItem.point
+                    && oldItem.created_at == newItem.created_at
+                    && oldItem.updated_at == newItem.updated_at
+        }
+
     }
 }
