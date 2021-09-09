@@ -12,6 +12,7 @@ import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.callbacks.SingleClickListener
 import com.hsvibe.ui.adapters.MyBaseAdapter
+import java.nio.charset.StandardCharsets
 
 /**
  * Created by Vincent on 2021/8/16.
@@ -68,5 +69,9 @@ object Extensions {
 
     fun String?.isNotNullOrEmpty(): Boolean {
         return !this.isNullOrEmpty() && this != "null"
+    }
+
+    fun String.getQRCodeText(): String {
+        return String(this.toByteArray(), StandardCharsets.ISO_8859_1)
     }
 }

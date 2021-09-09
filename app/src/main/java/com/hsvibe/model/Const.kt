@@ -24,6 +24,7 @@ object Const {
     const val BUNDLE_USE_SLIDE_UP_ANIM = "UseSlideUpAnim"
     const val BUNDLE_VIEW_TYPE = "ViewType"
     const val BUNDLE_STORE_ID = "storeId"
+    const val BUNDLE_SHOW_OPTION_BUTTON = "ShowOptionButton"
 
     const val NO_POSITION = -1
 }

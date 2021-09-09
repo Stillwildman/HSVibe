@@ -12,6 +12,7 @@ import com.hsvibe.ui.bases.BaseFragment
 import com.hsvibe.ui.fragments.member.UiCouponHistoryFragment
 import com.hsvibe.ui.fragments.member.UiPointHistoryFragment
 import com.hsvibe.utilities.Extensions.getInflatedSize
+import com.hsvibe.utilities.PermissionCheckHelper
 
 /**
  * Created by Vincent on 2021/8/23.
@@ -61,7 +62,9 @@ class UiWalletMainFragment : BaseFragment<FragmentWalletMainBinding>(), OnAnyIte
             R.drawable.ic_point_history -> openDialogFragment(UiPointHistoryFragment())
             R.drawable.ic_ticket_holder -> openDialogFragment(UiCouponHistoryFragment())
             R.drawable.ic_transaction_history -> {}
-            R.drawable.ic_scan -> {  }
+            R.drawable.ic_scan -> {
+                checkPermissionThenOpenDialogFragment(PermissionCheckHelper.PERMISSION_REQUEST_CODE_CAMERA, UiScanFragment.newInstance(false))
+            }
         }
     }
 

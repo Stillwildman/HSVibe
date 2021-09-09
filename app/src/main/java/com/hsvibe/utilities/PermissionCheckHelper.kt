@@ -49,7 +49,7 @@ object PermissionCheckHelper {
         return if (hasPermission(activity, permission)) {
             true
         } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
                 showRationaleDialog(activity, requestCode) { _, _ ->
                     ActivityCompat.requestPermissions(activity, requestedPermissions, requestCode)
                 }
@@ -79,7 +79,7 @@ object PermissionCheckHelper {
             }
         }
 
-        AlertDialog.Builder(activity)
+        AlertDialog.Builder(activity, R.style.DialogTheme)
             .setTitle(titleRes)
             .setMessage(contentRes)
             .setPositiveButton(R.string.ok, clickListener)

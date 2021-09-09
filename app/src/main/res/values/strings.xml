@@ -134,4 +134,10 @@
     <string name="transaction_history">交易紀錄</string>
     <string name="re_scan">補登作業</string>
 
+    <!-- Scanning -->
+    <string name="qr_code_scan">條碼掃描</string>
+    <string name="please_move_camera_closer_to_qr_code">請將鏡頭靠近點數登入QRCode</string>
+    <string name="light_hint">請在光源充足的地方掃描，避免辨識錯誤!</string>
+    <string name="check_camera_permission">請檢查是否開啟攝影機權限</string>
+
 </resources>

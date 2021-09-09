@@ -60,6 +60,8 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog"/>
+
     <style name="FullScreenDialog.SlideUpAnim" parent="FullScreenDialog">
         <item name="android:windowAnimationStyle">@style/DialogSlideUpAnim</item>
     </style>
