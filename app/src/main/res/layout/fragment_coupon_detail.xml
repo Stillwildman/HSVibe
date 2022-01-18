@@ -133,7 +133,7 @@
                         tools:text="100 點"
                         android:textSize="@dimen/font_text_size_m"
                         android:textColor="@color/md_grey_900"
-                        android:text="@{@string/point_has(viewModel.liveCouponDetail.point)}"
+                        android:text="@{@string/point_has_int(viewModel.liveCouponDetail.point)}"
                         app:layout_constraintStart_toEndOf="@+id/text_couponPointIcon"
                         app:layout_constraintTop_toTopOf="@id/text_couponPointIcon"
                         app:layout_constraintBottom_toBottomOf="@+id/text_couponPointIcon"/>

@@ -19,9 +19,9 @@ import com.hsvibe.repositories.CouponRepoImpl
 import com.hsvibe.ui.adapters.CouponListAdapter
 import com.hsvibe.ui.adapters.CouponStoreListAdapter
 import com.hsvibe.ui.bases.BaseFragment
-import com.hsvibe.utilities.Extensions.getPairSecondValue
-import com.hsvibe.utilities.Extensions.init
-import com.hsvibe.utilities.Extensions.setOnSingleClickListener
+import com.hsvibe.utilities.getPairSecondValue
+import com.hsvibe.utilities.init
+import com.hsvibe.utilities.setOnSingleClickListener
 import com.hsvibe.viewmodel.CouponViewModel
 import com.hsvibe.viewmodel.CouponViewModelFactory
 import kotlinx.coroutines.flow.collectLatest

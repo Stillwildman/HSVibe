@@ -11,7 +11,7 @@ import com.hsvibe.R
 import com.hsvibe.databinding.FragmentPointHistoryBinding
 import com.hsvibe.ui.adapters.BonusListAdapter
 import com.hsvibe.ui.bases.BaseActionBarFragment
-import com.hsvibe.utilities.Extensions.init
+import com.hsvibe.utilities.init
 import com.hsvibe.viewmodel.BonusViewModel
 import com.hsvibe.viewmodel.MainViewModel
 import kotlinx.coroutines.flow.collectLatest

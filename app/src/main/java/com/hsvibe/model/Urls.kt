@@ -27,9 +27,9 @@ object Urls {
 
     const val API_ACCOUNT_BONUS = "account/bonus"
 
-    const val API_TICKET_HOLDER = "ticketHolder"
+    const val API_TICKET_HOLDER = "ticketholder"
 
-    const val API_COUPON_REDEEM = "ticketHolder/bonus/expenses"
+    const val API_COUPON_REDEEM = "ticketholder/bonus/expenses"
 
     const val API_DISTRICTS = OLD_BASE_API_URL + "member/districts" // TODO Need to be replaced with new API
 

@@ -100,7 +100,7 @@
                 android:textSize="@dimen/font_text_size_s"
                 android:textColor="@color/md_grey_900"
                 android:textStyle="bold"
-                android:text="@{@string/point_has(coupon.point)}"
+                android:text="@{@string/point_has_int(coupon.point)}"
                 app:layout_constraintStart_toEndOf="@+id/text_couponPointIcon"
                 app:layout_constraintTop_toTopOf="@+id/text_couponPointIcon"
                 app:layout_constraintBottom_toBottomOf="@+id/text_couponPointIcon"/>

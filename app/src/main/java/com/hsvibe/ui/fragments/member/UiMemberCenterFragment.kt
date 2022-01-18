@@ -14,7 +14,7 @@ import com.hsvibe.ui.adapters.MemberOptionListAdapter
 import com.hsvibe.ui.bases.BaseActionBarFragment
 import com.hsvibe.utilities.DeviceUtil
 import com.hsvibe.utilities.DialogHelper
-import com.hsvibe.utilities.Extensions.getContextSafely
+import com.hsvibe.utilities.getContextSafely
 import com.hsvibe.viewmodel.MainViewModel
 
 /**

@@ -11,8 +11,8 @@ import com.hsvibe.ui.adapters.WalletMenuAdapter
 import com.hsvibe.ui.bases.BaseFragment
 import com.hsvibe.ui.fragments.member.UiCouponHistoryFragment
 import com.hsvibe.ui.fragments.member.UiPointHistoryFragment
-import com.hsvibe.utilities.Extensions.getInflatedSize
 import com.hsvibe.utilities.PermissionCheckHelper
+import com.hsvibe.utilities.getInflatedSize
 
 /**
  * Created by Vincent on 2021/8/23.

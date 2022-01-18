@@ -11,7 +11,7 @@ import com.hsvibe.databinding.FragmentCouponListBinding
 import com.hsvibe.model.Const
 import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.ui.bases.BaseFragment
-import com.hsvibe.utilities.Extensions.init
+import com.hsvibe.utilities.init
 
 /**
  * Created by Vincent on 2021/8/13.

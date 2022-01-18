@@ -12,6 +12,7 @@ data class PostUpdateUserInfo(
     var device_type: String? = null,
     var device_model: String? = null,
     var referrer_no: String? = null,
+    //var region_zip: String? = null, // TODO Update region zip
     var lat: String? = null,
     var long: String? = null,
     var pay_password: String? = null,

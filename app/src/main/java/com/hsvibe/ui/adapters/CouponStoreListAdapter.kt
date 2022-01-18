@@ -18,9 +18,9 @@ import com.hsvibe.databinding.InflateCategoryRowBinding
 import com.hsvibe.databinding.InflateCategoryVerticalBinding
 import com.hsvibe.model.Const
 import com.hsvibe.model.items.ItemCouponStores
-import com.hsvibe.utilities.Extensions.setOnSingleClickListener
 import com.hsvibe.utilities.L
 import com.hsvibe.utilities.Utility
+import com.hsvibe.utilities.setOnSingleClickListener
 import kotlinx.coroutines.*
 
 /**

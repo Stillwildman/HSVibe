@@ -13,7 +13,7 @@ interface UserRepo {
 
     fun setLoadingCallback(loadingCallback: OnLoadingCallback?)
 
-    suspend fun refreshToken()
+    suspend fun refreshToken(): Boolean
 
     suspend fun getUserInfo(): UserInfo?
 

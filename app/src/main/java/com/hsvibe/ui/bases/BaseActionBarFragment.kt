@@ -13,8 +13,8 @@ import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.databinding.InflateEmptyActionBarFragmentBinding
 import com.hsvibe.model.LoadingStatus
-import com.hsvibe.utilities.Extensions.setOnSingleClickListener
 import com.hsvibe.utilities.Utility
+import com.hsvibe.utilities.setOnSingleClickListener
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 

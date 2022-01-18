@@ -13,9 +13,9 @@ import com.hsvibe.model.ApiConst
 import com.hsvibe.model.Const
 import com.hsvibe.ui.adapters.NotificationListAdapter
 import com.hsvibe.ui.bases.BaseFragment
-import com.hsvibe.utilities.Extensions.init
 import com.hsvibe.utilities.L
 import com.hsvibe.utilities.SettingManager
+import com.hsvibe.utilities.init
 import com.hsvibe.viewmodel.ContentViewModel
 import kotlinx.coroutines.flow.collectLatest
 import java.text.ParseException

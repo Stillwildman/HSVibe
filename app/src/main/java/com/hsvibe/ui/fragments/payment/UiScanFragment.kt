@@ -11,11 +11,7 @@ import com.hsvibe.R
 import com.hsvibe.databinding.FragmentScanningBinding
 import com.hsvibe.model.Const
 import com.hsvibe.ui.bases.BaseDialogFragment
-import com.hsvibe.utilities.Extensions.getQRCodeText
-import com.hsvibe.utilities.Extensions.setOnSingleClickListener
-import com.hsvibe.utilities.L
-import com.hsvibe.utilities.ScannerHelper
-import com.hsvibe.utilities.Utility
+import com.hsvibe.utilities.*
 
 /**
  * Created by Vincent on 2021/9/9.

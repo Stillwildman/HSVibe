@@ -1,9 +1,9 @@
 package com.hsvibe.model
 
-import com.hsvibe.utilities.Extensions.isNotNullOrEmpty
 import com.hsvibe.utilities.L
 import com.hsvibe.utilities.SettingManager
 import com.hsvibe.utilities.Utility
+import com.hsvibe.utilities.isNotNullOrEmpty
 
 /**
  * Created by Vincent on 2021/6/29.

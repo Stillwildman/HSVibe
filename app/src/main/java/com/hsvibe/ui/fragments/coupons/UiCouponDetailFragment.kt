@@ -13,9 +13,9 @@ import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.repositories.CouponRepoImpl
 import com.hsvibe.ui.bases.BaseActionBarFragment
 import com.hsvibe.utilities.DialogHelper
-import com.hsvibe.utilities.Extensions.getContextSafely
-import com.hsvibe.utilities.Extensions.init
 import com.hsvibe.utilities.Utility
+import com.hsvibe.utilities.getContextSafely
+import com.hsvibe.utilities.init
 import com.hsvibe.viewmodel.CouponViewModel
 import com.hsvibe.viewmodel.CouponViewModelFactory
 import com.hsvibe.viewmodel.MainViewModel

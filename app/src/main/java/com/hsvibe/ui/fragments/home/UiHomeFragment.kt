@@ -14,9 +14,9 @@ import com.hsvibe.ui.adapters.HomeContentListAdapter
 import com.hsvibe.ui.bases.BaseFragment
 import com.hsvibe.ui.fragments.member.UiMemberInfoFragment
 import com.hsvibe.utilities.DialogHelper
-import com.hsvibe.utilities.Extensions.getContextSafely
 import com.hsvibe.utilities.L
 import com.hsvibe.utilities.SettingManager
+import com.hsvibe.utilities.getContextSafely
 import com.hsvibe.viewmodel.HomeViewModel
 import com.hsvibe.viewmodel.HomeViewModelFactory
 import com.hsvibe.viewmodel.MainViewModel

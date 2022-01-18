@@ -49,8 +49,8 @@
                     android:layout_marginTop="@dimen/padding_size_xl"
                     android:textColor="@color/md_black_1000"
                     android:textSize="@dimen/font_text_size_s"
-                    android:text="@{@string/point_has(mainViewModel.liveCurrentBalance.balance)}"
-                    tools:text="@string/point_has"
+                    android:text="@{@string/point_has_double(mainViewModel.liveCurrentBalance.balance)}"
+                    tools:text="@string/point_has_double"
                     app:layout_constraintTop_toBottomOf="@+id/text_accumulationPoints"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/view_divider"/>

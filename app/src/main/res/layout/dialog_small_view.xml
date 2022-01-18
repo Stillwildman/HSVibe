@@ -23,8 +23,10 @@
 
         <TextView
             android:id="@+id/text_dialogContent"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_size_xl"
+            android:layout_marginEnd="@dimen/padding_size_xl"
             android:layout_marginTop="@dimen/padding_size_xxl"
             tools:text="@string/confirm_to_redeem"
             android:textColor="@color/md_grey_700"

@@ -13,12 +13,12 @@ import com.hsvibe.model.entities.UserInfoEntity
 interface DaoUserInfo {
 
     @Query("SELECT * FROM UserInfo LIMIT 1")
-    suspend fun getUserInfo(): UserInfoEntity?
+    fun getUserInfo(): UserInfoEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertUserInfo(userInfoEntity: UserInfoEntity): Long
+    fun insertUserInfo(userInfoEntity: UserInfoEntity): Long
 
     @Query("DELETE FROM UserInfo")
-    suspend fun clearUserInfo(): Int
+    fun clearUserInfo(): Int
 
 }

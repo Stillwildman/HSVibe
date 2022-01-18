@@ -14,7 +14,6 @@ import com.hsvibe.databinding.DialogLargeViewBinding
 import com.hsvibe.databinding.DialogMemberTermsBinding
 import com.hsvibe.databinding.DialogSmallViewBinding
 import com.hsvibe.databinding.DialogSmallViewSingleButtonBinding
-import com.hsvibe.utilities.Extensions.setOnSingleClickListener
 
 /**
  * Created by Vincent on 2021/8/16.

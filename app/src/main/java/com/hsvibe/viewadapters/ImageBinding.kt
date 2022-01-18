@@ -9,12 +9,7 @@ import com.hsvibe.AppController
 /**
  * Created by Vincent on 2021/8/23.
  */
-object ImageBinding {
-
-    @JvmStatic
-    @BindingAdapter("setImageByRes")
-    fun setImageByResId(imageView: AppCompatImageView, @DrawableRes imageRes: Int) {
-        imageView.setImageDrawable(ContextCompat.getDrawable(AppController.getAppContext(), imageRes))
-    }
-
+@BindingAdapter("setImageByRes")
+fun setImageByResId(imageView: AppCompatImageView, @DrawableRes imageRes: Int) {
+    imageView.setImageDrawable(ContextCompat.getDrawable(AppController.getAppContext(), imageRes))
 }

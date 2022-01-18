@@ -44,7 +44,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/padding_size_xxl"
             app:autoFocusButtonColor="@android:color/white"
-            app:autoFocusButtonVisible="true"
+            app:autoFocusButtonVisible="false"
             app:flashButtonColor="@android:color/white"
             app:flashButtonVisible="true"
             app:frameAspectRatioHeight="1"

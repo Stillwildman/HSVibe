@@ -14,8 +14,8 @@ import com.hsvibe.model.posts.PostUpdateUserInfo
 import com.hsvibe.network.DataCallbacks
 import com.hsvibe.tasks.TaskController
 import com.hsvibe.utilities.DeviceUtil
-import com.hsvibe.utilities.Extensions.isNotNullOrEmpty
 import com.hsvibe.utilities.L
+import com.hsvibe.utilities.isNotNullOrEmpty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.withContext
@@ -33,13 +33,14 @@ class UserRepoImpl : UserRepo {
         this.callback = loadingCallback
     }
 
-    override suspend fun refreshToken() {
-        UserTokenManager.getUserToken()?.refresh_token?.let { refreshToken ->
+    override suspend fun refreshToken(): Boolean {
+        return UserTokenManager.getUserToken()?.refresh_token?.let { refreshToken ->
             val userToken = DataCallbacks.refreshUserToken(PostRefreshToken(refreshToken), callback)
             userToken?.takeIf { it.access_token.isNotNullOrEmpty() }?.run {
                 UserTokenManager.setUserToken(this)
-            }
-        }
+                true
+            } ?: false
+        } ?: false
     }
 
     override suspend fun getUserInfo(): UserInfo? {
@@ -87,7 +88,7 @@ class UserRepoImpl : UserRepo {
         }
     }
 
-    @ExperimentalCoroutinesApi
+    @OptIn(ExperimentalCoroutinesApi::class)
     override suspend fun getUserInfoAndUpdate(hasLocationPermission: Boolean): UserInfo? {
         return taskController.joinPreviousOrRun(TaskController.KEY_GET_AND_UPDATE_USER_INFO) {
             val userInfo = getUserInfo()
@@ -95,7 +96,7 @@ class UserRepoImpl : UserRepo {
 
             val location: Location? = if (hasLocationPermission) {
                 MyFusedLocation.awaitLastLocation().also {
-                    L.i("Get Location: ${it.latitude} , ${it.longitude}")
+                    L.i("Get Location: ${it?.latitude} , ${it?.longitude}")
                 }
             } else null
 

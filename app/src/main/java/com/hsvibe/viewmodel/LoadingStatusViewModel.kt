@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.hsvibe.R
 import com.hsvibe.callbacks.OnLoadingCallback
 import com.hsvibe.model.LoadingStatus
+import com.hsvibe.tasks.ApiStatusException
 import com.hsvibe.utilities.L
 import com.hsvibe.utilities.Utility
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -35,6 +36,9 @@ open class LoadingStatusViewModel : ViewModel(), OnLoadingCallback {
                 !Utility.isNetworkEnabled() -> {
                     L.e("Network is not working!!!")
                     Utility.toastLong("Network is not working!!!")
+                }
+                throwable is ApiStatusException -> {
+                    Utility.toastLong("Api Error!!\nCode: ${throwable.statusCode}\nMsg: ${throwable.errorMessage}")
                 }
                 else -> {
                     Utility.toastLong(R.string.unknown_network_error)

@@ -16,11 +16,7 @@ import com.hsvibe.repositories.ProfileRepoImpl
 import com.hsvibe.repositories.UserRepoImpl
 import com.hsvibe.ui.adapters.MyBaseAdapter
 import com.hsvibe.ui.bases.BaseActionBarFragment
-import com.hsvibe.utilities.DialogHelper
-import com.hsvibe.utilities.Extensions.getContextSafely
-import com.hsvibe.utilities.Extensions.getPairSecondValue
-import com.hsvibe.utilities.Extensions.setOnSingleClickListener
-import com.hsvibe.utilities.Utility
+import com.hsvibe.utilities.*
 import com.hsvibe.viewmodel.MainViewModel
 import com.hsvibe.viewmodel.MainViewModelFactory
 import com.hsvibe.viewmodel.ProfileViewModel

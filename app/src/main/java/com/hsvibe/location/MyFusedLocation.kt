@@ -21,7 +21,7 @@ object MyFusedLocation {
 
     private const val TAG = "MyFusedLocation"
 
-    private const val REQUEST_CHECK_SETTINGS = 1002
+    const val REQUEST_CHECK_LOCATION_SETTINGS = 1002
 
     private var fusedClient: WeakReference<FusedLocationProviderClient>? = null
 
@@ -38,7 +38,7 @@ object MyFusedLocation {
         }
     }
 
-    fun checkLocationSetting(activity: Activity, listener: OnSuccessListener<LocationSettingsResponse>, onFailed: () -> Unit) {
+    fun checkLocationSetting(activity: Activity, listener: OnSuccessListener<LocationSettingsResponse>) {
         val builder = LocationSettingsRequest.Builder()
 
         builder.addLocationRequest(getLocationRequest())
@@ -54,18 +54,17 @@ object MyFusedLocation {
                 // Location settings are not satisfied, but this can be fixed by showing the user a dialog.
                 try {
                     // Show the dialog by calling startResolutionForResult(), and check the result in onActivityResult().
-                    e.startResolutionForResult(activity, REQUEST_CHECK_SETTINGS)
+                    e.startResolutionForResult(activity, REQUEST_CHECK_LOCATION_SETTINGS)
                 } catch (sendEx: SendIntentException) {
                     // Ignore the error.
                 }
-                onFailed()
             }
         }
     }
 
     @ExperimentalCoroutinesApi
     @SuppressLint("MissingPermission")
-    suspend fun awaitLastLocation(): Location {
+    suspend fun awaitLastLocation(): Location? {
         // Create a new coroutine that can be cancelled
         return suspendCancellableCoroutine { continuation ->
             val lastLocationTask = getFusedClient().lastLocation
@@ -75,8 +74,10 @@ object MyFusedLocation {
                 .addOnSuccessListener { location ->
                     // Resume coroutine and return location
                     L.i(TAG, "LastLocation:\n$location")
-                    continuation.resume(location) { throwableCause ->
-                        throwableCause.printStackTrace()
+                    location?.let {
+                        continuation.resume(it) { throwableCause ->
+                            throwableCause.printStackTrace()
+                        }
                     }
                 }
                 .addOnFailureListener { e ->

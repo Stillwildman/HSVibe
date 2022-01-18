@@ -13,8 +13,8 @@ import androidx.lifecycle.lifecycleScope
 import com.hsvibe.BuildConfig
 import com.hsvibe.R
 import com.hsvibe.callbacks.FragmentContract
-import com.hsvibe.utilities.Extensions.getContextSafely
 import com.hsvibe.utilities.L
+import com.hsvibe.utilities.getContextSafely
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 

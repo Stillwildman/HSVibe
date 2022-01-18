@@ -10,10 +10,10 @@ data class ItemUserBonus(
     val contentData: ContentData
 ) {
     data class ContentData(
-        val balance: Int,
-        val expiration_point: Int,
-        val expiring_point: Int,
-        val accumulate: Int,
+        val balance: Double,
+        val expiration_point: Double,
+        val expiring_point: Double,
+        val accumulate: Double,
         val created_at: String,
         val updated_at: String
     )

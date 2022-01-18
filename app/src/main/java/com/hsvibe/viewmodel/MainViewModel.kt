@@ -121,15 +121,17 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
             L.e("RefreshToken failed!!!")
             liveNavigation.value = Navigation.OnAuthorizationFailed
         }) {
-            userRepo.refreshToken()
-            jobAfterRefreshed()
+            if (userRepo.refreshToken()) {
+                jobAfterRefreshed()
+            }
+            else {
+                liveNavigation.value = Navigation.OnAuthorizationFailed
+            }
         }
     }
 
     fun refreshTokenAndUpdate() {
-        viewModelScope.launch {
-            refreshUserToken { getUserInfoAndUpdate() }
-        }
+        refreshUserToken { getUserInfoAndUpdate() }
     }
 
     private fun updateFcmToken() {

@@ -1,5 +1,6 @@
 package com.hsvibe.ui
 
+import android.app.Activity
 import android.content.Intent
 import android.view.View
 import androidx.activity.viewModels
@@ -26,12 +27,8 @@ import com.hsvibe.ui.fragments.member.UiMemberCenterFragment
 import com.hsvibe.ui.fragments.member.UiMemberInfoFragment
 import com.hsvibe.ui.fragments.news.UiNewsFragment
 import com.hsvibe.ui.fragments.news.UiNotificationFragment
+import com.hsvibe.utilities.*
 import com.hsvibe.utilities.ContextExt.startActivitySafelyAndFinish
-import com.hsvibe.utilities.DialogHelper
-import com.hsvibe.utilities.Extensions.observeOnce
-import com.hsvibe.utilities.L
-import com.hsvibe.utilities.SettingManager
-import com.hsvibe.utilities.Utility
 import com.hsvibe.viewmodel.LoginViewModel
 import com.hsvibe.viewmodel.MainViewModel
 import com.hsvibe.viewmodel.MainViewModelFactory
@@ -171,11 +168,9 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
 
     private fun checkLocationSetting() {
         if (hasLocationPermission()) {
-            MyFusedLocation.checkLocationSetting(this@UiMainActivity, {
+            MyFusedLocation.checkLocationSetting(this@UiMainActivity) {
                 mainViewModel.setLocationPermissionCheck(true)
-            }, {
-                mainViewModel.setLocationPermissionCheck(false) // Location Settings check failed.
-            })
+            }
         } else {
             mainViewModel.setLocationPermissionCheck(false)
         }
@@ -304,6 +299,24 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
             SettingManager.setFullProfileIsAlreadyAsked(false)
             delay(3000)
             this@UiMainActivity.startActivitySafelyAndFinish(Intent(this@UiMainActivity, UiLoginActivity::class.java))
+        }
+    }
+
+    // onActivityResult has been deprecated (ˊ_>ˋ)
+    @Suppress("deprecation")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        // This is for the callback of checkLocationSetting's dialog from MyFusedLocation.
+        if (requestCode == MyFusedLocation.REQUEST_CHECK_LOCATION_SETTINGS) {
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    launch {
+                        delay(2000)
+                        mainViewModel.setLocationPermissionCheck(true)
+                    }
+                }
+                Activity.RESULT_CANCELED -> mainViewModel.setLocationPermissionCheck(false)
+            }
         }
     }
 

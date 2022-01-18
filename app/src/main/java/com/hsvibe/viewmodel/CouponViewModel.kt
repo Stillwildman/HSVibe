@@ -92,7 +92,7 @@ class CouponViewModel(private val couponRepo: CouponRepo) : LoadingStatusViewMod
     }
 
     fun redeemCoupon(uuid: String, onSuccess: () -> Unit) {
-        viewModelScope.launch {
+        viewModelScope.launch(getExceptionHandler()) {
             couponRepo.redeemCoupon(uuid)?.takeIf { it.contentData.isNotEmpty() }?.let {
                 liveCouponDetail.value = it.contentData.first()
                 onSuccess()
@@ -101,7 +101,7 @@ class CouponViewModel(private val couponRepo: CouponRepo) : LoadingStatusViewMod
     }
 
     fun updateCouponDetail(uuid: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(getExceptionHandler()) {
             couponRepo.getCouponDetail(uuid)?.takeIf { it.contentData.isNotEmpty() }?.let {
                 liveCouponDetail.value = it.contentData.first()
             }
