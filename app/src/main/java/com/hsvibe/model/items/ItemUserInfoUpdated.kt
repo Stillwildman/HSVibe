@@ -22,6 +22,11 @@ data class ItemUserInfoUpdated(
         val device_model: String,
         val refer_no: String,
         val referrer_no: String,
+        val expiring_point: String,
+        val coupon: Int,
+        val balance: Int,
+        val accumulate: Int,
+        val is_set_paypassword: Boolean,
         val created_at: String,
         val updated_at: String,
         val regions: Regions
@@ -34,7 +39,8 @@ data class ItemUserInfoUpdated(
 
     data class RegionInfo(
         val name: String,
-        val zip_code: String
+        val zip_code: String,
+        val parent_id: Int
     )
 
     override fun getUuid(): String = userData.uuid
@@ -53,6 +59,16 @@ data class ItemUserInfoUpdated(
 
     override fun getReferrerNo(): String = userData.referrer_no
 
+    override fun getExpiringPoint(): String = userData.expiring_point
+
+    override fun getCouponAmount(): Int = userData.coupon
+
+    override fun getBalance(): Int = userData.balance
+
+    override fun getAccumulate(): Int = userData.accumulate
+
+    override fun isSetPassword(): Boolean = userData.is_set_paypassword
+
     override fun getDeviceType(): String = userData.device_type
 
     override fun getDeviceModel(): String = userData.device_model
@@ -69,5 +85,7 @@ data class ItemUserInfoUpdated(
         return userData.regions.regionData.takeIf { it.isNotEmpty() }?.let { it[0].zip_code }
     }
 
-    override fun getPayPassword(): String? = null
+    override fun getRegionParentId(): Int {
+        return userData.regions.regionData.takeIf { it.isNotEmpty() }?.let { it[0].parent_id } ?: 0
+    }
 }

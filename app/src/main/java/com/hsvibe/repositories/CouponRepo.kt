@@ -16,6 +16,8 @@ interface CouponRepo {
 
     suspend fun getCouponStores(categoryId: Int): ItemCouponStores?
 
+    suspend fun groupingStoresByBrand(stores: ItemCouponStores): ItemCouponStores
+
     suspend fun getCouponDetail(uuid: String): ItemCoupon?
 
     suspend fun redeemCoupon(uuid: String): ItemCoupon?

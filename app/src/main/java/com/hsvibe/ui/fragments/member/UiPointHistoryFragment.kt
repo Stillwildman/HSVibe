@@ -38,6 +38,7 @@ class UiPointHistoryFragment : BaseActionBarFragment<FragmentPointHistoryBinding
     override fun onInitCompleted() {
         bindPointsRecord()
         initLayouts()
+        refreshUserBonus()
         observeLoadingStatus()
         startCollectBonusFlow()
     }
@@ -54,6 +55,10 @@ class UiPointHistoryFragment : BaseActionBarFragment<FragmentPointHistoryBinding
             layoutManager = LinearLayoutManager(context)
             adapter = BonusListAdapter()
         }
+    }
+
+    private fun refreshUserBonus() {
+        mainViewModel.getUserBonus()
     }
 
     private fun observeLoadingStatus() {
@@ -83,6 +88,7 @@ class UiPointHistoryFragment : BaseActionBarFragment<FragmentPointHistoryBinding
     }
 
     override fun onRefresh() {
+        refreshUserBonus()
         getBonusListAdapter().refresh()
     }
 }

@@ -9,7 +9,7 @@
     <string name="done">完成</string>
     <string name="cancel">取消</string>
     <string name="all">全部</string>
-    <string name="unknown_network_error">Unknown network error! Please check your connection.</string>
+    <string name="unknown_network_error">Unknown error! Please check your API request or network connection.</string>
 
     <!-- Permissions -->
     <string name="permission_requires_location_title">為何需要位置權限?</string>
@@ -80,7 +80,8 @@
     <string name="update_failed">更新失敗</string>
 
     <!-- Points History -->
-    <string name="your_points_and_expires_time">您有會員點數 %1$d 點，將於 %2$s 過期</string>
+    <string name="your_points_and_expires_time">您有會員點數 %1$s 點，將於 %2$d&#8211;12&#8211;31 過期</string>
+    <string name="remaining_points">剩餘點數: %s 點</string>
 
     <!-- Main -->
     <string name="tab_home">首頁</string>
@@ -91,6 +92,7 @@
     <!-- Home -->
     <string name="guest">Guest</string>
     <string name="hi_there">Hi, %s</string>
+    <string name="there">there!</string>
     <string name="accumulation_points">累積總點數</string>
     <string name="point">點</string>
     <string name="refer_no_is">推薦序號：%s</string>

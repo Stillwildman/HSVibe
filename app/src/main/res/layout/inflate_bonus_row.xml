@@ -17,7 +17,7 @@
         android:layout_marginEnd="@dimen/padding_size_l"
         android:layout_marginTop="@dimen/padding_size_m"
         android:layout_marginBottom="@dimen/padding_size_m"
-        android:padding="@dimen/padding_size_xxl"
+        android:padding="@dimen/padding_size_xl"
         android:background="@drawable/background_main_gradient_corner_15dp">
 
         <TextView
@@ -26,35 +26,47 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/padding_size_l"
             android:textColor="@color/md_white_1000"
-            android:textSize="@dimen/font_text_size_m"
-            android:text="@{item.description}"
+            android:textSize="@dimen/font_text_size_s"
+            android:text="@{item.note}"
             tools:text="0000000000000"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/text_bonusPoint"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/text_remainingBalance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_size_s"
+            android:textColor="@color/md_grey_400"
+            android:textSize="@dimen/font_text_size_s"
+            android:text="@{@string/remaining_points(item.balance)}"
+            tools:text="@string/remaining_points"
+            app:layout_constraintStart_toStartOf="@+id/text_bonusDesc"
+            app:layout_constraintEnd_toEndOf="@+id/text_bonusDesc"
+            app:layout_constraintTop_toBottomOf="@+id/text_bonusDesc" />
+
+        <TextView
             android:id="@+id/text_bonusDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_size_xl"
-            android:layout_marginEnd="@dimen/padding_size_l"
+            android:layout_marginTop="@dimen/padding_size_l"
             android:textColor="@color/highlight_text_color"
-            android:textSize="@dimen/font_text_size_m"
+            android:textSize="@dimen/font_text_size_s"
             android:text="@{item.updated_at}"
             tools:text="0000000000000"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/text_bonusPoint"
-            app:layout_constraintTop_toBottomOf="@+id/text_bonusDesc" />
+            app:layout_constraintStart_toStartOf="@+id/text_bonusDesc"
+            app:layout_constraintEnd_toEndOf="@+id/text_bonusDesc"
+            app:layout_constraintTop_toBottomOf="@+id/text_remainingBalance" />
 
         <TextView
             android:id="@+id/text_bonusPoint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/padding_size_xl"
+            android:layout_marginEnd="@dimen/padding_size_s"
             android:textColor="@color/md_white_1000"
-            android:textSize="@dimen/font_text_size_m"
-            android:text="@{item.point}"
+            android:textSize="@dimen/font_text_size_s"
+            android:text="@{item.getPointText()}"
             tools:text="100"
             app:layout_constraintEnd_toStartOf="@+id/text_point"
             app:layout_constraintTop_toTopOf="@+id/text_point"
@@ -64,8 +76,8 @@
             android:id="@+id/text_point"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/md_grey_400"
-            android:textSize="@dimen/font_text_size_m"
+            android:textColor="@color/md_white_1000"
+            android:textSize="@dimen/font_text_size_s"
             android:text="@string/point"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

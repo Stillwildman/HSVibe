@@ -99,6 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/padding_size_xxl"
             android:layout_marginTop="@dimen/padding_size_l"
+            android:text="@{mainViewModel.getExpiringPointText()}"
             tools:text="@string/your_points_and_expires_time"
             android:textColor="@color/money_color"
             android:textSize="@dimen/font_text_size_xs" />

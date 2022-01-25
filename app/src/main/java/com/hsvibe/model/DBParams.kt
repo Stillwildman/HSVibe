@@ -30,6 +30,8 @@ object DBParams {
     const val COLUMN_UPDATED_TIME = "UpdatedTime"
     const val COLUMN_REGION_NAME = "RegionName"
     const val COLUMN_REGION_ZIP = "RegionZip"
+    const val COLUMN_REGION_PARENT_ID = "RegionParentId"
+    const val COLUMN_HAS_SET_PASSWORD = "HasSetPassword"
 
     const val DEFAULT_USER_ID = 1
 

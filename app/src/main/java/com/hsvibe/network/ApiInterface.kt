@@ -56,6 +56,7 @@ interface ApiInterface {
 
     @POST("${Urls.API_COUPON_REDEEM}/{uuid}")
     suspend fun redeemCoupon(
+        @Header(ApiConst.AUTHORIZATION) auth: String,
         @Path("uuid") uuid: String,
         @Body body: PostCouponRedeem = PostCouponRedeem(1)
     ): Response<ItemCoupon>

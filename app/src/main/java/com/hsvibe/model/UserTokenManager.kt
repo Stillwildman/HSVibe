@@ -1,5 +1,6 @@
 package com.hsvibe.model
 
+import android.app.AlarmManager
 import com.hsvibe.utilities.L
 import com.hsvibe.utilities.SettingManager
 import com.hsvibe.utilities.Utility
@@ -40,12 +41,28 @@ object UserTokenManager {
         }?.takeIf {
             it.access_token.isNotNullOrEmpty()
         }?.let {
-            if (isTokenExpired(it)) {
-                tokenStatusListener.onTokenExpired()
-            } else {
-                tokenStatusListener.onTokenOk()
+            when {
+                isTokenExpiringSoon(it) -> {
+                    tokenStatusListener.onTokenExpiringSoon()
+                }
+                isTokenExpired(it) -> {
+                    tokenStatusListener.onTokenExpired()
+                }
+                else -> {
+                    tokenStatusListener.onTokenOk()
+                }
             }
         } ?: tokenStatusListener.onTokenNull()
+    }
+
+    private fun isTokenExpiringSoon(userToken: UserToken): Boolean {
+        return userToken.run {
+            expires_in?.let {
+                val expiredTime = (createdTime + Utility.convertSecondToMillisecond(it)).also { expiredTime -> L.i("Token expiredTime: $expiredTime") }
+                val now = System.currentTimeMillis()
+                (expiredTime > now) && (expiredTime - now < (AlarmManager.INTERVAL_DAY * 3))
+            } ?: true
+        }
     }
 
     private fun isTokenExpired(userToken: UserToken): Boolean {
@@ -62,6 +79,7 @@ object UserTokenManager {
 
     interface TokenStatusListener {
         fun onTokenOk()
+        fun onTokenExpiringSoon()
         fun onTokenExpired()
         fun onTokenNull()
     }

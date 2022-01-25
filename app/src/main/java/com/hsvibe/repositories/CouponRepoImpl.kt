@@ -1,6 +1,7 @@
 package com.hsvibe.repositories
 
 import com.hsvibe.callbacks.OnLoadingCallback
+import com.hsvibe.model.UserTokenManager
 import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.model.items.ItemCouponDistricts
 import com.hsvibe.model.items.ItemCouponStores
@@ -25,11 +26,17 @@ class CouponRepoImpl : CouponRepo {
         return DataCallbacks.getCouponStores(categoryId, callback)
     }
 
+    override suspend fun groupingStoresByBrand(stores: ItemCouponStores): ItemCouponStores {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getCouponDetail(uuid: String): ItemCoupon? {
         return DataCallbacks.getCouponDetail(uuid, callback)
     }
 
     override suspend fun redeemCoupon(uuid: String): ItemCoupon? {
-        return DataCallbacks.redeemCoupon(uuid, callback)
+        return UserTokenManager.getAuthorization()?.let {
+            DataCallbacks.redeemCoupon(it, uuid, callback)
+        }
     }
 }

@@ -41,6 +41,9 @@ data class UserInfoEntity(
     @ColumnInfo(name = DBParams.COLUMN_REFERRER_NO)
     val column_referrerNo: String,
 
+    @ColumnInfo(name = DBParams.COLUMN_HAS_SET_PASSWORD)
+    val column_hasSetPassword: Boolean,
+
     @ColumnInfo(name = DBParams.COLUMN_DEVICE_TYPE)
     val column_deviceType: String,
 
@@ -57,7 +60,10 @@ data class UserInfoEntity(
     val column_regionName: String,
 
     @ColumnInfo(name = DBParams.COLUMN_REGION_ZIP)
-    val column_regionZip: String
+    val column_regionZip: String,
+
+    @ColumnInfo(name = DBParams.COLUMN_REGION_PARENT_ID)
+    val column_regionParentId: Int
 
 ) : UserInfo {
 
@@ -70,12 +76,14 @@ data class UserInfoEntity(
         column_birthday = userInfo.getBirthday(),
         column_referNo = userInfo.getReferNo(),
         column_referrerNo = userInfo.getReferrerNo(),
+        column_hasSetPassword = userInfo.isSetPassword(),
         column_deviceType = userInfo.getDeviceType(),
         column_deviceModel = userInfo.getDeviceModel(),
         column_createdTime = userInfo.getCreatedTime(),
         column_updatedTime = userInfo.getUpdatedTime(),
         column_regionName = userInfo.getRegionName() ?: "",
         column_regionZip = userInfo.getRegionZip() ?: "",
+        column_regionParentId = userInfo.getRegionParentId()
     )
 
     override fun getUuid(): String = column_uuid
@@ -94,6 +102,16 @@ data class UserInfoEntity(
 
     override fun getReferrerNo(): String = column_referrerNo
 
+    override fun getExpiringPoint(): String = "" // No implemented, since it don't need to be stored in the DB.
+
+    override fun getCouponAmount(): Int = 0 // No implemented, since it don't need to be stored in the DB.
+
+    override fun getBalance(): Int = 0  // No implemented, since it don't need to be stored in the DB.
+
+    override fun getAccumulate(): Int = 0  // No implemented, since it don't need to be stored in the DB.
+
+    override fun isSetPassword(): Boolean = column_hasSetPassword
+
     override fun getDeviceType(): String = column_deviceType
 
     override fun getDeviceModel(): String = column_deviceModel
@@ -106,6 +124,6 @@ data class UserInfoEntity(
 
     override fun getRegionZip(): String = column_regionZip
 
-    override fun getPayPassword(): String? = null
+    override fun getRegionParentId(): Int = column_regionParentId
 
 }

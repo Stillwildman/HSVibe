@@ -18,7 +18,15 @@ data class ItemAccountBonus(
         val note: String,
         val created_at: String,
         val updated_at: String
-    )
+    ) {
+        fun getPointText(): String {
+            return if (isIncome()) point else "-$point"
+        }
+
+        private fun isIncome(): Boolean {
+            return operate == "income"
+        }
+    }
 
     data class Meta(
         val pagination: Pagination

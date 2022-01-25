@@ -7,7 +7,7 @@ import android.os.Looper
 import com.hsvibe.R
 import com.hsvibe.model.UserTokenManager
 import com.hsvibe.ui.bases.BaseFullScreenActivity
-import com.hsvibe.utilities.ContextExt.startActivitySafely
+import com.hsvibe.utilities.startActivitySafely
 
 class UiSplashActivity : BaseFullScreenActivity() {
 

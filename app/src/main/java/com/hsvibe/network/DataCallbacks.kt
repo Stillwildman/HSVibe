@@ -132,9 +132,9 @@ object DataCallbacks {
         }
     }
 
-    suspend fun redeemCoupon(uuid: String, loadingCallback: OnLoadingCallback?): ItemCoupon? {
+    suspend fun redeemCoupon(auth: String, uuid: String, loadingCallback: OnLoadingCallback?): ItemCoupon? {
         return getApiResult(loadingCallback) {
-            getApiInterface().redeemCoupon(uuid)
+            getApiInterface().redeemCoupon(auth, uuid)
         }
     }
 

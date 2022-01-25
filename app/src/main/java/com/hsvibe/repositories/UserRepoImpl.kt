@@ -115,6 +115,7 @@ class UserRepoImpl : UserRepo {
             birthday = userInfo.getBirthday(),
             device_type = DeviceUtil.getDeviceType(),
             device_model = DeviceUtil.getCombinedDeviceModel(),
+            region_zip = userInfo.getRegionZip(),
             referrer_no = userInfo.getReferrerNo(),
             lat = lat,
             long = lon

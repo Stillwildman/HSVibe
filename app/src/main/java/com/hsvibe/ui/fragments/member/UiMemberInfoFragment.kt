@@ -142,7 +142,7 @@ class UiMemberInfoFragment private constructor() : BaseActionBarFragment<Fragmen
         profileViewModel.livePostUserInfo.value?.apply {
             if (isAllInputValidated(this)) {
                 gender = binding.spinnerGender.getPairSecondValue()
-                //binding.spinnerPostal.getPairSecondValue() // TODO Update regions?
+                region_zip = binding.spinnerPostal.getPairSecondValue()
 
                 mainViewModel.updateUserInfo(this) { isSuccess ->
                     if (isSuccess) {

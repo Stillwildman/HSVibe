@@ -46,9 +46,12 @@ object DifferItems {
         override fun areContentsTheSame(oldItem: ItemAccountBonus.ContentData, newItem: ItemAccountBonus.ContentData): Boolean {
             return oldItem.balance == newItem.balance
                     && oldItem.point == newItem.point
+                    && oldItem.operate == newItem.operate
+                    && oldItem.note == newItem.note
                     && oldItem.created_at == newItem.created_at
                     && oldItem.updated_at == newItem.updated_at
         }
-
     }
+
+
 }

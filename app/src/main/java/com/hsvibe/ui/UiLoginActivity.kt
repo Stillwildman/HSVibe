@@ -10,8 +10,8 @@ import com.hsvibe.model.UserToken
 import com.hsvibe.model.UserTokenManager
 import com.hsvibe.ui.bases.BaseActivity
 import com.hsvibe.ui.fragments.login.UiLoginWebDialogFragment
-import com.hsvibe.utilities.ContextExt.startActivitySafelyAndFinish
 import com.hsvibe.utilities.setOnSingleClickListener
+import com.hsvibe.utilities.startActivitySafelyAndFinish
 import com.hsvibe.viewmodel.LoginViewModel
 
 /**

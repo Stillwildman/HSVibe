@@ -13,7 +13,29 @@ data class ItemCouponStores(
         val id: Int,
         val name: String,
         val fullname: String,
+        val brand: Brand,
         var columnPosition: Int,
         var rowPosition: Int
-    )
+    ) {
+        data class Brand(
+            @SerializedName("data")
+            val brandData: List<BrandData>
+        ) {
+            data class BrandData(
+                val id: Int,
+                val name: String,
+                val is_enable: Int
+            )
+        }
+    }
+
+    fun isStoreEnabled(): Boolean {
+        return contentData.takeIf { it.isNotEmpty() }?.first()?.brand?.brandData.takeIf { !it.isNullOrEmpty() }?.first()?.let {
+            it.is_enable == 1
+        } ?: false
+    }
+
+    fun getBrandId(): Int? {
+        return contentData.first().brand.brandData.takeIf { !it.isNullOrEmpty() }?.first()?.id
+    }
 }

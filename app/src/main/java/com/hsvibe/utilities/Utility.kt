@@ -58,7 +58,17 @@ object Utility {
             val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
 
             if (capabilities != null) {
+                L.i("NetworkCapabilities is not null!!! " +
+                        "HasCapabilities: ${capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)} " +
+                        "Cellular: ${capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)} " +
+                        "WIFI: ${capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)} " +
+                        "Ethernet: ${capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)}")
                 when {
+                    capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                            capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED) -> {
+                        L.i("Internet", "Has Internet capability!")
+                        return true
+                    }
                     capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
                         L.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
                         return true
@@ -75,10 +85,8 @@ object Utility {
             }
         }
         else {
-            val activeNetworkInfo = connectivityManager.activeNetworkInfo
-            if (activeNetworkInfo != null && activeNetworkInfo.isConnected) {
-                return true
-            }
+            val networkInfo = connectivityManager.activeNetworkInfo
+            return networkInfo != null && networkInfo.isConnectedOrConnecting
         }
         return false
     }

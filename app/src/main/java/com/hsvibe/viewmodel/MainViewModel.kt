@@ -4,6 +4,7 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.messaging.FirebaseMessaging
+import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.model.Navigation
 import com.hsvibe.model.UserInfo
@@ -13,10 +14,12 @@ import com.hsvibe.repositories.UserRepo
 import com.hsvibe.tasks.ApiStatusException
 import com.hsvibe.utilities.L
 import com.hsvibe.utilities.Utility
+import com.hsvibe.utilities.isNotNullOrEmpty
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 /**
  * Created by Vincent on 2021/7/5.
@@ -25,7 +28,7 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
 
     private fun getExceptionHandler(runIfTokenStatusExpired: () -> Unit): CoroutineExceptionHandler {
         return CoroutineExceptionHandler { _, throwable ->
-            L.i("Handle Coroutine Exception!!!")
+            L.e("Handle Coroutine Exception!!!")
             when {
                 !Utility.isNetworkEnabled() -> {
                     L.e("Network is not working!!!")
@@ -158,7 +161,7 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
         }
     }
 
-    private fun getUserBonus() {
+    fun getUserBonus() {
         viewModelScope.launch {
             userRepo.getUserBonus()?.let {
                 liveCurrentBalance.value = it.contentData
@@ -174,5 +177,12 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
                 onFinish(true)
             } ?: onFinish(false)
         }
+    }
+
+    fun getExpiringPointText(): String {
+        return liveUserInfo.value?.getExpiringPoint().takeIf { it.isNotNullOrEmpty() }?.let {
+            val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+            AppController.getAppContext().getString(R.string.your_points_and_expires_time, it, currentYear)
+        } ?: ""
     }
 }

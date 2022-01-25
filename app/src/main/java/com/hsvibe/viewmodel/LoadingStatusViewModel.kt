@@ -31,14 +31,14 @@ open class LoadingStatusViewModel : ViewModel(), OnLoadingCallback {
 
     open fun getExceptionHandler(): CoroutineExceptionHandler {
         return CoroutineExceptionHandler { _, throwable ->
-            L.i("Handle Coroutine Exception!!!")
+            L.e("Handle Coroutine Exception!!!")
             when {
+                throwable is ApiStatusException -> {
+                    Utility.toastLong("Api Error!!\nCode: ${throwable.statusCode}\nMsg: ${throwable.errorMessage}")
+                }
                 !Utility.isNetworkEnabled() -> {
                     L.e("Network is not working!!!")
                     Utility.toastLong("Network is not working!!!")
-                }
-                throwable is ApiStatusException -> {
-                    Utility.toastLong("Api Error!!\nCode: ${throwable.statusCode}\nMsg: ${throwable.errorMessage}")
                 }
                 else -> {
                     Utility.toastLong(R.string.unknown_network_error)

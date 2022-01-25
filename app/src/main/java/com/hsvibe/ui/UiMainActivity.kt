@@ -28,7 +28,6 @@ import com.hsvibe.ui.fragments.member.UiMemberInfoFragment
 import com.hsvibe.ui.fragments.news.UiNewsFragment
 import com.hsvibe.ui.fragments.news.UiNotificationFragment
 import com.hsvibe.utilities.*
-import com.hsvibe.utilities.ContextExt.startActivitySafelyAndFinish
 import com.hsvibe.viewmodel.LoginViewModel
 import com.hsvibe.viewmodel.MainViewModel
 import com.hsvibe.viewmodel.MainViewModelFactory
@@ -129,6 +128,12 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
         L.i("onTokenOk!!!")
         setupUserInfoFromDb()
         runUserInfoSynchronize()
+    }
+
+    override fun onTokenExpiringSoon() {
+        L.i("onTokenExpiringSoon!!!")
+        setupUserInfoFromDb()
+        refreshUserTokenAndUpdate()
     }
 
     override fun onTokenExpired() {

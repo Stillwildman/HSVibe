@@ -197,6 +197,7 @@
                             android:textColor="@color/md_black_1000"
                             android:textSize="@dimen/font_text_size_s"
                             android:textStyle="bold"
+                            android:text="@{@string/coupon_has(mainViewModel.liveUserInfo.getCouponAmount())}"
                             tools:text="@string/coupon_has"
                             app:layout_constraintTop_toBottomOf="@+id/text_myCoupon"
                             app:layout_constraintEnd_toEndOf="parent"
