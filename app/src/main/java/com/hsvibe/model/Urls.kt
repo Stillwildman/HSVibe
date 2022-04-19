@@ -39,6 +39,8 @@ object Urls {
 
     const val API_COUPON_STORES = "store"
 
+    const val API_COUPON_BRAND = "brand/coupon"
+
     const val WEB_HS_VIBE = "https://www.hsvibe.com/"
 
     const val WEB_HS_VIBE_TERMS = "https://www.hsvibe.com/terms"

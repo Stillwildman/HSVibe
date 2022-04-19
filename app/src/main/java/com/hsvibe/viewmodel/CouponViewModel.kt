@@ -10,8 +10,8 @@ import com.hsvibe.R
 import com.hsvibe.callbacks.DataSourceParamInterface
 import com.hsvibe.model.ApiConst
 import com.hsvibe.model.items.ItemCoupon
+import com.hsvibe.model.items.ItemCouponBrand
 import com.hsvibe.model.items.ItemCouponDistricts
-import com.hsvibe.model.items.ItemCouponStores
 import com.hsvibe.model.items.ItemMyCoupon
 import com.hsvibe.paging.BasePagingConfig
 import com.hsvibe.paging.CouponDataSource
@@ -28,7 +28,7 @@ import kotlinx.coroutines.withContext
 /**
  * Created by Vincent on 2021/8/5.
  */
-class CouponViewModel(private val couponRepo: CouponRepo) : LoadingStatusViewModel(), DataSourceParamInterface<Int>, BasePagingConfig {
+class CouponViewModel(private val couponRepo: CouponRepo) : LoadingStatusViewModel(), DataSourceParamInterface<String?>, BasePagingConfig {
 
     override fun getPerPageSize(): Int = ApiConst.DEFAULT_LIMIT
 
@@ -37,7 +37,7 @@ class CouponViewModel(private val couponRepo: CouponRepo) : LoadingStatusViewMod
     private var contentFlow: Flow<PagingData<ItemCoupon.ContentData>>? = null
 
     val liveCouponDistrictPairList by lazy { MutableLiveData<List<Pair<String, String>>>() }
-    val liveCouponStores by lazy { MutableLiveData<ItemCouponStores>() }
+    val liveCouponBrand by lazy { MutableLiveData<ItemCouponBrand>() }
     val liveCouponDetail by lazy { MutableLiveData<ItemCoupon.ContentData>() }
 
     val liveMyCouponList by lazy { MutableLiveData<List<ItemMyCoupon.ContentData>>() }
@@ -45,14 +45,14 @@ class CouponViewModel(private val couponRepo: CouponRepo) : LoadingStatusViewMod
 
     val liveCouponCode by lazy { MutableLiveData<String>() }
 
-    private var storeId = ApiConst.ALL
+    private var storeIds: String? = null
 
     init {
         couponRepo.setLoadingCallback(this)
     }
 
-    fun getCouponFlow(storeId: Int): Flow<PagingData<ItemCoupon.ContentData>> {
-        this.storeId = storeId
+    fun getCouponFlow(storeIds: String? = null): Flow<PagingData<ItemCoupon.ContentData>> {
+        this.storeIds = storeIds
 
         return contentFlow ?: run {
             Pager(pageConfig) {
@@ -61,13 +61,13 @@ class CouponViewModel(private val couponRepo: CouponRepo) : LoadingStatusViewMod
         }.also { contentFlow = it }
     }
 
-    fun refreshCouponFlowByStoreId(storeId: Int) {
-        this.storeId = storeId
+    fun refreshCouponFlowByStoreIds(storeIds: String?) {
+        this.storeIds = storeIds
         couponDataSource?.invalidate()
     }
 
-    override fun getParams(): Int {
-        return storeId
+    override fun getParams(): String? {
+        return storeIds
     }
 
     fun getCouponDistricts() {
@@ -93,10 +93,10 @@ class CouponViewModel(private val couponRepo: CouponRepo) : LoadingStatusViewMod
         }
     }
 
-    fun getCouponStores(categoryId: Int) {
+    fun getCouponBrands(categoryId: Int) {
         viewModelScope.launch(getExceptionHandler()) {
-            couponRepo.getCouponStores(categoryId)?.let {
-                liveCouponStores.value = it
+            couponRepo.getCouponBrands(categoryId)?.let {
+                liveCouponBrand.value = it
             }
         }
     }

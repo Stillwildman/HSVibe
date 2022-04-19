@@ -3,7 +3,6 @@ package com.hsvibe.ui
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleCoroutineScope
-import com.hsvibe.model.ApiConst
 import com.hsvibe.ui.fragments.coupons.UiCouponMainFragment
 import com.hsvibe.ui.fragments.explore.UiExploreFragment
 import com.hsvibe.ui.fragments.home.UiHomeFragment
@@ -56,7 +55,7 @@ class TabFragmentManager(private val fm: FragmentManager, private val scope: Lif
         return when (tabKey) {
             TAG_HOME -> UiHomeFragment()
             TAG_EXPLORE -> UiExploreFragment()
-            TAG_COUPON -> UiCouponMainFragment.newInstance(ApiConst.ALL)
+            TAG_COUPON -> UiCouponMainFragment.newInstance()
             TAG_WALLET -> UiWalletMainFragment()
             else -> UiHomeFragment()
         }

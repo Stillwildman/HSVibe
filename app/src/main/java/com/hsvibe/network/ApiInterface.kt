@@ -38,7 +38,7 @@ interface ApiInterface {
     suspend fun getCoupon(
         @Query(ApiConst.ORDER_BY) orderBy: String,
         @Query(ApiConst.SORTED_BY) sortedBy: String,
-        @Query(ApiConst.STORE_ID) storeId: Int,
+        @Query(ApiConst.STORE_ID) storeId: String?,
         @Query(ApiConst.LIMIT) limit: Int,
         @Query(ApiConst.PAGE) page: Int
     ): Response<ItemCoupon>
@@ -84,8 +84,8 @@ interface ApiInterface {
     @GET(Urls.API_COUPON_CATEGORY)
     suspend fun getCouponDistricts(@Query(ApiConst.CATEGORY_ID) category: Int = ApiConst.CATEGORY_DISTRICTS): Response<ItemCouponDistricts>
 
-    @GET(Urls.API_COUPON_STORES)
-    suspend fun getCouponStores(@Query(ApiConst.CATEGORY_ID) category: Int): Response<ItemCouponStores>
+    @GET(Urls.API_COUPON_BRAND)
+    suspend fun getCouponBrands(@Query(ApiConst.CATEGORY_ID) category: Int?): Response<ItemCouponBrand>
 
     @GET(Urls.API_TICKET_HOLDER)
     suspend fun getMyCouponList(

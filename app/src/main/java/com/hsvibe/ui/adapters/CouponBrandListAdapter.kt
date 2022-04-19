@@ -18,7 +18,6 @@ import com.hsvibe.databinding.InflateCategoryRowBinding
 import com.hsvibe.databinding.InflateCategoryVerticalBinding
 import com.hsvibe.model.Const
 import com.hsvibe.model.items.ItemCouponBrand
-import com.hsvibe.model.items.ItemCouponStores
 import com.hsvibe.utilities.L
 import com.hsvibe.utilities.Utility
 import com.hsvibe.utilities.setOnSingleClickListener
@@ -30,7 +29,7 @@ import kotlinx.coroutines.withContext
 /**
  * Created by Vincent on 2021/8/18.
  */
-class CouponStoreListAdapter(
+class CouponBrandListAdapter(
     private val layoutManage: LinearLayoutManager,
     private val brandList: MutableList<ItemCouponBrand.ContentData>,
     private val onClickCallback: OnAnyItemClickCallback<ItemCouponBrand.ContentData>,
@@ -91,11 +90,11 @@ class CouponStoreListAdapter(
                 }
 
                 val tagView = inflater.inflate(R.layout.inflate_category_row, null, false) as TextView
-                tagView.text = item.fullname
+                tagView.text = item.name
                 tagView.measure(0, 0)
                 val textWidth = tagView.measuredWidth
 
-                totalWidth += textWidth.also { L.i("Text: ${item.fullname} Width: $it") } + (marginSizeM * 2)
+                totalWidth += textWidth.also { L.i("Text: ${item.name} Width: $it") } + (marginSizeM * 2)
 
                 L.i("TotalWidth: $totalWidth/$screenWidth")
 
@@ -127,13 +126,13 @@ class CouponStoreListAdapter(
                     currentIndex = 0
                     calculateVerticalLayout().also { L.i("LayoutCount: $it") }
                     lastSelectedIndex = rowSelectedIndex
-                    this@CouponStoreListAdapter.notifyItemRangeChanged(0, itemCount)
+                    this@CouponBrandListAdapter.notifyItemRangeChanged(0, itemCount)
                 }
                 else {
                     orientation = RecyclerView.HORIZONTAL
                     lastSelectedIndex = findSelectedItemIndex()
                     lastRowSelectedIndex = lastSelectedIndex
-                    this@CouponStoreListAdapter.notifyItemRangeChanged(0, itemCount.also { L.i("NotifyItemCount: $it") })
+                    this@CouponBrandListAdapter.notifyItemRangeChanged(0, itemCount.also { L.i("NotifyItemCount: $it") })
 
                     verticalCategorySize.clear()
                 }
@@ -154,17 +153,17 @@ class CouponStoreListAdapter(
 
         return if (viewType == VIEW_TYPE_HORIZONTAL) {
             val bindingView = DataBindingUtil.inflate<InflateCategoryRowBinding>(inflater, R.layout.inflate_category_row, parent, false)
-            CategoryRowViewHolder(bindingView)
+            BrandRowViewHolder(bindingView)
         }
         else {
             val bindingView = DataBindingUtil.inflate<InflateCategoryVerticalBinding>(inflater, R.layout.inflate_category_vertical, parent, false)
-            CategoryVerticalViewHolder(bindingView)
+            BrandVerticalViewHolder(bindingView)
         }
     }
 
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
         super.onViewRecycled(holder)
-        if (holder is CategoryVerticalViewHolder) {
+        if (holder is BrandVerticalViewHolder) {
             scope.launch {
                 holder.bindingView.layoutCategoryTagRoot.removeAllViews()
             }
@@ -173,7 +172,7 @@ class CouponStoreListAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is CategoryRowViewHolder -> {
+            is BrandRowViewHolder -> {
                 brandList[position].let {
                     it.columnPosition = 0
                     it.rowPosition = position
@@ -182,7 +181,7 @@ class CouponStoreListAdapter(
                     setRowItemSelected(holder, position)
                 }
             }
-            is CategoryVerticalViewHolder -> {
+            is BrandVerticalViewHolder -> {
                 holder.inflateCategoryTag(position)
             }
         }
@@ -194,10 +193,10 @@ class CouponStoreListAdapter(
         }
         else {
             when (holder) {
-                is CategoryRowViewHolder -> {
+                is BrandRowViewHolder -> {
                     setRowItemSelected(holder, position)
                 }
-                is CategoryVerticalViewHolder -> {
+                is BrandVerticalViewHolder -> {
                     (payloads[0] as? Int)?.let { setVerticalItemSelected(holder, position, it) }
                 }
             }
@@ -210,7 +209,7 @@ class CouponStoreListAdapter(
         }
     }
 
-    private fun setRowItemSelected(holder: CategoryRowViewHolder, position: Int) {
+    private fun setRowItemSelected(holder: BrandRowViewHolder, position: Int) {
         if (isPositionValid(lastSelectedIndex)) {
             rowSelectedIndex = lastSelectedIndex
             lastSelectedIndex = Const.NO_POSITION
@@ -218,7 +217,7 @@ class CouponStoreListAdapter(
         holder.bindingView.textCategory.isSelected = position == rowSelectedIndex
     }
 
-    private fun setVerticalItemSelected(holder: CategoryVerticalViewHolder, columnPosition: Int, rowPosition: Int) {
+    private fun setVerticalItemSelected(holder: BrandVerticalViewHolder, columnPosition: Int, rowPosition: Int) {
         holder.bindingView.layoutCategoryTagRoot.also { L.i("ColumnPosition: $columnPosition RowPosition: $rowPosition ChildCount: ${it.childCount}") }.forEachIndexed { index, view ->
             view.isSelected = columnPosition == columnSelectedIndex && index == rowSelectedIndex
         }
@@ -243,6 +242,7 @@ class CouponStoreListAdapter(
 
         lastColumnSelectedIndex = columnSelectedIndex
         lastRowSelectedIndex = rowSelectedIndex
+
     }
 
     private suspend fun findSelectedItemIndex(): Int {
@@ -261,9 +261,9 @@ class CouponStoreListAdapter(
         }
     }
 
-    inner class CategoryRowViewHolder(val bindingView: InflateCategoryRowBinding): RecyclerView.ViewHolder(bindingView.root)
+    inner class BrandRowViewHolder(val bindingView: InflateCategoryRowBinding): RecyclerView.ViewHolder(bindingView.root)
 
-    inner class CategoryVerticalViewHolder(val bindingView: InflateCategoryVerticalBinding): RecyclerView.ViewHolder(bindingView.root) {
+    inner class BrandVerticalViewHolder(val bindingView: InflateCategoryVerticalBinding): RecyclerView.ViewHolder(bindingView.root) {
 
         fun inflateCategoryTag(position: Int) {
             val inflater = LayoutInflater.from(bindingView.root.context)
@@ -282,7 +282,7 @@ class CouponStoreListAdapter(
                         item.rowPosition = i
 
                         val tagView = inflater.inflate(R.layout.inflate_category_row, bindingView.layoutCategoryTagRoot, false) as TextView
-                        tagView.text = item.fullname
+                        tagView.text = item.name
                         tagView.tag = currentIndex
 
                         LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {

@@ -24,12 +24,24 @@ class CouponRepoImpl : CouponRepo {
         return DataCallbacks.getCouponDistricts(callback)
     }
 
-    override suspend fun getCouponStores(categoryId: Int): ItemCouponStores? {
-        return DataCallbacks.getCouponStores(categoryId, callback)
-    }
-
-    override suspend fun groupingStoresByBrand(stores: ItemCouponStores): ItemCouponStores {
-        TODO("Not yet implemented")
+    override suspend fun getCouponBrands(categoryId: Int): ItemCouponBrand? {
+        return DataCallbacks.getCouponBrands(categoryId.takeIf { it != ApiConst.ALL }, callback).also {
+            if (categoryId == ApiConst.ALL) {
+                it?.contentData?.add(0, ItemCouponBrand.ContentData())
+            }
+            else {
+                withContext(Dispatchers.Default) {
+                    val allStoreIds = StringBuilder()
+                    it?.contentData?.forEach { contentData ->
+                        if (allStoreIds.isNotEmpty()) {
+                            allStoreIds.append(",")
+                        }
+                        allStoreIds.append(contentData.store_ids)
+                    }
+                    it?.contentData?.add(0, ItemCouponBrand.ContentData(store_ids = allStoreIds.toString()))
+                }
+            }
+        }
     }
 
     override suspend fun getCouponDetail(uuid: String): ItemCoupon? {

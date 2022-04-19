@@ -4,6 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.hsvibe.callbacks.DataSourceParamInterface
 import com.hsvibe.callbacks.OnLoadingCallback
+import com.hsvibe.model.ApiConst
 import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.network.DataCallbacks
 import com.hsvibe.utilities.L
@@ -14,7 +15,7 @@ import java.io.IOException
  * Created by Vincent on 2021/8/5.
  */
 class CouponDataSource(
-    private val paramInterface: DataSourceParamInterface<Int>,
+    private val paramInterface: DataSourceParamInterface<String?>,
     private val loadingCallback: OnLoadingCallback?
 ) : PagingSource<Int, ItemCoupon.ContentData>() {
 
@@ -30,10 +31,12 @@ class CouponDataSource(
             val pageKey = params.key ?: 1
 
             L.i("LoadSize: ${params.loadSize}")
-            L.i("Load storeId: ${paramInterface.getParams()}")
+            L.i("Load storeIds: ${paramInterface.getParams()}")
 
             val response = DataCallbacks.getCoupon(
-                storeId = paramInterface.getParams(),
+                orderBy = "${ApiConst.ORDER_BY_TOP};${ApiConst.ORDER_BY_UPDATED}",
+                sortedBy = "${ApiConst.SORTED_BY_DESC};${ApiConst.SORTED_BY_DESC}",
+                storeIds = paramInterface.getParams(),
                 limit = params.loadSize,
                 page = pageKey,
                 loadingCallback = loadingCallback)

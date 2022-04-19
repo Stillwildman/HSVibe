@@ -11,13 +11,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.hsvibe.R
 import com.hsvibe.callbacks.OnAnyItemClickCallback
 import com.hsvibe.databinding.FragmentCouponMainPageBinding
-import com.hsvibe.model.ApiConst
 import com.hsvibe.model.Const
 import com.hsvibe.model.items.ItemCoupon
-import com.hsvibe.model.items.ItemCouponStores
+import com.hsvibe.model.items.ItemCouponBrand
 import com.hsvibe.repositories.CouponRepoImpl
+import com.hsvibe.ui.adapters.CouponBrandListAdapter
 import com.hsvibe.ui.adapters.CouponListAdapter
-import com.hsvibe.ui.adapters.CouponStoreListAdapter
 import com.hsvibe.ui.bases.BaseFragment
 import com.hsvibe.utilities.getPairSecondValue
 import com.hsvibe.utilities.init
@@ -34,9 +33,12 @@ class UiCouponMainFragment private constructor(): BaseFragment<FragmentCouponMai
     private val viewModel by viewModels<CouponViewModel> { CouponViewModelFactory(CouponRepoImpl()) }
 
     companion object {
-        fun newInstance(storeId: Int): UiCouponMainFragment {
+        /**
+         * @param storeIds Set null or empty means ALL.
+         */
+        fun newInstance(storeIds: String? = null): UiCouponMainFragment {
             return UiCouponMainFragment().apply {
-                arguments = Bundle().also { it.putInt(Const.BUNDLE_STORE_ID, storeId) }
+                arguments = Bundle().also { it.putString(Const.BUNDLE_STORE_ID, storeIds) }
             }
         }
     }
@@ -53,7 +55,7 @@ class UiCouponMainFragment private constructor(): BaseFragment<FragmentCouponMai
         startCollectCouponFlow()
         getCouponDistricts()
         setSelectedListener()
-        observeCouponStores()
+        observeCouponBrands()
     }
 
     private fun setupBinding() {
@@ -92,9 +94,9 @@ class UiCouponMainFragment private constructor(): BaseFragment<FragmentCouponMai
 
     private fun startCollectCouponFlow() {
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
-            val storeId = arguments?.getInt(Const.BUNDLE_STORE_ID) ?: ApiConst.ALL
+            val storeIds = arguments?.getString(Const.BUNDLE_STORE_ID)
 
-            viewModel.getCouponFlow(storeId).collectLatest { pagingCouponDataList ->
+            viewModel.getCouponFlow(storeIds).collectLatest { pagingCouponDataList ->
                 getCouponListAdapter().submitData(pagingCouponDataList)
             }
         }
@@ -107,58 +109,69 @@ class UiCouponMainFragment private constructor(): BaseFragment<FragmentCouponMai
     private fun setSelectedListener() {
         bindingView.spinnerRegion.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                bindingView.spinnerRegion.getPairSecondValue().takeIf { it.isNotEmpty() }?.let { getCouponStores(it.toInt()) }
+                bindingView.spinnerRegion.getPairSecondValue().takeIf { it.isNotEmpty() }?.let { getCouponBrands(it.toInt()) }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
         bindingView.buttonSwitch.setOnSingleClickListener {
-            switchCategoryLayoutOrientation()
+            //switchCategoryLayoutOrientation()  // TODO Fix this function!
         }
     }
 
-    private fun getCouponStores(categoryId: Int) {
-        viewModel.getCouponStores(categoryId)
+    private fun getCouponBrands(categoryId: Int) {
+        viewModel.getCouponBrands(categoryId)
     }
 
-    private fun observeCouponStores() {
-        viewModel.liveCouponStores.observe(viewLifecycleOwner) {
-            updateStoresRecycler(it.contentData)
+    private fun observeCouponBrands() {
+        viewModel.liveCouponBrand.observe(viewLifecycleOwner) {
+            updateBrandsRecycler(it.contentData)
         }
     }
 
-    private fun updateStoresRecycler(storeList: List<ItemCouponStores.ContentData>) {
-        bindingView.recyclerCouponStores.apply {
+    private fun updateBrandsRecycler(brandList: MutableList<ItemCouponBrand.ContentData>) {
+        bindingView.recyclerCouponBrands.apply {
             if (layoutManager == null || layoutManager?.isAttachedToWindow == false) {
                 layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             }
             if (adapter == null) {
-                adapter = CouponStoreListAdapter(layoutManager as LinearLayoutManager, storeList.toMutableList(), onStoreClickCallback, viewLifecycleOwner.lifecycleScope)
+                adapter = CouponBrandListAdapter(layoutManager as LinearLayoutManager, brandList, onStoreClickCallback, viewLifecycleOwner.lifecycleScope)
+                doFirstSelection(brandList, false)
             }
             else {
-                getStoreListAdapter()?.updateList(storeList)
+                getStoreListAdapter()?.updateList(brandList)
+                doFirstSelection(brandList, true)
             }
         }
     }
 
-    private val onStoreClickCallback = object : OnAnyItemClickCallback<ItemCouponStores.ContentData> {
-        override fun onItemClick(item: ItemCouponStores.ContentData) {
+    private val onStoreClickCallback = object : OnAnyItemClickCallback<ItemCouponBrand.ContentData> {
+        override fun onItemClick(item: ItemCouponBrand.ContentData) {
             getStoreListAdapter()?.setSelected(item)
-            onStoreSelected(item.id)
+            onBrandSelected(item.store_ids)
         }
     }
 
-    private fun onStoreSelected(storeId: Int) {
-        viewModel.refreshCouponFlowByStoreId(storeId)
+    private fun doFirstSelection(brandList: List<ItemCouponBrand.ContentData>, refreshStoreIds: Boolean) {
+        brandList.takeIf { it.isNotEmpty() }?.let {
+            getStoreListAdapter()?.setSelected(it.first())
+            if (refreshStoreIds) {
+                onBrandSelected(it.first().store_ids)
+            }
+        }
+    }
+
+    private fun onBrandSelected(storeIds: String?) {
+        viewModel.refreshCouponFlowByStoreIds(storeIds)
     }
 
     private fun switchCategoryLayoutOrientation() {
         getStoreListAdapter()?.changeLayoutOrientation()
     }
 
-    private fun getStoreListAdapter(): CouponStoreListAdapter? {
-        return bindingView.recyclerCouponStores.adapter as? CouponStoreListAdapter
+    private fun getStoreListAdapter(): CouponBrandListAdapter? {
+        return bindingView.recyclerCouponBrands.adapter as? CouponBrandListAdapter
     }
 
     private fun getCouponListAdapter(): CouponListAdapter {

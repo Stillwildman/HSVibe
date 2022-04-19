@@ -12,9 +12,7 @@ interface CouponRepo {
 
     suspend fun getCouponDistricts(): ItemCouponDistricts?
 
-    suspend fun getCouponStores(categoryId: Int): ItemCouponStores?
-
-    suspend fun groupingStoresByBrand(stores: ItemCouponStores): ItemCouponStores
+    suspend fun getCouponBrands(categoryId: Int): ItemCouponBrand?
 
     suspend fun getCouponDetail(uuid: String): ItemCoupon?
 
