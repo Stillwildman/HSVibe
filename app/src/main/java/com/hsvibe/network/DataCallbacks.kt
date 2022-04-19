@@ -71,17 +71,19 @@ object DataCallbacks {
 
     private suspend fun <ItemType> getApiResult(loadingCallback: OnLoadingCallback? = null, makeApiCall:suspend () -> Response<ItemType>): ItemType? {
         return withContext(Dispatchers.IO) {
-            L.d("Suspend API Call! Thread is ${Thread.currentThread().name}")
+            L.d(TAG, "Suspend API Call! Thread is ${Thread.currentThread().name}")
 
             loadingCallback?.onLoadingStart()
 
             val response = makeApiCall()
 
             if (response.isSuccessful) {
+                L.d(TAG, "API Response Successful!!!")
                 loadingCallback?.onLoadingEnd()
                 response.body()
             }
             else {
+                L.d(TAG, "API Response error!!!")
                 val errorMessage = response.errorBody()?.charStream()?.readText()
                 loadingCallback?.onLoadingFailed(errorMessage)
                 loadingCallback?.onLoadingEnd()
@@ -132,7 +134,7 @@ object DataCallbacks {
         }
     }
 
-    suspend fun redeemCoupon(auth: String, uuid: String, loadingCallback: OnLoadingCallback?): ItemCoupon? {
+    suspend fun redeemCoupon(auth: String, uuid: String, loadingCallback: OnLoadingCallback?): ItemMessage? {
         return getApiResult(loadingCallback) {
             getApiInterface().redeemCoupon(auth, uuid)
         }
@@ -178,6 +180,12 @@ object DataCallbacks {
     suspend fun getCouponStores(categoryId: Int, loadingCallback: OnLoadingCallback?): ItemCouponStores? {
         return getApiResult(loadingCallback) {
             getApiInterface().getCouponStores(categoryId)
+        }
+    }
+
+    suspend fun getMyCouponList(auth: String, loadingCallback: OnLoadingCallback?): ItemMyCoupon? {
+        return getApiResult(loadingCallback) {
+            getApiInterface().getMyCouponList(auth)
         }
     }
 }

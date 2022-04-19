@@ -9,11 +9,12 @@ import com.hsvibe.R
 import com.hsvibe.callbacks.OnAnyItemClickCallback
 import com.hsvibe.databinding.FragmentCouponDetailBinding
 import com.hsvibe.model.Const
+import com.hsvibe.model.UserTokenManager
 import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.repositories.CouponRepoImpl
 import com.hsvibe.ui.bases.BaseActionBarFragment
+import com.hsvibe.ui.fragments.member.UiCouponHistoryFragment
 import com.hsvibe.utilities.DialogHelper
-import com.hsvibe.utilities.Utility
 import com.hsvibe.utilities.getContextSafely
 import com.hsvibe.utilities.init
 import com.hsvibe.viewmodel.CouponViewModel
@@ -79,13 +80,18 @@ class UiCouponDetailFragment private constructor() : BaseActionBarFragment<Fragm
     }
 
     private fun checkBalance(item: ItemCoupon.ContentData) {
-        mainViewModel.liveCurrentBalance.value?.let { userBonus ->
-            if (userBonus.balance >= item.point) {
-                showRedeemConfirmationDialog(item.uuid, item.point)
+        if (UserTokenManager.hasToken()) {
+            mainViewModel.getCurrentUserBonus()?.let { userBonus ->
+                if (userBonus.balance >= item.point) {
+                    showRedeemConfirmationDialog(item.uuid, item.point)
+                }
+                else {
+                    showInsufficientBalanceDialog()
+                }
             }
-            else {
-                showInsufficientBalanceDialog()
-            }
+        }
+        else {
+            mainViewModel.requireLogin()
         }
     }
 
@@ -110,8 +116,40 @@ class UiCouponDetailFragment private constructor() : BaseActionBarFragment<Fragm
     }
 
     private fun redeemCoupon(uuid: String) {
-        couponViewModel.redeemCoupon(uuid) {
-            Utility.toastShort(R.string.redeem_success)
+        couponViewModel.redeemCoupon(uuid) { isSuccess ->
+            if (isSuccess) {
+                showRedeemSuccessDialog()
+            }
+            else {
+                showRedeemFailedDialog()
+            }
+        }
+    }
+
+    private fun showRedeemSuccessDialog() {
+        onRefresh()
+        context?.let {
+            DialogHelper.showSimpleHsVibeDialog(it,
+                R.string.redeem_success,
+                AppController.getString(R.string.coupon_usage_description),
+                R.drawable.ic_check_white,
+                R.string.check_it_out
+            ) {
+                openDialogFragment(UiCouponHistoryFragment())
+            }
+        }
+    }
+
+    private fun showRedeemFailedDialog() {
+        context?.let {
+            DialogHelper.showSimpleHsVibeDialog(it,
+                R.string.error_occurs,
+                AppController.getString(R.string.redeem_failed),
+                R.drawable.ic_close_white,
+                R.string.confirm
+            ) {
+                // Do nothing!
+            }
         }
     }
 
@@ -119,6 +157,7 @@ class UiCouponDetailFragment private constructor() : BaseActionBarFragment<Fragm
         couponViewModel.liveCouponDetail.value?.let {
             couponViewModel.updateCouponDetail(it.uuid)
         }
+        mainViewModel.getUserBonus() // Refresh user bonus on home page.
     }
 
     override fun showLoadingCircle() {

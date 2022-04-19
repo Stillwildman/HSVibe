@@ -51,6 +51,7 @@ object Utility {
         return second * 1000
     }
 
+    @Suppress("DEPRECATION")
     fun isNetworkEnabled(): Boolean {
         val connectivityManager = AppController.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 

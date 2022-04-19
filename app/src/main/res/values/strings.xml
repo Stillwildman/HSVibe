@@ -2,13 +2,15 @@
     <string name="app_name">H\'S VIBE</string>
 
     <!-- Common -->
-    <string name="confirm">確定</string>
+    <string name="confirm">確認</string>
     <string name="confirm_to_exit">Tap \'Back\' again to exit the app.</string>
     <string name="loading">LOADING…</string>
     <string name="ok">OK</string>
     <string name="done">完成</string>
     <string name="cancel">取消</string>
     <string name="all">全部</string>
+    <string name="check_it_out">查看</string>
+    <string name="error_occurs">發生錯誤</string>
     <string name="unknown_network_error">Unknown error! Please check your API request or network connection.</string>
 
     <!-- Permissions -->
@@ -114,11 +116,13 @@
     <string name="redeem_coupon">兌換優惠券</string>
     <string name="confirm_to_redeem">是否花費 %d 點數，兌換此張優惠券?</string>
     <string name="redeem">兌換</string>
-    <string name="redeem_success">兌換成功！</string>
-    <string name="redeem_failed">兌換失敗</string>
+    <string name="redeem_success">兌換成功</string>
+    <string name="coupon_usage_description">店內消費可使用乙張(全台分店適用)，兌換成功，您可以前往我的優惠券查看</string>
+    <string name="redeem_failed">兌換優惠券失敗</string>
     <string name="coupon">優惠券</string>
     <string name="used_record">使用紀錄</string>
     <string name="insufficient_balance">您的餘額不足！</string>
+    <string name="use">使用</string>
 
     <!-- Notification -->
     <string name="newest_info">最新消息</string>
@@ -136,6 +140,15 @@
     <string name="point_transfer">點數轉移</string>
     <string name="transaction_history">交易紀錄</string>
     <string name="re_scan">補登作業</string>
+    <string name="set_passcode">設定交易密碼</string>
+    <string name="enter_six_figures_passcode">輸入6位數交易密碼</string>
+    <string name="confirm_the_passcode">再確認一次交易密碼</string>
+    <string name="please_confirm_the_terms_of_hs_pay">請詳閱 HSPay 服務使用條款</string>
+    <string name="password_verification">驗證交易密碼</string>
+    <string name="fingerprint_input_hint">請輸入您的指紋</string>
+    <string name="fingerprint_verify_success">指紋辨識成功</string>
+    <string name="fingerprint_verify_failed">指紋辨識失敗</string>
+    <string name="fingerprint_unavailable">不支援指紋辨識</string>
 
     <!-- Scanning -->
     <string name="qr_code_scan">條碼掃描</string>

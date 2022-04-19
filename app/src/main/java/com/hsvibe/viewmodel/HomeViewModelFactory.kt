@@ -10,7 +10,7 @@ import com.hsvibe.repositories.HomeContentRepo
 class HomeViewModelFactory(private val homeContentRepo: HomeContentRepo, private val mainViewModel: MainViewModel) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return with(modelClass) {
             when {
                 isAssignableFrom(HomeViewModel::class.java) -> {

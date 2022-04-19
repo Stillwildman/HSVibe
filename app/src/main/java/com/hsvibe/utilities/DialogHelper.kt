@@ -6,14 +6,13 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.WindowManager
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.hsvibe.AppController
 import com.hsvibe.R
-import com.hsvibe.databinding.DialogLargeViewBinding
-import com.hsvibe.databinding.DialogMemberTermsBinding
-import com.hsvibe.databinding.DialogSmallViewBinding
-import com.hsvibe.databinding.DialogSmallViewSingleButtonBinding
+import com.hsvibe.databinding.*
 
 /**
  * Created by Vincent on 2021/8/16.
@@ -155,6 +154,39 @@ object DialogHelper {
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             window?.setDimAmount(0.6f)
             show()
+        }
+    }
+
+    fun showSimpleHsVibeDialog(
+        context: Context,
+        @StringRes titleRes: Int,
+        content: String,
+        @DrawableRes iconRes: Int,
+        @StringRes positiveButtonRes: Int,
+        onButtonClick: () -> Unit
+    ): AlertDialog {
+        val bindingView = DataBindingUtil.inflate<DialogSimpleHsvibeViewBinding>(LayoutInflater.from(context), R.layout.dialog_simple_hsvibe_view, null, false)
+
+        val dialog = AlertDialog.Builder(context).apply {
+            setView(bindingView.root)
+            setCancelable(true)
+        }.create()
+
+        bindingView.apply {
+            textDialogTitle.text = AppController.getString(titleRes)
+            textDialogContent.text = content
+            imageDialogStatus.setImageDrawable(ContextCompat.getDrawable(AppController.getAppContext(), iconRes))
+            buttonConfirm.text = AppController.getString(positiveButtonRes)
+
+            buttonConfirm.setOnSingleClickListener {
+                dialog.dismiss()
+                onButtonClick()
+            }
+        }
+        return dialog.also {
+            it.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            it.window?.setDimAmount(0.6f)
+            it.show()
         }
     }
 

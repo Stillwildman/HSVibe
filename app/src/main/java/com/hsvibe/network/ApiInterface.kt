@@ -59,7 +59,7 @@ interface ApiInterface {
         @Header(ApiConst.AUTHORIZATION) auth: String,
         @Path("uuid") uuid: String,
         @Body body: PostCouponRedeem = PostCouponRedeem(1)
-    ): Response<ItemCoupon>
+    ): Response<ItemMessage>
 
     @GET(Urls.API_USER_BONUS)
     suspend fun getUserBonus(
@@ -85,4 +85,11 @@ interface ApiInterface {
 
     @GET(Urls.API_COUPON_STORES)
     suspend fun getCouponStores(@Query(ApiConst.CATEGORY_ID) category: Int): Response<ItemCouponStores>
+
+    @GET(Urls.API_TICKET_HOLDER)
+    suspend fun getMyCouponList(
+        @Header(ApiConst.AUTHORIZATION) auth: String,
+        @Query(ApiConst.ORDER_BY) orderBy: String = ApiConst.ORDER_BY_UPDATED,
+        @Query(ApiConst.SORTED_BY) sortedBy: String = ApiConst.SORTED_BY_DESC
+    ): Response<ItemMyCoupon>
 }

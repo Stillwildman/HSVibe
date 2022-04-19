@@ -5,12 +5,11 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 /**
- * Created by Vincent on 2021/7/20.
+ * Created by Vincent on 2022/4/19.
  */
-data class ItemCoupon(
+data class ItemMyCoupon(
     @SerializedName("data")
-    val contentData: List<ContentData>,
-    val meta: Meta
+    val contentData: List<ContentData>
 ) {
     @Parcelize
     data class ContentData(
@@ -21,13 +20,13 @@ data class ItemCoupon(
         val content: String,
         val amount: Int,
         val point: Int,
-        val published: Int,
-        val stock: Int,
+        val status: Int,
+        val use_at: String,
         val expire_at: String,
-        val approval_at: String,
+        val created_at: String,
+        val updated_at: String,
         val brand_thumb: String,
-        val media: Media,
-        val stores: Stores
+        val media: Media
     ) : Parcelable {
         @Parcelize
         data class Media(
@@ -36,27 +35,10 @@ data class ItemCoupon(
         ) : Parcelable
 
         @Parcelize
-        data class Stores(
-            @SerializedName("data")
-            val storeData: List<StoreData>
-        ) : Parcelable
-
-        @Parcelize
         data class MediaData(
-            val id: Int,
-            val collection_name: String,
             val original: String,
             val medium: String,
             val thumbnail: String
-        ) : Parcelable
-
-        @Parcelize
-        data class StoreData(
-            val id: Int,
-            val name: String,
-            val fullname: String,
-            val address: String,
-            val color: String
         ) : Parcelable
 
         fun getOriginalUrl(): String? {
@@ -69,21 +51,6 @@ data class ItemCoupon(
 
         fun getThumbnailUrl(): String? {
             return media.mediaData.takeIf { it.isNotEmpty() }?.get(0)?.thumbnail
-        }
-    }
-
-    data class Meta(val pagination: Pagination) {
-        data class Pagination(
-            val total: Int,
-            val count: Int,
-            val per_page: Int,
-            val current_page: Int,
-            val total_pages: Int,
-            val links: Links
-        ) {
-            data class Links(
-                val next: String
-            )
         }
     }
 }

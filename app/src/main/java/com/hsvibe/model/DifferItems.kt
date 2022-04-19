@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.hsvibe.model.items.ItemAccountBonus
 import com.hsvibe.model.items.ItemContent
 import com.hsvibe.model.items.ItemCoupon
+import com.hsvibe.model.items.ItemMyCoupon
 
 /**
  * Created by Vincent on 2021/8/9.
@@ -53,5 +54,17 @@ object DifferItems {
         }
     }
 
+    object MyCouponItemDiffer : DiffUtil.ItemCallback<ItemMyCoupon.ContentData>() {
+        override fun areItemsTheSame(oldItem: ItemMyCoupon.ContentData, newItem: ItemMyCoupon.ContentData): Boolean {
+            return oldItem.uuid == newItem.uuid
+        }
 
+        override fun areContentsTheSame(oldItem: ItemMyCoupon.ContentData, newItem: ItemMyCoupon.ContentData): Boolean {
+            return oldItem.uuid == newItem.uuid
+                    && oldItem.title == newItem.title
+                    && oldItem.subtitle == newItem.subtitle
+                    && oldItem.content == newItem.content
+                    && oldItem.expire_at == newItem.expire_at
+        }
+    }
 }

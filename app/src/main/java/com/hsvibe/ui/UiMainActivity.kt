@@ -31,7 +31,9 @@ import com.hsvibe.utilities.*
 import com.hsvibe.viewmodel.LoginViewModel
 import com.hsvibe.viewmodel.MainViewModel
 import com.hsvibe.viewmodel.MainViewModelFactory
-import kotlinx.coroutines.*
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * Created by Vincent on 2021/7/4.
@@ -159,6 +161,7 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
                     is Navigation.ClickingBell -> openDialogFragment(UiNotificationFragment())
                     is Navigation.ClickingUserName -> checkBeforeGo(UiMemberCenterFragment())
                     is Navigation.OnAuthorizationFailed -> notifyAuthFailedAndGoToLogin()
+                    is Navigation.OnLoginRequired -> showLoginRequireDialog()
                 }
             }
             it.liveLoadingStatus.observe(this) { loadingStatus ->

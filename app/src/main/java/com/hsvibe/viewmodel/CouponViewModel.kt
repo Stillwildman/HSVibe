@@ -12,9 +12,14 @@ import com.hsvibe.model.ApiConst
 import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.model.items.ItemCouponDistricts
 import com.hsvibe.model.items.ItemCouponStores
+import com.hsvibe.model.items.ItemMyCoupon
 import com.hsvibe.paging.BasePagingConfig
 import com.hsvibe.paging.CouponDataSource
 import com.hsvibe.repositories.CouponRepo
+import com.hsvibe.tasks.ApiStatusException
+import com.hsvibe.utilities.L
+import com.hsvibe.utilities.Utility
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -34,6 +39,7 @@ class CouponViewModel(private val couponRepo: CouponRepo) : LoadingStatusViewMod
     val liveCouponDistrictPairList by lazy { MutableLiveData<List<Pair<String, String>>>() }
     val liveCouponStores by lazy { MutableLiveData<ItemCouponStores>() }
     val liveCouponDetail by lazy { MutableLiveData<ItemCoupon.ContentData>() }
+    val liveMyCouponList by lazy { MutableLiveData<List<ItemMyCoupon.ContentData>>() }
 
     private var storeId = ApiConst.ALL
 
@@ -91,11 +97,12 @@ class CouponViewModel(private val couponRepo: CouponRepo) : LoadingStatusViewMod
         }
     }
 
-    fun redeemCoupon(uuid: String, onSuccess: () -> Unit) {
-        viewModelScope.launch(getExceptionHandler()) {
-            couponRepo.redeemCoupon(uuid)?.takeIf { it.contentData.isNotEmpty() }?.let {
-                liveCouponDetail.value = it.contentData.first()
-                onSuccess()
+    fun redeemCoupon(uuid: String, onRedeemFinished: (isSuccess: Boolean) -> Unit) {
+        viewModelScope.launch(getRedeemExceptionHandler {
+            onRedeemFinished(false)
+        }) {
+            couponRepo.redeemCoupon(uuid)?.let {
+                onRedeemFinished(true)
             }
         }
     }
@@ -105,6 +112,35 @@ class CouponViewModel(private val couponRepo: CouponRepo) : LoadingStatusViewMod
             couponRepo.getCouponDetail(uuid)?.takeIf { it.contentData.isNotEmpty() }?.let {
                 liveCouponDetail.value = it.contentData.first()
             }
+        }
+    }
+
+    fun getMyCouponList(isNotUsed: Boolean, onEmpty: () -> Unit) {
+        viewModelScope.launch(getExceptionHandler()) {
+            couponRepo.getMyCouponList(isNotUsed).takeIf { it.isNotEmpty() }?.let {
+                liveMyCouponList.value = it
+            } ?: onEmpty()
+        }
+    }
+
+    private fun getRedeemExceptionHandler(onRedeemFailed: () -> Unit ): CoroutineExceptionHandler {
+        return CoroutineExceptionHandler { _, throwable ->
+            L.e("Handle Coroutine Exception!!!")
+            when {
+                throwable is ApiStatusException -> {
+                    onRedeemFailed()
+                    L.e("Api Error!!\nCode: ${throwable.statusCode}\nMsg: ${throwable.errorMessage}")
+                }
+                !Utility.isNetworkEnabled() -> {
+                    L.e("Network is not working!!!")
+                    Utility.toastLong("Network is not working!!!")
+                }
+                else -> {
+                    Utility.toastLong(R.string.unknown_network_error)
+                }
+            }
+            onLoadingEnd()
+            throwable.printStackTrace()
         }
     }
 }

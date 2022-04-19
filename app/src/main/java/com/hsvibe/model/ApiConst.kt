@@ -29,8 +29,13 @@ object ApiConst {
     const val CATEGORY_EXPLORE = 7
 
     // Coupon Category Params
+    const val MY_COUPONS = -1
     const val ALL = 0
     const val CATEGORY_DISTRICTS = 2
+
+    const val COUPON_STATUS_NOT_USED = 0
+    const val COUPON_STATUS_USED = 1
+    const val COUPON_STATUS_EXPIRED = 2
 
     const val DEFAULT_LIMIT = 10 // Server default is 15, but I prefer 10!
 

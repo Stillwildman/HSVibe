@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.hsvibe.model.Const
 import com.hsvibe.ui.fragments.member.UiCouponListPage
 
 /**
@@ -19,10 +20,10 @@ class CouponPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle)
     override fun createFragment(position: Int): Fragment {
         return pageInstances[position] ?: run {
             if (position == 0) {
-                UiCouponListPage.newInstance(0)
+                UiCouponListPage.newInstance(Const.PAGE_MY_COUPON)
             }
             else {
-                UiCouponListPage.newInstance(1)
+                UiCouponListPage.newInstance(Const.PAGE_USED_COUPON)
             }
         }.also { pageInstances[position] = it }
     }

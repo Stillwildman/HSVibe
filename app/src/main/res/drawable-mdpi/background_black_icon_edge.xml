@@ -6,7 +6,7 @@
     android:insetRight="0dp"
     android:insetTop="0dp">
 
-    <shape>
+    <shape android:shape="oval">
         <gradient
             android:endColor="@android:color/black"
             android:startColor="@android:color/black"/>
@@ -14,9 +14,6 @@
         <stroke
             android:width="2dp"
             android:color="@android:color/white"/>
-
-        <corners
-            android:radius="25dp"/>
 
         <padding
             android:bottom="0dp"

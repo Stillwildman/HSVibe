@@ -13,12 +13,10 @@ import com.hsvibe.databinding.FragmentMemberInfoBinding
 import com.hsvibe.model.Const
 import com.hsvibe.model.posts.PostUpdateUserInfo
 import com.hsvibe.repositories.ProfileRepoImpl
-import com.hsvibe.repositories.UserRepoImpl
 import com.hsvibe.ui.adapters.MyBaseAdapter
 import com.hsvibe.ui.bases.BaseActionBarFragment
 import com.hsvibe.utilities.*
 import com.hsvibe.viewmodel.MainViewModel
-import com.hsvibe.viewmodel.MainViewModelFactory
 import com.hsvibe.viewmodel.ProfileViewModel
 import com.hsvibe.viewmodel.ProfileViewModelFactory
 import java.util.*
@@ -36,7 +34,7 @@ class UiMemberInfoFragment private constructor() : BaseActionBarFragment<Fragmen
         }
     }
 
-    private val mainViewModel by activityViewModels<MainViewModel> { MainViewModelFactory(UserRepoImpl()) }
+    private val mainViewModel by activityViewModels<MainViewModel>()
 
     private val profileViewModel by viewModels<ProfileViewModel> {
         ProfileViewModelFactory(ProfileRepoImpl(mainViewModel.liveUserInfo.value))

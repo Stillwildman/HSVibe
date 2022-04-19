@@ -21,6 +21,10 @@ object SettingManager {
 
     private const val PREF_NEWEST_NOTIFICATION_TIME = "NewestNotificationTime"
 
+    private const val PREF_HAS_ASKED_FOR_PAY_PASSWORD = "HasAskedForPayPassword"
+
+    private const val PREF_HAS_ENABLED_BIOMETRICS_VERIFYING = "HasEnabledBiometricsVerifying"
+
     private fun appContext(): Context = AppController.getAppContext()
 
     private fun getDefaultPrefs(): SharedPreferences {
@@ -58,5 +62,21 @@ object SettingManager {
 
     fun getNewestNotificationTime(): Long {
         return getDefaultPrefs().getLong(PREF_NEWEST_NOTIFICATION_TIME, 0L)
+    }
+
+    fun setPayPasswordAlreadyAsked(isAlreadyAsked: Boolean) {
+        getDefaultPrefs().edit().putBoolean(PREF_HAS_ASKED_FOR_PAY_PASSWORD, isAlreadyAsked).apply()
+    }
+
+    fun isNeedToAskForPayPassword(): Boolean {
+        return getDefaultPrefs().getBoolean(PREF_HAS_ASKED_FOR_PAY_PASSWORD, false).not()
+    }
+
+    fun enableBiometricVerifying(isEnable: Boolean) {
+        getDefaultPrefs().edit().putBoolean(PREF_HAS_ENABLED_BIOMETRICS_VERIFYING, isEnable).apply()
+    }
+
+    fun isBiometricVerifyingEnabled(): Boolean {
+        return getDefaultPrefs().getBoolean(PREF_HAS_ENABLED_BIOMETRICS_VERIFYING, true)
     }
 }

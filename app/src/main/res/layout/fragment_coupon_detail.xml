@@ -69,11 +69,21 @@
                     android:paddingTop="@dimen/padding_size_xl"
                     android:paddingBottom="@dimen/padding_size_xxl" >
 
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/image_brandPic"
+                        android:layout_width="@dimen/menu_land_icon"
+                        android:layout_height="@dimen/menu_land_icon"
+                        android:layout_marginStart="@dimen/padding_size_l"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:glideImageWithDefaultAppIcon="@{viewModel.liveCouponDetail.brand_thumb}"
+                        tools:srcCompat="@mipmap/ic_launcher"/>
+
                     <TextView
                         android:id="@+id/text_couponTitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/padding_size_xl"
+                        android:layout_marginStart="@dimen/padding_size_l"
                         android:layout_marginEnd="@dimen/padding_size_xl"
                         tools:text="000000000000000000000000"
                         android:textStyle="bold"
@@ -81,7 +91,7 @@
                         android:textSize="@dimen/font_text_size_m"
                         android:text="@{viewModel.liveCouponDetail.title}"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/image_brandPic"
                         app:layout_constraintEnd_toEndOf="parent" />
 
                     <TextView
@@ -113,14 +123,14 @@
 
                     <TextView
                         android:id="@+id/text_couponPointIcon"
-                        android:layout_width="@dimen/font_text_size_l"
-                        android:layout_height="@dimen/font_text_size_l"
+                        android:layout_width="@dimen/font_text_size_m"
+                        android:layout_height="@dimen/font_text_size_m"
                         android:layout_marginTop="@dimen/padding_size_l"
                         android:layout_marginEnd="@dimen/padding_size_s"
                         style="@style/Widget.AppCompat.Button"
                         android:gravity="center"
                         android:text="P"
-                        android:textSize="@dimen/font_text_size_s"
+                        android:textSize="@dimen/font_text_size_xs"
                         android:background="@drawable/background_round_point"
                         app:layout_constraintStart_toStartOf="@+id/text_couponTitle"
                         app:layout_constraintTop_toBottomOf="@id/text_expiredDate" />
@@ -131,12 +141,22 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/padding_size_m"
                         tools:text="100 點"
-                        android:textSize="@dimen/font_text_size_m"
+                        android:textSize="@dimen/font_text_size_s"
                         android:textColor="@color/md_grey_900"
                         android:text="@{@string/point_has_int(viewModel.liveCouponDetail.point)}"
                         app:layout_constraintStart_toEndOf="@+id/text_couponPointIcon"
                         app:layout_constraintTop_toTopOf="@id/text_couponPointIcon"
                         app:layout_constraintBottom_toBottomOf="@+id/text_couponPointIcon"/>
+
+                    <View
+                        android:id="@+id/view_divider"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="@dimen/padding_size_xl"
+                        android:layout_marginEnd="@dimen/padding_size_xl"
+                        android:layout_marginTop="@dimen/padding_size_l"
+                        android:background="@color/md_grey_300"
+                        app:layout_constraintTop_toBottomOf="@+id/text_couponPointIcon" />
 
                     <TextView
                         android:id="@+id/text_expiredBrief"
@@ -146,9 +166,10 @@
                         android:textColor="@color/md_grey_700"
                         android:textSize="@dimen/font_text_size_s"
                         android:text="@{viewModel.liveCouponDetail.brief}"
-                        android:layout_marginTop="@dimen/padding_size_xl"
-                        app:layout_constraintTop_toBottomOf="@+id/text_couponPointIcon"
-                        app:layout_constraintStart_toStartOf="@+id/text_couponTitle"
+                        android:layout_marginStart="@dimen/padding_size_xl"
+                        android:layout_marginTop="@dimen/padding_size_l"
+                        app:layout_constraintTop_toBottomOf="@+id/view_divider"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/text_couponTitle" />
 
                     <TextView
@@ -162,7 +183,7 @@
                         android:text="@{@string/stock_is(viewModel.liveCouponDetail.stock)}"
                         android:layout_marginTop="@dimen/padding_size_m"
                         app:layout_constraintTop_toBottomOf="@+id/text_expiredBrief"
-                        app:layout_constraintStart_toStartOf="@+id/text_couponTitle"
+                        app:layout_constraintStart_toStartOf="@+id/text_expiredBrief"
                         app:layout_constraintEnd_toEndOf="@+id/text_couponTitle" />
 
                     <TextView
@@ -177,7 +198,7 @@
                         android:layout_marginBottom="@dimen/padding_size_super"
                         app:layout_constraintTop_toBottomOf="@+id/text_expiredStock"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/text_couponTitle"
+                        app:layout_constraintStart_toStartOf="@+id/text_expiredBrief"
                         app:layout_constraintEnd_toEndOf="@+id/text_couponTitle" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

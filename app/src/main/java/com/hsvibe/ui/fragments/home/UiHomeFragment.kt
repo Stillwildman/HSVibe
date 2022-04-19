@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.hsvibe.R
 import com.hsvibe.databinding.FragmentHomeBinding
 import com.hsvibe.repositories.HomeContentRepoImpl
-import com.hsvibe.repositories.UserRepoImpl
 import com.hsvibe.ui.adapters.HomeContentListAdapter
 import com.hsvibe.ui.bases.BaseFragment
 import com.hsvibe.ui.fragments.member.UiMemberInfoFragment
@@ -20,7 +19,6 @@ import com.hsvibe.utilities.getContextSafely
 import com.hsvibe.viewmodel.HomeViewModel
 import com.hsvibe.viewmodel.HomeViewModelFactory
 import com.hsvibe.viewmodel.MainViewModel
-import com.hsvibe.viewmodel.MainViewModelFactory
 import kotlinx.coroutines.delay
 
 /**
@@ -28,7 +26,7 @@ import kotlinx.coroutines.delay
  */
 class UiHomeFragment : BaseFragment<FragmentHomeBinding>() {
 
-    private val mainViewModel by activityViewModels<MainViewModel> { MainViewModelFactory(UserRepoImpl()) }
+    private val mainViewModel by activityViewModels<MainViewModel>()
     private val homeViewModel by viewModels<HomeViewModel> { HomeViewModelFactory(HomeContentRepoImpl(), mainViewModel) }
 
     override fun getLayoutId(): Int = R.layout.fragment_home

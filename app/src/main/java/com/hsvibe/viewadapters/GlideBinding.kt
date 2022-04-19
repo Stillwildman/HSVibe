@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -83,6 +84,27 @@ object GlideBinding {
                 imageView.scaleType = ImageView.ScaleType.FIT_CENTER
                 imageView.setPadding(offsetWidth, offsetHeight, offsetWidth, offsetHeight)
                 imageView.setImageDrawable(placeHolder)
+            }
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("glideImageWithDefaultAppIcon")
+    fun setGlideImageWithDefaultAppIcon(imageView: ImageView, imageUrl: String?) {
+        scope.launch {
+            imageUrl?.takeIf { it.isNotEmpty() }?.let {
+                imageView.setPadding(0, 0, 0, 0)
+                Glide.with(imageView.context)
+                    .load(it)
+                    .apply(options)
+                    .into(imageView)
+            } ?: run {
+                val appIconDeferred = async {
+                    ContextCompat.getDrawable(AppController.getAppContext(), R.mipmap.ic_launcher)
+                }
+                val appIcon = appIconDeferred.await()
+
+                imageView.setImageDrawable(appIcon)
             }
         }
     }

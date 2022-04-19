@@ -10,7 +10,7 @@ import com.hsvibe.repositories.CouponRepo
 class CouponViewModelFactory(private val couponRepo: CouponRepo) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return with(modelClass) {
             when {
                 isAssignableFrom(CouponViewModel::class.java) -> {

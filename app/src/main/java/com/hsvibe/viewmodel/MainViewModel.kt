@@ -63,6 +63,8 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
 
     val liveUserInfoVisibility = MutableLiveData<Int>()
 
+    var isPasswordVerified = false
+
     init {
         userRepo.setLoadingCallback(this)
     }
@@ -179,10 +181,22 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
         }
     }
 
+    fun getCurrentUserBonus(): ItemUserBonus.ContentData? {
+        return liveCurrentBalance.value
+    }
+
+    fun requireLogin() {
+        liveNavigation.value = Navigation.OnLoginRequired
+    }
+
     fun getExpiringPointText(): String {
         return liveUserInfo.value?.getExpiringPoint().takeIf { it.isNotNullOrEmpty() }?.let {
             val currentYear = Calendar.getInstance().get(Calendar.YEAR)
             AppController.getAppContext().getString(R.string.your_points_and_expires_time, it, currentYear)
         } ?: ""
+    }
+
+    fun hasSetPayPassword(): Boolean {
+        return liveUserInfo.value?.isSetPassword() == true
     }
 }

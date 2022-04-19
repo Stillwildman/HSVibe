@@ -27,7 +27,7 @@
             android:layout_marginEnd="@dimen/padding_size_l"
             android:textColor="@color/md_white_1000"
             android:textSize="@dimen/font_text_size_s"
-            android:text="@{item.note}"
+            android:text="@{item.getDesc()}"
             tools:text="0000000000000"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/text_bonusPoint"

@@ -39,4 +39,9 @@ class AppController : MultiDexApplication() {
         imm.hideSoftInputFromWindow(view.applicationWindowToken, InputMethodManager.HIDE_NOT_ALWAYS)
     }
 
+    fun showKeyboard(view: View) {
+        val imm = applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        view.requestFocus()
+        imm.showSoftInput(view, InputMethodManager.SHOW_FORCED)
+    }
 }

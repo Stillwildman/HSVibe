@@ -10,7 +10,7 @@ import com.hsvibe.repositories.ProfileRepo
 class ProfileViewModelFactory(private val profileRepo: ProfileRepo) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return with(modelClass) {
             when {
                 isAssignableFrom(ProfileViewModel::class.java) -> {

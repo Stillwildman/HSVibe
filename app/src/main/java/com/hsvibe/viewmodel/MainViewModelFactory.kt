@@ -10,7 +10,7 @@ import com.hsvibe.repositories.UserRepo
 class MainViewModelFactory(private val userRepo: UserRepo) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return with(modelClass) {
             when {
                 isAssignableFrom(MainViewModel::class.java) -> {

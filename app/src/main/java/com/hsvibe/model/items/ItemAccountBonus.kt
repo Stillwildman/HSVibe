@@ -26,6 +26,10 @@ data class ItemAccountBonus(
         private fun isIncome(): Boolean {
             return operate == "income"
         }
+
+        fun getDesc(): String {
+            return description.takeIf { it.isNotEmpty() } ?: note
+        }
     }
 
     data class Meta(
