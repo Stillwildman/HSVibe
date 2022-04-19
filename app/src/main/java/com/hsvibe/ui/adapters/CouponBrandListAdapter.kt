@@ -17,19 +17,23 @@ import com.hsvibe.callbacks.SingleClickListener
 import com.hsvibe.databinding.InflateCategoryRowBinding
 import com.hsvibe.databinding.InflateCategoryVerticalBinding
 import com.hsvibe.model.Const
+import com.hsvibe.model.items.ItemCouponBrand
 import com.hsvibe.model.items.ItemCouponStores
 import com.hsvibe.utilities.L
 import com.hsvibe.utilities.Utility
 import com.hsvibe.utilities.setOnSingleClickListener
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Created by Vincent on 2021/8/18.
  */
 class CouponStoreListAdapter(
     private val layoutManage: LinearLayoutManager,
-    private val storeList: MutableList<ItemCouponStores.ContentData>,
-    private val onClickCallback: OnAnyItemClickCallback<ItemCouponStores.ContentData>,
+    private val brandList: MutableList<ItemCouponBrand.ContentData>,
+    private val onClickCallback: OnAnyItemClickCallback<ItemCouponBrand.ContentData>,
     private val scope: CoroutineScope
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -51,9 +55,9 @@ class CouponStoreListAdapter(
         private const val VIEW_TYPE_VERTICAL = 1
     }
 
-    fun updateList(storeList: List<ItemCouponStores.ContentData>) {
+    fun updateList(storeList: List<ItemCouponBrand.ContentData>) {
         notifyItemRangeRemoved(0, itemCount)
-        this.storeList.apply {
+        this.brandList.apply {
             clear()
             addAll(storeList)
         }
@@ -79,7 +83,7 @@ class CouponStoreListAdapter(
 
             val marginSizeM = AppController.getAppContext().resources.getDimensionPixelSize(R.dimen.padding_size_m)
 
-            storeList.forEachIndexed { i, item ->
+            brandList.forEachIndexed { i, item ->
                 if (tempWidth != 0) {
                     totalWidth = tempWidth
                     tempWidth = 0
@@ -97,12 +101,12 @@ class CouponStoreListAdapter(
 
                 if (totalWidth < screenWidth) {
                     rowSize++
-                    if (i == storeList.lastIndex) {
+                    if (i == brandList.lastIndex) {
                         verticalCategorySize[verticalCategorySize.size] = rowSize
                     }
                 }
                 else {
-                    if (i == storeList.lastIndex) {
+                    if (i == brandList.lastIndex) {
                         rowSize++
                     }
                     verticalCategorySize[verticalCategorySize.size] = rowSize
@@ -138,7 +142,7 @@ class CouponStoreListAdapter(
     }
 
     override fun getItemCount(): Int {
-        return if (isRowType()) storeList.size else verticalCategorySize.size
+        return if (isRowType()) brandList.size else verticalCategorySize.size
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -170,7 +174,7 @@ class CouponStoreListAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is CategoryRowViewHolder -> {
-                storeList[position].let {
+                brandList[position].let {
                     it.columnPosition = 0
                     it.rowPosition = position
                     holder.bindingView.item = it
@@ -202,7 +206,7 @@ class CouponStoreListAdapter(
 
     private val eachItemSingleClickListener = object : SingleClickListener() {
         override fun onSingleClick(v: View) {
-            onClickCallback.onItemClick(storeList[v.tag as Int])
+            onClickCallback.onItemClick(brandList[v.tag as Int])
         }
     }
 
@@ -220,7 +224,7 @@ class CouponStoreListAdapter(
         }
     }
 
-    fun setSelected(item: ItemCouponStores.ContentData) {
+    fun setSelected(item: ItemCouponBrand.ContentData) {
         columnSelectedIndex = item.columnPosition
         rowSelectedIndex = item.rowPosition
 
@@ -244,7 +248,7 @@ class CouponStoreListAdapter(
     private suspend fun findSelectedItemIndex(): Int {
         return withContext(Dispatchers.Default) {
             if (isPositionValid(columnSelectedIndex) && isPositionValid(rowSelectedIndex)) {
-                storeList.forEachIndexed { index, item ->
+                brandList.forEachIndexed { index, item ->
                     if (item.columnPosition == columnSelectedIndex && item.rowPosition == rowSelectedIndex) {
                         return@withContext index
                     }
@@ -272,8 +276,8 @@ class CouponStoreListAdapter(
 
                 for (i in 0 until rowCount) {
                     L.i("InflateCategoryTag!!! CurrentIndex: $currentIndex")
-                    if (currentIndex < storeList.size) {
-                        val item = storeList[currentIndex]
+                    if (currentIndex < brandList.size) {
+                        val item = brandList[currentIndex]
                         item.columnPosition = position
                         item.rowPosition = i
 
