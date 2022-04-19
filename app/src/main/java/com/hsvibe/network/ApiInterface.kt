@@ -7,6 +7,7 @@ import com.hsvibe.model.items.*
 import com.hsvibe.model.posts.PostCouponRedeem
 import com.hsvibe.model.posts.PostRefreshToken
 import com.hsvibe.model.posts.PostUpdateUserInfo
+import com.hsvibe.model.posts.PostUseCoupon
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -92,4 +93,10 @@ interface ApiInterface {
         @Query(ApiConst.ORDER_BY) orderBy: String = ApiConst.ORDER_BY_UPDATED,
         @Query(ApiConst.SORTED_BY) sortedBy: String = ApiConst.SORTED_BY_DESC
     ): Response<ItemMyCoupon>
+
+    @POST(Urls.API_COUPON_USE)
+    suspend fun useCoupon(
+        @Header(ApiConst.AUTHORIZATION) auth: String,
+        @Body body: PostUseCoupon
+    ): Response<ItemCouponCode>
 }

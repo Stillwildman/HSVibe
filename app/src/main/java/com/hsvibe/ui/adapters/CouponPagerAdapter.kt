@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.hsvibe.model.Const
-import com.hsvibe.ui.fragments.member.UiCouponListPage
+import com.hsvibe.ui.fragments.coupons.UiCouponListPage
 
 /**
  * Created by Vincent on 2021/8/13.

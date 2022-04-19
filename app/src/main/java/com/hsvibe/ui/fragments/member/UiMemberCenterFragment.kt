@@ -12,6 +12,7 @@ import com.hsvibe.model.Urls
 import com.hsvibe.model.items.ItemMemberOption
 import com.hsvibe.ui.adapters.MemberOptionListAdapter
 import com.hsvibe.ui.bases.BaseActionBarFragment
+import com.hsvibe.ui.fragments.coupons.UiCouponHistoryFragment
 import com.hsvibe.utilities.DeviceUtil
 import com.hsvibe.utilities.DialogHelper
 import com.hsvibe.utilities.getContextSafely

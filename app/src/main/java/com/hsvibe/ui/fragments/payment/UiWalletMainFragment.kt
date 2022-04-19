@@ -9,7 +9,7 @@ import com.hsvibe.callbacks.OnAnyItemClickCallback
 import com.hsvibe.databinding.FragmentWalletMainBinding
 import com.hsvibe.ui.adapters.WalletMenuAdapter
 import com.hsvibe.ui.bases.BaseFragment
-import com.hsvibe.ui.fragments.member.UiCouponHistoryFragment
+import com.hsvibe.ui.fragments.coupons.UiCouponHistoryFragment
 import com.hsvibe.ui.fragments.member.UiPointHistoryFragment
 import com.hsvibe.utilities.PermissionCheckHelper
 import com.hsvibe.utilities.getInflatedSize

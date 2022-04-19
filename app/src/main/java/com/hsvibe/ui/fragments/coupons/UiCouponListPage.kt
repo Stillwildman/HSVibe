@@ -1,4 +1,4 @@
-package com.hsvibe.ui.fragments.member
+package com.hsvibe.ui.fragments.coupons
 
 import android.content.Context
 import android.os.Bundle
@@ -16,7 +16,6 @@ import com.hsvibe.ui.adapters.MyCouponUsedListAdapter
 import com.hsvibe.ui.bases.BaseBindingDiffRecycler
 import com.hsvibe.ui.bases.BaseFragment
 import com.hsvibe.utilities.L
-import com.hsvibe.utilities.Utility
 import com.hsvibe.utilities.init
 import com.hsvibe.viewmodel.CouponViewModel
 
@@ -44,7 +43,7 @@ class UiCouponListPage private constructor() : BaseFragment<FragmentCouponListBi
 
     private val onCouponClickCallback by lazy { object : OnAnyItemClickCallback<ItemMyCoupon.ContentData> {
         override fun onItemClick(item: ItemMyCoupon.ContentData) {
-            Utility.toastShort(item.title)
+            openDialogFragment(UiCouponUsingFragment.newInstance(item))
         }
     } }
 

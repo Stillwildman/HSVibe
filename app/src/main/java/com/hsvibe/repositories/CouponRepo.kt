@@ -20,6 +20,7 @@ interface CouponRepo {
 
     suspend fun redeemCoupon(uuid: String): ItemMessage?
 
-    suspend fun getMyCouponList(isNotUsed: Boolean): List<ItemMyCoupon.ContentData>
+    suspend fun getMyCouponListPair(): Pair<List<ItemMyCoupon.ContentData>, List<ItemMyCoupon.ContentData>>
 
+    suspend fun getCouponCode(uuid: String): ItemCouponCode?
 }

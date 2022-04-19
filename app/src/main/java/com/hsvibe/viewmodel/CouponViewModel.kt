@@ -39,7 +39,11 @@ class CouponViewModel(private val couponRepo: CouponRepo) : LoadingStatusViewMod
     val liveCouponDistrictPairList by lazy { MutableLiveData<List<Pair<String, String>>>() }
     val liveCouponStores by lazy { MutableLiveData<ItemCouponStores>() }
     val liveCouponDetail by lazy { MutableLiveData<ItemCoupon.ContentData>() }
+
     val liveMyCouponList by lazy { MutableLiveData<List<ItemMyCoupon.ContentData>>() }
+    val liveUsedCouponList by lazy { MutableLiveData<List<ItemMyCoupon.ContentData>>() }
+
+    val liveCouponCode by lazy { MutableLiveData<String>() }
 
     private var storeId = ApiConst.ALL
 
@@ -115,11 +119,29 @@ class CouponViewModel(private val couponRepo: CouponRepo) : LoadingStatusViewMod
         }
     }
 
-    fun getMyCouponList(isNotUsed: Boolean, onEmpty: () -> Unit) {
+    fun loadMyCouponListPair() {
+        if (liveMyCouponList.value != null && liveUsedCouponList.value != null) {
+            return
+        }
         viewModelScope.launch(getExceptionHandler()) {
-            couponRepo.getMyCouponList(isNotUsed).takeIf { it.isNotEmpty() }?.let {
-                liveMyCouponList.value = it
-            } ?: onEmpty()
+            couponRepo.getMyCouponListPair().let {
+                liveMyCouponList.value = it.first
+                liveUsedCouponList.value = it.second
+            }
+        }
+    }
+
+    fun refreshMyCouponListPair() {
+        liveMyCouponList.value = null
+        liveUsedCouponList.value = null
+        loadMyCouponListPair()
+    }
+
+    fun useCoupon(uuid: String) {
+        viewModelScope.launch(getExceptionHandler()) {
+            couponRepo.getCouponCode(uuid)?.let {
+                liveCouponCode.value = it.getCode().toString()
+            }
         }
     }
 

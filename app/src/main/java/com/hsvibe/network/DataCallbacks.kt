@@ -9,6 +9,7 @@ import com.hsvibe.model.UserToken
 import com.hsvibe.model.items.*
 import com.hsvibe.model.posts.PostRefreshToken
 import com.hsvibe.model.posts.PostUpdateUserInfo
+import com.hsvibe.model.posts.PostUseCoupon
 import com.hsvibe.tasks.ApiStatusException
 import com.hsvibe.utilities.L
 import io.reactivex.Observable
@@ -186,6 +187,12 @@ object DataCallbacks {
     suspend fun getMyCouponList(auth: String, loadingCallback: OnLoadingCallback?): ItemMyCoupon? {
         return getApiResult(loadingCallback) {
             getApiInterface().getMyCouponList(auth)
+        }
+    }
+
+    suspend fun useCoupon(auth: String, couponUseItem: PostUseCoupon, loadingCallback: OnLoadingCallback?): ItemCouponCode? {
+        return getApiResult(loadingCallback) {
+            getApiInterface().useCoupon(auth, couponUseItem)
         }
     }
 }

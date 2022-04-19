@@ -4,7 +4,7 @@
     <data>
         <variable
             name="item"
-            type="com.hsvibe.model.items.ItemAccountBonus.ContentData" />
+            type="com.hsvibe.model.items.ItemMyCoupon.ContentData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,59 +21,60 @@
         android:background="@drawable/background_main_gradient_corner_15dp">
 
         <TextView
-            android:id="@+id/text_bonusDesc"
+            android:id="@+id/text_couponTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/padding_size_l"
             android:textColor="@color/md_white_1000"
             android:textSize="@dimen/font_text_size_s"
-            android:text="@{item.getDesc()}"
+            android:text="@{item.title}"
             tools:text="0000000000000"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/text_bonusPoint"
+            app:layout_constraintEnd_toStartOf="@+id/text_couponPointIcon"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/text_remainingBalance"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_size_s"
-            android:textColor="@color/md_grey_400"
-            android:textSize="@dimen/font_text_size_s"
-            android:text="@{@string/remaining_points(item.balance)}"
-            tools:text="@string/remaining_points"
-            app:layout_constraintStart_toStartOf="@+id/text_bonusDesc"
-            app:layout_constraintEnd_toEndOf="@+id/text_bonusDesc"
-            app:layout_constraintTop_toBottomOf="@+id/text_bonusDesc" />
-
-        <TextView
-            android:id="@+id/text_bonusDate"
+            android:id="@+id/text_usedDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_size_l"
             android:textColor="@color/highlight_text_color"
             android:textSize="@dimen/font_text_size_s"
-            android:text="@{item.updated_at}"
+            android:text="@{@string/used_date_is(item.use_at)}"
             tools:text="0000000000000"
-            app:layout_constraintStart_toStartOf="@+id/text_bonusDesc"
-            app:layout_constraintEnd_toEndOf="@+id/text_bonusDesc"
-            app:layout_constraintTop_toBottomOf="@+id/text_remainingBalance" />
+            app:layout_constraintStart_toStartOf="@+id/text_couponTitle"
+            app:layout_constraintEnd_toEndOf="@+id/text_couponTitle"
+            app:layout_constraintTop_toBottomOf="@+id/text_couponTitle" />
 
         <TextView
-            android:id="@+id/text_bonusPoint"
+            android:id="@+id/text_couponPointIcon"
+            android:layout_width="@dimen/font_text_size_m"
+            android:layout_height="@dimen/font_text_size_m"
+            android:layout_marginEnd="@dimen/padding_size_m"
+            style="@style/Widget.AppCompat.Button"
+            android:gravity="center"
+            android:text="P"
+            android:textSize="@dimen/font_text_size_xs"
+            android:background="@drawable/background_round_point"
+            app:layout_constraintEnd_toStartOf="@+id/text_point"
+            app:layout_constraintTop_toTopOf="@+id/text_point"
+            app:layout_constraintBottom_toBottomOf="@+id/text_point" />
+
+        <TextView
+            android:id="@+id/text_point"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/padding_size_s"
             android:textColor="@color/md_white_1000"
             android:textSize="@dimen/font_text_size_s"
-            android:text="@{item.getPointText()}"
+            android:text="@{String.valueOf(item.point)}"
             tools:text="100"
-            app:layout_constraintEnd_toStartOf="@+id/text_point"
-            app:layout_constraintTop_toTopOf="@+id/text_point"
-            app:layout_constraintBottom_toBottomOf="@+id/text_point"/>
+            app:layout_constraintEnd_toStartOf="@+id/text_pointText"
+            app:layout_constraintTop_toTopOf="@+id/text_pointText"
+            app:layout_constraintBottom_toBottomOf="@+id/text_pointText"/>
 
         <TextView
-            android:id="@+id/text_point"
+            android:id="@+id/text_pointText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/md_white_1000"

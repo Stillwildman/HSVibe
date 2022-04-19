@@ -1,4 +1,4 @@
-package com.hsvibe.ui.fragments.member
+package com.hsvibe.ui.fragments.coupons
 
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels

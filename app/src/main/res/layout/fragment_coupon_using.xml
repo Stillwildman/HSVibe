@@ -3,12 +3,18 @@
 
     <data>
         <variable
-            name="viewModel"
-            type="com.hsvibe.viewmodel.CouponViewModel" />
+            name="coupon"
+            type="com.hsvibe.model.items.ItemMyCoupon.ContentData" />
 
         <variable
             name="itemClickCallback"
             type="com.hsvibe.callbacks.OnAnyItemClickCallback" />
+
+        <variable
+            name="barcodeText"
+            type="String" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -44,7 +50,7 @@
                         tools:background="@color/md_grey_700"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintDimensionRatio="3:2"
-                        app:glideImage="@{viewModel.liveCouponDetail.getMediumUrl()}"/>
+                        app:glideImage="@{coupon.getMediumUrl()}"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -52,178 +58,205 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/layout_swipeRefresh"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" >
+            android:scrollbars="vertical"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-            <androidx.core.widget.NestedScrollView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="vertical" >
+                android:paddingTop="@dimen/padding_size_xl"
+                android:paddingBottom="@dimen/padding_size_xl" >
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/image_brandPic"
+                    android:layout_width="@dimen/menu_land_icon"
+                    android:layout_height="@dimen/menu_land_icon"
+                    android:layout_marginStart="@dimen/padding_size_l"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:glideImageWithDefaultAppIcon="@{coupon.brand_thumb}"
+                    tools:srcCompat="@mipmap/ic_launcher"/>
+
+                <TextView
+                    android:id="@+id/text_couponTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding_size_l"
+                    android:layout_marginEnd="@dimen/padding_size_xl"
+                    tools:text="000000000000000000000000"
+                    android:textStyle="bold"
+                    android:textColor="@color/md_grey_800"
+                    android:textSize="@dimen/font_text_size_m"
+                    android:text="@{coupon.title}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/image_brandPic"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_couponSubtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    tools:text="000000000000000000000000"
+                    android:textColor="@color/md_grey_700"
+                    android:textSize="@dimen/font_text_size_s"
+                    android:text="@{coupon.subtitle}"
+                    android:layout_marginTop="@dimen/padding_size_s"
+                    app:layout_constraintTop_toBottomOf="@+id/text_couponTitle"
+                    app:layout_constraintStart_toStartOf="@+id/text_couponTitle"
+                    app:layout_constraintEnd_toEndOf="@+id/text_couponTitle" />
+
+                <TextView
+                    android:id="@+id/text_expiredDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    tools:text="@string/expires_at"
+                    android:textStyle="bold"
+                    android:textColor="@color/md_grey_400"
+                    android:textSize="@dimen/font_text_size_s"
+                    android:text="@{@string/expires_at(coupon.expire_at)}"
+                    android:layout_marginTop="@dimen/padding_size_l"
+                    app:layout_constraintTop_toBottomOf="@+id/text_couponSubtitle"
+                    app:layout_constraintStart_toStartOf="@+id/text_couponTitle"
+                    app:layout_constraintEnd_toEndOf="@+id/text_couponTitle" />
+
+                <TextView
+                    android:id="@+id/text_couponPointIcon"
+                    android:layout_width="@dimen/font_text_size_m"
+                    android:layout_height="@dimen/font_text_size_m"
+                    android:layout_marginTop="@dimen/padding_size_l"
+                    android:layout_marginEnd="@dimen/padding_size_s"
+                    style="@style/Widget.AppCompat.Button"
+                    android:gravity="center"
+                    android:text="P"
+                    android:textSize="@dimen/font_text_size_xs"
+                    android:background="@drawable/background_round_point"
+                    app:layout_constraintStart_toStartOf="@+id/text_couponTitle"
+                    app:layout_constraintTop_toBottomOf="@id/text_expiredDate" />
+
+                <TextView
+                    android:id="@+id/text_couponPoints"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding_size_m"
+                    tools:text="100 點"
+                    android:textSize="@dimen/font_text_size_s"
+                    android:textColor="@color/md_grey_900"
+                    android:text="@{@string/point_has_int(coupon.point)}"
+                    app:layout_constraintStart_toEndOf="@+id/text_couponPointIcon"
+                    app:layout_constraintTop_toTopOf="@id/text_couponPointIcon"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_couponPointIcon"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_use"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_size_xxl"
+                    android:text="@string/use"
+                    android:textSize="@dimen/font_text_size_s"
+                    android:textColor="@color/md_white_1000"
+                    android:background="@drawable/background_pink_button_corner_10dp"
+                    android:visibility="@{barcodeText == null ? View.VISIBLE : View.GONE, default=visible}"
+                    app:layout_constraintStart_toStartOf="@+id/image_brandPic"
+                    app:layout_constraintEnd_toEndOf="@+id/text_couponTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/text_couponPointIcon"
+                    app:singleClick="@{() -> itemClickCallback.onItemClick(coupon.uuid)}"
+                    android:elevation="0dp"/>
+
+                <ProgressBar
+                    android:id="@+id/barcodeLoadingCircle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?android:attr/progressBarPadding"
+                    android:padding="@dimen/padding_size_xl"
+                    android:background="@drawable/background_corner_black_transparent_20dp"
+                    app:layout_constraintTop_toTopOf="@+id/button_use"
+                    app:layout_constraintBottom_toBottomOf="@+id/button_use"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:elevation="10dp"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/image_barcode"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/actionbar_height_more_higher"
+                    android:layout_marginTop="@dimen/padding_size_xl"
+                    app:layout_constraintStart_toStartOf="@+id/image_brandPic"
+                    app:layout_constraintEnd_toEndOf="@+id/text_couponTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/text_couponPointIcon"
+                    android:visibility="gone"
+                    app:createBarcode="@{barcodeText}"/>
+
+                <TextView
+                    android:id="@+id/text_barcodeText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_size_s"
+                    android:gravity="center"
+                    android:text="@{barcodeText}"
+                    android:textSize="@dimen/font_text_size_s"
+                    android:textColor="@color/md_grey_500"
+                    android:visibility="@{barcodeText == null ? View.GONE : View.VISIBLE, default=gone}"
+                    tools:text="123456789"
+                    app:layout_constraintTop_toBottomOf="@+id/image_barcode"
+                    app:layout_constraintStart_toStartOf="@+id/image_barcode"
+                    app:layout_constraintEnd_toEndOf="@+id/image_barcode" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="button_use,text_barcodeText" />
+
+                <View
+                    android:id="@+id/view_background"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingTop="@dimen/padding_size_xl"
-                    android:paddingBottom="@dimen/padding_size_xxl" >
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/padding_size_xl"
+                    android:layout_marginEnd="@dimen/padding_size_xl"
+                    android:layout_marginTop="@dimen/padding_size_xl"
+                    android:background="@drawable/background_corner_grey_10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/barrier"
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/image_brandPic"
-                        android:layout_width="@dimen/menu_land_icon"
-                        android:layout_height="@dimen/menu_land_icon"
-                        android:layout_marginStart="@dimen/padding_size_l"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:glideImageWithDefaultAppIcon="@{viewModel.liveCouponDetail.brand_thumb}"
-                        tools:srcCompat="@mipmap/ic_launcher"/>
+                <TextView
+                    android:id="@+id/text_expiredBrief"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    tools:text="000000000000000"
+                    android:textColor="@color/md_grey_700"
+                    android:textSize="@dimen/font_text_size_s"
+                    android:text="@{coupon.brief}"
+                    android:layout_marginStart="@dimen/padding_size_xl"
+                    android:layout_marginEnd="@dimen/padding_size_xl"
+                    android:layout_marginTop="@dimen/padding_size_l"
+                    app:layout_constraintTop_toTopOf="@+id/view_background"
+                    app:layout_constraintStart_toStartOf="@+id/view_background"
+                    app:layout_constraintEnd_toEndOf="@+id/view_background" />
 
-                    <TextView
-                        android:id="@+id/text_couponTitle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/padding_size_l"
-                        android:layout_marginEnd="@dimen/padding_size_xl"
-                        tools:text="000000000000000000000000"
-                        android:textStyle="bold"
-                        android:textColor="@color/md_grey_800"
-                        android:textSize="@dimen/font_text_size_m"
-                        android:text="@{viewModel.liveCouponDetail.title}"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/image_brandPic"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                <TextView
+                    android:id="@+id/text_couponContent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    tools:text="000000000000000\n000000000000000\n000000000000000\n000000000000000"
+                    android:textColor="@color/md_grey_700"
+                    android:textSize="@dimen/font_text_size_s"
+                    android:text="@{coupon.content}"
+                    android:layout_marginTop="@dimen/padding_size_m"
+                    android:layout_marginBottom="@dimen/padding_size_l"
+                    app:layout_constraintTop_toBottomOf="@+id/text_expiredBrief"
+                    app:layout_constraintBottom_toBottomOf="@+id/view_background"
+                    app:layout_constraintStart_toStartOf="@+id/text_expiredBrief"
+                    app:layout_constraintEnd_toEndOf="@+id/text_expiredBrief" />
 
-                    <TextView
-                        android:id="@+id/text_couponSubtitle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        tools:text="000000000000000000000000"
-                        android:textColor="@color/md_grey_700"
-                        android:textSize="@dimen/font_text_size_s"
-                        android:text="@{viewModel.liveCouponDetail.subtitle}"
-                        android:layout_marginTop="@dimen/padding_size_s"
-                        app:layout_constraintTop_toBottomOf="@+id/text_couponTitle"
-                        app:layout_constraintStart_toStartOf="@+id/text_couponTitle"
-                        app:layout_constraintEnd_toEndOf="@+id/text_couponTitle" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <TextView
-                        android:id="@+id/text_expiredDate"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        tools:text="@string/expires_at"
-                        android:textStyle="bold"
-                        android:textColor="@color/md_grey_400"
-                        android:textSize="@dimen/font_text_size_s"
-                        android:text="@{@string/expires_at(viewModel.liveCouponDetail.expire_at)}"
-                        android:layout_marginTop="@dimen/padding_size_l"
-                        app:layout_constraintTop_toBottomOf="@+id/text_couponSubtitle"
-                        app:layout_constraintStart_toStartOf="@+id/text_couponTitle"
-                        app:layout_constraintEnd_toEndOf="@+id/text_couponTitle" />
-
-                    <TextView
-                        android:id="@+id/text_couponPointIcon"
-                        android:layout_width="@dimen/font_text_size_m"
-                        android:layout_height="@dimen/font_text_size_m"
-                        android:layout_marginTop="@dimen/padding_size_l"
-                        android:layout_marginEnd="@dimen/padding_size_s"
-                        style="@style/Widget.AppCompat.Button"
-                        android:gravity="center"
-                        android:text="P"
-                        android:textSize="@dimen/font_text_size_xs"
-                        android:background="@drawable/background_round_point"
-                        app:layout_constraintStart_toStartOf="@+id/text_couponTitle"
-                        app:layout_constraintTop_toBottomOf="@id/text_expiredDate" />
-
-                    <TextView
-                        android:id="@+id/text_couponPoints"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/padding_size_m"
-                        tools:text="100 點"
-                        android:textSize="@dimen/font_text_size_s"
-                        android:textColor="@color/md_grey_900"
-                        android:text="@{@string/point_has_int(viewModel.liveCouponDetail.point)}"
-                        app:layout_constraintStart_toEndOf="@+id/text_couponPointIcon"
-                        app:layout_constraintTop_toTopOf="@id/text_couponPointIcon"
-                        app:layout_constraintBottom_toBottomOf="@+id/text_couponPointIcon"/>
-
-                    <View
-                        android:id="@+id/view_divider"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginStart="@dimen/padding_size_xl"
-                        android:layout_marginEnd="@dimen/padding_size_xl"
-                        android:layout_marginTop="@dimen/padding_size_l"
-                        android:background="@color/md_grey_300"
-                        app:layout_constraintTop_toBottomOf="@+id/text_couponPointIcon" />
-
-                    <TextView
-                        android:id="@+id/text_expiredBrief"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        tools:text="000000000000000"
-                        android:textColor="@color/md_grey_700"
-                        android:textSize="@dimen/font_text_size_s"
-                        android:text="@{viewModel.liveCouponDetail.brief}"
-                        android:layout_marginStart="@dimen/padding_size_xl"
-                        android:layout_marginTop="@dimen/padding_size_l"
-                        app:layout_constraintTop_toBottomOf="@+id/view_divider"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/text_couponTitle" />
-
-                    <TextView
-                        android:id="@+id/text_expiredStock"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        tools:text="@string/stock_is"
-                        android:textColor="@color/main_theme_color"
-                        android:textSize="@dimen/font_text_size_s"
-                        android:textStyle="bold"
-                        android:text="@{@string/stock_is(viewModel.liveCouponDetail.stock)}"
-                        android:layout_marginTop="@dimen/padding_size_m"
-                        app:layout_constraintTop_toBottomOf="@+id/text_expiredBrief"
-                        app:layout_constraintStart_toStartOf="@+id/text_expiredBrief"
-                        app:layout_constraintEnd_toEndOf="@+id/text_couponTitle" />
-
-                    <TextView
-                        android:id="@+id/text_couponContent"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        tools:text="000000000000000\n000000000000000\n000000000000000\n000000000000000"
-                        android:textColor="@color/md_grey_700"
-                        android:textSize="@dimen/font_text_size_s"
-                        android:text="@{viewModel.liveCouponDetail.content}"
-                        android:layout_marginTop="@dimen/padding_size_m"
-                        android:layout_marginBottom="@dimen/padding_size_super"
-                        app:layout_constraintTop_toBottomOf="@+id/text_expiredStock"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/text_expiredBrief"
-                        app:layout_constraintEnd_toEndOf="@+id/text_couponTitle" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.core.widget.NestedScrollView>
-
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-        <TextView
-            android:id="@+id/button_redeem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:gravity="center"
-            android:paddingTop="@dimen/padding_size_xl"
-            android:paddingBottom="@dimen/padding_size_xl"
-            android:layout_marginStart="@dimen/padding_size_xxl"
-            android:layout_marginEnd="@dimen/padding_size_xxl"
-            android:layout_marginBottom="@dimen/padding_size_xl"
-            android:text="@string/redeem_point"
-            android:textColor="@color/color_button_text_selector"
-            android:textSize="@dimen/font_text_size_m"
-            android:background="@drawable/background_main_theme_button"
-            android:enabled="@{viewModel.liveCouponDetail.stock > 0 ? true : false, default=true}"
-            app:singleClick="@{() -> itemClickCallback.onItemClick(viewModel.liveCouponDetail)}"/>
+        </androidx.core.widget.NestedScrollView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

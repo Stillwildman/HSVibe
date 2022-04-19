@@ -123,6 +123,7 @@
     <string name="used_record">使用紀錄</string>
     <string name="insufficient_balance">您的餘額不足！</string>
     <string name="use">使用</string>
+    <string name="used_date_is">使用時間：%s</string>
 
     <!-- Notification -->
     <string name="newest_info">最新消息</string>

@@ -13,7 +13,6 @@ import com.hsvibe.model.UserTokenManager
 import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.repositories.CouponRepoImpl
 import com.hsvibe.ui.bases.BaseActionBarFragment
-import com.hsvibe.ui.fragments.member.UiCouponHistoryFragment
 import com.hsvibe.utilities.DialogHelper
 import com.hsvibe.utilities.getContextSafely
 import com.hsvibe.utilities.init

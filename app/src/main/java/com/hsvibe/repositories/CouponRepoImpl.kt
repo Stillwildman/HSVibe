@@ -4,6 +4,7 @@ import com.hsvibe.callbacks.OnLoadingCallback
 import com.hsvibe.model.ApiConst
 import com.hsvibe.model.UserTokenManager
 import com.hsvibe.model.items.*
+import com.hsvibe.model.posts.PostUseCoupon
 import com.hsvibe.network.DataCallbacks
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -41,20 +42,27 @@ class CouponRepoImpl : CouponRepo {
         }
     }
 
-    override suspend fun getMyCouponList(isNotUsed: Boolean): List<ItemMyCoupon.ContentData> {
+    override suspend fun getMyCouponListPair(): Pair<List<ItemMyCoupon.ContentData>, List<ItemMyCoupon.ContentData>> {
         return UserTokenManager.getAuthorization()?.let {
             DataCallbacks.getMyCouponList(it, callback)?.let { couponItem ->
                 withContext(Dispatchers.Default) {
-                    mutableListOf<ItemMyCoupon.ContentData>().apply {
-                        couponItem.contentData.forEach { contentData ->
-                            when {
-                                isNotUsed && contentData.status == ApiConst.COUPON_STATUS_NOT_USED -> add(contentData)
-                                !isNotUsed && contentData.status == ApiConst.COUPON_STATUS_USED -> add(contentData)
-                            }
+                    val myCouponList = mutableListOf<ItemMyCoupon.ContentData>()
+                    val usedCouponList = mutableListOf<ItemMyCoupon.ContentData>()
+                    couponItem.contentData.forEach { contentData ->
+                        when (contentData.status) {
+                            ApiConst.COUPON_STATUS_NOT_USED -> myCouponList.add(contentData)
+                            ApiConst.COUPON_STATUS_USED -> usedCouponList.add(contentData)
                         }
                     }
+                    Pair(myCouponList, usedCouponList)
                 }
             }
-        } ?: listOf()
+        } ?: Pair(listOf(), listOf())
+    }
+
+    override suspend fun getCouponCode(uuid: String): ItemCouponCode? {
+        return UserTokenManager.getAuthorization()?.let {
+            DataCallbacks.useCoupon(it, PostUseCoupon(uuid), callback)
+        }
     }
 }
