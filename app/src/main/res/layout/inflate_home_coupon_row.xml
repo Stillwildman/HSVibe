@@ -7,6 +7,10 @@
             type="Integer" />
 
         <variable
+            name="apiType"
+            type="Integer" />
+
+        <variable
             name="viewModel"
             type="com.hsvibe.viewmodel.HomeViewModel" />
     </data>
@@ -24,7 +28,7 @@
         android:background="?selectableItemBackground"
         app:cardCornerRadius="10dp"
         app:cardBackgroundColor="@color/md_grey_800"
-        app:singleClick="@{() -> viewModel.onCouponClick(viewModel.getCouponContentData(index))}">
+        app:singleClick="@{() -> viewModel.onCouponClick(viewModel.getCouponContentData(index,apiType))}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -45,7 +49,7 @@
                     android:id="@+id/image_coupon"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:glideImage="@{viewModel.getCouponContentData(index).thumbnailUrl}"/>
+                    app:glideImage="@{viewModel.getCouponContentData(index,apiType).thumbnailUrl}"/>
 
             </androidx.cardview.widget.CardView>
 
@@ -60,7 +64,7 @@
                 android:ellipsize="end"
                 tools:text="000000000000000000000000"
                 android:textSize="@dimen/font_text_size_s"
-                android:text="@{viewModel.getCouponContentData(index).title}"
+                android:text="@{viewModel.getCouponContentData(index,apiType).title}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layout_couponCard"/>
@@ -74,7 +78,7 @@
                 android:ellipsize="end"
                 tools:text="000000000000000000000000"
                 android:textSize="@dimen/font_text_size_s"
-                android:text="@{viewModel.getCouponContentData(index).subtitle}"
+                android:text="@{viewModel.getCouponContentData(index,apiType).subtitle}"
                 app:layout_constraintStart_toStartOf="@+id/text_couponTitle"
                 app:layout_constraintEnd_toEndOf="@+id/text_couponTitle"
                 app:layout_constraintTop_toBottomOf="@+id/text_couponTitle"/>
@@ -89,7 +93,7 @@
                 tools:text="000000000000000000000000"
                 android:textSize="@dimen/font_text_size_xs"
                 android:textColor="@color/md_grey_500"
-                android:text="@{viewModel.getCouponContentData(index).brief}"
+                android:text="@{viewModel.getCouponContentData(index,apiType).brief}"
                 app:layout_constraintStart_toStartOf="@+id/text_couponTitle"
                 app:layout_constraintEnd_toEndOf="@+id/text_couponTitle"
                 app:layout_constraintTop_toBottomOf="@+id/text_couponSubtitle"/>
@@ -102,7 +106,7 @@
                 tools:text="000000000000000000000000"
                 android:textSize="@dimen/font_text_size_xs"
                 android:textColor="@color/md_amber_200"
-                android:text="@{@string/stock_is(viewModel.getCouponContentData(index).stock)}"
+                android:text="@{@string/stock_is(viewModel.getCouponContentData(index,apiType).stock)}"
                 app:layout_constraintStart_toStartOf="@+id/text_couponTitle"
                 app:layout_constraintEnd_toEndOf="@+id/text_couponTitle"
                 app:layout_constraintTop_toBottomOf="@+id/text_couponBrief"/>
@@ -130,7 +134,7 @@
                 android:layout_marginBottom="@dimen/padding_size_m"
                 tools:text="100"
                 android:textSize="@dimen/font_text_size_s"
-                android:text="@{String.valueOf(viewModel.getCouponContentData(index).point)}"
+                android:text="@{String.valueOf(viewModel.getCouponContentData(index,apiType).point)}"
                 app:layout_constraintEnd_toEndOf="@+id/text_couponTitle"
                 app:layout_constraintTop_toBottomOf="@+id/text_couponStock"
                 app:layout_constraintBottom_toBottomOf="parent"/>

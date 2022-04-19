@@ -23,4 +23,7 @@ interface HomeContentRepo {
 
     suspend fun getBanner(): ItemBanner?
 
+    suspend fun getHilaiFoods(): ItemCoupon?
+
+    suspend fun getHilaiHotels(): ItemCoupon?
 }

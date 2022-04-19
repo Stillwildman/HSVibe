@@ -9,8 +9,8 @@ import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.callbacks.DataSourceParamInterface
 import com.hsvibe.model.ApiConst
+import com.hsvibe.model.items.ItemBrand
 import com.hsvibe.model.items.ItemCoupon
-import com.hsvibe.model.items.ItemCouponBrand
 import com.hsvibe.model.items.ItemCouponDistricts
 import com.hsvibe.model.items.ItemMyCoupon
 import com.hsvibe.paging.BasePagingConfig
@@ -37,7 +37,7 @@ class CouponViewModel(private val couponRepo: CouponRepo) : LoadingStatusViewMod
     private var contentFlow: Flow<PagingData<ItemCoupon.ContentData>>? = null
 
     val liveCouponDistrictPairList by lazy { MutableLiveData<List<Pair<String, String>>>() }
-    val liveCouponBrand by lazy { MutableLiveData<ItemCouponBrand>() }
+    val liveCouponBrand by lazy { MutableLiveData<ItemBrand>() }
     val liveCouponDetail by lazy { MutableLiveData<ItemCoupon.ContentData>() }
 
     val liveMyCouponList by lazy { MutableLiveData<List<ItemMyCoupon.ContentData>>() }
@@ -78,6 +78,7 @@ class CouponViewModel(private val couponRepo: CouponRepo) : LoadingStatusViewMod
         }
     }
 
+    // TODO Move to repo side?
     private suspend fun createCouponDistrictParList(item: ItemCouponDistricts): List<Pair<String, String>> {
         return withContext(Dispatchers.Default) {
             val pairList = mutableListOf<Pair<String, String>>()

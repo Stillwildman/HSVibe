@@ -7,7 +7,7 @@ import com.hsvibe.R
 /**
  * Created by Vincent on 2022/4/20.
  */
-data class ItemCouponBrand(
+data class ItemBrand(
     @SerializedName("data")
     val contentData: MutableList<ContentData>
 ) {

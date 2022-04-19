@@ -24,10 +24,13 @@ class CouponRepoImpl : CouponRepo {
         return DataCallbacks.getCouponDistricts(callback)
     }
 
-    override suspend fun getCouponBrands(categoryId: Int): ItemCouponBrand? {
-        return DataCallbacks.getCouponBrands(categoryId.takeIf { it != ApiConst.ALL }, callback).also {
+    override suspend fun getCouponBrands(categoryId: Int): ItemBrand? {
+        return DataCallbacks.getCouponBrands(
+            categoryId = categoryId.takeIf { it != ApiConst.ALL },
+            loadingCallback = callback
+        ).also {
             if (categoryId == ApiConst.ALL) {
-                it?.contentData?.add(0, ItemCouponBrand.ContentData())
+                it?.contentData?.add(0, ItemBrand.ContentData())
             }
             else {
                 withContext(Dispatchers.Default) {
@@ -38,7 +41,7 @@ class CouponRepoImpl : CouponRepo {
                         }
                         allStoreIds.append(contentData.store_ids)
                     }
-                    it?.contentData?.add(0, ItemCouponBrand.ContentData(store_ids = allStoreIds.toString()))
+                    it?.contentData?.add(0, ItemBrand.ContentData(store_ids = allStoreIds.toString()))
                 }
             }
         }

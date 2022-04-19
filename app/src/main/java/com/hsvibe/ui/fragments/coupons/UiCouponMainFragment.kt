@@ -12,8 +12,8 @@ import com.hsvibe.R
 import com.hsvibe.callbacks.OnAnyItemClickCallback
 import com.hsvibe.databinding.FragmentCouponMainPageBinding
 import com.hsvibe.model.Const
+import com.hsvibe.model.items.ItemBrand
 import com.hsvibe.model.items.ItemCoupon
-import com.hsvibe.model.items.ItemCouponBrand
 import com.hsvibe.repositories.CouponRepoImpl
 import com.hsvibe.ui.adapters.CouponBrandListAdapter
 import com.hsvibe.ui.adapters.CouponListAdapter
@@ -130,7 +130,7 @@ class UiCouponMainFragment private constructor(): BaseFragment<FragmentCouponMai
         }
     }
 
-    private fun updateBrandsRecycler(brandList: MutableList<ItemCouponBrand.ContentData>) {
+    private fun updateBrandsRecycler(brandList: MutableList<ItemBrand.ContentData>) {
         bindingView.recyclerCouponBrands.apply {
             if (layoutManager == null || layoutManager?.isAttachedToWindow == false) {
                 layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
@@ -146,14 +146,14 @@ class UiCouponMainFragment private constructor(): BaseFragment<FragmentCouponMai
         }
     }
 
-    private val onStoreClickCallback = object : OnAnyItemClickCallback<ItemCouponBrand.ContentData> {
-        override fun onItemClick(item: ItemCouponBrand.ContentData) {
+    private val onStoreClickCallback = object : OnAnyItemClickCallback<ItemBrand.ContentData> {
+        override fun onItemClick(item: ItemBrand.ContentData) {
             getStoreListAdapter()?.setSelected(item)
             onBrandSelected(item.store_ids)
         }
     }
 
-    private fun doFirstSelection(brandList: List<ItemCouponBrand.ContentData>, refreshStoreIds: Boolean) {
+    private fun doFirstSelection(brandList: List<ItemBrand.ContentData>, refreshStoreIds: Boolean) {
         brandList.takeIf { it.isNotEmpty() }?.let {
             getStoreListAdapter()?.setSelected(it.first())
             if (refreshStoreIds) {

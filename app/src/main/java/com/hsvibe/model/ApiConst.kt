@@ -15,12 +15,17 @@ object ApiConst {
     const val PAGE = "page"
     const val CATEGORY_ID = "category_id"
     const val STORE_ID = "store_id"
+    const val PARTNER_ID = "partner_id"
 
     // Common Params
     const val ORDER_BY_TOP = "is_top"
     const val ORDER_BY_UPDATED = "updated_at"
     const val SORTED_BY_ASC = "asc"
     const val SORTED_BY_DESC = "desc"
+
+    // PARTNER ID
+    const val PARTNER_FOODS = 1
+    const val PARTNER_HOTELS = 2
 
     // Content Category Params
     const val CATEGORY_ANNOUNCEMENT = 4

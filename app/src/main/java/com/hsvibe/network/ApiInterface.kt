@@ -85,7 +85,7 @@ interface ApiInterface {
     suspend fun getCouponDistricts(@Query(ApiConst.CATEGORY_ID) category: Int = ApiConst.CATEGORY_DISTRICTS): Response<ItemCouponDistricts>
 
     @GET(Urls.API_COUPON_BRAND)
-    suspend fun getCouponBrands(@Query(ApiConst.CATEGORY_ID) category: Int?): Response<ItemCouponBrand>
+    suspend fun getCouponBrands(@Query(ApiConst.CATEGORY_ID) category: Int?, @Query(ApiConst.PARTNER_ID) partnerId: Int?): Response<ItemBrand>
 
     @GET(Urls.API_TICKET_HOLDER)
     suspend fun getMyCouponList(

@@ -123,8 +123,8 @@ object DataCallbacks {
         }
     }
 
-    suspend fun getCoupon(orderBy: String = ApiConst.ORDER_BY_UPDATED,
-                          sortedBy: String = ApiConst.SORTED_BY_DESC,
+    suspend fun getCoupon(orderBy: String = "${ApiConst.ORDER_BY_TOP};${ApiConst.ORDER_BY_UPDATED}",
+                          sortedBy: String = "${ApiConst.SORTED_BY_DESC};${ApiConst.SORTED_BY_DESC}",
                           storeIds: String? = null,
                           limit: Int = ApiConst.DEFAULT_LIMIT,
                           page: Int = 1,
@@ -177,9 +177,9 @@ object DataCallbacks {
         }
     }
 
-    suspend fun getCouponBrands(categoryId: Int? = null, loadingCallback: OnLoadingCallback?): ItemCouponBrand? {
+    suspend fun getCouponBrands(categoryId: Int? = null, partnerId: Int? = null, loadingCallback: OnLoadingCallback?): ItemBrand? {
         return getApiResult(loadingCallback) {
-            getApiInterface().getCouponBrands(categoryId)
+            getApiInterface().getCouponBrands(categoryId, partnerId)
         }
     }
 

@@ -83,6 +83,12 @@ class UiHomeFragment : BaseFragment<FragmentHomeBinding>() {
             it.liveBanner.observe(viewLifecycleOwner) {
                 notifyDataChanged(HomeContentListAdapter.LIST_POSITION_DISCOUNT)
             }
+            it.liveHilaiFoodCoupons.observe(viewLifecycleOwner) {
+                notifyDataChanged(HomeContentListAdapter.LIST_POSITION_FOODS)
+            }
+            it.liveHilaiHotelCoupons.observe(viewLifecycleOwner) {
+                notifyDataChanged(HomeContentListAdapter.LIST_POSITION_HOTEL)
+            }
         }
     }
 
@@ -109,6 +115,8 @@ class UiHomeFragment : BaseFragment<FragmentHomeBinding>() {
             getHomePageNews()
             getHomePageCoupons()
             getHomePageBanner()
+            getHomePageHilaiFoods()
+            getHomePageHilaiHotel()
         }
     }
 

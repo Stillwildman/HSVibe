@@ -4,7 +4,6 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.hsvibe.callbacks.DataSourceParamInterface
 import com.hsvibe.callbacks.OnLoadingCallback
-import com.hsvibe.model.ApiConst
 import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.network.DataCallbacks
 import com.hsvibe.utilities.L
@@ -34,8 +33,6 @@ class CouponDataSource(
             L.i("Load storeIds: ${paramInterface.getParams()}")
 
             val response = DataCallbacks.getCoupon(
-                orderBy = "${ApiConst.ORDER_BY_TOP};${ApiConst.ORDER_BY_UPDATED}",
-                sortedBy = "${ApiConst.SORTED_BY_DESC};${ApiConst.SORTED_BY_DESC}",
                 storeIds = paramInterface.getParams(),
                 limit = params.loadSize,
                 page = pageKey,

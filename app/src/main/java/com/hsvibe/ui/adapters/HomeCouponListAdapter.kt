@@ -9,13 +9,14 @@ import com.hsvibe.viewmodel.HomeViewModel
 /**
  * Created by Vincent on 2021/7/20.
  */
-class HomeCouponListAdapter(private val viewModel: HomeViewModel) : BaseBindingRecycler<InflateHomeCouponRowBinding>() {
+class HomeCouponListAdapter(private val viewModel: HomeViewModel, private val apiType: Int) : BaseBindingRecycler<InflateHomeCouponRowBinding>() {
 
     override fun getLayoutId(): Int = R.layout.inflate_home_coupon_row
 
     override fun onBindingViewHolder(holder: RecyclerView.ViewHolder, bindingView: InflateHomeCouponRowBinding, position: Int) {
         bindingView.apply {
             index = position
+            apiType = this@HomeCouponListAdapter.apiType
             viewModel = this@HomeCouponListAdapter.viewModel
         }
     }
@@ -25,6 +26,6 @@ class HomeCouponListAdapter(private val viewModel: HomeViewModel) : BaseBindingR
     }
 
     override fun getItemCount(): Int {
-        return viewModel.getCouponDataSize()
+        return viewModel.getCouponDataSize(apiType)
     }
 }

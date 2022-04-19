@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.hsvibe.R
+import com.hsvibe.model.ApiConst
 import com.hsvibe.viewmodel.HomeViewModel
 import kotlin.math.floor
 
@@ -25,7 +26,7 @@ class HomeContentListAdapter(private val viewModel: HomeViewModel) : RecyclerVie
     }
 
     override fun getItemCount(): Int {
-        return viewModel.headerList.size * 2
+        return viewModel.headerList.size * 2 + 1
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -62,11 +63,11 @@ class HomeContentListAdapter(private val viewModel: HomeViewModel) : RecyclerVie
             }
             is HomeContentViewHolders.ContentListViewHolder -> {
                 when (position) {
-                    LIST_POSITION_NEWS -> { holder.setupAdapter(HomeNewsListAdapter(viewModel)) }
-                    LIST_POSITION_COUPON -> { holder.setupAdapter(HomeCouponListAdapter(viewModel)) }
-                    LIST_POSITION_DISCOUNT -> { holder.setupAdapter(HomeBannerListAdapter(viewModel)) }
-                    LIST_POSITION_FOODS -> { }
-                    LIST_POSITION_HOTEL -> { }
+                    LIST_POSITION_NEWS -> holder.setupAdapter(HomeNewsListAdapter(viewModel))
+                    LIST_POSITION_COUPON -> holder.setupAdapter(HomeCouponListAdapter(viewModel, ApiConst.API_TYPE_COUPON))
+                    LIST_POSITION_DISCOUNT -> holder.setupAdapter(HomeBannerListAdapter(viewModel))
+                    LIST_POSITION_FOODS -> holder.setupAdapter(HomeCouponListAdapter(viewModel, ApiConst.API_TYPE_FOODS))
+                    LIST_POSITION_HOTEL -> holder.setupAdapter(HomeCouponListAdapter(viewModel, ApiConst.API_TYPE_HOTEL))
                 }
             }
         }

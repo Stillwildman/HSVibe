@@ -201,17 +201,13 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
             ApiConst.API_TYPE_NEWS -> {
                 openDialogFragment(UiNewsFragment.newInstance())
             }
-            ApiConst.API_TYPE_COUPON -> {
+            ApiConst.API_TYPE_COUPON,
+            ApiConst.API_TYPE_FOODS,
+            ApiConst.API_TYPE_HOTEL -> {
                 selectTab(TabFragmentManager.INDEX_COUPON)
             }
             ApiConst.API_TYPE_DISCOUNT -> {
                 // This type doesn't have "more"!
-            }
-            ApiConst.API_TYPE_FOODS -> {
-                // TODO
-            }
-            ApiConst.API_TYPE_HOTEL -> {
-                // TODO
             }
         }
     }

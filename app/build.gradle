@@ -35,7 +35,8 @@ android {
             }
         }
 
-        project.ext.set("archivesBaseName", "HSVibe_" + getDate() + "_v" + versionName)
+        setProperty("archivesBaseName", "HSVibe_" + getDate() + "_v" + versionName)
+        //project.ext.set("archivesBaseName", "HSVibe_" + getDate() + "_v" + versionName)
     }
 
     buildTypes {

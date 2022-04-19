@@ -2,6 +2,7 @@ package com.hsvibe.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.hsvibe.model.ApiConst
 import com.hsvibe.model.Navigation
 import com.hsvibe.model.items.ItemBanner
 import com.hsvibe.model.items.ItemContent
@@ -20,6 +21,8 @@ class HomeViewModel(private val homeContentRepo: HomeContentRepo, private val ma
     val liveNews by lazy { MutableLiveData<ItemContent>() }
     val liveCoupons by lazy { MutableLiveData<ItemCoupon>() }
     val liveBanner by lazy { MutableLiveData<ItemBanner>() }
+    val liveHilaiFoodCoupons by lazy { MutableLiveData<ItemCoupon>() }
+    val liveHilaiHotelCoupons by lazy { MutableLiveData<ItemCoupon>() }
 
     val liveUnreadCount by lazy { MutableLiveData<Int>() }
 
@@ -59,19 +62,30 @@ class HomeViewModel(private val homeContentRepo: HomeContentRepo, private val ma
     }
 
     fun getHomePageHilaiFoods() {
-
+        viewModelScope.launch(getExceptionHandler()) {
+            val coupons = homeContentRepo.getHilaiFoods()
+            coupons?.let { liveHilaiFoodCoupons.value = it }
+        }
     }
 
     fun getHomePageHilaiHotel() {
-
+        viewModelScope.launch(getExceptionHandler()) {
+            val coupons = homeContentRepo.getHilaiHotels()
+            coupons?.let { liveHilaiHotelCoupons.value = it }
+        }
     }
 
     fun getContentDataSize(): Int {
         return liveNews.value?.contentData?.size ?: 0
     }
 
-    fun getCouponDataSize(): Int {
-        return liveCoupons.value?.contentData?.size ?: 0
+    fun getCouponDataSize(apiType: Int): Int {
+        return when (apiType) {
+            ApiConst.API_TYPE_COUPON -> liveCoupons.value?.contentData?.size ?: 0
+            ApiConst.API_TYPE_FOODS -> liveHilaiFoodCoupons.value?.contentData?.size ?: 0
+            ApiConst.API_TYPE_HOTEL -> liveHilaiHotelCoupons.value?.contentData?.size ?: 0
+            else -> 0
+        }
     }
 
     fun getBannerDataSize(): Int {
@@ -82,8 +96,13 @@ class HomeViewModel(private val homeContentRepo: HomeContentRepo, private val ma
         return liveNews.value?.contentData?.get(index)
     }
 
-    fun getCouponContentData(index: Int): ItemCoupon.ContentData? {
-        return liveCoupons.value?.contentData?.get(index)
+    fun getCouponContentData(index: Int, apiType: Int): ItemCoupon.ContentData? {
+        return when (apiType) {
+            ApiConst.API_TYPE_COUPON -> liveCoupons.value?.contentData?.get(index)
+            ApiConst.API_TYPE_FOODS -> liveHilaiFoodCoupons.value?.contentData?.get(index)
+            ApiConst.API_TYPE_HOTEL -> liveHilaiHotelCoupons.value?.contentData?.get(index)
+            else -> null
+        }
     }
 
     fun getBannerContentData(index: Int): ItemBanner.ContentData? {

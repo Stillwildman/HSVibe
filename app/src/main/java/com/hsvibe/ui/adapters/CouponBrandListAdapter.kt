@@ -17,7 +17,7 @@ import com.hsvibe.callbacks.SingleClickListener
 import com.hsvibe.databinding.InflateCategoryRowBinding
 import com.hsvibe.databinding.InflateCategoryVerticalBinding
 import com.hsvibe.model.Const
-import com.hsvibe.model.items.ItemCouponBrand
+import com.hsvibe.model.items.ItemBrand
 import com.hsvibe.utilities.L
 import com.hsvibe.utilities.Utility
 import com.hsvibe.utilities.setOnSingleClickListener
@@ -31,8 +31,8 @@ import kotlinx.coroutines.withContext
  */
 class CouponBrandListAdapter(
     private val layoutManage: LinearLayoutManager,
-    private val brandList: MutableList<ItemCouponBrand.ContentData>,
-    private val onClickCallback: OnAnyItemClickCallback<ItemCouponBrand.ContentData>,
+    private val brandList: MutableList<ItemBrand.ContentData>,
+    private val onClickCallback: OnAnyItemClickCallback<ItemBrand.ContentData>,
     private val scope: CoroutineScope
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -54,7 +54,7 @@ class CouponBrandListAdapter(
         private const val VIEW_TYPE_VERTICAL = 1
     }
 
-    fun updateList(storeList: List<ItemCouponBrand.ContentData>) {
+    fun updateList(storeList: List<ItemBrand.ContentData>) {
         notifyItemRangeRemoved(0, itemCount)
         this.brandList.apply {
             clear()
@@ -223,7 +223,7 @@ class CouponBrandListAdapter(
         }
     }
 
-    fun setSelected(item: ItemCouponBrand.ContentData) {
+    fun setSelected(item: ItemBrand.ContentData) {
         columnSelectedIndex = item.columnPosition
         rowSelectedIndex = item.rowPosition
 

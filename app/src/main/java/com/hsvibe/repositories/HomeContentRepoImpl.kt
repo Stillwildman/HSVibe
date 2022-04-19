@@ -5,11 +5,9 @@ import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.callbacks.OnLoadingCallback
 import com.hsvibe.model.ApiConst
-import com.hsvibe.model.items.ItemBanner
-import com.hsvibe.model.items.ItemContent
-import com.hsvibe.model.items.ItemCoupon
-import com.hsvibe.model.items.ItemHomeHeader
+import com.hsvibe.model.items.*
 import com.hsvibe.network.DataCallbacks
+import com.hsvibe.utilities.L
 import com.hsvibe.utilities.SettingManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -84,6 +82,42 @@ class HomeContentRepoImpl : HomeContentRepo {
 
     override suspend fun getBanner(): ItemBanner? {
         return DataCallbacks.getBanner(loadingCallback)
+    }
+
+    override suspend fun getHilaiFoods(): ItemCoupon? {
+        return DataCallbacks.getCouponBrands(partnerId = ApiConst.PARTNER_FOODS, loadingCallback = loadingCallback)?.let {
+            getHilaiCoupons(it)
+        }
+    }
+
+    override suspend fun getHilaiHotels(): ItemCoupon? {
+        return DataCallbacks.getCouponBrands(partnerId = ApiConst.PARTNER_HOTELS, loadingCallback = loadingCallback)?.let {
+            getHilaiCoupons(it)
+        }
+    }
+
+    private suspend fun getHilaiCoupons(brandItem: ItemBrand): ItemCoupon? {
+        val storeIds = getAllStoreIds(brandItem)
+        L.i("StoreIds: $storeIds")
+        return DataCallbacks.getCoupon(
+            limit = 5,
+            page = 1,
+            storeIds = storeIds,
+            loadingCallback = loadingCallback
+        )
+    }
+
+    private suspend fun getAllStoreIds(brandItem: ItemBrand): String {
+        return withContext(Dispatchers.Default) {
+            StringBuilder().apply {
+                brandItem.contentData.forEach { contentData ->
+                    if (isNotEmpty()) {
+                        append(",")
+                    }
+                    append(contentData.store_ids)
+                }
+            }.toString()
+        }
     }
 
     private fun getTitleString(@StringRes titleRes: Int): String {

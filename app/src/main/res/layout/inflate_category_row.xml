@@ -8,7 +8,7 @@
 
         <variable
             name="item"
-            type="com.hsvibe.model.items.ItemCouponBrand.ContentData" />
+            type="com.hsvibe.model.items.ItemBrand.ContentData" />
     </data>
 
     <TextView
