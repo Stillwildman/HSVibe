@@ -25,10 +25,11 @@ class UiMemberCenterFragment : BaseActionBarFragment<FragmentMemberCenterBinding
 
     companion object {
         private const val INDEX_PERSONAL_INFO = 0
-        private const val INDEX_POINT_RECORD = 1
-        private const val INDEX_MY_COUPON = 2
-        private const val INDEX_TERMS = 3
-        private const val INDEX_CONTACT_US = 4
+        private const val INDEX_CHANGE_PASSWORD = 1
+        private const val INDEX_POINT_RECORD = 2
+        private const val INDEX_MY_COUPON = 3
+        private const val INDEX_TERMS = 4
+        private const val INDEX_CONTACT_US = 5
     }
 
     private val mainViewModel by activityViewModels<MainViewModel>()
@@ -72,6 +73,7 @@ class UiMemberCenterFragment : BaseActionBarFragment<FragmentMemberCenterBinding
     override fun onItemClick(item: ItemMemberOption) {
         when (item.index) {
             INDEX_PERSONAL_INFO -> openDialogFragment(UiMemberInfoFragment.newInstance(false))
+            INDEX_CHANGE_PASSWORD -> {}
             INDEX_POINT_RECORD -> openDialogFragment(UiPointHistoryFragment())
             INDEX_MY_COUPON -> openDialogFragment(UiCouponHistoryFragment())
             INDEX_TERMS -> showMemberTermsDialog()

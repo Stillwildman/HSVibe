@@ -26,7 +26,7 @@ class HomeContentListAdapter(private val viewModel: HomeViewModel) : RecyclerVie
     }
 
     override fun getItemCount(): Int {
-        return viewModel.headerList.size * 2 + 1
+        return viewModel.headerList.size * 2
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -74,11 +74,11 @@ class HomeContentListAdapter(private val viewModel: HomeViewModel) : RecyclerVie
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>) {
-        if (payloads.isNullOrEmpty()) {
-            super.onBindViewHolder(holder, position, payloads)
+        if (payloads.isNotEmpty() || position == itemCount - 1) {
+            bindContent(holder, position)
         }
         else {
-            bindContent(holder, position)
+            super.onBindViewHolder(holder, position, payloads)
         }
     }
 

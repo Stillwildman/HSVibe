@@ -8,6 +8,7 @@
 
     <string-array name="member_center_options">
         <item>@string/personal_info</item>
+        <item>@string/change_password</item>
         <item>@string/point_record</item>
         <item>@string/my_coupons</item>
         <item>@string/terms</item>

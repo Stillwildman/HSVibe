@@ -46,6 +46,7 @@
     <string name="my_coupons">我的優惠券</string>
     <string name="coupon_has">%d 張</string>
     <string name="personal_info">個人資料</string>
+    <string name="change_password">修改密碼</string>
     <string name="point_record">點數紀錄</string>
     <string name="terms">使用條款</string>
     <string name="contact_us">聯絡我們</string>
