@@ -139,6 +139,8 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
         refreshUserToken { getUserInfoAndUpdate() }
     }
 
+
+
     private fun updateFcmToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -176,6 +178,24 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
             userRepo.updateUserInfo(postBody)?.let {
                 liveUserInfo.postValue(it)
                 userRepo.writeUserInfoToDB(it)
+                onFinish(true)
+            } ?: onFinish(false)
+        }
+    }
+
+    fun updatePayPassword(payPassword: String, onFinish: (isSuccess: Boolean) -> Unit) {
+        viewModelScope.launch {
+            userRepo.updatePayPassword(payPassword)?.let {
+                liveUserInfo.postValue(it)
+                onFinish(true)
+            } ?: onFinish(false)
+        }
+    }
+
+    fun updatePassword(password: String, onFinish: (isSuccess: Boolean) -> Unit) {
+        viewModelScope.launch {
+            userRepo.updatePassword(password)?.let {
+                liveUserInfo.postValue(it)
                 onFinish(true)
             } ?: onFinish(false)
         }

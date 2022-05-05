@@ -80,6 +80,14 @@ class UserRepoImpl : UserRepo {
         }
     }
 
+    override suspend fun updatePassword(password: String): UserInfo? {
+        return taskController.joinPreviousOrRun(TaskController.KEY_UPDATE_PASSWORD) {
+            UserTokenManager.getAuthorization()?.let {
+                DataCallbacks.updateUserInfo(it, PostUpdateUserInfo(password = password), callback)
+            }
+        }
+    }
+
     override suspend fun updateFcmToken(fcmToken: String): UserInfo? {
         return taskController.joinPreviousOrRun(TaskController.KEY_UPDATE_FCM_TOKEN) {
             UserTokenManager.getAuthorization()?.let {

@@ -55,6 +55,10 @@
     <string name="privacy_claim">隱私權保護聲明</string>
     <string name="hs_vibe_card">H\'S VIBE 齊來卡</string>
     <string name="please_read_carefully">請選取並詳細閱讀</string>
+    <string name="password">密碼</string>
+    <string name="confirm_password">確認密碼</string>
+    <string name="password_hint">請輸入至少6位數密碼</string>
+    <string name="confirm_password_hint">請再輸入一次密碼</string>
 
     <!-- Member Profile -->
     <string name="member_info">會員資料</string>

@@ -23,6 +23,8 @@ interface UserRepo {
 
     suspend fun updatePayPassword(payPassword: String): UserInfo?
 
+    suspend fun updatePassword(password: String): UserInfo?
+
     suspend fun updateFcmToken(fcmToken: String): UserInfo?
 
     suspend fun getUserInfoAndUpdate(hasLocationPermission: Boolean): UserInfo?

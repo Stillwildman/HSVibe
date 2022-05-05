@@ -16,5 +16,6 @@ data class PostUpdateUserInfo(
     var lat: String? = null,
     var long: String? = null,
     var pay_password: String? = null,
+    var password: String? = null,
     var fcm_token: String? = null
 )

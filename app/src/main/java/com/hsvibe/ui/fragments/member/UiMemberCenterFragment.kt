@@ -73,7 +73,7 @@ class UiMemberCenterFragment : BaseActionBarFragment<FragmentMemberCenterBinding
     override fun onItemClick(item: ItemMemberOption) {
         when (item.index) {
             INDEX_PERSONAL_INFO -> openDialogFragment(UiMemberInfoFragment.newInstance(false))
-            INDEX_CHANGE_PASSWORD -> {}
+            INDEX_CHANGE_PASSWORD -> openDialogFragment(UiPasswordModifyFragment())
             INDEX_POINT_RECORD -> openDialogFragment(UiPointHistoryFragment())
             INDEX_MY_COUPON -> openDialogFragment(UiCouponHistoryFragment())
             INDEX_TERMS -> showMemberTermsDialog()
