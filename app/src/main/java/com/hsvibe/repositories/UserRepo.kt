@@ -1,6 +1,5 @@
 package com.hsvibe.repositories
 
-import com.hsvibe.callbacks.OnLoadingCallback
 import com.hsvibe.model.UserInfo
 import com.hsvibe.model.items.ItemAccountBonus
 import com.hsvibe.model.items.ItemUserBonus
@@ -9,9 +8,7 @@ import com.hsvibe.model.posts.PostUpdateUserInfo
 /**
  * Created by Vincent on 2021/7/5.
  */
-interface UserRepo {
-
-    fun setLoadingCallback(loadingCallback: OnLoadingCallback?)
+interface UserRepo : LoadingCallbackRepo {
 
     suspend fun refreshToken(): Boolean
 

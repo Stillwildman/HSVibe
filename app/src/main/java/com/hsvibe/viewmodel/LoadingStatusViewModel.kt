@@ -34,7 +34,7 @@ open class LoadingStatusViewModel : ViewModel(), OnLoadingCallback {
             L.e("Handle Coroutine Exception!!!")
             when {
                 throwable is ApiStatusException -> {
-                    Utility.toastLong("Api Error!!\nCode: ${throwable.statusCode}\nMsg: ${throwable.errorMessage}")
+                    Utility.toastLong("Api Error!!\nCode: ${throwable.statusCode}\nMsg: ${throwable.errorBody}")
                 }
                 !Utility.isNetworkEnabled() -> {
                     L.e("Network is not working!!!")

@@ -23,6 +23,9 @@ object ApiConst {
     const val SORTED_BY_ASC = "asc"
     const val SORTED_BY_DESC = "desc"
 
+    // Returned message
+    const val SUCCESS = "success"
+
     // PARTNER ID
     const val PARTNER_FOODS = 1
     const val PARTNER_HOTELS = 2

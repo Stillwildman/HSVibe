@@ -4,10 +4,7 @@ import com.hsvibe.model.ApiConst
 import com.hsvibe.model.Urls
 import com.hsvibe.model.UserToken
 import com.hsvibe.model.items.*
-import com.hsvibe.model.posts.PostCouponRedeem
-import com.hsvibe.model.posts.PostRefreshToken
-import com.hsvibe.model.posts.PostUpdateUserInfo
-import com.hsvibe.model.posts.PostUseCoupon
+import com.hsvibe.model.posts.*
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -99,4 +96,10 @@ interface ApiInterface {
         @Header(ApiConst.AUTHORIZATION) auth: String,
         @Body body: PostUseCoupon
     ): Response<ItemCouponCode>
+
+    @POST(Urls.API_VERIFY_PAY_PASSWORD)
+    suspend fun verifyPayPassword(
+        @Header(ApiConst.AUTHORIZATION) auth: String,
+        @Body body: PostPassword
+    ): Response<ItemMessage>
 }

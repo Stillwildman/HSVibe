@@ -37,9 +37,9 @@ object Urls {
 
     const val API_COUPON_CATEGORY = "category"
 
-    const val API_COUPON_STORES = "store"
-
     const val API_COUPON_BRAND = "brand/coupon"
+
+    const val API_VERIFY_PAY_PASSWORD = "user/verifyPayPassword"
 
     const val WEB_HS_VIBE = "https://www.hsvibe.com/"
 

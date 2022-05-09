@@ -173,7 +173,9 @@ object DialogHelper {
         }.create()
 
         bindingView.apply {
-            textDialogTitle.text = AppController.getString(titleRes)
+            if (titleRes != 0) {
+                textDialogTitle.text = AppController.getString(titleRes)
+            }
             textDialogContent.text = content
             imageDialogStatus.setImageDrawable(ContextCompat.getDrawable(AppController.getAppContext(), iconRes))
             buttonConfirm.text = AppController.getString(positiveButtonRes)

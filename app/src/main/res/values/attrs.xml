@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CodeInputLayout">
+        <attr name="codeNumber" format="integer" />
+        <attr name="codeWidth" format="dimension|reference" />
+        <attr name="codeHeight" format="dimension|reference" />
+        <attr name="codeDivideWidth" format="dimension|reference" />
+    </declare-styleable>
+
+</resources>

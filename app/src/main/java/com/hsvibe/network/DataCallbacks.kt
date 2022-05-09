@@ -1,5 +1,7 @@
 package com.hsvibe.network
 
+import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.hsvibe.callbacks.OnDataGetCallback
 import com.hsvibe.callbacks.OnLoadingCallback
 import com.hsvibe.model.ApiConst
@@ -7,6 +9,7 @@ import com.hsvibe.model.Urls
 import com.hsvibe.model.UserInfo
 import com.hsvibe.model.UserToken
 import com.hsvibe.model.items.*
+import com.hsvibe.model.posts.PostPassword
 import com.hsvibe.model.posts.PostRefreshToken
 import com.hsvibe.model.posts.PostUpdateUserInfo
 import com.hsvibe.model.posts.PostUseCoupon
@@ -84,11 +87,20 @@ object DataCallbacks {
                 response.body()
             }
             else {
-                L.d(TAG, "API Response error!!!")
-                val errorMessage = response.errorBody()?.charStream()?.readText()
-                loadingCallback?.onLoadingFailed(errorMessage)
+                L.e(TAG, "API Response error!!!")
+                val errorBody = response.errorBody()?.charStream()?.readText()
+
+                val messageItem = try {
+                    Gson().fromJson(errorBody, ItemMessage::class.java)
+                }
+                catch (e: JsonSyntaxException) {
+                    e.printStackTrace()
+                    null
+                }
+
+                loadingCallback?.onLoadingFailed(errorBody)
                 loadingCallback?.onLoadingEnd()
-                throw ApiStatusException(response.code(), errorMessage)
+                throw ApiStatusException(response.code(), errorBody, messageItem)
             }
         }
     }
@@ -192,6 +204,12 @@ object DataCallbacks {
     suspend fun useCoupon(auth: String, couponUseItem: PostUseCoupon, loadingCallback: OnLoadingCallback?): ItemCouponCode? {
         return getApiResult(loadingCallback) {
             getApiInterface().useCoupon(auth, couponUseItem)
+        }
+    }
+
+    suspend fun verifyPayPassword(auth: String, passwordItem: PostPassword, loadingCallback: OnLoadingCallback?): ItemMessage? {
+        return getApiResult(loadingCallback) {
+            getApiInterface().verifyPayPassword(auth, passwordItem)
         }
     }
 }

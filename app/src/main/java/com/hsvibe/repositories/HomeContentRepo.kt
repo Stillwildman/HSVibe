@@ -1,6 +1,5 @@
 package com.hsvibe.repositories
 
-import com.hsvibe.callbacks.OnLoadingCallback
 import com.hsvibe.model.items.ItemBanner
 import com.hsvibe.model.items.ItemContent
 import com.hsvibe.model.items.ItemCoupon
@@ -9,9 +8,7 @@ import com.hsvibe.model.items.ItemHomeHeader
 /**
  * Created by Vincent on 2021/7/19.
  */
-interface HomeContentRepo {
-
-    fun setLoadingCallback(loadingCallback: OnLoadingCallback?)
+interface HomeContentRepo : LoadingCallbackRepo {
 
     fun getHeaderItemList(): List<ItemHomeHeader>
 

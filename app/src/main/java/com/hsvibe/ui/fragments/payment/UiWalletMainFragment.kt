@@ -57,7 +57,7 @@ class UiWalletMainFragment : BaseFragment<FragmentWalletMainBinding>(), OnAnyIte
         when (item) {
             R.drawable.ic_my_qr_code -> {}
             R.drawable.ic_add_card -> {}
-            R.drawable.ic_passcode -> {}
+            R.drawable.ic_passcode -> openDialogFragment(UiPasswordFragment.newInstance(true))
             R.drawable.ic_point_transfer -> {}
             R.drawable.ic_point_history -> openDialogFragment(UiPointHistoryFragment())
             R.drawable.ic_ticket_holder -> openDialogFragment(UiCouponHistoryFragment())

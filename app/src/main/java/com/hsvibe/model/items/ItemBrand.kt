@@ -14,7 +14,7 @@ data class ItemBrand(
     data class ContentData(
         val id: Int = 0,
         val name: String = AppController.getString(R.string.all),
-        val is_enable: Int = 1,
+        val is_enable: Boolean = true,
         val coupon_count: Int = 0,
         val store_ids: String? = null,
         val partners: Partners = Partners(listOf()),

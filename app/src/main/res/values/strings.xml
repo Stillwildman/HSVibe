@@ -11,6 +11,8 @@
     <string name="all">全部</string>
     <string name="check_it_out">查看</string>
     <string name="error_occurs">發生錯誤</string>
+    <string name="retry">重試</string>
+    <string name="operation_error">操作錯誤</string>
     <string name="unknown_network_error">Unknown error! Please check your API request or network connection.</string>
 
     <!-- Permissions -->

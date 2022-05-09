@@ -152,7 +152,7 @@ class CouponViewModel(private val couponRepo: CouponRepo) : LoadingStatusViewMod
             when {
                 throwable is ApiStatusException -> {
                     onRedeemFailed()
-                    L.e("Api Error!!\nCode: ${throwable.statusCode}\nMsg: ${throwable.errorMessage}")
+                    L.e("Api Error!!\nCode: ${throwable.statusCode}\nMsg: ${throwable.errorBody}")
                 }
                 !Utility.isNetworkEnabled() -> {
                     L.e("Network is not working!!!")

@@ -1,6 +1,7 @@
 package com.hsvibe.viewmodel
 
 import android.view.View
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.messaging.FirebaseMessaging
@@ -13,6 +14,7 @@ import com.hsvibe.model.posts.PostUpdateUserInfo
 import com.hsvibe.repositories.UserRepo
 import com.hsvibe.tasks.ApiStatusException
 import com.hsvibe.utilities.L
+import com.hsvibe.utilities.SingleLiveEvent
 import com.hsvibe.utilities.Utility
 import com.hsvibe.utilities.isNotNullOrEmpty
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -39,7 +41,7 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
                     runIfTokenStatusExpired()
                 }
                 throwable is ApiStatusException -> {
-                    Utility.toastLong("Api Error!!\nCode: ${throwable.statusCode}\nMsg: ${throwable.errorMessage}")
+                    Utility.toastLong("Api Error!!\nCode: ${throwable.statusCode}\nMsg: ${throwable.errorBody}")
                     onLoadingEnd()
                 }
                 else -> {
@@ -63,7 +65,10 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
 
     val liveUserInfoVisibility = MutableLiveData<Int>()
 
-    var isPasswordVerified = false
+    val livePasswordVerified: LiveData<Boolean>
+        get() = _passwordVerified
+
+    private val _passwordVerified by lazy { SingleLiveEvent<Boolean>() }
 
     init {
         userRepo.setLoadingCallback(this)
@@ -214,6 +219,14 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
             val currentYear = Calendar.getInstance().get(Calendar.YEAR)
             AppController.getAppContext().getString(R.string.your_points_and_expires_time, it, currentYear)
         } ?: ""
+    }
+
+    fun setPasswordVerified(isVerified: Boolean?) {
+        _passwordVerified.value = isVerified
+    }
+
+    fun isPasswordVerified(): Boolean {
+        return livePasswordVerified.value == true
     }
 
     fun hasSetPayPassword(): Boolean {

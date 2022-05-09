@@ -27,6 +27,7 @@ import com.hsvibe.ui.fragments.member.UiMemberCenterFragment
 import com.hsvibe.ui.fragments.member.UiMemberInfoFragment
 import com.hsvibe.ui.fragments.news.UiNewsFragment
 import com.hsvibe.ui.fragments.news.UiNotificationFragment
+import com.hsvibe.ui.fragments.payment.UiPasswordFragment
 import com.hsvibe.utilities.*
 import com.hsvibe.viewmodel.LoginViewModel
 import com.hsvibe.viewmodel.MainViewModel
@@ -232,9 +233,26 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
 
     private fun checkBeforeGoWalletMainPage() {
         if (checkIsLoggedInAndProfileCompleted()) {
-            openTabFragment(TabFragmentManager.TAG_WALLET)
+            if (mainViewModel.isPasswordVerified()) {
+                openTabFragment(TabFragmentManager.TAG_WALLET)
+            }
+            else {
+                observePasswordVerification()
+                openDialogFragment(UiPasswordFragment.newInstance(mainViewModel.hasSetPayPassword().not()))
+            }
         } else {
             selectTab(lastTabIndex)
+        }
+    }
+
+    private fun observePasswordVerification() {
+        mainViewModel.livePasswordVerified.observeOnce(this) { isVerified ->
+            if (isVerified) {
+                openTabFragment(TabFragmentManager.TAG_WALLET)
+            }
+            else {
+                moveTabToHome()
+            }
         }
     }
 

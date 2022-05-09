@@ -67,6 +67,7 @@
                         android:text="@={profileViewModel.livePostUserInfo.first_name}"
                         android:inputType="text"
                         android:autofillHints="name"
+                        android:background="@null"
                         tools:targetApi="O" />
 
                     <TextView
@@ -96,6 +97,7 @@
                         android:text="@={profileViewModel.livePostUserInfo.last_name}"
                         android:inputType="text"
                         android:autofillHints="name"
+                        android:background="@null"
                         tools:targetApi="O" />
 
                 </LinearLayout>
@@ -280,7 +282,9 @@
                     android:inputType="text"
                     android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:autofillHints="name"
+                    android:background="@null"
                     tools:targetApi="O"
+                    app:isEditable="@{profileViewModel.isReferrerNoNullOrEmpty() ? true : false}"
                     app:layout_constraintTop_toTopOf="@+id/text_referrerNo"
                     app:layout_constraintBottom_toBottomOf="@+id/text_referrerNo"
                     app:layout_constraintStart_toEndOf="@+id/text_referrerNo"

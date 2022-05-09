@@ -9,4 +9,6 @@ object ApiStatus {
 
     const val STATUS_TOKEN_EXPIRED = 401
 
+    const val STATUS_DATA_VERIFY_FAILED = 422
+
 }

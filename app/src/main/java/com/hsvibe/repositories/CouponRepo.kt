@@ -1,14 +1,11 @@
 package com.hsvibe.repositories
 
-import com.hsvibe.callbacks.OnLoadingCallback
 import com.hsvibe.model.items.*
 
 /**
  * Created by Vincent on 2021/8/18.
  */
-interface CouponRepo {
-
-    fun setLoadingCallback(loadingCallback: OnLoadingCallback?)
+interface CouponRepo : LoadingCallbackRepo {
 
     suspend fun getCouponDistricts(): ItemCouponDistricts?
 

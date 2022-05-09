@@ -37,11 +37,10 @@
                     android:layout_marginStart="@dimen/padding_size_xxl"
                     android:layout_marginEnd="@dimen/padding_size_xxl"
                     android:layout_marginTop="@dimen/padding_size_l"
-                    android:text="@string/hs_vibe_card"
                     android:textColor="@color/md_grey_600"
                     android:textSize="@dimen/font_text_size_m"
                     android:textStyle="bold"
-                    tools:text="@string/redeem_success"
+                    tools:text="@string/hs_vibe_card"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>

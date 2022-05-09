@@ -91,4 +91,8 @@ class ProfileViewModel(private val profileRepo: ProfileRepo) : LoadingStatusView
             }
         }
     }
+
+    fun isReferrerNoNullOrEmpty(): Boolean {
+        return livePostUserInfo.value?.referrer_no.isNullOrEmpty()
+    }
 }

@@ -30,22 +30,30 @@
         <item>@string/my_qr_code</item>
         <item>@string/add_new_card</item>
         <item>@string/transaction_passcode</item>
+        <!--
         <item>@string/point_transfer</item>
+        -->
         <item>@string/point_record</item>
         <item>@string/my_coupons</item>
         <item>@string/transaction_history</item>
+        <!--
         <item>@string/re_scan</item>
+        -->
     </string-array>
 
     <array name="wallet_menu_icon_array">
         <item>@drawable/ic_my_qr_code</item>
         <item>@drawable/ic_add_card</item>
         <item>@drawable/ic_passcode</item>
+        <!--
         <item>@drawable/ic_point_transfer</item>
+        -->
         <item>@drawable/ic_point_history</item>
         <item>@drawable/ic_ticket_holder</item>
         <item>@drawable/ic_transaction_history</item>
+        <!--
         <item>@drawable/ic_scan</item>
+        -->
     </array>
 
 </resources>

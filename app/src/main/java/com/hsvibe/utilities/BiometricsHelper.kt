@@ -4,9 +4,8 @@ import android.hardware.biometrics.BiometricManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricPrompt
-import androidx.core.content.ContextCompat
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat
-import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.Fragment
 import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.callbacks.FingerprintCallback
@@ -40,7 +39,7 @@ object BiometricsHelper {
         }
     }
 
-    fun showBiometricPrompt(activity: FragmentActivity, callback: FingerprintCallback) {
+    fun showBiometricPrompt(fragment: Fragment, callback: FingerprintCallback) {
         if (canAuthenticateWithBiometrics()) {
             val authenticationCallback = object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
@@ -66,7 +65,7 @@ object BiometricsHelper {
                 }
             }
 
-            val mBiometricPrompt = BiometricPrompt(activity, ContextCompat.getMainExecutor(activity), authenticationCallback)
+            val mBiometricPrompt = BiometricPrompt(fragment, authenticationCallback)
 
             val promptInfo = BiometricPrompt.PromptInfo.Builder()
                 .setTitle(AppController.getString(R.string.password_verification))
