@@ -9,14 +9,12 @@ import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.model.Navigation
 import com.hsvibe.model.UserInfo
+import com.hsvibe.model.items.ItemCardList
 import com.hsvibe.model.items.ItemUserBonus
 import com.hsvibe.model.posts.PostUpdateUserInfo
 import com.hsvibe.repositories.UserRepo
 import com.hsvibe.tasks.ApiStatusException
-import com.hsvibe.utilities.L
-import com.hsvibe.utilities.SingleLiveEvent
-import com.hsvibe.utilities.Utility
-import com.hsvibe.utilities.isNotNullOrEmpty
+import com.hsvibe.utilities.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -64,6 +62,8 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     val liveCurrentBalance by lazy { MutableLiveData<ItemUserBonus.ContentData>() }
 
     val liveUserInfoVisibility = MutableLiveData<Int>()
+
+    val liveCreditCards by lazy { MutableLiveData<ItemCardList>() }
 
     val livePasswordVerified: LiveData<Boolean>
         get() = _passwordVerified
@@ -231,5 +231,22 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
 
     fun hasSetPayPassword(): Boolean {
         return liveUserInfo.value?.isSetPassword() == true
+    }
+
+    fun loadCreditCards() {
+        viewModelScope.launch(getExceptionHandler()) {
+            userRepo.getCreditCards()?.let {
+                liveCreditCards.value = it
+            }
+        }
+    }
+
+    fun updateDefaultCreditCardIndex(key: String) {
+        viewModelScope.launch {
+            liveCreditCards.value?.cardData?.cardDetailList?.let {
+                userRepo.arrangeDefaultCardIndex(it, key)
+                liveCreditCards.forceRefresh()
+            }
+        }
     }
 }

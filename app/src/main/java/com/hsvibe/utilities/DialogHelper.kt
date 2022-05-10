@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.WindowManager
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -157,15 +158,16 @@ object DialogHelper {
         }
     }
 
-    fun showSimpleHsVibeDialog(
+    fun showHsVibeDialog(
         context: Context,
         @StringRes titleRes: Int,
         content: String,
         @DrawableRes iconRes: Int,
         @StringRes positiveButtonRes: Int,
+        showCancelButton: Boolean = false,
         onButtonClick: () -> Unit
     ): AlertDialog {
-        val bindingView = DataBindingUtil.inflate<DialogSimpleHsvibeViewBinding>(LayoutInflater.from(context), R.layout.dialog_simple_hsvibe_view, null, false)
+        val bindingView = DataBindingUtil.inflate<DialogHsvibeViewBinding>(LayoutInflater.from(context), R.layout.dialog_hsvibe_view, null, false)
 
         val dialog = AlertDialog.Builder(context).apply {
             setView(bindingView.root)
@@ -180,13 +182,20 @@ object DialogHelper {
             imageDialogStatus.setImageDrawable(ContextCompat.getDrawable(AppController.getAppContext(), iconRes))
             buttonConfirm.text = AppController.getString(positiveButtonRes)
 
+            if (showCancelButton) {
+                buttonCancel.visibility = View.VISIBLE
+                buttonCancel.setOnSingleClickListener {
+                    dialog.dismiss()
+                }
+            }
+
             buttonConfirm.setOnSingleClickListener {
                 dialog.dismiss()
                 onButtonClick()
             }
         }
         return dialog.also {
-            it.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            setupDialogWindowAttribute(it)
             it.window?.setDimAmount(0.6f)
             it.show()
         }

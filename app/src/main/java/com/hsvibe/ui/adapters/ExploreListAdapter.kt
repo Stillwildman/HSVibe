@@ -20,7 +20,7 @@ class ExploreListAdapter(private val onContentClickCallback: OnContentDataClickC
 
     override fun getLayoutId(): Int = R.layout.inflate_explore
 
-    private val itemHeight: Int by lazy { (Utility.getScreenHeight() * 0.65).toInt() }
+    private val itemHeight: Int by lazy { (Utility.getScreenHeight() * 0.75).toInt() }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding: InflateExploreBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), getLayoutId(), parent, false)

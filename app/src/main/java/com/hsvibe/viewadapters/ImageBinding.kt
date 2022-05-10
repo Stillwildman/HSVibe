@@ -11,5 +11,10 @@ import com.hsvibe.AppController
  */
 @BindingAdapter("setImageByRes")
 fun setImageByResId(imageView: AppCompatImageView, @DrawableRes imageRes: Int) {
-    imageView.setImageDrawable(ContextCompat.getDrawable(AppController.getAppContext(), imageRes))
+    if (imageRes != 0) {
+        imageView.setImageDrawable(ContextCompat.getDrawable(AppController.getAppContext(), imageRes))
+    }
+    else {
+        imageView.setImageDrawable(null)
+    }
 }

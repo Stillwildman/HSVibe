@@ -1,7 +1,8 @@
 package com.hsvibe.ui.bases
 
 import android.annotation.SuppressLint
-import android.view.*
+import android.view.View
+import android.view.Window
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.widget.TextView
@@ -30,6 +31,8 @@ abstract class BaseWebFragment<BindingView : ViewDataBinding> : BaseDialogFragme
     protected abstract fun getWebView(): WebView
 
     protected abstract fun onInitializing(webView: WebView)
+
+    protected abstract fun getHeaders(): Map<String, String>?
 
     protected abstract fun getInitialUrl(): String?
 
@@ -64,8 +67,12 @@ abstract class BaseWebFragment<BindingView : ViewDataBinding> : BaseDialogFragme
             webView.webViewClient = MyWebViewClient(this@BaseWebFragment)
 
             onInitializing(webView)
-            getInitialUrl()?.let {
-                webView.loadUrl(it)
+            getInitialUrl()?.let { url ->
+                getHeaders()?.let { headers ->
+                    webView.loadUrl(url, headers)
+                } ?: run {
+                    webView.loadUrl(url)
+                }
                 L.i("DialogFragment init duration: ${getInitializeDuration()}")
             }
         }

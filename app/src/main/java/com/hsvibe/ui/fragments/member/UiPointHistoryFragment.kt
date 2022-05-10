@@ -1,10 +1,12 @@
 package com.hsvibe.ui.fragments.member
 
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.databinding.FragmentPointHistoryBinding
 import com.hsvibe.ui.adapters.BonusListAdapter
@@ -28,6 +30,10 @@ class UiPointHistoryFragment : BaseActionBarFragment<FragmentPointHistoryBinding
     override fun getTitleRes(): Int = R.string.point_record
 
     override fun getAnimType(): AnimType = AnimType.SlideFromRight
+
+    override fun getActionBarBackgroundColor(): Int {
+        return ContextCompat.getColor(AppController.getAppContext(), R.color.app_background_gradient_top)
+    }
 
     override fun onInitCompleted() {
         bindPointsRecord()

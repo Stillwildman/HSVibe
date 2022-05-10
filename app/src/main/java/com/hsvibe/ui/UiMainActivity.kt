@@ -27,7 +27,7 @@ import com.hsvibe.ui.fragments.member.UiMemberCenterFragment
 import com.hsvibe.ui.fragments.member.UiMemberInfoFragment
 import com.hsvibe.ui.fragments.news.UiNewsFragment
 import com.hsvibe.ui.fragments.news.UiNotificationFragment
-import com.hsvibe.ui.fragments.payment.UiPasswordFragment
+import com.hsvibe.ui.fragments.payment.UiPayPasswordFragment
 import com.hsvibe.utilities.*
 import com.hsvibe.viewmodel.LoginViewModel
 import com.hsvibe.viewmodel.MainViewModel
@@ -238,7 +238,7 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
             }
             else {
                 observePasswordVerification()
-                openDialogFragment(UiPasswordFragment.newInstance(mainViewModel.hasSetPayPassword().not()))
+                openDialogFragment(UiPayPasswordFragment.newInstance(mainViewModel.hasSetPayPassword().not()))
             }
         } else {
             selectTab(lastTabIndex)

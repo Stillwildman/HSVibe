@@ -212,4 +212,10 @@ object DataCallbacks {
             getApiInterface().verifyPayPassword(auth, passwordItem)
         }
     }
+
+    suspend fun getCreditCards(auth: String, loadingCallback: OnLoadingCallback?): ItemCardList? {
+        return getApiResult(loadingCallback) {
+            getApiInterface().getCreditCards(auth)
+        }
+    }
 }

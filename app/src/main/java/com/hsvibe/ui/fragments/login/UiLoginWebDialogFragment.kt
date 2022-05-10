@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import com.hsvibe.AppController
 import com.hsvibe.R
-import com.hsvibe.databinding.FragmentLoginWebViewBinding
+import com.hsvibe.databinding.FragmentWebViewBinding
 import com.hsvibe.model.Urls
 import com.hsvibe.network.MyWebViewClient
 import com.hsvibe.ui.bases.BaseWebFragment
@@ -20,7 +20,7 @@ import com.hsvibe.viewmodel.LoginViewModel
 /**
  * Created by Vincent on 2021/6/28.
  */
-class UiLoginWebDialogFragment : BaseWebFragment<FragmentLoginWebViewBinding>(), MyWebViewClient.OnWebLoadCallback {
+class UiLoginWebDialogFragment : BaseWebFragment<FragmentWebViewBinding>(), MyWebViewClient.OnWebLoadCallback {
 
     companion object {
         private const val JS_FUNCTION_NAME = "token"
@@ -28,7 +28,7 @@ class UiLoginWebDialogFragment : BaseWebFragment<FragmentLoginWebViewBinding>(),
 
     private val loginViewModel by activityViewModels<LoginViewModel>()
 
-    override fun getLayoutId(): Int = R.layout.fragment_login_web_view
+    override fun getLayoutId(): Int = R.layout.fragment_web_view
 
     override fun getAnimType(): AnimType = AnimType.SlideUp
 
@@ -52,6 +52,8 @@ class UiLoginWebDialogFragment : BaseWebFragment<FragmentLoginWebViewBinding>(),
             addJavascriptInterface(this@UiLoginWebDialogFragment, JS_FUNCTION_NAME)
         }
     }
+
+    override fun getHeaders(): Map<String, String>? = null
 
     override fun getInitialUrl(): String = Urls.WEB_LOGIN //Logout test: https://stg-oauth.hsvibe.com/dashboard
 

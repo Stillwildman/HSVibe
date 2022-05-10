@@ -118,7 +118,7 @@
     <string name="stock_is">剩餘 %d 張</string>
     <string name="expires_at">有效日期 %s</string>
     <string name="point_has_int">%d 點</string>
-    <string name="point_has_double">%.1f 點</string>
+    <string name="point_has_double">%.2f 點</string>
     <string name="redeem_point">點數兌換</string>
     <string name="redeem_coupon">兌換優惠券</string>
     <string name="confirm_to_redeem">是否花費 %d 點數，兌換此張優惠券?</string>
@@ -157,6 +157,15 @@
     <string name="fingerprint_verify_success">指紋辨識成功</string>
     <string name="fingerprint_verify_failed">指紋辨識失敗</string>
     <string name="fingerprint_unavailable">不支援指紋辨識</string>
+
+    <!-- Credit Cards -->
+    <string name="bind_credit_card">綁定信用卡</string>
+    <string name="bind_credit_card_hint">透過信用卡刷卡支付交易金額</string>
+    <string name="is_default">預設</string>
+    <string name="confirm_to_set_as_default">是否設定為預設卡片</string>
+    <string name="set_as_default">設為預設卡片</string>
+    <string name="confirm_to_delete_card">是否確定要刪除此張卡片</string>
+    <string name="confirm_to_delete">確定刪除</string>
 
     <!-- Scanning -->
     <string name="qr_code_scan">條碼掃描</string>

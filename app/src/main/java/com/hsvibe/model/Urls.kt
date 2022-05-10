@@ -41,9 +41,13 @@ object Urls {
 
     const val API_VERIFY_PAY_PASSWORD = "user/verifyPayPassword"
 
+    const val API_CARD_LINK = "payment/cardlink"
+
     const val WEB_HS_VIBE = "https://www.hsvibe.com/"
 
     const val WEB_HS_VIBE_TERMS = "https://www.hsvibe.com/terms"
 
     const val WEB_HS_VIBE_PRIVACY = "https://www.hsvibe.com/privacy"
+
+    const val WEB_REGISTER_CREDIT_CARD = "https://stg-oauth.hsvibe.com/payment/esunbank/cardlink/register/{0}"
 }

@@ -8,6 +8,7 @@ import com.hsvibe.model.UserInfo
 import com.hsvibe.model.UserTokenManager
 import com.hsvibe.model.entities.UserInfoEntity
 import com.hsvibe.model.items.ItemAccountBonus
+import com.hsvibe.model.items.ItemCardList
 import com.hsvibe.model.items.ItemUserBonus
 import com.hsvibe.model.posts.PostRefreshToken
 import com.hsvibe.model.posts.PostUpdateUserInfo
@@ -15,10 +16,12 @@ import com.hsvibe.network.DataCallbacks
 import com.hsvibe.tasks.TaskController
 import com.hsvibe.utilities.DeviceUtil
 import com.hsvibe.utilities.L
+import com.hsvibe.utilities.SettingManager
 import com.hsvibe.utilities.isNotNullOrEmpty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.withContext
+import java.util.*
 
 /**
  * Created by Vincent on 2021/7/5.
@@ -158,6 +161,34 @@ class UserRepoImpl : UserRepo {
     override suspend fun getAccountBonus(limit: Int, page: Int): ItemAccountBonus? {
         return UserTokenManager.getAuthorization()?.let {
             DataCallbacks.getAccountBonus(it, limit, page, callback)
+        }
+    }
+
+    override suspend fun getCreditCards(): ItemCardList? {
+        return UserTokenManager.getAuthorization()?.let {
+            DataCallbacks.getCreditCards(it, callback)?.also { cardListItem ->
+                arrangeDefaultCardIndex(cardListItem.cardData.cardDetailList)
+            }
+        }
+    }
+
+    override suspend fun arrangeDefaultCardIndex(cardDetailList: MutableList<ItemCardList.CardData.CardDetail>, key: String?) {
+        withContext(Dispatchers.Default) {
+            val defaultKey = key ?: SettingManager.getDefaultCreditCardKey()
+            defaultKey?.let {
+                var defaultCardIndex = 0
+                cardDetailList.forEachIndexed { index, cardDetail ->
+                    if (cardDetail.key == defaultKey) {
+                        defaultCardIndex = index
+                        cardDetail.isDefault = true
+                    } else {
+                        cardDetail.isDefault = false
+                    }
+                }
+                if (defaultCardIndex != 0) {
+                    Collections.swap(cardDetailList, 0, defaultCardIndex)
+                }
+            }
         }
     }
 }

@@ -7,6 +7,7 @@ import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.hsvibe.AppController
 import com.hsvibe.R
@@ -71,4 +72,8 @@ fun String?.isNotNullOrEmpty(): Boolean {
 
 fun String.getQRCodeText(): String {
     return String(this.toByteArray(), StandardCharsets.ISO_8859_1)
+}
+
+fun <T> MutableLiveData<T>.forceRefresh() {
+    this.value = this.value
 }

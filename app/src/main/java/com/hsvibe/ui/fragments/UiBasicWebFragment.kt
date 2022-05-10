@@ -39,5 +39,7 @@ class UiBasicWebFragment private constructor() : BaseWebFragment<FragmentBasicWe
 
     override fun onInitializing(webView: WebView) {}
 
+    override fun getHeaders(): Map<String, String>? = null
+
     override fun getInitialUrl(): String? = arguments?.getString(Const.BUNDLE_WEB_URL)
 }

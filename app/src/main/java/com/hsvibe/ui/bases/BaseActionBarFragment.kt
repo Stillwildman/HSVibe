@@ -95,7 +95,7 @@ abstract class BaseActionBarFragment<BindingView : ViewDataBinding> : BaseDialog
     }
 
     @ColorInt
-    protected open fun getActionBarBackgroundColor(): Int? = ContextCompat.getColor(AppController.getAppContext(), R.color.app_background_gradient_top)
+    protected open fun getActionBarBackgroundColor(): Int? = null
 
     protected open fun getMenuOptionIconRes(): Int? = null
 

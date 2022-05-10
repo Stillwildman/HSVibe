@@ -1,10 +1,7 @@
 package com.hsvibe.model
 
 import androidx.recyclerview.widget.DiffUtil
-import com.hsvibe.model.items.ItemAccountBonus
-import com.hsvibe.model.items.ItemContent
-import com.hsvibe.model.items.ItemCoupon
-import com.hsvibe.model.items.ItemMyCoupon
+import com.hsvibe.model.items.*
 
 /**
  * Created by Vincent on 2021/8/9.
@@ -65,6 +62,19 @@ object DifferItems {
                     && oldItem.subtitle == newItem.subtitle
                     && oldItem.content == newItem.content
                     && oldItem.expire_at == newItem.expire_at
+        }
+    }
+
+    object CardDetailDiffer : DiffUtil.ItemCallback<ItemCardList.CardData.CardDetail>() {
+        override fun areItemsTheSame(oldItem: ItemCardList.CardData.CardDetail, newItem: ItemCardList.CardData.CardDetail): Boolean {
+            return oldItem.key == newItem.key
+        }
+
+        override fun areContentsTheSame(oldItem: ItemCardList.CardData.CardDetail, newItem: ItemCardList.CardData.CardDetail): Boolean {
+            return oldItem.key == newItem.key
+                    && oldItem.display == newItem.display
+                    && oldItem.expire_date == newItem.expire_date
+                    && oldItem.bank_number == newItem.bank_number
         }
     }
 }

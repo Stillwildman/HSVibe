@@ -1,6 +1,7 @@
 package com.hsvibe.ui.fragments.payment
 
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.hsvibe.AppController
@@ -19,11 +20,11 @@ import com.hsvibe.widgets.CodeInputLayout
 /**
  * Created by Vincent on 2022/2/18.
  */
-class UiPasswordFragment private constructor() : BaseActionBarFragment<FragmentPayPasswordBinding>() {
+class UiPayPasswordFragment private constructor() : BaseActionBarFragment<FragmentPayPasswordBinding>() {
 
     companion object {
-        fun newInstance(isSetNewPassword: Boolean): UiPasswordFragment {
-            return UiPasswordFragment().apply {
+        fun newInstance(isSetNewPassword: Boolean): UiPayPasswordFragment {
+            return UiPayPasswordFragment().apply {
                 arguments = Bundle(1).also { it.putBoolean(Const.BUNDLE_IS_SET_NEW_PASSWORD, isSetNewPassword) }
             }
         }
@@ -34,6 +35,10 @@ class UiPasswordFragment private constructor() : BaseActionBarFragment<FragmentP
     override fun getAnimType(): AnimType = AnimType.SlideUp
 
     override fun getTitleRes(): Int = if (isSetNewPassword) R.string.set_passcode else R.string.transaction_passcode
+
+    override fun getActionBarBackgroundColor(): Int {
+        return ContextCompat.getColor(AppController.getAppContext(), R.color.app_background_gradient_top)
+    }
 
     private val mainViewModel by activityViewModels<MainViewModel>()
 
@@ -53,9 +58,9 @@ class UiPasswordFragment private constructor() : BaseActionBarFragment<FragmentP
 
     private fun bind() {
         binding.apply {
-            isSetNewPassword = this@UiPasswordFragment.isSetNewPassword
+            isSetNewPassword = this@UiPayPasswordFragment.isSetNewPassword
             viewModel = payPasswordViewModel
-            lifecycleOwner = this@UiPasswordFragment
+            lifecycleOwner = this@UiPayPasswordFragment
         }
     }
 
@@ -90,7 +95,8 @@ class UiPasswordFragment private constructor() : BaseActionBarFragment<FragmentP
                 finishFirstStep()
             }
 
-            override fun onDelete() {
+            override fun onDelete(code: String) {
+                firstInputCode = code
                 resumeState()
             }
         })
@@ -106,10 +112,10 @@ class UiPasswordFragment private constructor() : BaseActionBarFragment<FragmentP
                 override fun onComplete(code: String) {
                     secondInputCode = code
                     checkInputValidation()
-                    AppController.instance.hideKeyboard(binding.layoutCodeInput2)
                 }
 
-                override fun onDelete() {
+                override fun onDelete(code: String) {
+                    secondInputCode = code
                     resumeState()
                 }
             })
@@ -123,7 +129,7 @@ class UiPasswordFragment private constructor() : BaseActionBarFragment<FragmentP
             }
         }
         else {
-            AppController.instance.hideKeyboard(binding.layoutCodeInput1)
+            AppController.instance.hideKeyboard(binding.root)
             verifyPayPassword(firstInputCode)
         }
     }
@@ -131,11 +137,17 @@ class UiPasswordFragment private constructor() : BaseActionBarFragment<FragmentP
     private fun checkInputValidation() {
         if (isSetNewPassword) {
             val isValid = firstInputCode == secondInputCode
-            payPasswordViewModel.enableButton(isValid)
 
-            if (secondInputCode.isNotEmpty() && isValid.not()) {
-                payPasswordViewModel.setInputLayoutState(CodeInputLayout.STATE_ERROR)
+            when {
+                isValid -> {
+                    payPasswordViewModel.setInputLayoutState(CodeInputLayout.STATE_NORMAL)
+                    AppController.instance.hideKeyboard(binding.root)
+                }
+                secondInputCode.isNotEmpty() && isValid.not() -> {
+                    payPasswordViewModel.setInputLayoutState(CodeInputLayout.STATE_ERROR)
+                }
             }
+            payPasswordViewModel.enableButton(isValid)
         }
     }
 
@@ -172,7 +184,7 @@ class UiPasswordFragment private constructor() : BaseActionBarFragment<FragmentP
     private fun showErrorDialog(message: String) {
         payPasswordViewModel.setInputLayoutState(CodeInputLayout.STATE_ERROR)
 
-        DialogHelper.showSimpleHsVibeDialog(
+        DialogHelper.showHsVibeDialog(
             getContextSafely(),
             R.string.operation_error,
             message,
@@ -181,6 +193,7 @@ class UiPasswordFragment private constructor() : BaseActionBarFragment<FragmentP
         ) {
             payPasswordViewModel.setInputLayoutState(CodeInputLayout.STATE_NORMAL)
             binding.layoutCodeInput1.clear()
+            binding.layoutCodeInput1.focusAndShowKeyboard()
         }
     }
 
@@ -193,14 +206,6 @@ class UiPasswordFragment private constructor() : BaseActionBarFragment<FragmentP
                 Utility.toastShort(R.string.update_failed)
             }
         }
-    }
-
-    override fun showLoadingCircle() {
-        showLoadingDialog()
-    }
-
-    override fun hideLoadingCircle() {
-        hideLoadingDialog()
     }
 
     override fun onDestroyView() {

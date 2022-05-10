@@ -102,4 +102,9 @@ interface ApiInterface {
         @Header(ApiConst.AUTHORIZATION) auth: String,
         @Body body: PostPassword
     ): Response<ItemMessage>
+
+    @GET(Urls.API_CARD_LINK)
+    suspend fun getCreditCards(
+        @Header(ApiConst.AUTHORIZATION) auth: String
+    ): Response<ItemCardList>
 }

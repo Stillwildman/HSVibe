@@ -128,7 +128,7 @@ class UiCouponDetailFragment private constructor() : BaseActionBarFragment<Fragm
     private fun showRedeemSuccessDialog() {
         onRefresh()
         context?.let {
-            DialogHelper.showSimpleHsVibeDialog(it,
+            DialogHelper.showHsVibeDialog(it,
                 R.string.redeem_success,
                 AppController.getString(R.string.coupon_usage_description),
                 R.drawable.ic_check_white,
@@ -141,7 +141,7 @@ class UiCouponDetailFragment private constructor() : BaseActionBarFragment<Fragm
 
     private fun showRedeemFailedDialog() {
         context?.let {
-            DialogHelper.showSimpleHsVibeDialog(it,
+            DialogHelper.showHsVibeDialog(it,
                 R.string.error_occurs,
                 AppController.getString(R.string.redeem_failed),
                 R.drawable.ic_close_white,

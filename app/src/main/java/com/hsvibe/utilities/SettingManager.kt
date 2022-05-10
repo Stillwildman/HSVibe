@@ -21,9 +21,9 @@ object SettingManager {
 
     private const val PREF_NEWEST_NOTIFICATION_TIME = "NewestNotificationTime"
 
-    private const val PREF_HAS_ASKED_FOR_PAY_PASSWORD = "HasAskedForPayPassword"
-
     private const val PREF_HAS_ENABLED_BIOMETRICS_VERIFYING = "HasEnabledBiometricsVerifying"
+
+    private const val PREF_DEFAULT_CREDIT_CARD_KEY = "DefaultCreditCardKey"
 
     private fun appContext(): Context = AppController.getAppContext()
 
@@ -64,19 +64,19 @@ object SettingManager {
         return getDefaultPrefs().getLong(PREF_NEWEST_NOTIFICATION_TIME, 0L)
     }
 
-    fun setPayPasswordAlreadyAsked(isAlreadyAsked: Boolean) {
-        getDefaultPrefs().edit().putBoolean(PREF_HAS_ASKED_FOR_PAY_PASSWORD, isAlreadyAsked).apply()
-    }
-
-    fun isNeedToAskForPayPassword(): Boolean {
-        return getDefaultPrefs().getBoolean(PREF_HAS_ASKED_FOR_PAY_PASSWORD, false).not()
-    }
-
     fun enableBiometricVerifying(isEnable: Boolean) {
         getDefaultPrefs().edit().putBoolean(PREF_HAS_ENABLED_BIOMETRICS_VERIFYING, isEnable).apply()
     }
 
     fun isBiometricVerifyingEnabled(): Boolean {
         return getDefaultPrefs().getBoolean(PREF_HAS_ENABLED_BIOMETRICS_VERIFYING, true)
+    }
+
+    fun setDefaultCreditCardKey(key: String): Boolean {
+        return getDefaultPrefs().edit().putString(PREF_DEFAULT_CREDIT_CARD_KEY, key).commit()
+    }
+
+    fun getDefaultCreditCardKey(): String? {
+        return getDefaultPrefs().getString(PREF_DEFAULT_CREDIT_CARD_KEY, null)
     }
 }

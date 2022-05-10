@@ -1,5 +1,6 @@
 package com.hsvibe.ui.fragments.coupons
 
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayoutMediator
 import com.hsvibe.AppController
@@ -22,6 +23,10 @@ class UiCouponHistoryFragment : BaseActionBarFragment<FragmentCouponHistoryBindi
     override fun getTitleRes(): Int = R.string.my_coupons
 
     override fun getAnimType(): AnimType = AnimType.SlideFromRight
+
+    override fun getActionBarBackgroundColor(): Int {
+        return ContextCompat.getColor(AppController.getAppContext(), R.color.app_background_gradient_top)
+    }
 
     private val couponViewModel by viewModels<CouponViewModel> { CouponViewModelFactory(CouponRepoImpl()) }
 

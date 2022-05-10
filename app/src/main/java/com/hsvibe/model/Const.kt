@@ -17,6 +17,7 @@ object Const {
 
     const val EMPTY_STRING = ""
 
+    const val BUNDLE_UUID = "Uuid"
     const val BUNDLE_WEB_URL = "WebUrl"
     const val BUNDLE_SPECIFIC_POSITION = "SpecificPosition"
     const val BUNDLE_COUPON_DATA = "CouponData"

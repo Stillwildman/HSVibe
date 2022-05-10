@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="detail"
+            type="com.hsvibe.model.items.ItemCardList.CardData.CardDetail"/>
+    </data>
+
+    <androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardBackgroundColor="@color/md_white_1000"
+        app:cardCornerRadius="20dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?selectableItemBackground"
+            android:paddingStart="@dimen/padding_size_xxl"
+            android:paddingEnd="@dimen/padding_size_xxl"
+            android:paddingTop="@dimen/padding_size_xxl" >
+
+             <androidx.appcompat.widget.AppCompatImageView
+                 android:id="@+id/image_creditCardBrand"
+                 android:layout_width="@dimen/icon_common_size_xl"
+                 android:layout_height="@dimen/font_text_size_xxl"
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintTop_toTopOf="parent"
+                 app:setImageByRes="@{detail.getBrandIconRes()}"
+                 tools:srcCompat="@drawable/ic_credit_card_mastercard" />
+
+            <TextView
+                android:id="@+id/text_cardIssuer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/padding_size_l"
+                android:layout_marginEnd="@dimen/padding_size_l"
+                android:textSize="@dimen/font_text_size_m"
+                android:textColor="@color/md_grey_800"
+                android:text="@{detail.issuer}"
+                app:layout_constraintStart_toEndOf="@+id/image_creditCardBrand"
+                app:layout_constraintEnd_toStartOf="@+id/text_default"
+                app:layout_constraintTop_toTopOf="@+id/image_creditCardBrand"
+                app:layout_constraintBottom_toBottomOf="@+id/image_creditCardBrand"
+                tools:text="玉山商業銀行" />
+
+            <TextView
+                android:id="@+id/text_default"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/padding_size_xl"
+                android:textSize="@dimen/font_text_size_s"
+                android:textColor="@color/md_brown_300"
+                android:text="@string/is_default"
+                android:visibility="@{detail.isDefault ? View.VISIBLE : View.GONE, default = gone}"
+                tools:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/image_creditCardBrand"
+                app:layout_constraintBottom_toBottomOf="@+id/image_creditCardBrand" />
+
+            <TextView
+                android:id="@+id/text_cardNumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/padding_size_l"
+                android:layout_marginBottom="@dimen/padding_size_xxl"
+                android:textColor="@color/md_grey_700"
+                android:textSize="@dimen/font_text_size_s"
+                android:text="@{detail.getDisplayNumber()}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/button_delete"
+                app:layout_constraintTop_toBottomOf="@+id/image_creditCardBrand"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_bias="0.9"
+                tools:text="5589-3666-xxxx-xx61"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/button_delete"
+                android:layout_width="@dimen/font_text_size_xxl"
+                android:layout_height="@dimen/icon_common_size"
+                android:layout_marginBottom="@dimen/padding_size_xxl"
+                android:background="?selectableItemBackground"
+                app:srcCompat="@drawable/ic_delete_grey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/text_cardNumber" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

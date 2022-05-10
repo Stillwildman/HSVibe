@@ -1,7 +1,9 @@
 package com.hsvibe.ui.fragments.member
 
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
+import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.databinding.FragmentPasswordModificationBinding
 import com.hsvibe.model.Const
@@ -24,6 +26,10 @@ class UiPasswordModifyFragment : BaseActionBarFragment<FragmentPasswordModificat
     override fun getTitleRes(): Int = R.string.change_password
 
     override fun getAnimType(): AnimType = AnimType.SlideFromRight
+
+    override fun getActionBarBackgroundColor(): Int {
+        return ContextCompat.getColor(AppController.getAppContext(), R.color.app_background_gradient_top)
+    }
 
     private var password1: String = Const.EMPTY_STRING
     private var password2: String = Const.EMPTY_STRING

@@ -2,6 +2,7 @@ package com.hsvibe.repositories
 
 import com.hsvibe.model.UserInfo
 import com.hsvibe.model.items.ItemAccountBonus
+import com.hsvibe.model.items.ItemCardList
 import com.hsvibe.model.items.ItemUserBonus
 import com.hsvibe.model.posts.PostUpdateUserInfo
 
@@ -35,4 +36,8 @@ interface UserRepo : LoadingCallbackRepo {
     suspend fun getUserBonus(): ItemUserBonus?
 
     suspend fun getAccountBonus(limit: Int, page: Int): ItemAccountBonus?
+
+    suspend fun getCreditCards(): ItemCardList?
+
+    suspend fun arrangeDefaultCardIndex(cardDetailList: MutableList<ItemCardList.CardData.CardDetail>, key: String? = null)
 }

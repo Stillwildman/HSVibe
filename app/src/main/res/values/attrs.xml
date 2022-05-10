@@ -6,6 +6,10 @@
         <attr name="codeWidth" format="dimension|reference" />
         <attr name="codeHeight" format="dimension|reference" />
         <attr name="codeDivideWidth" format="dimension|reference" />
+        <attr name="codeTextColor" format="reference" />
+        <attr name="codeBackground" format="reference" />
+        <attr name="codeErrorTextColor" format="reference" />
+        <attr name="codeErrorBackground" format="reference" />
     </declare-styleable>
 
 </resources>

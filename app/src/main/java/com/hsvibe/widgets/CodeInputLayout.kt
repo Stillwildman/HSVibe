@@ -1,6 +1,7 @@
 package com.hsvibe.widgets
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.text.Editable
@@ -9,8 +10,6 @@ import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
-import android.view.KeyEvent
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -20,7 +19,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.hsvibe.AppController
 import com.hsvibe.R
-import kotlin.math.min
+import com.hsvibe.utilities.L
 
 /**
  * Created by Vincent on 2022/5/9.
@@ -29,7 +28,7 @@ class CodeInputLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : RelativeLayout(context, attrs, defStyleAttr), TextWatcher, View.OnKeyListener {
+) : RelativeLayout(context, attrs, defStyleAttr), TextWatcher {
 
     private var codeNumber = 0
     private var codeWidth = 0
@@ -82,7 +81,6 @@ class CodeInputLayout @JvmOverloads constructor(
 
     private fun initListener() {
         editCode.addTextChangedListener(this)
-        editCode.setOnKeyListener(this)
     }
 
     private fun initTextView() {
@@ -108,6 +106,7 @@ class CodeInputLayout @JvmOverloads constructor(
             setState(state)
             textView.setTypeface(null, Typeface.BOLD)
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
+            textView.setTextColor(ContextCompat.getColor(AppController.getAppContext(), R.color.md_grey_900))
             textView.setPadding(padding, padding, padding, padding)
             textView.gravity = Gravity.CENTER
             textView.isFocusable = false
@@ -115,27 +114,19 @@ class CodeInputLayout @JvmOverloads constructor(
             container.addView(textView)
         }
         editCode.height = container.measuredHeight
+        editCode.setTextColor(Color.TRANSPARENT)
+        editCode.textSize = 0f
     }
 
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-    override fun afterTextChanged(s: Editable) {
-        val code = s.toString()
-
-        if (code.length > 1) {
-            setCode(code)
-        } else {
-            addCode(code)
+    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+        L.i("onTextChanged $s start $start before: $before count: $count")
+        if (before > 0) {
+            onInputChangeListener?.onDelete(s.toString())
         }
     }
-
-    override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_DEL && event.action == KeyEvent.ACTION_DOWN) {
-            onInputChangeListener?.onDelete()
-            deleteCode()
-            return true
-        }
-        return false
+    override fun afterTextChanged(s: Editable) {
+        setCode(s.toString())
     }
 
     fun focusAndShowKeyboard() {
@@ -148,54 +139,24 @@ class CodeInputLayout @JvmOverloads constructor(
         }, 100) // make sure that editText always show keyboard correctly
     }
 
-    private fun addCode(code: String) {
-        if (code.isEmpty() || code.length > textViews.size) {
-            return
-        }
-        for (i in textViews.indices) {
-            val textView = textViews[i]
-            if (textView.text.toString().isEmpty()) {
-                textView.text = code
-                if (i == textViews.lastIndex) {
-                    onInputChangeListener?.onComplete(getCode())
-                }
-                break
-            }
-        }
-        editCode.setText("")
-    }
-
-    private fun deleteCode() {
-        for (i in textViews.indices.reversed()) {
-            val textView = textViews[i]
-            if (textView.text.toString().isNotEmpty()) {
-                textView.text = ""
-                break
-            }
-        }
-    }
-
     fun getCode(): String {
-        val sb = StringBuilder()
-        for (textView in textViews) {
-            sb.append(textView.text.toString())
-        }
-        return sb.toString()
+        return editCode.text.toString()
     }
 
     fun setCode(code: String) {
-        if (code.isEmpty()) {
-            clear()
-            return
-        }
-        for (i in 0 until min(code.length, textViews.size)) {
+        for (i in textViews.indices) {
             val textView = textViews[i]
-            textView.text = code[i].toString()
-            if (i == textViews.lastIndex) {
-                onInputChangeListener?.onComplete(getCode())
+
+            if (code.length > i) {
+                textView.text = code[i].toString()
+                if (i == textViews.lastIndex) {
+                    onInputChangeListener?.onComplete(getCode())
+                }
+            }
+            else {
+                textView.text = ""
             }
         }
-        editCode.setText("")
     }
 
     fun clear() {
@@ -215,19 +176,16 @@ class CodeInputLayout @JvmOverloads constructor(
         when (state) {
             STATE_NORMAL -> {
                 textViews.forEach { textView ->
-                    textView.setTextColor(ContextCompat.getColor(AppController.getAppContext(), R.color.md_grey_900))
                     textView.setBackgroundResource(R.drawable.background_code_input_normal)
                 }
             }
             STATE_ERROR -> {
                 textViews.forEach { textView ->
-                    textView.setTextColor(ContextCompat.getColor(AppController.getAppContext(), R.color.md_red_A400))
                     textView.setBackgroundResource(R.drawable.background_code_input_error)
                 }
             }
             else -> {
                 textViews.forEach { textView ->
-                    textView.setTextColor(ContextCompat.getColor(AppController.getAppContext(), R.color.md_grey_900))
                     textView.setBackgroundResource(R.drawable.background_code_input_normal)
                 }
             }
@@ -236,7 +194,7 @@ class CodeInputLayout @JvmOverloads constructor(
 
     interface OnInputChangeListener {
         fun onComplete(code: String)
-        fun onDelete()
+        fun onDelete(code: String)
     }
 
     companion object {
