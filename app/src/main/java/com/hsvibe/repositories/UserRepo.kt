@@ -40,4 +40,6 @@ interface UserRepo : LoadingCallbackRepo {
     suspend fun getCreditCards(): ItemCardList?
 
     suspend fun arrangeDefaultCardIndex(cardDetailList: MutableList<ItemCardList.CardData.CardDetail>, key: String? = null)
+
+    suspend fun deleteCreditCard(key: String): ItemCardList?
 }

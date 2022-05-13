@@ -133,4 +133,8 @@ class HomeViewModel(private val homeContentRepo: HomeContentRepo, private val ma
         liveUnreadCount.value = 0
         mainViewModel.onNavigating(Navigation.ClickingBell)
     }
+
+    fun onPaymentCardClick() {
+        mainViewModel.onNavigating(Navigation.ClickPaymentCard)
+    }
 }

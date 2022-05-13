@@ -107,4 +107,10 @@ interface ApiInterface {
     suspend fun getCreditCards(
         @Header(ApiConst.AUTHORIZATION) auth: String
     ): Response<ItemCardList>
+
+    @POST("${Urls.API_CARD_LINK_DELETE}/{key}")
+    suspend fun deleteCreditCard(
+        @Header(ApiConst.AUTHORIZATION) auth: String,
+        @Path("key") key: String
+    ): Response<ItemCardList>
 }

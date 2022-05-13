@@ -3,13 +3,11 @@ package com.hsvibe.ui.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hsvibe.R
 import com.hsvibe.callbacks.OnAnyItemClickCallback
 import com.hsvibe.databinding.InflateAddCreditCardBinding
 import com.hsvibe.databinding.InflateCreditCardBinding
-import com.hsvibe.model.DifferItems
 import com.hsvibe.model.actions.CreditCardAction
 import com.hsvibe.model.items.ItemCardList
 import com.hsvibe.utilities.setOnSingleClickListener
@@ -17,8 +15,10 @@ import com.hsvibe.utilities.setOnSingleClickListener
 /**
  * Created by Vincent on 2022/5/10.
  */
-class CreditCardPageAdapter(private val clickCallback: OnAnyItemClickCallback<CreditCardAction>) :
-    ListAdapter<ItemCardList.CardData.CardDetail, RecyclerView.ViewHolder>(DifferItems.CardDetailDiffer) {
+class CreditCardPageAdapter(
+    private val cardList: MutableList<ItemCardList.CardData.CardDetail> = mutableListOf(),
+    private val clickCallback: OnAnyItemClickCallback<CreditCardAction>) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         private const val TYPE_CREDIT_CARD = 0
@@ -30,7 +30,7 @@ class CreditCardPageAdapter(private val clickCallback: OnAnyItemClickCallback<Cr
     private inner class AddNewCardViewHolder(val bindingView: InflateAddCreditCardBinding) : RecyclerView.ViewHolder(bindingView.root)
 
     override fun getItemCount(): Int {
-        return super.getItemCount() + 1
+        return cardList.size + 1
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -52,14 +52,14 @@ class CreditCardPageAdapter(private val clickCallback: OnAnyItemClickCallback<Cr
         when (holder) {
             is CreditCardViewHolder -> {
                 holder.bindingView.apply {
-                    detail = getItem(position)
+                    detail = cardList[position]
 
                     root.setOnSingleClickListener {
-                        clickCallback.onItemClick(CreditCardAction.OnCreditCardClick(getItem(position).key))
+                        clickCallback.onItemClick(CreditCardAction.OnCreditCardClick(cardList[position].key))
                     }
 
                     buttonDelete.setOnSingleClickListener {
-                        clickCallback.onItemClick(CreditCardAction.OnDeleteCardClick(getItem(position).key))
+                        clickCallback.onItemClick(CreditCardAction.OnDeleteCardClick(cardList[position].key))
                     }
                 }
             }
@@ -71,7 +71,15 @@ class CreditCardPageAdapter(private val clickCallback: OnAnyItemClickCallback<Cr
         }
     }
 
+    fun updateList(cardList: List<ItemCardList.CardData.CardDetail>) {
+        this.cardList.apply {
+            clear()
+            addAll(0, cardList)
+        }
+        refresh()
+    }
+
     fun refresh() {
-        this.notifyItemRangeChanged(0, itemCount - 1)
+        this.notifyItemRangeChanged(0, itemCount)
     }
 }

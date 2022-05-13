@@ -138,6 +138,7 @@
                     android:layout_width="@dimen/icon_marker_common_size"
                     android:layout_height="@dimen/icon_marker_common_size"
                     android:layout_marginEnd="@dimen/padding_size_xxl"
+                    app:singleClick="@{() -> homeViewModel.onPaymentCardClick()}"
                     app:srcCompat="@drawable/ic_user_card"
                     app:layout_constraintTop_toTopOf="@+id/text_hiThere"
                     app:layout_constraintBottom_toBottomOf="@+id/text_hiThere"

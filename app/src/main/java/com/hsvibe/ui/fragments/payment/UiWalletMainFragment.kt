@@ -43,14 +43,14 @@ class UiWalletMainFragment : BaseFragment<FragmentWalletMainBinding>(), OnAnyIte
         bindingView.recyclerWalletMenu.apply {
             getInflatedSize { _, height ->
                 val heightPerGrid: Int = height / 3
-                layoutManager = GridLayoutManager(context, 2)
+                layoutManager = GridLayoutManager(context, 3)
                 adapter = WalletMenuAdapter(getMenuIconTextList(), heightPerGrid, this@UiWalletMainFragment)
             }
         }
     }
 
     private fun initCardPager(): CreditCardPageAdapter {
-        return CreditCardPageAdapter(cardClickCallback).also { pageAdapter ->
+        return CreditCardPageAdapter(clickCallback = cardClickCallback).also { pageAdapter ->
             bindingView.pagerCards.apply {
                 val recyclerView = getChildAt(0) as? RecyclerView
                 recyclerView?.let {
@@ -82,10 +82,6 @@ class UiWalletMainFragment : BaseFragment<FragmentWalletMainBinding>(), OnAnyIte
     }
 
     private fun startObserving() {
-        viewModel.liveLoadingStatus.observe(viewLifecycleOwner) {
-            handleLoadingStatus(it)
-        }
-
         viewModel.liveCreditCards.observe(viewLifecycleOwner) {
             updateCreditCardPager(it)
         }
@@ -96,8 +92,11 @@ class UiWalletMainFragment : BaseFragment<FragmentWalletMainBinding>(), OnAnyIte
     }
 
     private fun updateCreditCardPager(cardListItem: ItemCardList) {
-        getCardPagerAdapter()?.submitList(cardListItem.cardData.cardDetailList) ?: run {
-            initCardPager().submitList(cardListItem.cardData.cardDetailList)
+        L.i("updateCreditCardPager!! Size: ${cardListItem.cardData.cardDetailList.size}")
+        getCardPagerAdapter()?.apply {
+            updateList(cardListItem.cardData.cardDetailList)
+        } ?: run {
+            initCardPager().updateList(cardListItem.cardData.cardDetailList)
         }
         moveCardPagerToFirst()
     }
@@ -118,7 +117,7 @@ class UiWalletMainFragment : BaseFragment<FragmentWalletMainBinding>(), OnAnyIte
                     showDefaultCardDialog(item.key)
                 }
                 is CreditCardAction.OnDeleteCardClick -> {
-                    // TODO
+                    showDeleteCardDialog(item.key)
                 }
             }
         }
@@ -133,6 +132,7 @@ class UiWalletMainFragment : BaseFragment<FragmentWalletMainBinding>(), OnAnyIte
     private fun showDefaultCardDialog(key: String) {
         DialogHelper.showHsVibeDialog(
             getContextSafely(),
+            R.style.DialogSurfaceDark,
             R.string.hs_pay,
             AppController.getString(R.string.confirm_to_set_as_default),
             R.drawable.ic_app_sign,
@@ -148,6 +148,43 @@ class UiWalletMainFragment : BaseFragment<FragmentWalletMainBinding>(), OnAnyIte
             viewModel.updateDefaultCreditCardIndex(key)
             getCardPagerAdapter()?.refresh()
         }
+    }
+
+    private fun showDeleteCardDialog(key: String) {
+        DialogHelper.showHsVibeDialog(
+            getContextSafely(),
+            R.style.DialogSurfaceCaution,
+            R.string.hs_pay,
+            AppController.getString(R.string.confirm_to_delete_card),
+            R.drawable.ic_delete_white,
+            R.string.confirm_to_delete,
+            true
+        ) {
+            observeCardDeleting()
+            viewModel.deleteCreditCard(key)
+        }
+    }
+
+    private fun observeCardDeleting() {
+        viewModel.liveCreditCardDeleting.observeOnce(viewLifecycleOwner) {
+            if (it.cardData.isOperationSuccess() && SettingManager.clearDefaultCreditCardKey()) {
+                Utility.toastShort(it.cardData.message)
+                viewModel.loadCreditCards()
+            }
+            else {
+                showFailedDialog(it.cardData.message)
+            }
+        }
+    }
+
+    private fun showFailedDialog(message: String) {
+        DialogHelper.showHsVibeDialog(
+            getContextSafely(),
+            R.style.DialogSurfaceDark,
+            R.string.hs_pay,
+            message,
+            R.drawable.ic_close_white,
+            R.string.confirm) {}
     }
 
     private fun getCardPagerAdapter(): CreditCardPageAdapter? {

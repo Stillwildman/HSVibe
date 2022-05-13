@@ -26,7 +26,7 @@ fun View.setOnSingleClickListener(onClick: (v: View) -> Unit) {
     })
 }
 
-fun View.setOnSingleClickListener(onSingleClickListener: SingleClickListener) {
+fun View.setOnSingleClickListener(onSingleClickListener: SingleClickListener?) {
     setOnClickListener(onSingleClickListener)
 }
 

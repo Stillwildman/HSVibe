@@ -90,6 +90,16 @@
     </style>
     <!-- End of DialogFragment -->
 
+    <style name="DialogSurfaceDark" parent="Theme.AppCompat.Dialog">
+        <item name="colorDialogSurface">@color/app_background_color</item>
+        <item name="colorDialogSurfacePressed">@color/md_grey_900</item>
+    </style>
+
+    <style name="DialogSurfaceCaution" parent="Theme.AppCompat.Dialog">
+        <item name="colorDialogSurface">@color/md_red_600</item>
+        <item name="colorDialogSurfacePressed">@color/md_red_400</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>

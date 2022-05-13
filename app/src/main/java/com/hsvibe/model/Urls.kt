@@ -43,6 +43,8 @@ object Urls {
 
     const val API_CARD_LINK = "payment/cardlink"
 
+    const val API_CARD_LINK_DELETE = "payment/cardlink/cancel"
+
     const val WEB_HS_VIBE = "https://www.hsvibe.com/"
 
     const val WEB_HS_VIBE_TERMS = "https://www.hsvibe.com/terms"

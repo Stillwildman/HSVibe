@@ -26,6 +26,10 @@ object ApiConst {
     // Returned message
     const val SUCCESS = "success"
 
+    // Returned keys
+    const val STATUS = "status"
+    const val MESSAGE = "message"
+
     // PARTNER ID
     const val PARTNER_FOODS = 1
     const val PARTNER_HOTELS = 2
@@ -52,5 +56,8 @@ object ApiConst {
     const val API_TYPE_DISCOUNT = 2
     const val API_TYPE_FOODS = 3
     const val API_TYPE_HOTEL = 4
+
+    // Credit Card
+    const val CARD_CODE_SUCCESS = "00"
 
 }

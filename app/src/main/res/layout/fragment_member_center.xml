@@ -161,7 +161,7 @@
                             android:textColor="@color/md_black_1000"
                             android:textSize="@dimen/font_text_size_s"
                             android:textStyle="bold"
-                            android:text="@{@string/point_has_double(mainViewModel.liveCurrentBalance.balance)}"
+                            android:text="@{@string/point_has_int(mainViewModel.liveCurrentBalance.getBalanceInt())}"
                             tools:text="@string/point_has_double"
                             app:layout_constraintTop_toBottomOf="@+id/text_accumulationPoints"
                             app:layout_constraintStart_toStartOf="parent"

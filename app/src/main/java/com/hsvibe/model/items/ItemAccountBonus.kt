@@ -1,6 +1,7 @@
 package com.hsvibe.model.items
 
 import com.google.gson.annotations.SerializedName
+import kotlin.math.floor
 
 /**
  * Created by Vincent on 2021/8/14.
@@ -29,6 +30,10 @@ data class ItemAccountBonus(
 
         fun getDesc(): String {
             return description.takeIf { it.isNotEmpty() } ?: note
+        }
+
+        fun getBalanceInt(): Int {
+            return balance.toDoubleOrNull()?.let { floor(it).toInt() } ?: 0
         }
     }
 

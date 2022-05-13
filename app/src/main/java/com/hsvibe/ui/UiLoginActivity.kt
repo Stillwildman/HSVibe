@@ -43,10 +43,10 @@ class UiLoginActivity : BaseActivity<ActivityLoginBinding>() {
     }
 
     private fun observeLoginStatus() {
-        loginViewModel.liveUserToken.observe(this, { userToken ->
+        loginViewModel.liveUserToken.observe(this) { userToken ->
             dismissDialogFragment()
             updateUserToken(userToken)
-        })
+        }
     }
 
     private fun updateUserToken(userToken: UserToken) {

@@ -186,6 +186,7 @@ class UiPayPasswordFragment private constructor() : BaseActionBarFragment<Fragme
 
         DialogHelper.showHsVibeDialog(
             getContextSafely(),
+            R.style.DialogSurfaceDark,
             R.string.operation_error,
             message,
             R.drawable.ic_close_white,

@@ -79,4 +79,8 @@ object SettingManager {
     fun getDefaultCreditCardKey(): String? {
         return getDefaultPrefs().getString(PREF_DEFAULT_CREDIT_CARD_KEY, null)
     }
+
+    fun clearDefaultCreditCardKey(): Boolean {
+        return getDefaultPrefs().edit().remove(PREF_DEFAULT_CREDIT_CARD_KEY).commit()
+    }
 }

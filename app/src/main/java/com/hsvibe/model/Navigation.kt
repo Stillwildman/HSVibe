@@ -12,6 +12,7 @@ sealed class Navigation {
     class ClickingCoupon(val couponItem: ItemCoupon.ContentData) : Navigation()
     class ClickingBanner(val bannerItem: ItemBanner.ContentData) : Navigation()
     object ClickingBell : Navigation()
+    object ClickPaymentCard : Navigation()
     object ClickingUserName : Navigation()
     object OnAuthorizationFailed : Navigation()
     object OnLoginRequired : Navigation()

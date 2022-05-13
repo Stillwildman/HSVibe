@@ -175,20 +175,33 @@ class UserRepoImpl : UserRepo {
     override suspend fun arrangeDefaultCardIndex(cardDetailList: MutableList<ItemCardList.CardData.CardDetail>, key: String?) {
         withContext(Dispatchers.Default) {
             val defaultKey = key ?: SettingManager.getDefaultCreditCardKey()
+            var defaultCardIndex = 0
+
             defaultKey?.let {
-                var defaultCardIndex = 0
                 cardDetailList.forEachIndexed { index, cardDetail ->
                     if (cardDetail.key == defaultKey) {
                         defaultCardIndex = index
-                        cardDetail.isDefault = true
                     } else {
                         cardDetail.isDefault = false
                     }
                 }
+            }
+            if (cardDetailList.size > 0) {
+                cardDetailList[defaultCardIndex].isDefault = true
+
                 if (defaultCardIndex != 0) {
                     Collections.swap(cardDetailList, 0, defaultCardIndex)
                 }
+                if (defaultKey == null) {
+                    SettingManager.setDefaultCreditCardKey(cardDetailList[defaultCardIndex].key)
+                }
             }
+        }
+    }
+
+    override suspend fun deleteCreditCard(key: String): ItemCardList? {
+        return UserTokenManager.getAuthorization()?.let {
+            DataCallbacks.deleteCreditCard(it, key, callback)
         }
     }
 }

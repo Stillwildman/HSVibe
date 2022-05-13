@@ -8,8 +8,8 @@
 
     <shape android:shape="oval">
         <gradient
-            android:endColor="@android:color/black"
-            android:startColor="@android:color/black"/>
+            android:endColor="?attr/colorDialogSurface"
+            android:startColor="?attr/colorDialogSurface"/>
 
         <stroke
             android:width="2dp"

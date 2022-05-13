@@ -3,6 +3,7 @@ package com.hsvibe.model.items
 import androidx.annotation.DrawableRes
 import com.google.gson.annotations.SerializedName
 import com.hsvibe.R
+import com.hsvibe.model.ApiConst
 
 /**
  * Created by Vincent on 2022/5/10.
@@ -15,6 +16,7 @@ data class ItemCardList(
         val message: String,
         val code: String,
         val user_uuid: String,
+        val key: String?,
         @SerializedName("detail")
         val cardDetailList: MutableList<CardDetail>
     ) {
@@ -53,6 +55,10 @@ data class ItemCardList(
             private fun isDivisibleBy4(index: Int): Boolean {
                 return index % 4 == 0
             }
+        }
+
+        fun isOperationSuccess(): Boolean {
+            return code == ApiConst.CARD_CODE_SUCCESS
         }
     }
 }

@@ -55,7 +55,7 @@
                     android:id="@+id/recycler_couponBrands"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scrollbars="horizontal"
+                    android:scrollbars="none"
                     app:layout_constraintTop_toBottomOf="@+id/spinner_region"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

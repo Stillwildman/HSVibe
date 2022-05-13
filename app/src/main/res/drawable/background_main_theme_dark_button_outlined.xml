@@ -4,8 +4,8 @@
     <item android:state_pressed="true">
         <shape>
             <stroke
-                android:color="@color/app_background_color"
-                android:width="1dp" />
+                android:color="?attr/colorDialogSurfacePressed"
+                android:width="2dp" />
             <corners android:radius="10dp" />
             <solid android:color="@color/transparent_little_black" />
         </shape>
@@ -14,9 +14,9 @@
     <item>
         <shape>
             <stroke
-                android:color="@color/app_background_color"
+                android:color="?attr/colorDialogSurface"
                 android:width="2dp" />
-            <corners android:radius="8dp" />
+            <corners android:radius="10dp" />
         </shape>
     </item>
 

@@ -218,4 +218,10 @@ object DataCallbacks {
             getApiInterface().getCreditCards(auth)
         }
     }
+
+    suspend fun deleteCreditCard(auth: String, key: String, loadingCallback: OnLoadingCallback?): ItemCardList? {
+        return getApiResult(loadingCallback) {
+            getApiInterface().deleteCreditCard(auth, key)
+        }
+    }
 }

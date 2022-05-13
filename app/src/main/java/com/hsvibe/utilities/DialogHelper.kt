@@ -1,6 +1,5 @@
 package com.hsvibe.utilities
 
-import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -9,6 +8,9 @@ import android.view.View
 import android.view.WindowManager
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.annotation.StyleRes
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.hsvibe.AppController
@@ -160,6 +162,8 @@ object DialogHelper {
 
     fun showHsVibeDialog(
         context: Context,
+        @StyleRes
+        theme: Int = R.style.DialogSurfaceDark,
         @StringRes titleRes: Int,
         content: String,
         @DrawableRes iconRes: Int,
@@ -167,9 +171,11 @@ object DialogHelper {
         showCancelButton: Boolean = false,
         onButtonClick: () -> Unit
     ): AlertDialog {
+        context.theme.applyStyle(theme, true)
+
         val bindingView = DataBindingUtil.inflate<DialogHsvibeViewBinding>(LayoutInflater.from(context), R.layout.dialog_hsvibe_view, null, false)
 
-        val dialog = AlertDialog.Builder(context).apply {
+        val dialog = AlertDialog.Builder(ContextThemeWrapper(context, theme)).apply {
             setView(bindingView.root)
             setCancelable(true)
         }.create()

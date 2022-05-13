@@ -6,13 +6,21 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.hsvibe.R
 import com.hsvibe.databinding.FragmentBasicWebViewBinding
+import com.hsvibe.model.ApiConst
 import com.hsvibe.model.Const
 import com.hsvibe.model.Urls
 import com.hsvibe.ui.bases.BaseWebFragment
 import com.hsvibe.utilities.L
 import com.hsvibe.utilities.Utility
+import com.hsvibe.viewmodel.MainViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.json.JSONException
+import org.json.JSONObject
 import java.text.MessageFormat
 
 /**
@@ -44,6 +52,8 @@ class UiBindCardWebFragment private constructor() : BaseWebFragment<FragmentBasi
 
     override fun getWebView(): WebView = bindingView.webView
 
+    private val viewModel by activityViewModels<MainViewModel>()
+
     override fun onInitializing(webView: WebView) {
         webView.addJavascriptInterface(this, JS_FUNCTION_NAME)
     }
@@ -59,6 +69,31 @@ class UiBindCardWebFragment private constructor() : BaseWebFragment<FragmentBasi
     @JavascriptInterface
     fun postMessage(msg: String?) {
         L.i("Get CreditCardCallback!!! msg: $msg")
-        Utility.toastShort("DONE!")
+        parseResponse(msg)
+    }
+
+    private fun parseResponse(msg: String?) {
+        msg?.let {
+            try {
+                val jsonObject = JSONObject(it)
+                if (jsonObject.has(ApiConst.STATUS) && jsonObject.has(ApiConst.MESSAGE)) {
+                    showMessageAndFinish(jsonObject.getString(ApiConst.MESSAGE))
+                }
+            }
+            catch (e: JSONException) {
+                e.printStackTrace()
+                Utility.toastShort("Json parse error!")
+            }
+        } ?: Utility.toastLong("Response is null!")
+    }
+
+    private fun showMessageAndFinish(message: String) {
+        viewModel.loadCreditCards()
+
+        lifecycleScope.launch {
+            Utility.toastShort(message)
+            delay(1000)
+            popBack()
+        }
     }
 }

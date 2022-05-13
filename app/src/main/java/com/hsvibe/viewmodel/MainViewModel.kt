@@ -26,6 +26,10 @@ import java.util.*
  */
 class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
 
+    companion object {
+        private const val TAG = "MainViewModel"
+    }
+
     private fun getExceptionHandler(runIfTokenStatusExpired: () -> Unit): CoroutineExceptionHandler {
         return CoroutineExceptionHandler { _, throwable ->
             L.e("Handle Coroutine Exception!!!")
@@ -65,6 +69,8 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
 
     val liveCreditCards by lazy { MutableLiveData<ItemCardList>() }
 
+    val liveCreditCardDeleting by lazy { SingleLiveEvent<ItemCardList>() }
+
     val livePasswordVerified: LiveData<Boolean>
         get() = _passwordVerified
 
@@ -96,10 +102,10 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     fun setupUserInfoFromDb() {
         viewModelScope.launch {
             userRepo.getUserInfoFromDB()?.let {
-                L.i("Setting up UserInfo from DB!!!")
+                L.i(TAG, "Setting up UserInfo from DB!!!")
                 liveUserInfo.value = it
             } ?: run {
-                L.i("UserInfo was null in DB!!!")
+                L.i(TAG, "UserInfo was null in DB!!!")
             }
         }
     }
@@ -111,10 +117,13 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
             }
         }) {
             getUserInfoAndUpdate()
+            getUserBonus()
+            updateFcmToken()
         }
     }
 
     private suspend fun getUserInfoAndUpdate() {
+        L.i(TAG, "getUserInfoAndUpdate!!!")
         userRepo.getUserInfoAndUpdate(hasLocationPermission)?.let {
             withContext(Dispatchers.Main) {
                 liveUserInfo.value = it
@@ -122,13 +131,11 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
             }
             userRepo.writeUserInfoToDB(it)
         }
-        getUserBonus()
-        updateFcmToken()
     }
 
     private fun refreshUserToken(jobAfterRefreshed: suspend () -> Unit) {
         viewModelScope.launch(getExceptionHandler {
-            L.e("RefreshToken failed!!!")
+            L.e(TAG, "RefreshToken failed!!!")
             liveNavigation.value = Navigation.OnAuthorizationFailed
         }) {
             if (userRepo.refreshToken()) {
@@ -144,8 +151,6 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
         refreshUserToken { getUserInfoAndUpdate() }
     }
 
-
-
     private fun updateFcmToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -153,11 +158,11 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
                     viewModelScope.launch {
                         userRepo.updateFcmToken(it)
                     }
-                    L.i("FCM Token Get!!! $it")
+                    L.i(TAG, "FCM Token Get!!! $it")
                 }
             }
             else {
-                L.e("Retrieve FCM Token Failed!!! ${task.exception}")
+                L.e(TAG, "Retrieve FCM Token Failed!!! ${task.exception}")
             }
         }
     }
@@ -165,12 +170,13 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     fun clearUserInfoFromDB() {
         viewModelScope.launch {
             userRepo.clearUserInfoFromDB().also {
-                if (it > 0) L.i("UserInfo deleted!!!")
+                if (it > 0) L.i(TAG, "UserInfo deleted!!!")
             }
         }
     }
 
     fun getUserBonus() {
+        L.i(TAG, "getUserBonus!!!")
         viewModelScope.launch {
             userRepo.getUserBonus()?.let {
                 liveCurrentBalance.value = it.contentData
@@ -246,6 +252,14 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
             liveCreditCards.value?.cardData?.cardDetailList?.let {
                 userRepo.arrangeDefaultCardIndex(it, key)
                 liveCreditCards.forceRefresh()
+            }
+        }
+    }
+
+    fun deleteCreditCard(key: String) {
+        viewModelScope.launch(getExceptionHandler()) {
+            userRepo.deleteCreditCard(key)?.let {
+                liveCreditCardDeleting.value = it
             }
         }
     }

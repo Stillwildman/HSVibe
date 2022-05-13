@@ -111,7 +111,7 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
             TabFragmentManager.INDEX_HOME -> openTabFragment(TabFragmentManager.TAG_HOME)
             TabFragmentManager.INDEX_EXPLORE -> openTabFragment(TabFragmentManager.TAG_EXPLORE)
             TabFragmentManager.INDEX_COUPON -> openTabFragment(TabFragmentManager.TAG_COUPON)
-            TabFragmentManager.INDEX_WALLET -> checkBeforeGoWalletMainPage()
+            TabFragmentManager.INDEX_WALLET -> checkPasswordBeforeGoToNext(true)
         }
     }
 
@@ -160,6 +160,7 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
                     is Navigation.ClickingCoupon -> onCouponClick(navigation.couponItem)
                     is Navigation.ClickingBanner -> onBannerClick(navigation.bannerItem)
                     is Navigation.ClickingBell -> openDialogFragment(UiNotificationFragment())
+                    is Navigation.ClickPaymentCard -> checkPasswordBeforeGoToNext(false)
                     is Navigation.ClickingUserName -> checkBeforeGo(UiMemberCenterFragment())
                     is Navigation.OnAuthorizationFailed -> notifyAuthFailedAndGoToLogin()
                     is Navigation.OnLoginRequired -> showLoginRequireDialog()
@@ -231,13 +232,18 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
         }
     }
 
-    private fun checkBeforeGoWalletMainPage() {
+    private fun checkPasswordBeforeGoToNext(isWalletPage: Boolean) {
         if (checkIsLoggedInAndProfileCompleted()) {
             if (mainViewModel.isPasswordVerified()) {
-                openTabFragment(TabFragmentManager.TAG_WALLET)
+                if (isWalletPage) {
+                    openTabFragment(TabFragmentManager.TAG_WALLET)
+                }
+                else {
+                    // TODO Open payment card page.
+                }
             }
             else {
-                observePasswordVerification()
+                observePasswordVerification(isWalletPage)
                 openDialogFragment(UiPayPasswordFragment.newInstance(mainViewModel.hasSetPayPassword().not()))
             }
         } else {
@@ -245,10 +251,15 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
         }
     }
 
-    private fun observePasswordVerification() {
+    private fun observePasswordVerification(isWalletPage: Boolean) {
         mainViewModel.livePasswordVerified.observeOnce(this) { isVerified ->
             if (isVerified) {
-                openTabFragment(TabFragmentManager.TAG_WALLET)
+                if (isWalletPage) {
+                    openTabFragment(TabFragmentManager.TAG_WALLET)
+                }
+                else {
+                    // TODO Open payment card page.
+                }
             }
             else {
                 moveTabToHome()

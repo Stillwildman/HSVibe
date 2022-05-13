@@ -40,7 +40,7 @@
             android:layout_marginTop="@dimen/padding_size_s"
             android:textColor="@color/md_grey_400"
             android:textSize="@dimen/font_text_size_s"
-            android:text="@{@string/remaining_points(item.balance)}"
+            android:text="@{@string/remaining_points(item.getBalanceInt())}"
             tools:text="@string/remaining_points"
             app:layout_constraintStart_toStartOf="@+id/text_bonusDesc"
             app:layout_constraintEnd_toEndOf="@+id/text_bonusDesc"
