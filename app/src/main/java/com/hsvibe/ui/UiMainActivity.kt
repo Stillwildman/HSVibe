@@ -45,7 +45,7 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
 
     private val mainViewModel by viewModels<MainViewModel> { MainViewModelFactory(UserRepoImpl()) }
 
-    private val loginViewModel by lazy { ViewModelProvider(this).get(LoginViewModel::class.java) }
+    private val loginViewModel by lazy { ViewModelProvider(this)[LoginViewModel::class.java] }
 
     private var lastTabIndex = 0
 

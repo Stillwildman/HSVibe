@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingStart="@dimen/padding_size_xl"
+        android:paddingEnd="@dimen/padding_size_xl"
+        android:paddingTop="@dimen/padding_size_xxl"
+        android:paddingBottom="@dimen/padding_size_xxl"
+        android:background="@color/app_background_color">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="@string/my_qr_code"
+            android:textColor="@color/md_white_1000"
+            android:textSize="@dimen/font_text_size_m"
+            android:layout_marginBottom="@dimen/padding_size_xxl"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginBottom="@dimen/font_text_size_xl"
+            android:background="@color/md_white_1000">
+
+            <View
+                android:id="@+id/view_selectorBackground"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/md_grey_300"
+                app:layout_constraintTop_toTopOf="@+id/text_hsPay"
+                app:layout_constraintBottom_toBottomOf="@+id/text_useCoupon" />
+
+            <TextView
+                android:id="@+id/text_hsPay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hs_pay"
+                android:textSize="@dimen/font_text_size_s"
+                android:textColor="@color/md_grey_600"
+                android:paddingTop="@dimen/padding_size_xxl"
+                android:paddingBottom="@dimen/padding_size_l"
+                android:layout_marginStart="@dimen/padding_size_xl"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/text_pointDiscount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/use_point_discount"
+                android:textSize="@dimen/font_text_size_s"
+                android:textColor="@color/md_grey_600"
+                android:paddingTop="@dimen/padding_size_l"
+                android:paddingBottom="@dimen/padding_size_l"
+                app:layout_constraintTop_toBottomOf="@+id/text_hsPay"
+                app:layout_constraintStart_toStartOf="@+id/text_hsPay"/>
+
+            <TextView
+                android:id="@+id/text_useCoupon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/use_coupon"
+                android:textSize="@dimen/font_text_size_s"
+                android:textColor="@color/md_grey_600"
+                android:paddingTop="@dimen/padding_size_l"
+                android:paddingBottom="@dimen/padding_size_xxl"
+                app:layout_constraintStart_toStartOf="@+id/text_hsPay"
+                app:layout_constraintTop_toBottomOf="@+id/text_pointDiscount"/>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch_creditCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleX="0.9"
+                android:scaleY="0.9"
+                android:layout_marginEnd="@dimen/padding_size_l"
+                app:layout_constraintBaseline_toBaselineOf="@+id/text_hsPay"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/text_payMethod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/padding_size_m"
+                android:textSize="@dimen/font_text_size_xs"
+                android:textColor="@color/md_grey_600"
+                android:textStyle="bold"
+                tools:text="玉山商業銀行"
+                app:layout_constraintBaseline_toBaselineOf="@+id/text_hsPay"
+                app:layout_constraintEnd_toStartOf="@+id/switch_creditCard" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_creditCardBrand"
+                android:layout_width="@dimen/font_text_size_xxl"
+                android:layout_height="@dimen/font_text_size_l"
+                android:layout_marginEnd="@dimen/padding_size_m"
+                app:layout_constraintTop_toTopOf="@+id/text_payMethod"
+                app:layout_constraintBottom_toBottomOf="@+id/text_payMethod"
+                app:layout_constraintEnd_toStartOf="@+id/text_payMethod"
+                app:srcCompat="@drawable/ic_credit_card_visa"/>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleX="0.9"
+                android:scaleY="0.9"
+                app:layout_constraintBaseline_toBaselineOf="@+id/text_pointDiscount"
+                app:layout_constraintEnd_toEndOf="@+id/switch_creditCard" />
+
+            <TextView
+                android:id="@+id/text_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/padding_size_m"
+                android:textSize="@dimen/font_text_size_xs"
+                android:textColor="@color/md_grey_600"
+                android:textStyle="bold"
+                tools:text="12345"
+                app:layout_constraintBaseline_toBaselineOf="@+id/text_pointDiscount"
+                app:layout_constraintEnd_toStartOf="@+id/switch_point" />
+
+            <TextView
+                android:id="@+id/text_couponPointIcon"
+                android:layout_width="@dimen/font_text_size_s"
+                android:layout_height="@dimen/font_text_size_s"
+                android:layout_marginEnd="@dimen/padding_size_m"
+                android:gravity="center"
+                style="@style/Widget.AppCompat.Button"
+                android:text="P"
+                android:textSize="10sp"
+                android:background="@drawable/background_round_point"
+                app:layout_constraintTop_toTopOf="@+id/text_point"
+                app:layout_constraintBottom_toBottomOf="@+id/text_point"
+                app:layout_constraintEnd_toStartOf="@+id/text_point"/>
+
+            <TextView
+                android:id="@+id/text_selectCoupon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/padding_size_xxl"
+                android:padding="@dimen/padding_size_s"
+                android:text="@string/select_coupon"
+                android:textSize="@dimen/font_text_size_xs"
+                android:textColor="@color/md_grey_500"
+                android:background="@drawable/background_stroke_grey"
+                app:layout_constraintBaseline_toBaselineOf="@+id/text_useCoupon"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_qrCode"
+                android:layout_width="@dimen/poi_photo_edit_view_l"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/view_selectorBackground"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0.2"
+                app:layout_constraintDimensionRatio="1:1"
+                tools:background="@color/md_grey_200"/>
+
+            <TextView
+                android:id="@+id/text_code"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/padding_size_xl"
+                android:layout_marginStart="@dimen/padding_size_xl"
+                android:layout_marginEnd="@dimen/padding_size_xl"
+                android:textColor="@color/md_grey_900"
+                android:textSize="@dimen/font_text_size_m"
+                android:textStyle="bold"
+                android:letterSpacing="0.05"
+                tools:text="00000000000"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_qrCode" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_barcode"
+                android:layout_width="@dimen/poi_photo_edit_view_xl"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/padding_size_l"
+                app:layout_constraintTop_toBottomOf="@+id/text_code"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintDimensionRatio="7:2"
+                tools:background="@color/md_grey_200"/>
+
+            <LinearLayout
+                android:id="@+id/button_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="@dimen/padding_size_s"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?selectableItemBackground"
+                app:layout_constraintTop_toTopOf="@+id/image_barcode"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0.7" >
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/image_refresh"
+                    android:layout_width="@dimen/font_text_size_m"
+                    android:layout_height="@dimen/font_text_size_s"
+                    android:layout_marginEnd="@dimen/padding_size_s"
+                    app:srcCompat="@drawable/ic_refresh_grey"/>
+
+                <TextView
+                    android:id="@+id/text_refreshQrCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/refresh_qr_code"
+                    android:textSize="@dimen/font_text_size_xs"
+                    android:textColor="@color/md_grey_700"/>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/font_text_size_l"
+            android:layout_height="@dimen/font_text_size_l"
+            android:layout_weight="0"
+            android:layout_marginBottom="@dimen/padding_size_xxl"
+            app:srcCompat="@drawable/selector_cancel" />
+
+    </LinearLayout>
+
+</layout>

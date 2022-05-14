@@ -141,7 +141,7 @@
     <string name="authorization_error">認證更新失敗，請重新登入！</string>
 
     <!-- Wallet -->
-    <string name="hs_pay">H\'S Pay</string>
+    <string name="hs_pay">HSPay</string>
     <string name="my_qr_code">我的條碼</string>
     <string name="add_new_card">新增卡片</string>
     <string name="transaction_passcode">交易密碼</string>
@@ -157,6 +157,13 @@
     <string name="fingerprint_verify_success">指紋辨識成功</string>
     <string name="fingerprint_verify_failed">指紋辨識失敗</string>
     <string name="fingerprint_unavailable">不支援指紋辨識</string>
+
+    <!-- Payment -->
+    <string name="pay_by_cash">現金付款</string>
+    <string name="use_point_discount">點數折抵</string>
+    <string name="use_coupon">使用優惠券</string>
+    <string name="select_coupon">選擇優惠券</string>
+    <string name="refresh_qr_code">更新QRCode</string>
 
     <!-- Credit Cards -->
     <string name="bind_credit_card">綁定信用卡</string>
