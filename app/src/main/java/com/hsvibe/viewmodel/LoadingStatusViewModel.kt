@@ -1,5 +1,6 @@
 package com.hsvibe.viewmodel
 
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hsvibe.R
@@ -15,7 +16,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
  */
 open class LoadingStatusViewModel : ViewModel(), OnLoadingCallback {
 
-    val liveLoadingStatus = MutableLiveData<LoadingStatus>()
+    val liveLoadingStatus by lazy { MutableLiveData<LoadingStatus>() }
 
     override fun onLoadingStart() {
         liveLoadingStatus.postValue(LoadingStatus.OnLoadingStart)
@@ -47,5 +48,11 @@ open class LoadingStatusViewModel : ViewModel(), OnLoadingCallback {
             onLoadingEnd()
             throwable.printStackTrace()
         }
+    }
+
+    fun getLoadingVisibility(): Int {
+        return liveLoadingStatus.value?.let {
+            if (it == LoadingStatus.OnLoadingStart) View.VISIBLE else View.GONE
+        } ?: View.GONE
     }
 }

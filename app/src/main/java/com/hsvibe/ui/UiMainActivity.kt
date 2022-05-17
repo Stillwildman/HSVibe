@@ -28,6 +28,7 @@ import com.hsvibe.ui.fragments.member.UiMemberInfoFragment
 import com.hsvibe.ui.fragments.news.UiNewsFragment
 import com.hsvibe.ui.fragments.news.UiNotificationFragment
 import com.hsvibe.ui.fragments.payment.UiPayPasswordFragment
+import com.hsvibe.ui.fragments.payment.UiPaymentFragment
 import com.hsvibe.utilities.*
 import com.hsvibe.viewmodel.LoginViewModel
 import com.hsvibe.viewmodel.MainViewModel
@@ -239,7 +240,7 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
                     openTabFragment(TabFragmentManager.TAG_WALLET)
                 }
                 else {
-                    // TODO Open payment card page.
+                    openDialogFragment(UiPaymentFragment())
                 }
             }
             else {
@@ -258,7 +259,7 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
                     openTabFragment(TabFragmentManager.TAG_WALLET)
                 }
                 else {
-                    // TODO Open payment card page.
+                    openDialogFragment(UiPaymentFragment())
                 }
             }
             else {

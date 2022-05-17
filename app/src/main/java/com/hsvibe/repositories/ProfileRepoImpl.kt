@@ -101,7 +101,7 @@ class ProfileRepoImpl(private val _userInfo: UserInfo?) : ProfileRepo {
 
     override fun getGenderSelection(): Int {
         return getUserInfo()?.run {
-            when (getGender()) {
+            when (getGender().lowercase()) {
                 Const.EMPTY_STRING -> 0
                 AppController.getString(R.string.gender_male_eng) -> 1
                 AppController.getString(R.string.gender_female_eng) -> 2

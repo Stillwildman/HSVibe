@@ -59,5 +59,4 @@ object ApiConst {
 
     // Credit Card
     const val CARD_CODE_SUCCESS = "00"
-
 }

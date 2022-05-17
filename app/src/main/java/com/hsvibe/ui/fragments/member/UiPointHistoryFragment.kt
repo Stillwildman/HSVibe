@@ -58,7 +58,7 @@ class UiPointHistoryFragment : BaseActionBarFragment<FragmentPointHistoryBinding
     }
 
     private fun refreshUserBonus() {
-        mainViewModel.getUserBonus()
+        mainViewModel.loadUserBonus()
     }
 
     private fun observeLoadingStatus() {

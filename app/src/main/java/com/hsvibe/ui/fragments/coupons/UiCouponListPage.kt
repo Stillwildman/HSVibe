@@ -43,7 +43,7 @@ class UiCouponListPage private constructor() : BaseFragment<FragmentCouponListBi
 
     private val onCouponClickCallback by lazy { object : OnAnyItemClickCallback<ItemMyCoupon.ContentData> {
         override fun onItemClick(item: ItemMyCoupon.ContentData) {
-            openDialogFragment(UiCouponUsingFragment.newInstance(item))
+            openDialogFragment(UiCouponUsingFragment.newInstance(item), Const.BACK_COUPON_LiST)
         }
     } }
 
@@ -83,7 +83,7 @@ class UiCouponListPage private constructor() : BaseFragment<FragmentCouponListBi
     }
 
     private fun startObserveLoadingStatus() {
-        viewModelInterface.getViewModel().liveLoadingStatus.observe(viewLifecycleOwner) {
+        viewModelInterface.viewModel.liveLoadingStatus.observe(viewLifecycleOwner) {
             handleLoadingStatus(it)
         }
     }
@@ -91,12 +91,12 @@ class UiCouponListPage private constructor() : BaseFragment<FragmentCouponListBi
     private fun observeCouponListByPageType() {
         when (pageType) {
             Const.PAGE_MY_COUPON -> {
-                viewModelInterface.getViewModel().liveMyCouponList.observe(viewLifecycleOwner) {
+                viewModelInterface.viewModel.liveMyCouponList.observe(viewLifecycleOwner) {
                     setCouponList(it)
                 }
             }
             Const.PAGE_USED_COUPON -> {
-                viewModelInterface.getViewModel().liveUsedCouponList.observe(viewLifecycleOwner) {
+                viewModelInterface.viewModel.liveUsedCouponList.observe(viewLifecycleOwner) {
                     setCouponList(it)
                 }
             }
@@ -115,7 +115,7 @@ class UiCouponListPage private constructor() : BaseFragment<FragmentCouponListBi
     }
 
     private fun loadMyCouponListPair() {
-        viewModelInterface.getViewModel().loadMyCouponListPair()
+        viewModelInterface.viewModel.loadMyCouponListPair()
     }
 
     private fun showEmptyHint() {
@@ -136,7 +136,7 @@ class UiCouponListPage private constructor() : BaseFragment<FragmentCouponListBi
     }
 
     override fun onRefresh() {
-        viewModelInterface.getViewModel().refreshMyCouponListPair()
+        viewModelInterface.viewModel.refreshMyCouponListPair()
     }
 
     override fun onBackButtonPressed(): Boolean = true

@@ -44,9 +44,8 @@ class UiCouponHistoryFragment : BaseActionBarFragment<FragmentCouponHistoryBindi
         }.attach()
     }
 
-    override fun getViewModel(): CouponViewModel {
-        return couponViewModel
-    }
+    override val viewModel: CouponViewModel
+        get() = couponViewModel
 
     override fun onDestroy() {
         super.onDestroy()

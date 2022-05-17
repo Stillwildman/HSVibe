@@ -2,6 +2,7 @@ package com.hsvibe.ui.fragments.coupons
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.hsvibe.R
 import com.hsvibe.callbacks.OnAnyItemClickCallback
@@ -13,6 +14,7 @@ import com.hsvibe.ui.bases.BaseActionBarFragment
 import com.hsvibe.utilities.observeOnce
 import com.hsvibe.viewmodel.CouponViewModel
 import com.hsvibe.viewmodel.CouponViewModelFactory
+import com.hsvibe.viewmodel.MainViewModel
 
 
 /**
@@ -30,11 +32,15 @@ class UiCouponUsingFragment private constructor() : BaseActionBarFragment<Fragme
 
     private val couponViewModel by viewModels<CouponViewModel> { CouponViewModelFactory(CouponRepoImpl()) }
 
+    private val mainViewModel by activityViewModels<MainViewModel>()
+
     override fun getFragmentLayoutId(): Int = R.layout.fragment_coupon_using
 
     override fun getTitleRes(): Int? = null
 
     override fun getAnimType(): AnimType = AnimType.SlideFromRight
+
+    private var isCouponSelectingMode = false
 
     private val originBrightness by lazy { activity?.window?.attributes?.screenBrightness ?: 0.5f }
 
@@ -74,6 +80,17 @@ class UiCouponUsingFragment private constructor() : BaseActionBarFragment<Fragme
     private fun bindBarcode(couponCode: String) {
         binding.barcodeText = couponCode
         tuneScreenBrightness(true)
+
+        setSelectedCouponIfNeed()
+    }
+
+    private fun setSelectedCouponIfNeed() {
+        if (mainViewModel.isCouponSelectingMode) {
+            binding.coupon?.let {
+                isCouponSelectingMode = true
+                mainViewModel.updatePaymentCoupon(it.title, it.uuid)
+            }
+        }
     }
 
     private fun isBarcodeTurnedOn(): Boolean {
@@ -108,5 +125,14 @@ class UiCouponUsingFragment private constructor() : BaseActionBarFragment<Fragme
 
     override fun hideLoadingCircle() {
         binding.barcodeLoadingCircle.visibility = View.GONE
+    }
+
+    override fun onDialogBackPressed(): Boolean {
+        return if (isCouponSelectingMode) {
+            popBack(Const.BACK_COUPON_LiST)
+            true
+        } else {
+            super.onDialogBackPressed()
+        }
     }
 }

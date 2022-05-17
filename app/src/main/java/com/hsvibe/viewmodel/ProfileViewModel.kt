@@ -2,6 +2,7 @@ package com.hsvibe.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.hsvibe.model.Const
 import com.hsvibe.model.posts.PostUpdateUserInfo
 import com.hsvibe.repositories.ProfileRepo
 import kotlinx.coroutines.Dispatchers
@@ -37,7 +38,7 @@ class ProfileViewModel(private val profileRepo: ProfileRepo) : LoadingStatusView
             mobile_number = profileRepo.getUserInfo()?.getMobileNumber(),
             gender = profileRepo.getUserInfo()?.getGender(),
             birthday = profileRepo.getUserInfo()?.getBirthday(),
-            referrer_no = profileRepo.getUserInfo()?.getReferrerNo()
+            referrer_no = profileRepo.getUserInfo()?.getReferrerNo()?.takeIf { it.length >= Const.REFERRER_NO_LENGTH_LIMIT }
         ).also {
             livePostUserInfo.value = it
         }
@@ -92,7 +93,7 @@ class ProfileViewModel(private val profileRepo: ProfileRepo) : LoadingStatusView
         }
     }
 
-    fun isReferrerNoNullOrEmpty(): Boolean {
-        return livePostUserInfo.value?.referrer_no.isNullOrEmpty()
+    fun isReferrerNoEntered(): Boolean {
+        return (livePostUserInfo.value?.referrer_no?.length ?: 0) >= Const.REFERRER_NO_LENGTH_LIMIT
     }
 }

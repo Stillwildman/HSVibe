@@ -62,7 +62,7 @@ abstract class  BaseFragment<BindingView : ViewDataBinding> : Fragment(R.layout.
 
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             val bindingViewDeferred = async {
-                DataBindingUtil.inflate(LayoutInflater.from(view.context), getLayoutId(), view as ViewGroup?, false) as BindingView
+                DataBindingUtil.inflate(layoutInflater, getLayoutId(), view as ViewGroup?, false) as BindingView
             }
             bindingView = bindingViewDeferred.await()
 

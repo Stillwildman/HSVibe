@@ -9,10 +9,7 @@ import com.hsvibe.model.Urls
 import com.hsvibe.model.UserInfo
 import com.hsvibe.model.UserToken
 import com.hsvibe.model.items.*
-import com.hsvibe.model.posts.PostPassword
-import com.hsvibe.model.posts.PostRefreshToken
-import com.hsvibe.model.posts.PostUpdateUserInfo
-import com.hsvibe.model.posts.PostUseCoupon
+import com.hsvibe.model.posts.*
 import com.hsvibe.tasks.ApiStatusException
 import com.hsvibe.utilities.L
 import io.reactivex.Observable
@@ -201,7 +198,7 @@ object DataCallbacks {
         }
     }
 
-    suspend fun useCoupon(auth: String, couponUseItem: PostUseCoupon, loadingCallback: OnLoadingCallback?): ItemCouponCode? {
+    suspend fun useCoupon(auth: String, couponUseItem: PostUseCoupon, loadingCallback: OnLoadingCallback?): ItemPayloadCode? {
         return getApiResult(loadingCallback) {
             getApiInterface().useCoupon(auth, couponUseItem)
         }
@@ -222,6 +219,12 @@ object DataCallbacks {
     suspend fun deleteCreditCard(auth: String, key: String, loadingCallback: OnLoadingCallback?): ItemCardList? {
         return getApiResult(loadingCallback) {
             getApiInterface().deleteCreditCard(auth, key)
+        }
+    }
+
+    suspend fun getPaymentCode(auth: String, payloadItem: PostPaymentPayload, loadingCallback: OnLoadingCallback?): ItemPayloadCode? {
+        return getApiResult(loadingCallback) {
+            getApiInterface().getPaymentCode(auth, payloadItem)
         }
     }
 }

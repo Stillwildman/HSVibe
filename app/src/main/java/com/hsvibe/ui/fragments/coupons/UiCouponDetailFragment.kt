@@ -158,7 +158,7 @@ class UiCouponDetailFragment private constructor() : BaseActionBarFragment<Fragm
         couponViewModel.liveCouponDetail.value?.let {
             couponViewModel.updateCouponDetail(it.uuid)
         }
-        mainViewModel.getUserBonus() // Refresh user bonus on home page.
+        mainViewModel.loadUserBonus() // Refresh user bonus on home page.
     }
 
     override fun showLoadingCircle() {

@@ -1,15 +1,20 @@
 package com.hsvibe.repositories
 
 import android.location.Location
+import com.hsvibe.AppController
+import com.hsvibe.R
 import com.hsvibe.callbacks.OnLoadingCallback
 import com.hsvibe.database.UserDatabase
 import com.hsvibe.location.MyFusedLocation
+import com.hsvibe.model.Const
 import com.hsvibe.model.UserInfo
 import com.hsvibe.model.UserTokenManager
 import com.hsvibe.model.entities.UserInfoEntity
 import com.hsvibe.model.items.ItemAccountBonus
 import com.hsvibe.model.items.ItemCardList
+import com.hsvibe.model.items.ItemPayloadCode
 import com.hsvibe.model.items.ItemUserBonus
+import com.hsvibe.model.posts.PostPaymentPayload
 import com.hsvibe.model.posts.PostRefreshToken
 import com.hsvibe.model.posts.PostUpdateUserInfo
 import com.hsvibe.network.DataCallbacks
@@ -68,6 +73,9 @@ class UserRepoImpl : UserRepo {
     override suspend fun updateUserInfo(postBody: PostUpdateUserInfo): UserInfo? {
         return taskController.joinPreviousOrRun(TaskController.KEY_UPDATE_USER_INFO) {
             UserTokenManager.getAuthorization()?.let {
+
+                correctPostBodyIfNeed(postBody)
+
                 DataCallbacks.updateUserInfo(it, postBody, callback)?.also { updatedUserInfo ->
                     L.i("Update UserInfo: ${updatedUserInfo.getMobileNumber()} Device: ${updatedUserInfo.getDeviceModel()}")
                 }
@@ -127,10 +135,21 @@ class UserRepoImpl : UserRepo {
             device_type = DeviceUtil.getDeviceType(),
             device_model = DeviceUtil.getCombinedDeviceModel(),
             region_zip = userInfo.getRegionZip(),
-            referrer_no = userInfo.getReferrerNo(),
+            referrer_no = userInfo.getReferrerNo().takeIf { it.length >= Const.REFERRER_NO_LENGTH_LIMIT },
             lat = lat,
             long = lon
         )
+    }
+
+    private fun correctPostBodyIfNeed(postBody: PostUpdateUserInfo) {
+        postBody.apply {
+            if (gender == AppController.getString(R.string.gender_other_eng)) {
+                gender = null
+            }
+            if ((referrer_no?.length ?: 0) < Const.REFERRER_NO_LENGTH_LIMIT) {
+                referrer_no = null
+            }
+        }
     }
 
     override suspend fun writeUserInfoToDB(userInfo: UserInfo) {
@@ -202,6 +221,12 @@ class UserRepoImpl : UserRepo {
     override suspend fun deleteCreditCard(key: String): ItemCardList? {
         return UserTokenManager.getAuthorization()?.let {
             DataCallbacks.deleteCreditCard(it, key, callback)
+        }
+    }
+
+    override suspend fun getPaymentCode(discountAmount: Int, linkKey: String?, ticketUuid: String?): ItemPayloadCode? {
+        return UserTokenManager.getAuthorization()?.let {
+            DataCallbacks.getPaymentCode(it, PostPaymentPayload(discountAmount, linkKey, ticketUuid), callback)
         }
     }
 }

@@ -75,7 +75,7 @@ class CouponRepoImpl : CouponRepo {
         } ?: Pair(listOf(), listOf())
     }
 
-    override suspend fun getCouponCode(uuid: String): ItemCouponCode? {
+    override suspend fun getCouponCode(uuid: String): ItemPayloadCode? {
         return UserTokenManager.getAuthorization()?.let {
             DataCallbacks.useCoupon(it, PostUseCoupon(uuid), callback)
         }

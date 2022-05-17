@@ -284,7 +284,7 @@
                     android:autofillHints="name"
                     android:background="@null"
                     tools:targetApi="O"
-                    app:isEditable="@{profileViewModel.isReferrerNoNullOrEmpty() ? true : false}"
+                    app:isEditable="@{profileViewModel.isReferrerNoEntered() ? true : false}"
                     app:layout_constraintTop_toTopOf="@+id/text_referrerNo"
                     app:layout_constraintBottom_toBottomOf="@+id/text_referrerNo"
                     app:layout_constraintStart_toEndOf="@+id/text_referrerNo"

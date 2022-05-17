@@ -102,7 +102,7 @@ abstract class BaseDialogFragment<BindingView : ViewDataBinding> : DialogFragmen
 
         viewLifecycleOwner.lifecycleScope.launch {
             val bindingViewDeferred = async {
-                DataBindingUtil.inflate(LayoutInflater.from(view.context), getLayoutId(), view as ViewGroup?, false) as BindingView
+                DataBindingUtil.inflate(layoutInflater, getLayoutId(), view as ViewGroup?, false) as BindingView
             }
             bindingView = bindingViewDeferred.await()
 

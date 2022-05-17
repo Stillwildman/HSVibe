@@ -95,7 +95,7 @@ interface ApiInterface {
     suspend fun useCoupon(
         @Header(ApiConst.AUTHORIZATION) auth: String,
         @Body body: PostUseCoupon
-    ): Response<ItemCouponCode>
+    ): Response<ItemPayloadCode>
 
     @POST(Urls.API_VERIFY_PAY_PASSWORD)
     suspend fun verifyPayPassword(
@@ -113,4 +113,10 @@ interface ApiInterface {
         @Header(ApiConst.AUTHORIZATION) auth: String,
         @Path("key") key: String
     ): Response<ItemCardList>
+
+    @POST(Urls.API_PAYMENT_PAYLOAD)
+    suspend fun getPaymentCode(
+        @Header(ApiConst.AUTHORIZATION) auth: String,
+        @Body body: PostPaymentPayload
+    ): Response<ItemPayloadCode>
 }

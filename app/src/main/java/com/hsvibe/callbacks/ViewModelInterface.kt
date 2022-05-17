@@ -7,6 +7,6 @@ import androidx.lifecycle.ViewModel
  */
 interface ViewModelInterface<ViewModelType : ViewModel> {
 
-    fun getViewModel(): ViewModelType
+    val viewModel: ViewModelType
 
 }

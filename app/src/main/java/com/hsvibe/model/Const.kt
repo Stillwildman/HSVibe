@@ -14,6 +14,7 @@ object Const {
     const val BACK_COMMON_DIALOG = "CommonDialog"
     const val BACK_WEB_VIEW_DIALOG = "WebViewDialog"
     const val BACK_LOGIN_DIALOG = "LoginDialog"
+    const val BACK_COUPON_LiST = "CouponList"
 
     const val EMPTY_STRING = ""
 
@@ -32,4 +33,6 @@ object Const {
     const val PAGE_USED_COUPON = 1
 
     const val NO_POSITION = -1
+
+    const val REFERRER_NO_LENGTH_LIMIT = 6
 }

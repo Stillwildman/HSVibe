@@ -10,6 +10,7 @@ import com.hsvibe.R
 import com.hsvibe.model.Navigation
 import com.hsvibe.model.UserInfo
 import com.hsvibe.model.items.ItemCardList
+import com.hsvibe.model.items.ItemPaymentDisplay
 import com.hsvibe.model.items.ItemUserBonus
 import com.hsvibe.model.posts.PostUpdateUserInfo
 import com.hsvibe.repositories.UserRepo
@@ -76,6 +77,10 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
 
     private val _passwordVerified by lazy { SingleLiveEvent<Boolean>() }
 
+    val livePaymentDisplay by lazy { MutableLiveData<ItemPaymentDisplay>() }
+
+    var isCouponSelectingMode = false
+
     init {
         userRepo.setLoadingCallback(this)
     }
@@ -113,16 +118,16 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     fun runUserInfoSynchronize() {
         viewModelScope.launch(getExceptionHandler {
             refreshUserToken {
-                getUserInfoAndUpdate()
+                loadUserInfoAndUpdate()
             }
         }) {
-            getUserInfoAndUpdate()
-            getUserBonus()
+            loadUserInfoAndUpdate()
+            loadUserBonus()
             updateFcmToken()
         }
     }
 
-    private suspend fun getUserInfoAndUpdate() {
+    private suspend fun loadUserInfoAndUpdate() {
         L.i(TAG, "getUserInfoAndUpdate!!!")
         userRepo.getUserInfoAndUpdate(hasLocationPermission)?.let {
             withContext(Dispatchers.Main) {
@@ -148,7 +153,7 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     }
 
     fun refreshTokenAndUpdate() {
-        refreshUserToken { getUserInfoAndUpdate() }
+        refreshUserToken { loadUserInfoAndUpdate() }
     }
 
     private fun updateFcmToken() {
@@ -175,7 +180,7 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
         }
     }
 
-    fun getUserBonus() {
+    fun loadUserBonus() {
         L.i(TAG, "getUserBonus!!!")
         viewModelScope.launch {
             userRepo.getUserBonus()?.let {
@@ -185,7 +190,7 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     }
 
     fun updateUserInfo(postBody: PostUpdateUserInfo, onFinish: (isSuccess: Boolean) -> Unit) {
-        viewModelScope.launch {
+        viewModelScope.launch(getExceptionHandler()) {
             userRepo.updateUserInfo(postBody)?.let {
                 liveUserInfo.postValue(it)
                 userRepo.writeUserInfoToDB(it)
@@ -260,6 +265,71 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
         viewModelScope.launch(getExceptionHandler()) {
             userRepo.deleteCreditCard(key)?.let {
                 liveCreditCardDeleting.value = it
+            }
+        }
+    }
+
+    fun initPaymentDisplay() {
+        var updatingValue = livePaymentDisplay.value
+
+        if (updatingValue == null) {
+            val defaultCard = liveCreditCards.value?.cardData?.cardDetailList?.takeIf { it.isNotEmpty() }?.first()
+
+            updatingValue = ItemPaymentDisplay(
+                SettingManager.isCreditCardPaymentEnabled(),
+                SettingManager.isPointPaymentEnabled(),
+                defaultCard?.key,
+                defaultCard?.name,
+                defaultCard?.display?.substring(0, 4),
+                defaultCard?.getBrandIconRes()
+            )
+        } else {
+            updatingValue.selectedCouponName = null
+            updatingValue.selectedCouponUuid = null
+        }
+        livePaymentDisplay.value = updatingValue
+    }
+
+    fun updatePaymentMethod(isCreditCardEnabled: Boolean? = null, isPointEnabled: Boolean? = null) {
+        val updatingValue = livePaymentDisplay.value
+
+        updatingValue?.let {
+            if (isCreditCardEnabled != null) {
+                it.isCreditCardEnabled = isCreditCardEnabled
+            }
+            if (isPointEnabled != null) {
+                it.isPointEnabled = isPointEnabled
+            }
+        }
+        livePaymentDisplay.value = updatingValue
+
+        loadPaymentCode()
+    }
+
+    fun updatePaymentCoupon(couponName: String?, couponUuid: String?) {
+        val updatingValue = livePaymentDisplay.value
+
+        updatingValue?.let {
+            it.selectedCouponName = couponName
+            it.selectedCouponUuid = couponUuid
+        }
+        livePaymentDisplay.value = updatingValue
+
+        loadPaymentCode()
+    }
+
+    fun loadPaymentCode() {
+        viewModelScope.launch(getExceptionHandler()) {
+            livePaymentDisplay.value?.let {
+                val points = if (it.isPointEnabled) it.selectedPoints else 0
+                val cardKey = if (it.isCreditCardEnabled) it.selectedCardKey else null
+
+                userRepo.getPaymentCode(points, cardKey, it.selectedCouponUuid)?.let { payloadCodeItem ->
+                    if (payloadCodeItem.isSuccess()) {
+                        livePaymentDisplay.value?.paymentCode = payloadCodeItem.contentData.code.toString()
+                        livePaymentDisplay.forceRefresh()
+                    }
+                }
             }
         }
     }

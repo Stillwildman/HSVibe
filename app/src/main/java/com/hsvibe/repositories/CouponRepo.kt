@@ -17,5 +17,5 @@ interface CouponRepo : LoadingCallbackRepo {
 
     suspend fun getMyCouponListPair(): Pair<List<ItemMyCoupon.ContentData>, List<ItemMyCoupon.ContentData>>
 
-    suspend fun getCouponCode(uuid: String): ItemCouponCode?
+    suspend fun getCouponCode(uuid: String): ItemPayloadCode?
 }

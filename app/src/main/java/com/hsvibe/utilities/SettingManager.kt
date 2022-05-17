@@ -25,6 +25,10 @@ object SettingManager {
 
     private const val PREF_DEFAULT_CREDIT_CARD_KEY = "DefaultCreditCardKey"
 
+    private const val PREF_PAYMENT_ENABLE_CREDIT_CARD = "EnableCreditCard"
+
+    private const val PREF_PAYMENT_ENABLE_POINT = "EnablePoint"
+
     private fun appContext(): Context = AppController.getAppContext()
 
     private fun getDefaultPrefs(): SharedPreferences {
@@ -82,5 +86,21 @@ object SettingManager {
 
     fun clearDefaultCreditCardKey(): Boolean {
         return getDefaultPrefs().edit().remove(PREF_DEFAULT_CREDIT_CARD_KEY).commit()
+    }
+
+    fun setCreditCardPaymentEnabled(isEnable: Boolean) {
+        getDefaultPrefs().edit().putBoolean(PREF_PAYMENT_ENABLE_CREDIT_CARD, isEnable).apply()
+    }
+
+    fun isCreditCardPaymentEnabled(): Boolean {
+        return getDefaultPrefs().getBoolean(PREF_PAYMENT_ENABLE_CREDIT_CARD, true)
+    }
+
+    fun setPointPaymentEnabled(isEnable: Boolean) {
+        getDefaultPrefs().edit().putBoolean(PREF_PAYMENT_ENABLE_POINT, isEnable).apply()
+    }
+
+    fun isPointPaymentEnabled(): Boolean {
+        return getDefaultPrefs().getBoolean(PREF_PAYMENT_ENABLE_POINT, true)
     }
 }
