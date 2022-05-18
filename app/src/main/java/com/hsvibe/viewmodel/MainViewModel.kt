@@ -270,24 +270,16 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     }
 
     fun initPaymentDisplay() {
-        var updatingValue = livePaymentDisplay.value
+        val defaultCard = liveCreditCards.value?.cardData?.cardDetailList?.takeIf { it.isNotEmpty() }?.first()
 
-        if (updatingValue == null) {
-            val defaultCard = liveCreditCards.value?.cardData?.cardDetailList?.takeIf { it.isNotEmpty() }?.first()
-
-            updatingValue = ItemPaymentDisplay(
-                SettingManager.isCreditCardPaymentEnabled(),
-                SettingManager.isPointPaymentEnabled(),
-                defaultCard?.key,
-                defaultCard?.name,
-                defaultCard?.display?.substring(0, 4),
-                defaultCard?.getBrandIconRes()
-            )
-        } else {
-            updatingValue.selectedCouponName = null
-            updatingValue.selectedCouponUuid = null
-        }
-        livePaymentDisplay.value = updatingValue
+        livePaymentDisplay.value = ItemPaymentDisplay(
+            SettingManager.isCreditCardPaymentEnabled(),
+            SettingManager.isPointPaymentEnabled(),
+            defaultCard?.key,
+            defaultCard?.name,
+            defaultCard?.display?.substring(0, 4),
+            defaultCard?.getBrandIconRes()
+        )
     }
 
     fun updatePaymentMethod(isCreditCardEnabled: Boolean? = null, isPointEnabled: Boolean? = null) {
@@ -300,6 +292,20 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
             if (isPointEnabled != null) {
                 it.isPointEnabled = isPointEnabled
             }
+        }
+        livePaymentDisplay.value = updatingValue
+
+        loadPaymentCode()
+    }
+
+    fun updatePaymentCard(cardKey: String, cardName: String, cardNumber: String, brandIconRes: Int) {
+        val updatingValue = livePaymentDisplay.value
+
+        updatingValue?.let {
+            it.selectedCardKey = cardKey
+            it.cardName = cardName
+            it.cardNumber = cardNumber.substring(0, 4)
+            it.cardBrandRes = brandIconRes
         }
         livePaymentDisplay.value = updatingValue
 

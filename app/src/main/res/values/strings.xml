@@ -173,6 +173,8 @@
     <string name="set_as_default">設為預設卡片</string>
     <string name="confirm_to_delete_card">是否確定要刪除此張卡片</string>
     <string name="confirm_to_delete">確定刪除</string>
+    <string name="card">卡片</string>
+    <string name="please_bind_credit_card_first">請先綁定信用卡</string>
 
     <!-- Scanning -->
     <string name="qr_code_scan">條碼掃描</string>

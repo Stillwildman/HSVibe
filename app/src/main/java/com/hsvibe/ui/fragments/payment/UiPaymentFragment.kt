@@ -8,6 +8,7 @@ import com.hsvibe.model.Const
 import com.hsvibe.ui.bases.BaseDialogFragment
 import com.hsvibe.ui.fragments.coupons.UiCouponHistoryFragment
 import com.hsvibe.utilities.SettingManager
+import com.hsvibe.utilities.Utility
 import com.hsvibe.utilities.observeOnce
 import com.hsvibe.utilities.setOnSingleClickListener
 import com.hsvibe.viewmodel.MainViewModel
@@ -62,7 +63,7 @@ class UiPaymentFragment : BaseDialogFragment<FragmentPaymentBinding>() {
             }
 
             layoutHsPay.setOnSingleClickListener {
-                // TODO
+                checkCardsAndOpenSelectionPage()
             }
 
             layoutPointDiscount.setOnSingleClickListener {
@@ -76,6 +77,18 @@ class UiPaymentFragment : BaseDialogFragment<FragmentPaymentBinding>() {
 
             buttonClose.setOnSingleClickListener {
                 popBack()
+            }
+        }
+    }
+
+    private fun checkCardsAndOpenSelectionPage() {
+        mainViewModel.liveCreditCards.value?.let {
+            if (it.cardData.cardDetailList.isNotEmpty()) {
+                openDialogFragment(UiCardSelectionFragment())
+            }
+            else {
+                Utility.toastShort(R.string.please_bind_credit_card_first)
+                openDialogFragment(UiBindCardWebFragment.newInstance(it.cardData.user_uuid))
             }
         }
     }

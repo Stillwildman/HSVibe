@@ -44,287 +44,294 @@
             android:visibility="@{viewModel.getLoadingVisibility()}"
             tools:visibility="visible"/>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.cardview.widget.CardView
             android:id="@+id/layout_paymentContent"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/padding_size_xxl"
             android:layout_marginBottom="@dimen/font_text_size_xl"
-            android:background="@color/md_white_1000"
+            app:cardBackgroundColor="@color/md_white_1000"
+            app:cardCornerRadius="20dp"
             app:layout_constraintTop_toBottomOf="@+id/text_paymentCode"
-            app:layout_constraintBottom_toTopOf="@+id/button_close">
+            app:layout_constraintBottom_toTopOf="@+id/button_close" >
 
-            <LinearLayout
-                android:id="@+id/layout_payOptions"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingTop="@dimen/padding_size_m"
-                android:paddingBottom="@dimen/padding_size_m"
-                android:background="@color/md_grey_300"
-                app:layout_constraintTop_toTopOf="parent" >
+                android:layout_height="match_parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_hsPay"
+                <LinearLayout
+                    android:id="@+id/layout_payOptions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/padding_size_xl"
-                    android:paddingEnd="@dimen/padding_size_l"
-                    android:paddingTop="@dimen/padding_size_l"
-                    android:paddingBottom="@dimen/padding_size_l"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?selectableItemBackground">
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/padding_size_m"
+                    android:paddingBottom="@dimen/padding_size_m"
+                    android:background="@color/md_grey_300"
+                    app:layout_constraintTop_toTopOf="parent" >
 
-                    <TextView
-                        android:id="@+id/text_hsPay"
-                        android:layout_width="wrap_content"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_hsPay"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/hs_pay"
-                        android:textSize="@dimen/font_text_size_s"
-                        android:textColor="@color/md_grey_600"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        android:paddingStart="@dimen/padding_size_xl"
+                        android:paddingEnd="@dimen/padding_size_l"
+                        android:paddingTop="@dimen/padding_size_l"
+                        android:paddingBottom="@dimen/padding_size_l"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?selectableItemBackground">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/image_creditCardBrand"
-                        android:layout_width="@dimen/font_text_size_xxl"
-                        android:layout_height="@dimen/font_text_size_l"
-                        android:layout_marginEnd="@dimen/padding_size_m"
-                        app:setImageByRes="@{viewModel.livePaymentDisplay.cardBrandRes}"
-                        android:visibility="@{viewModel.livePaymentDisplay.getCardInfoVisibility()}"
-                        app:layout_constraintTop_toTopOf="@+id/text_payMethod"
-                        app:layout_constraintBottom_toBottomOf="@+id/text_payMethod"
-                        app:layout_constraintEnd_toStartOf="@+id/text_payMethod"
-                        app:srcCompat="@drawable/ic_credit_card_visa"/>
+                        <TextView
+                            android:id="@+id/text_hsPay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/hs_pay"
+                            android:textSize="@dimen/font_text_size_s"
+                            android:textColor="@color/md_grey_600"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"/>
 
-                    <TextView
-                        android:id="@+id/text_payMethod"
-                        android:layout_width="wrap_content"
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/image_creditCardBrand"
+                            android:layout_width="@dimen/font_text_size_xxl"
+                            android:layout_height="@dimen/font_text_size_l"
+                            android:layout_marginEnd="@dimen/padding_size_m"
+                            app:setImageByRes="@{viewModel.livePaymentDisplay.cardBrandRes}"
+                            android:visibility="@{viewModel.livePaymentDisplay.getCardInfoVisibility()}"
+                            app:layout_constraintTop_toTopOf="@+id/text_payMethod"
+                            app:layout_constraintBottom_toBottomOf="@+id/text_payMethod"
+                            app:layout_constraintEnd_toStartOf="@+id/text_payMethod"
+                            app:srcCompat="@drawable/ic_credit_card_visa"/>
+
+                        <TextView
+                            android:id="@+id/text_payMethod"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/padding_size_m"
+                            android:textSize="@dimen/font_text_size_xs"
+                            android:textColor="@color/md_grey_600"
+                            android:textStyle="bold"
+                            android:text="@{viewModel.livePaymentDisplay.getCardInfoText()}"
+                            tools:text="玉山商業銀行00000"
+                            app:layout_constraintBaseline_toBaselineOf="@+id/text_hsPay"
+                            app:layout_constraintEnd_toStartOf="@+id/switch_creditCard" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switch_creditCard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="@{viewModel.livePaymentDisplay.isCreditCardEnabled ? true : false, default = true}"
+                            app:layout_constraintBaseline_toBaselineOf="@+id/text_hsPay"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_pointDiscount"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/padding_size_m"
-                        android:textSize="@dimen/font_text_size_xs"
-                        android:textColor="@color/md_grey_600"
-                        android:textStyle="bold"
-                        android:text="@{viewModel.livePaymentDisplay.getCardInfoText()}"
-                        tools:text="玉山商業銀行00000"
-                        app:layout_constraintBaseline_toBaselineOf="@+id/text_hsPay"
-                        app:layout_constraintEnd_toStartOf="@+id/switch_creditCard" />
+                        android:paddingStart="@dimen/padding_size_xl"
+                        android:paddingEnd="@dimen/padding_size_l"
+                        android:paddingTop="@dimen/padding_size_l"
+                        android:paddingBottom="@dimen/padding_size_l"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?selectableItemBackground" >
 
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/switch_creditCard"
-                        android:layout_width="wrap_content"
+                        <TextView
+                            android:id="@+id/text_pointDiscount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/use_point_discount"
+                            android:textSize="@dimen/font_text_size_s"
+                            android:textColor="@color/md_grey_600"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"/>
+
+                        <TextView
+                            android:id="@+id/text_couponPointIcon"
+                            android:layout_width="@dimen/font_text_size_s"
+                            android:layout_height="@dimen/font_text_size_s"
+                            android:layout_marginEnd="@dimen/padding_size_m"
+                            android:gravity="center"
+                            style="@style/Widget.AppCompat.Button"
+                            android:text="P"
+                            android:textSize="10sp"
+                            android:textColor="@color/md_white_1000"
+                            android:background="@drawable/background_round_point"
+                            android:visibility="@{viewModel.livePaymentDisplay.getPointVisibility()}"
+                            app:layout_constraintTop_toTopOf="@+id/text_point"
+                            app:layout_constraintBottom_toBottomOf="@+id/text_point"
+                            app:layout_constraintEnd_toStartOf="@+id/text_point"/>
+
+                        <TextView
+                            android:id="@+id/text_point"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/padding_size_m"
+                            android:textSize="@dimen/font_text_size_xs"
+                            android:textColor="@color/md_grey_600"
+                            android:textStyle="bold"
+                            android:text="@{viewModel.livePaymentDisplay.getSelectedPointsText()}"
+                            android:visibility="@{viewModel.livePaymentDisplay.getPointVisibility()}"
+                            tools:text="12345"
+                            app:layout_constraintBaseline_toBaselineOf="@+id/text_pointDiscount"
+                            app:layout_constraintEnd_toStartOf="@+id/switch_point" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switch_point"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="@{viewModel.livePaymentDisplay.isPointEnabled ? true : false, default = true}"
+                            app:layout_constraintBaseline_toBaselineOf="@+id/text_pointDiscount"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_useCoupon"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checked="@{viewModel.livePaymentDisplay.isCreditCardEnabled ? true : false, default = true}"
-                        app:layout_constraintBaseline_toBaselineOf="@+id/text_hsPay"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                        android:paddingStart="@dimen/padding_size_xl"
+                        android:paddingEnd="@dimen/padding_size_l"
+                        android:paddingTop="@dimen/padding_size_l"
+                        android:paddingBottom="@dimen/padding_size_l"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?selectableItemBackground" >
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        <TextView
+                            android:id="@+id/text_useCoupon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/use_coupon"
+                            android:textSize="@dimen/font_text_size_s"
+                            android:textColor="@color/md_grey_600"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_pointDiscount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/padding_size_xl"
-                    android:paddingEnd="@dimen/padding_size_l"
-                    android:paddingTop="@dimen/padding_size_l"
-                    android:paddingBottom="@dimen/padding_size_l"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?selectableItemBackground" >
+                        <TextView
+                            android:id="@+id/text_selectedCoupon"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/padding_size_m"
+                            android:layout_marginEnd="@dimen/padding_size_m"
+                            android:padding="@dimen/padding_size_s"
+                            android:gravity="center_vertical|end"
+                            android:textSize="@dimen/font_text_size_xs"
+                            android:textColor="@color/md_grey_600"
+                            android:textStyle="bold"
+                            android:text="@{viewModel.livePaymentDisplay.selectedCouponName}"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:visibility="@{viewModel.livePaymentDisplay.getCouponVisibility()}"
+                            tools:text="$50元享樂券"
+                            app:layout_constraintBaseline_toBaselineOf="@+id/text_useCoupon"
+                            app:layout_constraintStart_toEndOf="@+id/text_useCoupon"
+                            app:layout_constraintEnd_toStartOf="@+id/text_selectCoupon"/>
 
-                    <TextView
-                        android:id="@+id/text_pointDiscount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/use_point_discount"
-                        android:textSize="@dimen/font_text_size_s"
-                        android:textColor="@color/md_grey_600"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        <TextView
+                            android:id="@+id/text_selectCoupon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/padding_size_s"
+                            android:text="@string/select_coupon"
+                            android:textSize="@dimen/font_text_size_xs"
+                            android:textColor="@color/md_grey_500"
+                            android:background="@drawable/background_stroke_grey"
+                            app:layout_constraintBaseline_toBaselineOf="@+id/text_useCoupon"
+                            app:layout_constraintEnd_toEndOf="parent"/>
 
-                    <TextView
-                        android:id="@+id/text_couponPointIcon"
-                        android:layout_width="@dimen/font_text_size_s"
-                        android:layout_height="@dimen/font_text_size_s"
-                        android:layout_marginEnd="@dimen/padding_size_m"
-                        android:gravity="center"
-                        style="@style/Widget.AppCompat.Button"
-                        android:text="P"
-                        android:textSize="10sp"
-                        android:textColor="@color/md_white_1000"
-                        android:background="@drawable/background_round_point"
-                        android:visibility="@{viewModel.livePaymentDisplay.getPointVisibility()}"
-                        app:layout_constraintTop_toTopOf="@+id/text_point"
-                        app:layout_constraintBottom_toBottomOf="@+id/text_point"
-                        app:layout_constraintEnd_toStartOf="@+id/text_point"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <TextView
-                        android:id="@+id/text_point"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/padding_size_m"
-                        android:textSize="@dimen/font_text_size_xs"
-                        android:textColor="@color/md_grey_600"
-                        android:textStyle="bold"
-                        android:text="@{viewModel.livePaymentDisplay.getSelectedPointsText()}"
-                        android:visibility="@{viewModel.livePaymentDisplay.getPointVisibility()}"
-                        tools:text="12345"
-                        app:layout_constraintBaseline_toBaselineOf="@+id/text_pointDiscount"
-                        app:layout_constraintEnd_toStartOf="@+id/switch_point" />
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/switch_point"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="@{viewModel.livePaymentDisplay.isPointEnabled ? true : false, default = true}"
-                        app:layout_constraintBaseline_toBaselineOf="@+id/text_pointDiscount"
-                        app:layout_constraintEnd_toEndOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_useCoupon"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/padding_size_xl"
-                    android:paddingEnd="@dimen/padding_size_l"
-                    android:paddingTop="@dimen/padding_size_l"
-                    android:paddingBottom="@dimen/padding_size_l"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?selectableItemBackground" >
-
-                    <TextView
-                        android:id="@+id/text_useCoupon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/use_coupon"
-                        android:textSize="@dimen/font_text_size_s"
-                        android:textColor="@color/md_grey_600"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
-
-                    <TextView
-                        android:id="@+id/text_selectedCoupon"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/padding_size_m"
-                        android:layout_marginEnd="@dimen/padding_size_m"
-                        android:padding="@dimen/padding_size_s"
-                        android:gravity="center_vertical|end"
-                        android:textSize="@dimen/font_text_size_xs"
-                        android:textColor="@color/md_grey_600"
-                        android:textStyle="bold"
-                        android:text="@{viewModel.livePaymentDisplay.selectedCouponName}"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:visibility="@{viewModel.livePaymentDisplay.getCouponVisibility()}"
-                        tools:text="$50元享樂券"
-                        app:layout_constraintBaseline_toBaselineOf="@+id/text_useCoupon"
-                        app:layout_constraintStart_toEndOf="@+id/text_useCoupon"
-                        app:layout_constraintEnd_toStartOf="@+id/text_selectCoupon"/>
-
-                    <TextView
-                        android:id="@+id/text_selectCoupon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_size_s"
-                        android:text="@string/select_coupon"
-                        android:textSize="@dimen/font_text_size_xs"
-                        android:textColor="@color/md_grey_500"
-                        android:background="@drawable/background_stroke_grey"
-                        app:layout_constraintBaseline_toBaselineOf="@+id/text_useCoupon"
-                        app:layout_constraintEnd_toEndOf="parent"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </LinearLayout>
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/image_qrCode"
-                android:layout_width="@dimen/poi_photo_edit_view_l"
-                android:layout_height="0dp"
-                android:visibility="@{viewModel.livePaymentDisplay.getPaymentCodeVisibility()}"
-                app:createQRCode="@{viewModel.livePaymentDisplay.paymentCode}"
-                app:layout_constraintTop_toBottomOf="@+id/layout_payOptions"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0.12"
-                app:layout_constraintDimensionRatio="1:1"
-                tools:background="@color/md_grey_200"/>
-
-            <TextView
-                android:id="@+id/text_code"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginTop="@dimen/padding_size_l"
-                android:layout_marginStart="@dimen/padding_size_xl"
-                android:layout_marginEnd="@dimen/padding_size_xl"
-                android:textColor="@color/md_grey_900"
-                android:textSize="@dimen/font_text_size_m"
-                android:textStyle="bold"
-                android:text="@{viewModel.livePaymentDisplay.paymentCode}"
-                android:letterSpacing="0.05"
-                tools:text="00000000000"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image_qrCode" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/image_barcode"
-                android:layout_width="@dimen/poi_photo_edit_view_xl"
-                android:layout_height="0dp"
-                android:layout_marginTop="@dimen/padding_size_l"
-                android:visibility="@{viewModel.livePaymentDisplay.getPaymentCodeVisibility()}"
-                app:createBarcode="@{viewModel.livePaymentDisplay.paymentCode}"
-                app:layout_constraintTop_toBottomOf="@+id/text_code"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintDimensionRatio="7:2"
-                tools:background="@color/md_grey_200"/>
-
-            <LinearLayout
-                android:id="@+id/button_refresh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:paddingStart="@dimen/padding_size_m"
-                android:paddingEnd="@dimen/padding_size_m"
-                android:paddingTop="@dimen/padding_size_s"
-                android:paddingBottom="@dimen/padding_size_s"
-                android:clickable="true"
-                android:focusable="true"
-                android:visibility="@{viewModel.livePaymentDisplay.getPaymentCodeVisibility()}"
-                android:background="?selectableItemBackground"
-                app:singleClick="@{() -> viewModel.loadPaymentCode()}"
-                app:layout_constraintTop_toTopOf="@+id/image_barcode"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0.75" >
+                </LinearLayout>
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/image_refresh"
-                    android:layout_width="@dimen/font_text_size_m"
-                    android:layout_height="@dimen/font_text_size_s"
-                    android:layout_marginEnd="@dimen/padding_size_s"
-                    app:srcCompat="@drawable/ic_refresh_grey"/>
+                    android:id="@+id/image_qrCode"
+                    android:layout_width="@dimen/poi_photo_edit_view_l"
+                    android:layout_height="0dp"
+                    android:visibility="@{viewModel.livePaymentDisplay.getPaymentCodeVisibility()}"
+                    app:createQRCode="@{viewModel.livePaymentDisplay.paymentCode}"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_payOptions"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintVertical_bias="0.12"
+                    app:layout_constraintDimensionRatio="1:1"
+                    tools:background="@color/md_grey_200"/>
 
                 <TextView
-                    android:id="@+id/text_refreshQrCode"
+                    android:id="@+id/text_code"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/padding_size_l"
+                    android:layout_marginStart="@dimen/padding_size_xl"
+                    android:layout_marginEnd="@dimen/padding_size_xl"
+                    android:textColor="@color/md_grey_900"
+                    android:textSize="@dimen/font_text_size_m"
+                    android:textStyle="bold"
+                    android:text="@{viewModel.livePaymentDisplay.paymentCode}"
+                    android:letterSpacing="0.05"
+                    tools:text="00000000000"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/image_qrCode" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/image_barcode"
+                    android:layout_width="@dimen/poi_photo_edit_view_xl"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/padding_size_l"
+                    android:visibility="@{viewModel.livePaymentDisplay.getPaymentCodeVisibility()}"
+                    app:createBarcode="@{viewModel.livePaymentDisplay.paymentCode}"
+                    app:layout_constraintTop_toBottomOf="@+id/text_code"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintDimensionRatio="7:2"
+                    tools:background="@color/md_grey_200"/>
+
+                <LinearLayout
+                    android:id="@+id/button_refresh"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/refresh_qr_code"
-                    android:textSize="@dimen/font_text_size_xs"
-                    android:textColor="@color/md_grey_700"/>
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/padding_size_m"
+                    android:paddingEnd="@dimen/padding_size_m"
+                    android:paddingTop="@dimen/padding_size_s"
+                    android:paddingBottom="@dimen/padding_size_s"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:visibility="@{viewModel.livePaymentDisplay.getPaymentCodeVisibility()}"
+                    android:background="?selectableItemBackground"
+                    app:singleClick="@{() -> viewModel.loadPaymentCode()}"
+                    app:layout_constraintTop_toTopOf="@+id/image_barcode"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintVertical_bias="0.75" >
 
-            </LinearLayout>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/image_refresh"
+                        android:layout_width="@dimen/font_text_size_m"
+                        android:layout_height="@dimen/font_text_size_s"
+                        android:layout_marginEnd="@dimen/padding_size_s"
+                        app:srcCompat="@drawable/ic_refresh_grey"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/text_refreshQrCode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/refresh_qr_code"
+                        android:textSize="@dimen/font_text_size_xs"
+                        android:textColor="@color/md_grey_700"/>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/button_close"

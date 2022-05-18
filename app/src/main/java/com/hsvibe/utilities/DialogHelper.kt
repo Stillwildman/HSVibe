@@ -200,6 +200,9 @@ object DialogHelper {
                 onButtonClick()
             }
         }
+        dialog.setOnDismissListener {
+            context.theme.applyStyle(R.style.AppTheme, true)
+        }
         return dialog.also {
             setupDialogWindowAttribute(it)
             it.window?.setDimAmount(0.6f)
