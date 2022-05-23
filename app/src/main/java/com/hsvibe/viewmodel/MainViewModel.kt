@@ -302,10 +302,23 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
         val updatingValue = livePaymentDisplay.value
 
         updatingValue?.let {
+            it.isCreditCardEnabled = true
             it.selectedCardKey = cardKey
             it.cardName = cardName
             it.cardNumber = cardNumber.substring(0, 4)
             it.cardBrandRes = brandIconRes
+        }
+        livePaymentDisplay.value = updatingValue
+
+        loadPaymentCode()
+    }
+
+    fun updatePaymentPoints(points: Int) {
+        val updatingValue = livePaymentDisplay.value
+
+        updatingValue?.let {
+            it.isPointEnabled = true
+            it.selectedPoints = points
         }
         livePaymentDisplay.value = updatingValue
 

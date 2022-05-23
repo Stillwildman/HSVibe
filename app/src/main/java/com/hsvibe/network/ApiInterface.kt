@@ -119,4 +119,13 @@ interface ApiInterface {
         @Header(ApiConst.AUTHORIZATION) auth: String,
         @Body body: PostPaymentPayload
     ): Response<ItemPayloadCode>
+
+    @GET(Urls.API_TRANSACTION_HISTORY)
+    suspend fun getTransactionHistory(
+        @Header(ApiConst.AUTHORIZATION) auth: String,
+        @Query(ApiConst.ORDER_BY) orderBy: String,
+        @Query(ApiConst.SORTED_BY) sortedBy: String,
+        @Query(ApiConst.LIMIT) limit: Int,
+        @Query(ApiConst.PAGE) page: Int
+    ): Response<ItemTransactions>
 }

@@ -47,6 +47,8 @@ object Urls {
 
     const val API_PAYMENT_PAYLOAD = "transaction/payload"
 
+    const val API_TRANSACTION_HISTORY = "transaction/payment"
+
     const val WEB_HS_VIBE = "https://www.hsvibe.com/"
 
     const val WEB_HS_VIBE_TERMS = "https://www.hsvibe.com/terms"

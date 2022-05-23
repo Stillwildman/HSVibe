@@ -4,7 +4,6 @@ import android.view.View
 import com.hsvibe.AppController
 import com.hsvibe.R
 import java.text.NumberFormat
-import java.util.*
 
 /**
  * Created by Vincent on 2022/5/17.
@@ -34,7 +33,7 @@ data class ItemPaymentDisplay(
     }
 
     fun getSelectedPointsText(): String {
-        return NumberFormat.getInstance(Locale.getDefault()).format(selectedPoints)
+        return NumberFormat.getInstance().format(selectedPoints)
     }
 
     fun getCouponVisibility(): Int {

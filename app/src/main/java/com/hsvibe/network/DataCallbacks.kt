@@ -227,4 +227,16 @@ object DataCallbacks {
             getApiInterface().getPaymentCode(auth, payloadItem)
         }
     }
+
+    suspend fun getTransactionHistory(auth: String,
+                                      orderBy: String = "${ApiConst.ORDER_BY_TOP};${ApiConst.ORDER_BY_UPDATED}",
+                                      sortedBy: String = "${ApiConst.SORTED_BY_DESC};${ApiConst.SORTED_BY_DESC}",
+                                      limit: Int = ApiConst.DEFAULT_LIMIT,
+                                      page: Int = 1,
+                                      loadingCallback: OnLoadingCallback? = null
+    ): ItemTransactions? {
+        return getApiResult(loadingCallback) {
+            getApiInterface().getTransactionHistory(auth, orderBy, sortedBy, limit, page)
+        }
+    }
 }

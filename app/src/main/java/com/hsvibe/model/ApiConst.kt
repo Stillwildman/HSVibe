@@ -23,8 +23,10 @@ object ApiConst {
     const val SORTED_BY_ASC = "asc"
     const val SORTED_BY_DESC = "desc"
 
-    // Returned message
+    // Returned content
     const val SUCCESS = "success"
+    const val PAY = "pay"
+    const val REFUND = "refund"
 
     // Returned keys
     const val STATUS = "status"

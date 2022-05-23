@@ -67,7 +67,7 @@ class UiPaymentFragment : BaseDialogFragment<FragmentPaymentBinding>() {
             }
 
             layoutPointDiscount.setOnSingleClickListener {
-                // TODO
+                openDialogFragment(UiPointSelectionFragment())
             }
 
             layoutUseCoupon.setOnSingleClickListener {

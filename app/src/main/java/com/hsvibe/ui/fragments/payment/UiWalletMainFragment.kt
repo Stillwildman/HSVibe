@@ -200,7 +200,7 @@ class UiWalletMainFragment : BaseFragment<FragmentWalletMainBinding>(), OnAnyIte
             R.drawable.ic_point_transfer -> {}  // TODO Temporary Disabled
             R.drawable.ic_point_history -> openDialogFragment(UiPointHistoryFragment())
             R.drawable.ic_ticket_holder -> openDialogFragment(UiCouponHistoryFragment(), Const.BACK_COUPON_LiST)
-            R.drawable.ic_transaction_history -> {}
+            R.drawable.ic_transaction_history -> openDialogFragment(UiTransactionHistoryFragment())
             R.drawable.ic_scan -> { // TODO Temporary Disabled
                 checkPermissionThenOpenDialogFragment(PermissionCheckHelper.PERMISSION_REQUEST_CODE_CAMERA, UiScanFragment.newInstance(false))
             }

@@ -77,4 +77,19 @@ object DifferItems {
                     && oldItem.bank_number == newItem.bank_number
         }
     }
+
+    object TransactionDiffer : DiffUtil.ItemCallback<ItemTransactions.ContentData>() {
+        override fun areItemsTheSame(oldItem: ItemTransactions.ContentData, newItem: ItemTransactions.ContentData): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: ItemTransactions.ContentData, newItem: ItemTransactions.ContentData): Boolean {
+            return oldItem.id == newItem.id
+                    && oldItem.transaction_code == newItem.transaction_code
+                    && oldItem.store_name == newItem.store_name
+                    && oldItem.action == newItem.action
+                    && oldItem.created_at == newItem.created_at
+        }
+
+    }
 }
