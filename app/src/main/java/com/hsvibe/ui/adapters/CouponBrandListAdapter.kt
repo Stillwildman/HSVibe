@@ -1,5 +1,6 @@
 package com.hsvibe.ui.adapters
 
+import android.annotation.SuppressLint
 import android.util.ArrayMap
 import android.view.LayoutInflater
 import android.view.View
@@ -14,8 +15,8 @@ import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.callbacks.OnAnyItemClickCallback
 import com.hsvibe.callbacks.SingleClickListener
-import com.hsvibe.databinding.InflateCategoryRowBinding
-import com.hsvibe.databinding.InflateCategoryVerticalBinding
+import com.hsvibe.databinding.InflateBrandRowBinding
+import com.hsvibe.databinding.InflateBrandVerticalBinding
 import com.hsvibe.model.Const
 import com.hsvibe.model.items.ItemBrand
 import com.hsvibe.utilities.L
@@ -38,14 +39,12 @@ class CouponBrandListAdapter(
 
     private val screenWidth by lazy { Utility.getScreenWidth() }
 
-    private val verticalCategorySize by lazy { ArrayMap<Int, Int>() }
+    private val verticalLayoutMap by lazy { ArrayMap<Int, Int>() }
 
     private var columnSelectedIndex = Const.NO_POSITION
     private var lastColumnSelectedIndex = Const.NO_POSITION
     private var rowSelectedIndex = Const.NO_POSITION
     private var lastRowSelectedIndex = Const.NO_POSITION
-
-    private var currentIndex: Int = 0
 
     private var lastSelectedIndex: Int = Const.NO_POSITION
 
@@ -54,13 +53,23 @@ class CouponBrandListAdapter(
         private const val VIEW_TYPE_VERTICAL = 1
     }
 
-    fun updateList(storeList: List<ItemBrand.ContentData>) {
-        notifyItemRangeRemoved(0, itemCount)
-        this.brandList.apply {
-            clear()
-            addAll(storeList)
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateList(brandList: List<ItemBrand.ContentData>) {
+        L.i("updateList! brandList size: ${brandList.size}")
+
+        scope.launch {
+            this@CouponBrandListAdapter.brandList.apply {
+                clear()
+                notifyDataSetChanged()
+
+                addAll(brandList)
+
+                if (!isRowType()) {
+                    calculateVerticalLayout()
+                }
+                notifyItemRangeChanged(0, itemCount)
+            }
         }
-        notifyItemRangeChanged(0, storeList.size)
     }
 
     private fun isRowType(): Boolean {
@@ -73,48 +82,51 @@ class CouponBrandListAdapter(
 
     private suspend fun calculateVerticalLayout(): Int {
         return withContext(Dispatchers.Default) {
+            verticalLayoutMap.clear()
+
             val inflater = LayoutInflater.from(AppController.getAppContext())
 
             var totalWidth = 0
-
-            var rowSize = 0
-            var tempWidth = 0
+            var rowBrandSize = 0
 
             val marginSizeM = AppController.getAppContext().resources.getDimensionPixelSize(R.dimen.padding_size_m)
 
-            brandList.forEachIndexed { i, item ->
-                if (tempWidth != 0) {
-                    totalWidth = tempWidth
-                    tempWidth = 0
-                    rowSize = 1
-                }
+            L.i("calculateVerticalLayout! brandList size: ${brandList.size}")
 
-                val tagView = inflater.inflate(R.layout.inflate_category_row, null, false) as TextView
-                tagView.text = item.name
-                tagView.measure(0, 0)
-                val textWidth = tagView.measuredWidth
+            brandList.forEachIndexed { i, item ->
+                val textView = inflater.inflate(R.layout.inflate_brand_row, null, false) as TextView
+                textView.apply {
+                    text = item.name
+                    textView.measure(0, 0)
+                }
+                val textWidth = textView.measuredWidth
 
                 totalWidth += textWidth.also { L.i("Text: ${item.name} Width: $it") } + (marginSizeM * 2)
 
                 L.i("TotalWidth: $totalWidth/$screenWidth")
 
                 if (totalWidth < screenWidth) {
-                    rowSize++
+                    rowBrandSize++
                     if (i == brandList.lastIndex) {
-                        verticalCategorySize[verticalCategorySize.size] = rowSize
+                        verticalLayoutMap[verticalLayoutMap.size] = rowBrandSize
+                        L.d("VerticalListSize: LastIndex: ${verticalLayoutMap.size - 1} RowBrandSize: ${verticalLayoutMap[verticalLayoutMap.size - 1]}")
                     }
                 }
                 else {
+                    verticalLayoutMap[verticalLayoutMap.size] = rowBrandSize
+                    L.d("VerticalListSize: Index: ${verticalLayoutMap.size - 1} RowBrandSize: ${verticalLayoutMap[verticalLayoutMap.size - 1]}")
+
                     if (i == brandList.lastIndex) {
-                        rowSize++
+                        verticalLayoutMap[verticalLayoutMap.size] = 1
+                        L.d("VerticalListSize: LastIndex: ${verticalLayoutMap.size - 1} RowBrandSize: ${verticalLayoutMap[verticalLayoutMap.size - 1]}")
                     }
-                    verticalCategorySize[verticalCategorySize.size] = rowSize
-                    L.i("VerticalListSize: Index: ${verticalCategorySize.size - 1} RowSize: ${verticalCategorySize[verticalCategorySize.size - 1]}")
-                    totalWidth = 0
-                    tempWidth = textWidth
+                    else {
+                        totalWidth = textWidth
+                        rowBrandSize = 1
+                    }
                 }
             }
-            verticalCategorySize.size
+            verticalLayoutMap.size
         }
     }
 
@@ -122,26 +134,25 @@ class CouponBrandListAdapter(
         scope.launch {
             layoutManage.apply {
                 if (isRowType()) {
-                    orientation = RecyclerView.VERTICAL
-                    currentIndex = 0
+                    this@CouponBrandListAdapter.notifyItemRangeRemoved(0, itemCount)
                     calculateVerticalLayout().also { L.i("LayoutCount: $it") }
+                    orientation = RecyclerView.VERTICAL
                     lastSelectedIndex = rowSelectedIndex
-                    this@CouponBrandListAdapter.notifyItemRangeChanged(0, itemCount)
+                    this@CouponBrandListAdapter.notifyItemChanged(0)
                 }
                 else {
                     orientation = RecyclerView.HORIZONTAL
                     lastSelectedIndex = findSelectedItemIndex()
                     lastRowSelectedIndex = lastSelectedIndex
-                    this@CouponBrandListAdapter.notifyItemRangeChanged(0, itemCount.also { L.i("NotifyItemCount: $it") })
 
-                    verticalCategorySize.clear()
+                    this@CouponBrandListAdapter.notifyItemRangeChanged(0, verticalLayoutMap.size.also { L.i("NotifyItemCount: $it") })
                 }
             }
         }
     }
 
     override fun getItemCount(): Int {
-        return if (isRowType()) brandList.size else verticalCategorySize.size
+        return if (isRowType()) brandList.size else verticalLayoutMap.size
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -152,11 +163,11 @@ class CouponBrandListAdapter(
         val inflater = LayoutInflater.from(parent.context)
 
         return if (viewType == VIEW_TYPE_HORIZONTAL) {
-            val bindingView = DataBindingUtil.inflate<InflateCategoryRowBinding>(inflater, R.layout.inflate_category_row, parent, false)
+            val bindingView = DataBindingUtil.inflate<InflateBrandRowBinding>(inflater, R.layout.inflate_brand_row, parent, false)
             BrandRowViewHolder(bindingView)
         }
         else {
-            val bindingView = DataBindingUtil.inflate<InflateCategoryVerticalBinding>(inflater, R.layout.inflate_category_vertical, parent, false)
+            val bindingView = DataBindingUtil.inflate<InflateBrandVerticalBinding>(inflater, R.layout.inflate_brand_vertical, parent, false)
             BrandVerticalViewHolder(bindingView)
         }
     }
@@ -165,7 +176,7 @@ class CouponBrandListAdapter(
         super.onViewRecycled(holder)
         if (holder is BrandVerticalViewHolder) {
             scope.launch {
-                holder.bindingView.layoutCategoryTagRoot.removeAllViews()
+                holder.bindingView.layoutBrandTagRoot.removeAllViews()
             }
         }
     }
@@ -182,7 +193,8 @@ class CouponBrandListAdapter(
                 }
             }
             is BrandVerticalViewHolder -> {
-                holder.inflateCategoryTag(position)
+                L.d("onBindViewHolder! inflateBrandTag: $position")
+                holder.inflateBrandTag(position)
             }
         }
     }
@@ -214,11 +226,11 @@ class CouponBrandListAdapter(
             rowSelectedIndex = lastSelectedIndex
             lastSelectedIndex = Const.NO_POSITION
         }
-        holder.bindingView.textCategory.isSelected = position == rowSelectedIndex
+        holder.bindingView.textBrand.isSelected = position == rowSelectedIndex
     }
 
     private fun setVerticalItemSelected(holder: BrandVerticalViewHolder, columnPosition: Int, rowPosition: Int) {
-        holder.bindingView.layoutCategoryTagRoot.also { L.i("ColumnPosition: $columnPosition RowPosition: $rowPosition ChildCount: ${it.childCount}") }.forEachIndexed { index, view ->
+        holder.bindingView.layoutBrandTagRoot.also { L.i("ColumnPosition: $columnPosition RowPosition: $rowPosition ChildCount: ${it.childCount}") }.forEachIndexed { index, view ->
             view.isSelected = columnPosition == columnSelectedIndex && index == rowSelectedIndex
         }
     }
@@ -261,54 +273,61 @@ class CouponBrandListAdapter(
         }
     }
 
-    inner class BrandRowViewHolder(val bindingView: InflateCategoryRowBinding): RecyclerView.ViewHolder(bindingView.root)
+    inner class BrandRowViewHolder(val bindingView: InflateBrandRowBinding): RecyclerView.ViewHolder(bindingView.root)
 
-    inner class BrandVerticalViewHolder(val bindingView: InflateCategoryVerticalBinding): RecyclerView.ViewHolder(bindingView.root) {
+    inner class BrandVerticalViewHolder(val bindingView: InflateBrandVerticalBinding): RecyclerView.ViewHolder(bindingView.root) {
 
-        fun inflateCategoryTag(position: Int) {
+        fun inflateBrandTag(position: Int) {
             val inflater = LayoutInflater.from(bindingView.root.context)
 
             val marginSizeS = AppController.getAppContext().resources.getDimensionPixelSize(R.dimen.padding_size_s)
             val marginSizeM = AppController.getAppContext().resources.getDimensionPixelSize(R.dimen.padding_size_m)
 
-            verticalCategorySize[position]?.also { L.i("RowItemSize: $it") }?.let { rowCount ->
-                L.i("InflateCategoryTag!!! position: $position")
+            verticalLayoutMap[position]?.also { L.i("RowBrandSize: $it") }?.let { rowCount ->
+                L.i("InflateBrandTag!!! position: $position")
 
                 for (i in 0 until rowCount) {
-                    L.i("InflateCategoryTag!!! CurrentIndex: $currentIndex")
-                    if (currentIndex < brandList.size) {
-                        val item = brandList[currentIndex]
-                        item.columnPosition = position
-                        item.rowPosition = i
+                    val indexOfTotal = findIndexOfTotal(position, i)
 
-                        val tagView = inflater.inflate(R.layout.inflate_category_row, bindingView.layoutCategoryTagRoot, false) as TextView
-                        tagView.text = item.name
-                        tagView.tag = currentIndex
+                    val item = brandList[indexOfTotal]
+                    L.i("IndexOfTotal: $indexOfTotal name: ${item.name}")
 
-                        LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                            when (i) {
-                                0 -> setMargins(marginSizeM, marginSizeS, marginSizeS, marginSizeS)
-                                rowCount - 1 -> setMargins(marginSizeS, marginSizeS, marginSizeM, marginSizeS)
-                                else -> setMargins(marginSizeS, marginSizeS, marginSizeS, marginSizeS)
-                            }
-                            tagView.layoutParams = this
+                    item.columnPosition = position
+                    item.rowPosition = i
+
+                    val textView = inflater.inflate(R.layout.inflate_brand_row, bindingView.layoutBrandTagRoot, false) as TextView
+                    textView.text = item.name
+                    textView.tag = indexOfTotal
+
+                    LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+                        when (i) {
+                            0 -> setMargins(marginSizeM, marginSizeS, marginSizeS, marginSizeS)
+                            rowCount - 1 -> setMargins(marginSizeS, marginSizeS, marginSizeM, marginSizeS)
+                            else -> setMargins(marginSizeS, marginSizeS, marginSizeS, marginSizeS)
                         }
-
-                        tagView.setOnSingleClickListener(eachItemSingleClickListener)
-
-                        if (isPositionValid(lastSelectedIndex) && lastSelectedIndex == currentIndex) {
-                            tagView.isSelected = true
-                            lastColumnSelectedIndex = position
-                            lastRowSelectedIndex = i
-                            lastSelectedIndex = Const.NO_POSITION
-                        }
-                        bindingView.layoutCategoryTagRoot.addView(tagView)
-                        L.i("InflateCategoryTag!!! childAdded!! Count: ${bindingView.layoutCategoryTagRoot.childCount}")
-
-                        currentIndex++
+                        textView.layoutParams = this
                     }
+
+                    textView.setOnSingleClickListener(eachItemSingleClickListener)
+
+                    if (isPositionValid(lastSelectedIndex) && lastSelectedIndex == indexOfTotal) {
+                        textView.isSelected = true
+                        lastColumnSelectedIndex = position
+                        lastRowSelectedIndex = i
+                        lastSelectedIndex = Const.NO_POSITION
+                    }
+                    bindingView.layoutBrandTagRoot.addView(textView)
+                    L.i("InflateBrandTag!!! childAdded!! Count: ${bindingView.layoutBrandTagRoot.childCount}")
                 }
             }
+        }
+
+        private fun findIndexOfTotal(position: Int, index: Int): Int {
+            var previousSum = 0
+            for (i in 0 until position) {
+                previousSum += verticalLayoutMap[i] ?: 0
+            }
+            return previousSum + index
         }
 
     }

@@ -69,15 +69,25 @@
                     android:paddingTop="@dimen/padding_size_xl"
                     android:paddingBottom="@dimen/padding_size_xxl" >
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/image_brandPic"
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/layout_brandPic"
                         android:layout_width="@dimen/menu_land_icon"
                         android:layout_height="@dimen/menu_land_icon"
                         android:layout_marginStart="@dimen/padding_size_l"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:glideImageWithDefaultAppIcon="@{viewModel.liveCouponDetail.brand_thumb}"
-                        tools:srcCompat="@mipmap/ic_launcher"/>
+                        app:cardCornerRadius="6dp"
+                        app:cardElevation="4dp"
+                        app:cardBackgroundColor="@color/transparent_full">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/image_brandPic"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:glideImageWithDefaultAppIcon="@{viewModel.liveCouponDetail.brand_thumb}"
+                            tools:srcCompat="@mipmap/ic_launcher"/>
+
+                    </androidx.cardview.widget.CardView>
 
                     <TextView
                         android:id="@+id/text_couponTitle"
@@ -91,7 +101,7 @@
                         android:textSize="@dimen/font_text_size_m"
                         android:text="@{viewModel.liveCouponDetail.title}"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/image_brandPic"
+                        app:layout_constraintStart_toEndOf="@+id/layout_brandPic"
                         app:layout_constraintEnd_toEndOf="parent" />
 
                     <TextView
@@ -220,7 +230,7 @@
             android:layout_marginBottom="@dimen/padding_size_xl"
             android:text="@string/redeem_point"
             android:textColor="@color/color_button_text_selector"
-            android:textSize="@dimen/font_text_size_m"
+            android:textSize="@dimen/font_text_size_s"
             android:background="@drawable/background_main_theme_button"
             android:enabled="@{viewModel.liveCouponDetail.stock > 0 ? true : false, default=true}"
             app:singleClick="@{() -> itemClickCallback.onItemClick(viewModel.liveCouponDetail)}"/>

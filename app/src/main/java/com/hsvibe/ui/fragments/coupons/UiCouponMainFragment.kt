@@ -116,7 +116,7 @@ class UiCouponMainFragment private constructor(): BaseFragment<FragmentCouponMai
         }
 
         bindingView.buttonSwitch.setOnSingleClickListener {
-            //switchCategoryLayoutOrientation()  // TODO Fix this function!
+            switchCategoryLayoutOrientation()
         }
     }
 
@@ -136,26 +136,26 @@ class UiCouponMainFragment private constructor(): BaseFragment<FragmentCouponMai
                 layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             }
             if (adapter == null) {
-                adapter = CouponBrandListAdapter(layoutManager as LinearLayoutManager, brandList, onStoreClickCallback, viewLifecycleOwner.lifecycleScope)
+                adapter = CouponBrandListAdapter(layoutManager as LinearLayoutManager, brandList, onBrandClickCallback, viewLifecycleOwner.lifecycleScope)
                 doFirstSelection(brandList, false)
             }
             else {
-                getStoreListAdapter()?.updateList(brandList)
+                getBrandListAdapter()?.updateList(brandList)
                 doFirstSelection(brandList, true)
             }
         }
     }
 
-    private val onStoreClickCallback = object : OnAnyItemClickCallback<ItemBrand.ContentData> {
+    private val onBrandClickCallback = object : OnAnyItemClickCallback<ItemBrand.ContentData> {
         override fun onItemClick(item: ItemBrand.ContentData) {
-            getStoreListAdapter()?.setSelected(item)
+            getBrandListAdapter()?.setSelected(item)
             onBrandSelected(item.store_ids)
         }
     }
 
     private fun doFirstSelection(brandList: List<ItemBrand.ContentData>, refreshStoreIds: Boolean) {
         brandList.takeIf { it.isNotEmpty() }?.let {
-            getStoreListAdapter()?.setSelected(it.first())
+            getBrandListAdapter()?.setSelected(it.first())
             if (refreshStoreIds) {
                 onBrandSelected(it.first().store_ids)
             }
@@ -167,10 +167,10 @@ class UiCouponMainFragment private constructor(): BaseFragment<FragmentCouponMai
     }
 
     private fun switchCategoryLayoutOrientation() {
-        getStoreListAdapter()?.changeLayoutOrientation()
+        getBrandListAdapter()?.changeLayoutOrientation()
     }
 
-    private fun getStoreListAdapter(): CouponBrandListAdapter? {
+    private fun getBrandListAdapter(): CouponBrandListAdapter? {
         return bindingView.recyclerCouponBrands.adapter as? CouponBrandListAdapter
     }
 
