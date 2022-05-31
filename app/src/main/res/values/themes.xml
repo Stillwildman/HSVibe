@@ -29,6 +29,8 @@
         <item name="android:navigationBarColor">@color/tab_bottom_color</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowAnimationStyle">@style/BasicAnimationStyle</item>
+        <item name="colorDialogSurface">@color/app_background_color</item>
+        <item name="colorDialogSurfacePressed">@color/md_grey_900</item>
     </style>
 
     <style name="MyMenuTextStyle">
@@ -71,7 +73,7 @@
     </style>
 
     <style name="DialogFasterAnimTheme" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:windowAnimationStyle">@style/DialogSlideUpAnimFaster</item>
+        <item name="android:windowAnimationStyle">@style/DialogSlideDownAnimFaster</item>
     </style>
 
     <style name="DialogSlideUpAnim">
@@ -88,16 +90,23 @@
         <item name="android:windowEnterAnimation">@anim/slide_in_from_bottom_faster</item>
         <item name="android:windowExitAnimation">@anim/slide_out_to_bottom_faster</item>
     </style>
+
+    <style name="DialogSlideDownAnimFaster">
+        <item name="android:windowEnterAnimation">@anim/slide_in_from_top_faster</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_to_top_faster</item>
+    </style>
     <!-- End of DialogFragment -->
 
     <style name="DialogSurfaceDark" parent="Theme.AppCompat.Dialog">
         <item name="colorDialogSurface">@color/app_background_color</item>
         <item name="colorDialogSurfacePressed">@color/md_grey_900</item>
+        <item name="android:windowAnimationStyle">@style/DialogSlideDownAnimFaster</item>
     </style>
 
     <style name="DialogSurfaceCaution" parent="Theme.AppCompat.Dialog">
         <item name="colorDialogSurface">@color/md_red_600</item>
         <item name="colorDialogSurfacePressed">@color/md_red_400</item>
+        <item name="android:windowAnimationStyle">@style/DialogSlideDownAnimFaster</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
@@ -168,6 +177,10 @@
         <item name="tabPaddingEnd">0dp</item>
         <item name="tabGravity">fill</item>
         <item name="tabMode">fixed</item>
+    </style>
+
+    <style name="MySwitchButtonStyle" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="colorControlActivated">@color/switch_color</item>
     </style>
 
 </resources>

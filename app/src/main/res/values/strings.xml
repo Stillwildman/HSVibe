@@ -42,7 +42,7 @@
     <string name="later">稍後再說</string>
     <string name="member_center">會員中心</string>
     <string name="accumulated_spent">年度累積消費金額</string>
-    <string name="nt_amount_is">NT. %.1f</string>
+    <string name="nt_amount_is">NT. %s</string>
     <string name="member_card">H\'S VIBE 會員卡</string>
     <string name="accumulated_point">點數累積</string>
     <string name="my_coupons">我的優惠券</string>
@@ -187,7 +187,7 @@
     <string name="available_points">目前可用點數</string>
     <string name="point_discount_hint">每1點折抵1元現金</string>
     <string name="discount_amount">可折抵金額</string>
-    <string name="dollar_is">%d 元</string>
+    <string name="dollar_is">%s 元</string>
     <string name="point_limit">不可大於目前可用點數</string>
 
     <!-- Scanning -->

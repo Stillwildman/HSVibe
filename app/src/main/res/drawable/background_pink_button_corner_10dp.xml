@@ -3,14 +3,14 @@
 
     <item android:state_pressed="true">
         <shape>
-            <solid android:color="@color/md_pink_200" />
+            <solid android:color="@color/coupon_using_color_pressed" />
             <corners android:radius="10dp" />
         </shape>
     </item>
 
     <item>
         <shape>
-            <solid android:color="@color/md_pink_300" />
+            <solid android:color="@color/coupon_using_color" />
             <corners android:radius="10dp" />
         </shape>
     </item>

@@ -70,15 +70,25 @@
                 android:paddingTop="@dimen/padding_size_xl"
                 android:paddingBottom="@dimen/padding_size_xl" >
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/image_brandPic"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/layout_brandPic"
                     android:layout_width="@dimen/menu_land_icon"
                     android:layout_height="@dimen/menu_land_icon"
                     android:layout_marginStart="@dimen/padding_size_l"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:glideImageWithDefaultAppIcon="@{coupon.brand_thumb}"
-                    tools:srcCompat="@mipmap/ic_launcher"/>
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="2dp"
+                    app:cardBackgroundColor="@color/md_white_1000">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/image_brandPic"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:glideImageWithDefaultAppIcon="@{coupon.brand_thumb}"
+                        tools:srcCompat="@mipmap/ic_launcher"/>
+
+                </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:id="@+id/text_couponTitle"
@@ -92,7 +102,7 @@
                     android:textSize="@dimen/font_text_size_m"
                     android:text="@{coupon.title}"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/image_brandPic"
+                    app:layout_constraintStart_toEndOf="@+id/layout_brandPic"
                     app:layout_constraintEnd_toEndOf="parent" />
 
                 <TextView
@@ -144,7 +154,7 @@
                     tools:text="100 點"
                     android:textSize="@dimen/font_text_size_s"
                     android:textColor="@color/md_grey_900"
-                    android:text="@{@string/point_has_int(coupon.point)}"
+                    android:text="@{@string/point_has_string(coupon.getPointText())}"
                     app:layout_constraintStart_toEndOf="@+id/text_couponPointIcon"
                     app:layout_constraintTop_toTopOf="@id/text_couponPointIcon"
                     app:layout_constraintBottom_toBottomOf="@+id/text_couponPointIcon"/>
@@ -158,8 +168,8 @@
                     android:textSize="@dimen/font_text_size_s"
                     android:textColor="@color/md_white_1000"
                     android:background="@drawable/background_pink_button_corner_10dp"
-                    android:visibility="@{barcodeText == null ? View.VISIBLE : View.GONE, default=visible}"
-                    app:layout_constraintStart_toStartOf="@+id/image_brandPic"
+                    android:visibility="@{barcodeText == null ? View.VISIBLE : View.INVISIBLE, default=visible}"
+                    app:layout_constraintStart_toStartOf="@+id/layout_brandPic"
                     app:layout_constraintEnd_toEndOf="@+id/text_couponTitle"
                     app:layout_constraintTop_toBottomOf="@+id/text_couponPointIcon"
                     app:singleClick="@{() -> itemClickCallback.onItemClick(coupon.uuid)}"
@@ -185,7 +195,7 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/actionbar_height_more_higher"
                     android:layout_marginTop="@dimen/padding_size_xl"
-                    app:layout_constraintStart_toStartOf="@+id/image_brandPic"
+                    app:layout_constraintStart_toStartOf="@+id/layout_brandPic"
                     app:layout_constraintEnd_toEndOf="@+id/text_couponTitle"
                     app:layout_constraintTop_toBottomOf="@+id/text_couponPointIcon"
                     android:visibility="gone"
@@ -199,7 +209,7 @@
                     android:gravity="center"
                     android:text="@{barcodeText}"
                     android:textSize="@dimen/font_text_size_s"
-                    android:textColor="@color/md_grey_500"
+                    android:textColor="@color/md_grey_900"
                     android:visibility="@{barcodeText == null ? View.GONE : View.VISIBLE, default=gone}"
                     tools:text="123456789"
                     app:layout_constraintTop_toBottomOf="@+id/image_barcode"
@@ -213,31 +223,20 @@
                     app:barrierDirection="bottom"
                     app:constraint_referenced_ids="button_use,text_barcodeText" />
 
-                <View
-                    android:id="@+id/view_background"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="@dimen/padding_size_xl"
-                    android:layout_marginEnd="@dimen/padding_size_xl"
-                    android:layout_marginTop="@dimen/padding_size_xl"
-                    android:background="@drawable/background_corner_grey_10dp"
-                    app:layout_constraintTop_toBottomOf="@+id/barrier"
-                    app:layout_constraintBottom_toBottomOf="parent" />
-
                 <TextView
-                    android:id="@+id/text_expiredBrief"
+                    android:id="@+id/text_couponBrief"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     tools:text="000000000000000"
                     android:textColor="@color/md_grey_700"
                     android:textSize="@dimen/font_text_size_s"
                     android:text="@{coupon.brief}"
-                    android:layout_marginStart="@dimen/padding_size_xl"
-                    android:layout_marginEnd="@dimen/padding_size_xl"
-                    android:layout_marginTop="@dimen/padding_size_l"
-                    app:layout_constraintTop_toTopOf="@+id/view_background"
-                    app:layout_constraintStart_toStartOf="@+id/view_background"
-                    app:layout_constraintEnd_toEndOf="@+id/view_background" />
+                    android:layout_marginStart="@dimen/padding_size_l"
+                    android:layout_marginEnd="@dimen/padding_size_l"
+                    android:layout_marginTop="@dimen/padding_size_xxl"
+                    app:layout_constraintTop_toBottomOf="@+id/barrier"
+                    app:layout_constraintStart_toStartOf="@+id/button_use"
+                    app:layout_constraintEnd_toEndOf="@+id/button_use" />
 
                 <TextView
                     android:id="@+id/text_couponContent"
@@ -249,10 +248,10 @@
                     android:text="@{coupon.content}"
                     android:layout_marginTop="@dimen/padding_size_m"
                     android:layout_marginBottom="@dimen/padding_size_l"
-                    app:layout_constraintTop_toBottomOf="@+id/text_expiredBrief"
-                    app:layout_constraintBottom_toBottomOf="@+id/view_background"
-                    app:layout_constraintStart_toStartOf="@+id/text_expiredBrief"
-                    app:layout_constraintEnd_toEndOf="@+id/text_expiredBrief" />
+                    app:layout_constraintTop_toBottomOf="@+id/text_couponBrief"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/text_couponBrief"
+                    app:layout_constraintEnd_toEndOf="@+id/text_couponBrief" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

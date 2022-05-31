@@ -127,8 +127,8 @@ class UserRepoImpl : UserRepo {
 
     private fun getUserInfoUpdateBody(userInfo: UserInfo, lat: String?, lon: String?): PostUpdateUserInfo {
         return PostUpdateUserInfo(
-            first_name = userInfo.getFirstName(),
-            last_name = userInfo.getLastName(),
+            first_name = userInfo.getFirstName().takeIf { it.isNotEmpty() },
+            last_name = userInfo.getLastName().takeIf { it.isNotEmpty() },
             mobile_number = userInfo.getMobileNumber(),
             gender = userInfo.getGender(),
             birthday = userInfo.getBirthday(),

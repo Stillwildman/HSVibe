@@ -120,8 +120,10 @@
                             android:id="@+id/switch_creditCard"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:theme="@style/MySwitchButtonStyle"
                             android:checked="@{viewModel.livePaymentDisplay.isCreditCardEnabled ? true : false, default = true}"
-                            app:layout_constraintBaseline_toBaselineOf="@+id/text_hsPay"
+                            app:layout_constraintTop_toTopOf="@+id/text_hsPay"
+                            app:layout_constraintBottom_toBottomOf="@+id/text_hsPay"
                             app:layout_constraintEnd_toEndOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -182,8 +184,10 @@
                             android:id="@+id/switch_point"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:theme="@style/MySwitchButtonStyle"
                             android:checked="@{viewModel.livePaymentDisplay.isPointEnabled ? true : false, default = true}"
-                            app:layout_constraintBaseline_toBaselineOf="@+id/text_pointDiscount"
+                            app:layout_constraintTop_toTopOf="@+id/text_pointDiscount"
+                            app:layout_constraintBottom_toBottomOf="@+id/text_pointDiscount"
                             app:layout_constraintEnd_toEndOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -248,15 +252,16 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/image_qrCode"
-                    android:layout_width="@dimen/poi_photo_edit_view_l"
+                    android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:scaleType="fitXY"
                     android:visibility="@{viewModel.livePaymentDisplay.getPaymentCodeVisibility()}"
                     app:createQRCode="@{viewModel.livePaymentDisplay.paymentCode}"
                     app:layout_constraintTop_toBottomOf="@+id/layout_payOptions"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintVertical_bias="0.12"
+                    app:layout_constraintStart_toEndOf="@+id/guideline_qrcode_1"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_qrcode_2"
+                    app:layout_constraintVertical_bias="0.13"
                     app:layout_constraintDimensionRatio="1:1"
                     tools:background="@color/md_grey_200"/>
 
@@ -280,16 +285,45 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/image_barcode"
-                    android:layout_width="@dimen/poi_photo_edit_view_xl"
+                    android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginTop="@dimen/padding_size_l"
+                    android:scaleType="fitXY"
                     android:visibility="@{viewModel.livePaymentDisplay.getPaymentCodeVisibility()}"
                     app:createBarcode="@{viewModel.livePaymentDisplay.paymentCode}"
                     app:layout_constraintTop_toBottomOf="@+id/text_code"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintDimensionRatio="7:2"
+                    app:layout_constraintStart_toEndOf="@+id/guideline_barcode_1"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_barcode_2"
+                    app:layout_constraintDimensionRatio="4:1"
                     tools:background="@color/md_grey_200"/>
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_qrcode_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.3" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_qrcode_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.7" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_barcode_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.08" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_barcode_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.92" />
 
                 <LinearLayout
                     android:id="@+id/button_refresh"
@@ -306,11 +340,11 @@
                     android:visibility="@{viewModel.livePaymentDisplay.getPaymentCodeVisibility()}"
                     android:background="?selectableItemBackground"
                     app:singleClick="@{() -> viewModel.loadPaymentCode()}"
-                    app:layout_constraintTop_toTopOf="@+id/image_barcode"
+                    app:layout_constraintTop_toBottomOf="@+id/image_barcode"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintVertical_bias="0.75" >
+                    app:layout_constraintVertical_bias="0.6" >
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/image_refresh"

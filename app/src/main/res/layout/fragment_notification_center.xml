@@ -10,7 +10,8 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_notification"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/actionbar_height_higher"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_size_m"
             style="@style/CommonTabLayoutStyle"/>
 
         <androidx.viewpager2.widget.ViewPager2

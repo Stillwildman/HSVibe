@@ -57,13 +57,13 @@
                 android:id="@+id/text_couponTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_size_m"
+                android:layout_marginTop="@dimen/padding_size_l"
                 android:layout_marginStart="@dimen/padding_size_m"
                 android:layout_marginEnd="@dimen/padding_size_m"
                 android:maxLines="1"
                 android:ellipsize="end"
                 tools:text="000000000000000000000000"
-                android:textSize="@dimen/font_text_size_s"
+                android:textSize="@dimen/font_text_size_m"
                 android:text="@{viewModel.getCouponContentData(index,apiType).title}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -77,7 +77,7 @@
                 android:maxLines="2"
                 android:ellipsize="end"
                 tools:text="000000000000000000000000"
-                android:textSize="@dimen/font_text_size_s"
+                android:textSize="@dimen/font_text_size_m"
                 android:text="@{viewModel.getCouponContentData(index,apiType).subtitle}"
                 app:layout_constraintStart_toStartOf="@+id/text_couponTitle"
                 app:layout_constraintEnd_toEndOf="@+id/text_couponTitle"
@@ -91,7 +91,7 @@
                 android:maxLines="2"
                 android:ellipsize="end"
                 tools:text="000000000000000000000000"
-                android:textSize="@dimen/font_text_size_xs"
+                android:textSize="@dimen/font_text_size_s"
                 android:textColor="@color/md_grey_500"
                 android:text="@{viewModel.getCouponContentData(index,apiType).brief}"
                 app:layout_constraintStart_toStartOf="@+id/text_couponTitle"
@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_size_l"
                 tools:text="000000000000000000000000"
-                android:textSize="@dimen/font_text_size_xs"
+                android:textSize="@dimen/font_text_size_s"
                 android:textColor="@color/md_amber_200"
                 android:text="@{@string/stock_is(viewModel.getCouponContentData(index,apiType).stock)}"
                 app:layout_constraintStart_toStartOf="@+id/text_couponTitle"
@@ -136,8 +136,8 @@
                 android:textSize="@dimen/font_text_size_s"
                 android:text="@{String.valueOf(viewModel.getCouponContentData(index,apiType).point)}"
                 app:layout_constraintEnd_toEndOf="@+id/text_couponTitle"
-                app:layout_constraintTop_toBottomOf="@+id/text_couponStock"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintTop_toTopOf="@+id/text_couponStock"
+                app:layout_constraintBottom_toBottomOf="@+id/text_couponStock"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

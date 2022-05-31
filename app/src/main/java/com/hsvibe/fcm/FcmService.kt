@@ -18,7 +18,10 @@ class FcmService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
-        // TODO Customize notification!
+        L.i("onMessageReceived!! data size: ${remoteMessage.data.size}")
+        remoteMessage.data.keys.forEach {
+            L.i("Key: $it Value: ${remoteMessage.data[it]}")
+        }
     }
 
     override fun onNewToken(token: String) {

@@ -42,4 +42,6 @@
     <dimen name="bus_stop_spot">@dimen/sw800dp_bus_stop_spot</dimen>
     <dimen name="ticket_edge_padding">@dimen/sw800dp_ticket_edge_padding</dimen>
 
+    <dimen name="banner_height">@dimen/sw800dp_banner_height</dimen>
+
 </resources>

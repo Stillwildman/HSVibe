@@ -27,6 +27,9 @@
     <color name="money_color">#FCD389</color>
     <color name="coupon_background_color">#F8F8F8</color>
     <color name="coupon_stock_color">#A49161</color>
+    <color name="coupon_using_color">#FF5770</color>
+    <color name="coupon_using_color_pressed">#AFFF5770</color>
+    <color name="switch_color">#35C25B</color>
 
     <!-- Transparent Colors -->
     <color name="transparent_full">#00000000</color>

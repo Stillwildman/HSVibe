@@ -9,7 +9,7 @@
 
         <variable
             name="selectedPoints"
-            type="Integer" />
+            type="String" />
 
     </data>
 
@@ -148,7 +148,7 @@
                 android:textColor="@color/md_grey_900"
                 android:textSize="@dimen/font_text_size_l"
                 android:textColorHint="@color/md_grey_400"
-                android:text="@{selectedPoints > 0 ? String.valueOf(selectedPoints) : null}"
+                android:text="@{!selectedPoints.isEmpty() ? selectedPoints : null}"
                 android:hint="0"
                 android:inputType="numberDecimal"
                 android:digits="0123456789"
@@ -202,7 +202,7 @@
                 android:textSize="@dimen/font_text_size_s"
                 android:textColor="@color/md_grey_700"
                 android:textStyle="bold"
-                android:text="@{@string/dollar_is(selectedPoints ?? 0)}"
+                android:text="@{@string/dollar_is(!selectedPoints.isEmpty() ? selectedPoints : `0`)}"
                 tools:text="10 元"
                 app:layout_constraintTop_toBottomOf="@+id/text_discountHint"
                 app:layout_constraintBottom_toTopOf="@+id/button_confirm"

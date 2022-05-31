@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.model.ApiConst
 import com.hsvibe.viewmodel.HomeViewModel
@@ -24,6 +25,8 @@ class HomeContentListAdapter(private val viewModel: HomeViewModel) : RecyclerVie
         const val LIST_POSITION_FOODS = 7
         const val LIST_POSITION_HOTEL = 9
     }
+
+    private val marginBottom by lazy { AppController.getAppContext().resources.getDimensionPixelSize(R.dimen.padding_size_xxl) }
 
     override fun getItemCount(): Int {
         return viewModel.headerList.size * 2
@@ -68,6 +71,12 @@ class HomeContentListAdapter(private val viewModel: HomeViewModel) : RecyclerVie
                     LIST_POSITION_DISCOUNT -> holder.setupAdapter(HomeBannerListAdapter(viewModel))
                     LIST_POSITION_FOODS -> holder.setupAdapter(HomeCouponListAdapter(viewModel, ApiConst.API_TYPE_FOODS))
                     LIST_POSITION_HOTEL -> holder.setupAdapter(HomeCouponListAdapter(viewModel, ApiConst.API_TYPE_HOTEL))
+                }
+                if (position != itemCount -1) {
+                    (holder.itemView.layoutParams as RecyclerView.LayoutParams).apply {
+                        bottomMargin = marginBottom
+                        holder.itemView.layoutParams = this
+                    }
                 }
             }
         }

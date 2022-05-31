@@ -1,6 +1,7 @@
 package com.hsvibe.model.items
 
 import com.google.gson.annotations.SerializedName
+import java.text.NumberFormat
 import kotlin.math.floor
 
 /**
@@ -18,8 +19,8 @@ data class ItemUserBonus(
         val created_at: String,
         val updated_at: String
     ) {
-        fun getBalanceInt(): Int {
-            return floor(balance).toInt()
+        fun getBalanceText(): String {
+            return NumberFormat.getInstance().format(floor(balance).toInt())
         }
     }
 }

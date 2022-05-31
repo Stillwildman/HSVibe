@@ -80,13 +80,11 @@ class UiCouponDetailFragment private constructor() : BaseActionBarFragment<Fragm
 
     private fun checkBalance(item: ItemCoupon.ContentData) {
         if (UserTokenManager.hasToken()) {
-            mainViewModel.getCurrentUserBonus()?.let { userBonus ->
-                if (userBonus.balance >= item.point) {
-                    showRedeemConfirmationDialog(item.uuid, item.point)
-                }
-                else {
-                    showInsufficientBalanceDialog()
-                }
+            if (mainViewModel.getCurrentUserBalance() >= item.point) {
+                showRedeemConfirmationDialog(item.uuid, item.point)
+            }
+            else {
+                showInsufficientBalanceDialog()
             }
         }
         else {

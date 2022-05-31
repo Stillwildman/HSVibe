@@ -1,7 +1,7 @@
 package com.hsvibe.model.items
 
 import com.google.gson.annotations.SerializedName
-import kotlin.math.floor
+import java.text.NumberFormat
 
 /**
  * Created by Vincent on 2021/8/14.
@@ -21,7 +21,8 @@ data class ItemAccountBonus(
         val updated_at: String
     ) {
         fun getPointText(): String {
-            return if (isIncome()) point else "-$point"
+            val pointText = NumberFormat.getInstance().format(point.toIntOrNull() ?: 0)
+            return if (isIncome()) pointText else "-$pointText"
         }
 
         private fun isIncome(): Boolean {
@@ -32,8 +33,8 @@ data class ItemAccountBonus(
             return description.takeIf { it.isNotEmpty() } ?: note
         }
 
-        fun getBalanceInt(): Int {
-            return balance.toDoubleOrNull()?.let { floor(it).toInt() } ?: 0
+        fun getBalanceText(): String {
+            return NumberFormat.getInstance().format(balance.toDoubleOrNull()?.toInt() ?: 0)
         }
     }
 

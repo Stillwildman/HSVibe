@@ -96,7 +96,7 @@ object GlideBinding {
                 imageView.setPadding(0, 0, 0, 0)
                 Glide.with(imageView.context)
                     .load(it)
-                    .apply(options)
+                    .apply(optionsFitCenter)
                     .into(imageView)
             } ?: run {
                 val appIconDeferred = async {

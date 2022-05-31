@@ -35,11 +35,19 @@ class CouponRepoImpl : CouponRepo {
             else {
                 withContext(Dispatchers.Default) {
                     val allStoreIds = StringBuilder()
-                    it?.contentData?.forEach { contentData ->
-                        if (allStoreIds.isNotEmpty()) {
-                            allStoreIds.append(",")
+                    val iterator = it?.contentData?.iterator()
+
+                    while (iterator?.hasNext() == true) {
+                        val content = iterator.next()
+                        if (content.is_show) {
+                            if (allStoreIds.isNotEmpty()) {
+                                allStoreIds.append(",")
+                            }
+                            allStoreIds.append(content.store_ids)
                         }
-                        allStoreIds.append(contentData.store_ids)
+                        else {
+                            iterator.remove()
+                        }
                     }
                     it?.contentData?.add(0, ItemBrand.ContentData(store_ids = allStoreIds.toString()))
                 }

@@ -38,7 +38,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/padding_size_xxl"
                         android:layout_marginTop="@dimen/padding_size_m"
-                        android:fontFamily="serif"
                         android:textSize="@dimen/font_text_size_m"
                         android:textColor="@color/md_white_1000"
                         android:textStyle="bold"
@@ -65,7 +64,7 @@
                         android:layout_marginTop="@dimen/padding_size_m"
                         android:textSize="@dimen/font_text_size_s"
                         android:textColor="@color/money_color"
-                        android:text="@{@string/nt_amount_is(mainViewModel.liveCurrentBalance.accumulate)}"
+                        android:text="@{@string/nt_amount_is(mainViewModel.liveUserInfo.getAccumulateText())}"
                         tools:text="@string/nt_amount_is"
                         app:layout_constraintStart_toStartOf="@+id/text_hiThere"
                         app:layout_constraintTop_toBottomOf="@+id/text_accumulateSpent" />
@@ -161,8 +160,8 @@
                             android:textColor="@color/md_black_1000"
                             android:textSize="@dimen/font_text_size_s"
                             android:textStyle="bold"
-                            android:text="@{@string/point_has_int(mainViewModel.liveCurrentBalance.getBalanceInt())}"
-                            tools:text="@string/point_has_double"
+                            android:text="@{@string/point_has_string(mainViewModel.liveCurrentBalance.getBalanceText())}"
+                            tools:text="@string/point_has_string"
                             app:layout_constraintTop_toBottomOf="@+id/text_accumulationPoints"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/view_divider"/>

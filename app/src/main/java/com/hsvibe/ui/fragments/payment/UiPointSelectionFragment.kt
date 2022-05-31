@@ -6,7 +6,7 @@ import com.hsvibe.R
 import com.hsvibe.databinding.FragmentPointsSelectionBinding
 import com.hsvibe.ui.bases.BaseActionBarFragment
 import com.hsvibe.utilities.Utility
-import com.hsvibe.utilities.isNotNullOrEmpty
+import com.hsvibe.utilities.observeOnce
 import com.hsvibe.utilities.setOnSingleClickListener
 import com.hsvibe.viewmodel.MainViewModel
 import java.text.NumberFormat
@@ -26,15 +26,22 @@ class UiPointSelectionFragment : BaseActionBarFragment<FragmentPointsSelectionBi
 
     private var currentPoints = 0
 
+    private val numberFormat by lazy { NumberFormat.getInstance() }
+
     override fun onInitCompleted() {
         getCurrentPointsAndBind()
         setListeners()
     }
 
     private fun getCurrentPointsAndBind() {
-        mainViewModel.liveCurrentBalance.observe(viewLifecycleOwner) {
-            currentPoints = it.balance.toInt()
-            binding.totalPoints = NumberFormat.getInstance().format(currentPoints)
+        mainViewModel.livePaymentDisplay.observeOnce(viewLifecycleOwner) {
+            currentPoints = mainViewModel.getCurrentUserBalance()
+
+            binding.totalPoints = numberFormat.format(currentPoints)
+
+            binding.selectedPoints = numberFormat.format(
+                if (it.isPointEnabled && it.selectedPoints > 0) it.selectedPoints else currentPoints
+            )
         }
     }
 
@@ -59,10 +66,9 @@ class UiPointSelectionFragment : BaseActionBarFragment<FragmentPointsSelectionBi
     }
 
     private fun applyInputNumber(number: String) {
-        if (number.isNotNullOrEmpty()) {
-            binding.selectedPoints = number.toInt()
-        }
-        else {
+        binding.selectedPoints = number
+
+        if (number.isEmpty()) {
             binding.editPointInput.text.clear()
         }
     }
@@ -71,7 +77,7 @@ class UiPointSelectionFragment : BaseActionBarFragment<FragmentPointsSelectionBi
         if (isPlus) {
             val changedNumber = getInputNumber() + 10
             if (changedNumber <= currentPoints) {
-                binding.selectedPoints = changedNumber
+                binding.selectedPoints = numberFormat.format(changedNumber)
             }
             else {
                 Utility.toastShort(R.string.point_limit)
@@ -81,7 +87,7 @@ class UiPointSelectionFragment : BaseActionBarFragment<FragmentPointsSelectionBi
             val changedNumber = getInputNumber() - 10
 
             if (changedNumber >= 0) {
-                binding.selectedPoints = changedNumber
+                binding.selectedPoints = numberFormat.format(changedNumber)
             }
         }
     }
@@ -99,6 +105,7 @@ class UiPointSelectionFragment : BaseActionBarFragment<FragmentPointsSelectionBi
     }
 
     private fun getInputNumber(): Int {
-        return binding.editPointInput.text.toString().takeIf { it.isNotNullOrEmpty() }?.toInt() ?: 0
+        val input = binding.editPointInput.text.toString()
+        return numberFormat.parse(input)?.toInt() ?: 0
     }
 }

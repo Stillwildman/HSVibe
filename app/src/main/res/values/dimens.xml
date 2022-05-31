@@ -93,4 +93,6 @@
     <dimen name="bus_stop_spot">@dimen/normal_bus_stop_spot</dimen>
     <dimen name="ticket_edge_padding">@dimen/normal_ticket_edge_padding</dimen>
 
+    <dimen name="banner_height">@dimen/normal_banner_height</dimen>
+
 </resources>

@@ -20,6 +20,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.NumberFormat
 import java.util.*
 
 /**
@@ -217,8 +218,8 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
         }
     }
 
-    fun getCurrentUserBonus(): ItemUserBonus.ContentData? {
-        return liveCurrentBalance.value
+    fun getCurrentUserBalance(): Int {
+        return liveUserInfo.value?.getBalance() ?: 0
     }
 
     fun requireLogin() {
@@ -227,8 +228,9 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
 
     fun getExpiringPointText(): String {
         return liveUserInfo.value?.getExpiringPoint().takeIf { it.isNotNullOrEmpty() }?.let {
+            val expiringPoint = NumberFormat.getInstance().format(it.toDoubleOrNull()?.toInt() ?: 0)
             val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-            AppController.getAppContext().getString(R.string.your_points_and_expires_time, it, currentYear)
+            AppController.getAppContext().getString(R.string.your_points_and_expires_time, expiringPoint, currentYear)
         } ?: ""
     }
 
@@ -283,17 +285,19 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     }
 
     fun updatePaymentMethod(isCreditCardEnabled: Boolean? = null, isPointEnabled: Boolean? = null) {
-        val updatingValue = livePaymentDisplay.value
+        viewModelScope.launch(Dispatchers.IO) {
+            val updatingValue = livePaymentDisplay.value
 
-        updatingValue?.let {
-            if (isCreditCardEnabled != null) {
-                it.isCreditCardEnabled = isCreditCardEnabled
+            updatingValue?.let {
+                if (isCreditCardEnabled != null) {
+                    it.isCreditCardEnabled = isCreditCardEnabled
+                }
+                if (isPointEnabled != null) {
+                    it.isPointEnabled = isPointEnabled
+                }
             }
-            if (isPointEnabled != null) {
-                it.isPointEnabled = isPointEnabled
-            }
+            livePaymentDisplay.postValue(updatingValue)
         }
-        livePaymentDisplay.value = updatingValue
 
         loadPaymentCode()
     }

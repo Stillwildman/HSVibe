@@ -75,6 +75,8 @@
 
     <dimen name="normal_bus_stop_spot">6dp</dimen>
 
+    <dimen name="normal_banner_height">105dp</dimen>
+
     <!-- sw600dp -->
     <!-- 目前這裡全部 -5dp -->
     <dimen name="sw600dp_actionbar_item_height">70dp</dimen>
@@ -118,6 +120,8 @@
     <dimen name="sw600dp_menu_land_icon">140dp</dimen>
 
     <dimen name="sw600dp_bus_stop_spot">8dp</dimen>
+
+    <dimen name="sw600dp_banner_height">142dp</dimen>
 
     <!-- sw800dp -->
     <dimen name="sw800dp_actionbar_item_height">110dp</dimen>
@@ -164,5 +168,7 @@
     <dimen name="sw800dp_menu_land_icon">185dp</dimen>
 
     <dimen name="sw800dp_bus_stop_spot">12dp</dimen>
+
+    <dimen name="sw800dp_banner_height">195dp</dimen>
 
 </resources>

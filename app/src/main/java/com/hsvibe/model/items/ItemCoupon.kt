@@ -3,6 +3,7 @@ package com.hsvibe.model.items
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
+import java.text.NumberFormat
 
 /**
  * Created by Vincent on 2021/7/20.
@@ -58,6 +59,10 @@ data class ItemCoupon(
             val address: String,
             val color: String
         ) : Parcelable
+
+        fun getPointText(): String {
+            return NumberFormat.getInstance().format(point)
+        }
 
         fun getOriginalUrl(): String? {
             return media.mediaData.takeIf { it.isNotEmpty() }?.get(0)?.original

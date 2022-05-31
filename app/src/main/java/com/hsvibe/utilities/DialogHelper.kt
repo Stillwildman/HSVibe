@@ -10,7 +10,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.hsvibe.AppController
@@ -37,7 +36,7 @@ object DialogHelper {
             setCancelable(true)
         }.create()
 
-        setupDialogWindowAttribute(dialog)
+        setDialogWindowWidth(dialog)
 
         bindingView.apply {
             textDialogTitle.text = AppController.getString(titleRes)
@@ -66,12 +65,10 @@ object DialogHelper {
     ): AlertDialog {
         val bindingView = DataBindingUtil.inflate<DialogSmallViewBinding>(LayoutInflater.from(context), R.layout.dialog_small_view, null, false)
 
-        val dialog = AlertDialog.Builder(context).apply {
+        val dialog = AlertDialog.Builder(context, R.style.DialogFasterAnimTheme).apply {
             setView(bindingView.root)
             setCancelable(true)
         }.create()
-
-        setupDialogWindowAttribute(dialog)
 
         bindingView.apply {
             textDialogTitle.text = title
@@ -87,7 +84,7 @@ object DialogHelper {
                 onButtonClick(true)
             }
         }
-        return dialog.also { it.show() }
+        return dialog.also { showAsTransparentWindow(it) }
     }
 
     fun showSmallViewDialog(
@@ -118,12 +115,10 @@ object DialogHelper {
             LayoutInflater.from(context), R.layout.dialog_small_view_single_button, null, false
         )
 
-        val dialog = AlertDialog.Builder(context).apply {
+        val dialog = AlertDialog.Builder(context, R.style.DialogFasterAnimTheme).apply {
             setView(bindingView.root)
             setCancelable(true)
         }.create()
-
-        setupDialogWindowAttribute(dialog)
 
         bindingView.apply {
             textDialogTitle.text = AppController.getString(titleRes)
@@ -134,13 +129,13 @@ object DialogHelper {
                 dialog.dismiss()
             }
         }
-        return dialog.also { it.show() }
+        return dialog.also { showAsTransparentWindow(it) }
     }
 
     fun showMemberTermsDialog(context: Context, onTermsClick: () -> Unit, onPrivacyClick: () -> Unit) {
         val bindingView = DataBindingUtil.inflate<DialogMemberTermsBinding>(LayoutInflater.from(context), R.layout.dialog_member_terms, null, false)
 
-        val dialog = AlertDialog.Builder(context, R.style.DialogFasterAnimTheme).apply {
+        val dialog = AlertDialog.Builder(context, R.style.DialogSurfaceDark).apply {
             setView(bindingView.root)
             setCancelable(true)
         }.create()
@@ -153,11 +148,7 @@ object DialogHelper {
             onPrivacyClick()
             dialog.dismiss()
         }
-        dialog.apply {
-            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            window?.setDimAmount(0.6f)
-            show()
-        }
+        showAsTransparentWindow(dialog)
     }
 
     fun showHsVibeDialog(
@@ -175,7 +166,7 @@ object DialogHelper {
 
         val bindingView = DataBindingUtil.inflate<DialogHsvibeViewBinding>(LayoutInflater.from(context), R.layout.dialog_hsvibe_view, null, false)
 
-        val dialog = AlertDialog.Builder(ContextThemeWrapper(context, theme)).apply {
+        val dialog = AlertDialog.Builder(context, theme).apply {
             setView(bindingView.root)
             setCancelable(true)
         }.create()
@@ -204,22 +195,32 @@ object DialogHelper {
             context.theme.applyStyle(R.style.AppTheme, true)
         }
         return dialog.also {
-            setupDialogWindowAttribute(it)
-            it.window?.setDimAmount(0.6f)
-            it.show()
+            setDialogWindowWidth(it)
+            showAsTransparentWindow(it)
         }
     }
 
-    private fun setupDialogWindowAttribute(dialog: AlertDialog) {
+    private fun setDialogWindowWidth(dialog: AlertDialog, widthProportion: Float = 0.8f) {
         dialog.apply {
             window?.run {
-                setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 setOnShowListener {
                     val params: WindowManager.LayoutParams = attributes
-                    params.width = (Utility.getScreenWidth() * 0.8).toInt()
+                    if (widthProportion > 0) {
+                        params.width = (Utility.getScreenWidth() * widthProportion).toInt()
+                    }
                     attributes = params
                     setOnShowListener(null)
                 }
+            }
+        }
+    }
+
+    private fun showAsTransparentWindow(dialog: AlertDialog) {
+        dialog.apply {
+            window?.run {
+                setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                setDimAmount(0.6f)
+                show()
             }
         }
     }

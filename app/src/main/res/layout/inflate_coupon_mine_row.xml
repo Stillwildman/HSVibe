@@ -79,7 +79,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/text_couponTitle"
                 app:layout_constraintVertical_bias="0.9"
                 app:cardCornerRadius="6dp"
-                app:cardBackgroundColor="@color/transparent_full"
+                app:cardBackgroundColor="@color/md_white_1000"
                 app:cardElevation="4dp">
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -114,7 +114,7 @@
                 android:textSize="@dimen/font_text_size_s"
                 android:textColor="@color/md_grey_900"
                 android:textStyle="bold"
-                android:text="@{@string/point_has_int(coupon.point)}"
+                android:text="@{@string/point_has_string(coupon.getPointText())}"
                 app:layout_constraintStart_toEndOf="@+id/text_couponPointIcon"
                 app:layout_constraintTop_toTopOf="@+id/text_couponPointIcon"
                 app:layout_constraintBottom_toBottomOf="@+id/text_couponPointIcon"/>

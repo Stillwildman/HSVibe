@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.google.zxing.BarcodeFormat
+import com.google.zxing.EncodeHintType
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.google.zxing.qrcode.QRCodeWriter
@@ -52,7 +53,10 @@ object BarcodeBinding {
             try {
                 scope.launch {
                     val qrcodeBitmapDeferred = async {
-                        val bitMatrix = QRCodeWriter().encode(it, BarcodeFormat.QR_CODE, imageView.measuredWidth, imageView.measuredHeight)
+                        val hints: Map<EncodeHintType, Any> = mutableMapOf(
+                            EncodeHintType.MARGIN to 0
+                        )
+                        val bitMatrix = QRCodeWriter().encode(it, BarcodeFormat.QR_CODE, imageView.measuredWidth, imageView.measuredHeight, hints)
                         val bitmap = Bitmap.createBitmap(bitMatrix.width, bitMatrix.height, Bitmap.Config.ARGB_8888)
 
                         for (x in 0 until bitMatrix.width) {

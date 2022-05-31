@@ -137,11 +137,11 @@ class UiCouponMainFragment private constructor(): BaseFragment<FragmentCouponMai
             }
             if (adapter == null) {
                 adapter = CouponBrandListAdapter(layoutManager as LinearLayoutManager, brandList, onBrandClickCallback, viewLifecycleOwner.lifecycleScope)
-                doFirstSelection(brandList, false)
+                setFirstSelection(brandList, false)
             }
             else {
                 getBrandListAdapter()?.updateList(brandList)
-                doFirstSelection(brandList, true)
+                setFirstSelection(brandList, true)
             }
         }
     }
@@ -153,7 +153,7 @@ class UiCouponMainFragment private constructor(): BaseFragment<FragmentCouponMai
         }
     }
 
-    private fun doFirstSelection(brandList: List<ItemBrand.ContentData>, refreshStoreIds: Boolean) {
+    private fun setFirstSelection(brandList: List<ItemBrand.ContentData>, refreshStoreIds: Boolean) {
         brandList.takeIf { it.isNotEmpty() }?.let {
             getBrandListAdapter()?.setSelected(it.first())
             if (refreshStoreIds) {

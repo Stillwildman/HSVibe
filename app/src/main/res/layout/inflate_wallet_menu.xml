@@ -22,18 +22,18 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/padding_size_l"
-        android:paddingEnd="@dimen/padding_size_l"
-        android:paddingTop="@dimen/padding_size_xl"
-        android:paddingBottom="@dimen/padding_size_xl"
+        android:paddingStart="@dimen/padding_size_m"
+        android:paddingEnd="@dimen/padding_size_m"
+        android:paddingTop="@dimen/padding_size_l"
+        android:paddingBottom="@dimen/padding_size_l"
         android:gravity="center"
         android:background="?selectableItemBackground"
         app:singleClick="@{() -> onItemClickCallback.onItemClick(iconRes)}">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/image_walletMenuIcon"
-            android:layout_width="@dimen/font_text_size_xxl"
-            android:layout_height="@dimen/font_text_size_xxl"
+            android:layout_width="@dimen/icon_common_size"
+            android:layout_height="@dimen/icon_common_size"
             app:setImageByRes="@{iconRes}"/>
 
         <TextView
