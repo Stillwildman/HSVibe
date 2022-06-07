@@ -2,13 +2,18 @@ package com.hsvibe.fcm
 
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.hsvibe.events.Events
+import com.hsvibe.model.ApiConst
+import com.hsvibe.model.Const
 import com.hsvibe.model.UserTokenManager
 import com.hsvibe.model.posts.PostUpdateUserInfo
 import com.hsvibe.network.DataCallbacks
 import com.hsvibe.utilities.L
+import com.hsvibe.utilities.NotifyHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
 
 /**
  * Created by Vincent on 2021/8/24.
@@ -18,9 +23,50 @@ class FcmService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
-        L.i("onMessageReceived!! data size: ${remoteMessage.data.size}")
+        L.i("onMessageReceived!! from: ${remoteMessage.from} data size: ${remoteMessage.data.size}")
+        L.i("data:")
         remoteMessage.data.keys.forEach {
-            L.i("Key: $it Value: ${remoteMessage.data[it]}")
+            L.i("$it : ${remoteMessage.data[it]}")
+        }
+
+        val type = remoteMessage.data[ApiConst.TYPE]
+
+        type?.toIntOrNull()?.let {
+            when (it) {
+                ApiConst.TYPE_ON_COUPON_USED -> {
+                    sendOnCouponUsedEvent()
+                }
+                ApiConst.TYPE_ON_BONUS_GET -> {
+                    sendOnBonusGetEvent(remoteMessage.data)
+                }
+            }
+
+            remoteMessage.notification?.let { notification ->
+                L.i("notification:")
+                L.i("title : ${notification.title} body : ${notification.body}")
+
+                when (type.toIntOrNull()) {
+                    ApiConst.TYPE_ON_COUPON_REDEEM -> {
+                        NotifyHelper.showCommonNotification(notification.title ?: "", notification.body ?: "", Const.ACTION_COUPON)
+                    }
+                    else -> {
+                        NotifyHelper.showCommonNotification(notification.title ?: "", notification.body ?: "")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun sendOnCouponUsedEvent() {
+        EventBus.getDefault().post(Events.OnCouponUsed())
+    }
+
+    private fun sendOnBonusGetEvent(data: Map<String, String>) {
+        val amount = data[ApiConst.ACTUAL_AMOUNT]
+        val rewardPoint = data[ApiConst.REWARD_POINT]
+
+        if (amount != null && rewardPoint != null) {
+            EventBus.getDefault().post(Events.OnBonusGet(amount, rewardPoint))
         }
     }
 

@@ -21,6 +21,8 @@ data class ItemContent(
         val content: String,
         val share_url: String,
         val approval_at: String,
+        val created_at: String,
+        val updated_at: String,
         val categories: Categories?,
         val media: Media?,
         var isUnread: Boolean?

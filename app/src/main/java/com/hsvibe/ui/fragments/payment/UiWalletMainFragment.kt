@@ -184,8 +184,7 @@ class UiWalletMainFragment : BaseFragment<FragmentWalletMainBinding>(), OnAnyIte
             R.style.DialogSurfaceDark,
             R.string.hs_pay,
             message,
-            R.drawable.ic_close_white,
-            R.string.confirm) {}
+            R.drawable.ic_close_white)
     }
 
     private fun getCardPagerAdapter(): CreditCardPageAdapter? {

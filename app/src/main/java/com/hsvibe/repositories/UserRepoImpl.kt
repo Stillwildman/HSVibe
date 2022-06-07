@@ -135,7 +135,7 @@ class UserRepoImpl : UserRepo {
             device_type = DeviceUtil.getDeviceType(),
             device_model = DeviceUtil.getCombinedDeviceModel(),
             region_zip = userInfo.getRegionZip(),
-            referrer_no = userInfo.getReferrerNo().takeIf { it.length >= Const.REFERRER_NO_LENGTH_LIMIT },
+            referrer_no = userInfo.getReferrerNo().takeIf { it.length >= Const.REFERRER_NUMBER_LENGTH_LIMIT },
             lat = lat,
             long = lon
         )
@@ -146,7 +146,7 @@ class UserRepoImpl : UserRepo {
             if (gender == AppController.getString(R.string.gender_other_eng)) {
                 gender = null
             }
-            if ((referrer_no?.length ?: 0) < Const.REFERRER_NO_LENGTH_LIMIT) {
+            if ((referrer_no?.length ?: 0) < Const.REFERRER_NUMBER_LENGTH_LIMIT) {
                 referrer_no = null
             }
         }

@@ -2,16 +2,18 @@ package com.hsvibe.ui.fragments.payment
 
 import android.view.Window
 import androidx.fragment.app.activityViewModels
+import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.databinding.FragmentPaymentBinding
+import com.hsvibe.events.Events
 import com.hsvibe.model.Const
 import com.hsvibe.ui.bases.BaseDialogFragment
 import com.hsvibe.ui.fragments.coupons.UiCouponHistoryFragment
-import com.hsvibe.utilities.SettingManager
-import com.hsvibe.utilities.Utility
-import com.hsvibe.utilities.observeOnce
-import com.hsvibe.utilities.setOnSingleClickListener
+import com.hsvibe.utilities.*
 import com.hsvibe.viewmodel.MainViewModel
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
  * Created by Vincent on 2022/5/14.
@@ -29,8 +31,15 @@ class UiPaymentFragment : BaseDialogFragment<FragmentPaymentBinding>() {
     private val mainViewModel by activityViewModels<MainViewModel>()
 
     override fun init() {
+        setCloseClickListener()
         startObserving()
         loadCreditCardAndPoints()
+    }
+
+    private fun setCloseClickListener() {
+        bindingView.buttonClose.setOnSingleClickListener {
+            popBack()
+        }
     }
 
     private fun startObserving() {
@@ -74,10 +83,6 @@ class UiPaymentFragment : BaseDialogFragment<FragmentPaymentBinding>() {
                 mainViewModel.isCouponSelectingMode = true
                 openDialogFragment(UiCouponHistoryFragment(), Const.BACK_COUPON_LiST)
             }
-
-            buttonClose.setOnSingleClickListener {
-                popBack()
-            }
         }
     }
 
@@ -91,6 +96,27 @@ class UiPaymentFragment : BaseDialogFragment<FragmentPaymentBinding>() {
                 openDialogFragment(UiBindCardWebFragment.newInstance(it.cardData.user_uuid))
             }
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onBonusGet(event: Events.OnBonusGet) {
+        DialogHelper.showHsVibeDialog(
+            getContextSafely(),
+            titleRes = R.string.transaction_completed,
+            content = AppController.getAppContext().getString(R.string.transaction_amount_and_reward_hint, event.amount, event.rewardPoint)
+        ) {
+            popBack()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        EventBus.getDefault().unregister(this)
     }
 
     override fun onDestroyView() {

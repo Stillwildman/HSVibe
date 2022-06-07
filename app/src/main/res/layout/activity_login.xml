@@ -35,17 +35,20 @@
             app:layout_constraintWidth_percent="0.85"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/button_later"/>
+            app:layout_constraintBottom_toTopOf="@+id/button_privacyTerms"/>
 
         <TextView
-            android:id="@+id/button_later"
+            android:id="@+id/button_privacyTerms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?selectableItemBackground"
-            android:padding="@dimen/padding_size_l"
-            android:text="@string/later"
+            android:paddingStart="@dimen/padding_size_m"
+            android:paddingEnd="@dimen/padding_size_m"
+            android:paddingTop="@dimen/padding_size_l"
+            android:paddingBottom="@dimen/padding_size_l"
+            android:text="@string/you_already_agree_the_terms"
             android:textColor="@color/md_grey_50"
-            android:textSize="@dimen/font_text_size_s"
+            android:textSize="@dimen/font_text_size_xs"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintVertical_bias="0.9"

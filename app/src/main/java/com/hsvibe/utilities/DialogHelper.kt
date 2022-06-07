@@ -157,10 +157,10 @@ object DialogHelper {
         theme: Int = R.style.DialogSurfaceDark,
         @StringRes titleRes: Int,
         content: String,
-        @DrawableRes iconRes: Int,
-        @StringRes positiveButtonRes: Int,
+        @DrawableRes iconRes: Int = R.drawable.ic_app_sign,
+        @StringRes positiveButtonRes: Int = R.string.confirm,
         showCancelButton: Boolean = false,
-        onButtonClick: () -> Unit
+        onButtonClick: (() -> Unit)? = null
     ): AlertDialog {
         context.theme.applyStyle(theme, true)
 
@@ -188,15 +188,19 @@ object DialogHelper {
 
             buttonConfirm.setOnSingleClickListener {
                 dialog.dismiss()
-                onButtonClick()
+                onButtonClick?.let { it() }
             }
         }
         dialog.setOnDismissListener {
             context.theme.applyStyle(R.style.AppTheme, true)
         }
         return dialog.also {
-            setDialogWindowWidth(it)
             showAsTransparentWindow(it)
+            it.window?.run {
+                val params: WindowManager.LayoutParams = attributes
+                params.width = (Utility.getScreenWidth() * 0.8).toInt()
+                attributes = params
+            }
         }
     }
 

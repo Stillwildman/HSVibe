@@ -38,7 +38,7 @@ class ProfileViewModel(private val profileRepo: ProfileRepo) : LoadingStatusView
             mobile_number = profileRepo.getUserInfo()?.getMobileNumber(),
             gender = profileRepo.getUserInfo()?.getGender(),
             birthday = profileRepo.getUserInfo()?.getBirthday(),
-            referrer_no = profileRepo.getUserInfo()?.getReferrerNo()?.takeIf { it.length >= Const.REFERRER_NO_LENGTH_LIMIT }
+            referrer_no = profileRepo.getUserInfo()?.getReferrerNo()?.takeIf { it.length >= Const.REFERRER_NUMBER_LENGTH_LIMIT }
         ).also {
             livePostUserInfo.value = it
         }
@@ -94,6 +94,6 @@ class ProfileViewModel(private val profileRepo: ProfileRepo) : LoadingStatusView
     }
 
     fun isReferrerNoEntered(): Boolean {
-        return (livePostUserInfo.value?.referrer_no?.length ?: 0) >= Const.REFERRER_NO_LENGTH_LIMIT
+        return (livePostUserInfo.value?.referrer_no?.length ?: 0) >= Const.REFERRER_NUMBER_LENGTH_LIMIT
     }
 }

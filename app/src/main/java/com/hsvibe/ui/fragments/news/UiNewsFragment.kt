@@ -1,6 +1,7 @@
 package com.hsvibe.ui.fragments.news
 
 import android.os.Bundle
+import androidx.core.view.doOnLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -47,7 +48,7 @@ class UiNewsFragment private constructor() : BaseActionBarFragment<InflateNewsLi
     }
 
     private fun initRecycler() {
-        val layoutOrientation = if (arguments?.getInt(Const.BUNDLE_SPECIFIC_POSITION) ?: Const.NO_POSITION == Const.NO_POSITION) {
+        val layoutOrientation = if ((arguments?.getInt(Const.BUNDLE_SPECIFIC_POSITION) ?: Const.NO_POSITION) == Const.NO_POSITION) {
             RecyclerView.VERTICAL
         } else {
             RecyclerView.HORIZONTAL
@@ -78,9 +79,9 @@ class UiNewsFragment private constructor() : BaseActionBarFragment<InflateNewsLi
         if (!hasInitialScrolled) {
             val specificPosition = arguments?.getInt(Const.BUNDLE_SPECIFIC_POSITION) ?: Const.NO_POSITION
             if (specificPosition != Const.NO_POSITION) {
-                binding.recyclerNews.postDelayed({
+                binding.recyclerNews.doOnLayout {
                     scrollToSpecificPosition(specificPosition)
-                }, 250)
+                }
             }
             hasInitialScrolled = true
         }
@@ -88,8 +89,11 @@ class UiNewsFragment private constructor() : BaseActionBarFragment<InflateNewsLi
 
     // TODO [Improve] Scroll to center!
     private fun scrollToSpecificPosition(specificPosition: Int) {
-        binding.recyclerNews.layoutManager.let {
-            (it as? LinearLayoutManager)?.scrollToPositionWithOffset(specificPosition, if (specificPosition > 0) 1 else 0)
+        (binding.recyclerNews.layoutManager as? LinearLayoutManager)?.let {
+            val centeredPosition = (it.findLastVisibleItemPosition() - it.findFirstVisibleItemPosition()) / 2
+            binding.recyclerNews.scrollToPosition(specificPosition)
+            binding.recyclerNews.scrollX = centeredPosition
+            //it.scrollToPositionWithOffset(specificPosition, centeredPosition)
         }
     }
 

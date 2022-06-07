@@ -31,6 +31,10 @@ interface UserInfo {
     fun getRegionZip(): String?
     fun getRegionParentId(): Int
 
+    fun getBalanceText(): String {
+        return NumberFormat.getInstance().format(getBalance())
+    }
+
     fun getAccumulateText(): String {
         return NumberFormat.getInstance().format(getAccumulate())
     }

@@ -3,6 +3,8 @@ package com.hsvibe.utilities
 import android.content.Context
 import android.view.View
 import android.view.ViewTreeObserver
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
@@ -76,4 +78,55 @@ fun String.getQRCodeText(): String {
 
 fun <T> MutableLiveData<T>.forceRefresh() {
     this.value = this.value
+}
+
+fun View.useFadingAnimation(duration: Long = 300, completion: (() -> Unit)? = null) {
+    fadeOutAnimation(duration) {
+        fadeInAnimation(duration) {
+            completion?.let {
+                it()
+            }
+        }
+    }
+}
+
+fun View.fadeOutAnimation(duration: Long = 300, completion: (() -> Unit)? = null) {
+    val alphaAnim = AlphaAnimation(1f, 0f).apply {
+        this.duration = duration
+        setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation?) {}
+
+            override fun onAnimationEnd(animation: Animation?) {
+                visibility = View.GONE
+                completion?.let {
+                    it()
+                }
+            }
+
+            override fun onAnimationRepeat(animation: Animation?) {}
+        })
+    }
+
+    this.startAnimation(alphaAnim)
+}
+
+fun View.fadeInAnimation(duration: Long = 300, completion: (() -> Unit)? = null) {
+    val alphaAnim = AlphaAnimation(0f, 1f).apply {
+        this.duration = duration
+        setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation?) {
+                visibility = View.VISIBLE
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {
+                completion?.let {
+                    it()
+                }
+            }
+
+            override fun onAnimationRepeat(animation: Animation?) {}
+        })
+    }
+
+    this.startAnimation(alphaAnim)
 }

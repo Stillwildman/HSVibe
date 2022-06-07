@@ -65,6 +65,10 @@ class PayPasswordViewModel(private val payPasswordRepo: PayPasswordRepo) : Loadi
         }
     }
 
+    fun isFirstInput(): Boolean {
+        return liveShowConfirmationInput.value?.let { !it } ?: true
+    }
+
     fun showConfirmationInput(isShow: Boolean) {
         _showConfirmationInput.value = isShow
     }

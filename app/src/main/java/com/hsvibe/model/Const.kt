@@ -34,5 +34,8 @@ object Const {
 
     const val NO_POSITION = -1
 
-    const val REFERRER_NO_LENGTH_LIMIT = 6
+    const val REFERRER_NUMBER_LENGTH_LIMIT = 6
+
+    const val ACTION_COUPON = "CouponAction"
+    const val ACTION_NEWS = "CouponNews"
 }

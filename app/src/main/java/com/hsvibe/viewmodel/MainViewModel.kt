@@ -219,7 +219,7 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     }
 
     fun getCurrentUserBalance(): Int {
-        return liveUserInfo.value?.getBalance() ?: 0
+        return liveCurrentBalance.value?.balance?.toInt() ?: 0
     }
 
     fun requireLogin() {

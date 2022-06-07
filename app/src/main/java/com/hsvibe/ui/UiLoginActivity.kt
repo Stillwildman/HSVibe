@@ -6,10 +6,12 @@ import androidx.activity.viewModels
 import com.hsvibe.R
 import com.hsvibe.databinding.ActivityLoginBinding
 import com.hsvibe.model.Const
+import com.hsvibe.model.Urls
 import com.hsvibe.model.UserToken
 import com.hsvibe.model.UserTokenManager
 import com.hsvibe.ui.bases.BaseActivity
 import com.hsvibe.ui.fragments.login.UiLoginWebDialogFragment
+import com.hsvibe.utilities.DialogHelper
 import com.hsvibe.utilities.setOnSingleClickListener
 import com.hsvibe.utilities.startActivitySafelyAndFinish
 import com.hsvibe.viewmodel.LoginViewModel
@@ -37,8 +39,8 @@ class UiLoginActivity : BaseActivity<ActivityLoginBinding>() {
             openDialogFragment(UiLoginWebDialogFragment(), Const.BACK_LOGIN_DIALOG)
         }
 
-        bindingView.buttonLater.setOnSingleClickListener {
-            goToMain()
+        bindingView.buttonPrivacyTerms.setOnSingleClickListener {
+            showMemberTermsDialog()
         }
     }
 
@@ -56,5 +58,13 @@ class UiLoginActivity : BaseActivity<ActivityLoginBinding>() {
 
     private fun goToMain() {
         this.startActivitySafelyAndFinish(Intent(this, UiMainActivity::class.java))
+    }
+
+    private fun showMemberTermsDialog() {
+        DialogHelper.showMemberTermsDialog(this, {
+            openWebDialogFragment(Urls.WEB_HS_VIBE_TERMS)
+        }, {
+            openWebDialogFragment(Urls.WEB_HS_VIBE_PRIVACY)
+        })
     }
 }

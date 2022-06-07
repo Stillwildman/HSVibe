@@ -2,6 +2,7 @@ package com.hsvibe.utilities
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import com.hsvibe.AppController
@@ -24,4 +25,20 @@ object BitmapUtil {
         return bitmap
     }
 
+    fun convertDrawableToBitmap(drawable: Drawable, width: Int, height: Int): Bitmap? {
+        L.i("iconWidth: $width")
+        L.i("iconHeight: $height")
+
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+
+        L.i("drawableIntrinsicWidth: " + drawable.intrinsicWidth + " drawableIntrinsicHeight: " + drawable.intrinsicHeight)
+
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, width, height)
+
+        L.i("canvasWidth: " + canvas.width + " canvasHeight: " + canvas.height)
+
+        drawable.draw(canvas)
+        return bitmap
+    }
 }

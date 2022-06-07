@@ -4,17 +4,24 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.callbacks.OnAnyItemClickCallback
 import com.hsvibe.databinding.FragmentCouponUsingBinding
+import com.hsvibe.events.Events
 import com.hsvibe.model.Const
 import com.hsvibe.model.items.ItemMyCoupon
 import com.hsvibe.repositories.CouponRepoImpl
 import com.hsvibe.ui.bases.BaseActionBarFragment
+import com.hsvibe.utilities.DialogHelper
+import com.hsvibe.utilities.getContextSafely
 import com.hsvibe.utilities.observeOnce
 import com.hsvibe.viewmodel.CouponViewModel
 import com.hsvibe.viewmodel.CouponViewModelFactory
 import com.hsvibe.viewmodel.MainViewModel
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 
 /**
@@ -100,11 +107,15 @@ class UiCouponUsingFragment private constructor() : BaseActionBarFragment<Fragme
     override fun onResume() {
         super.onResume()
         tuneScreenBrightness(isBarcodeTurnedOn())
+
+        EventBus.getDefault().register(this)
     }
 
     override fun onPause() {
         super.onPause()
         tuneScreenBrightness(false)
+
+        EventBus.getDefault().unregister(this)
     }
 
     private fun tuneScreenBrightness(maximize: Boolean) {
@@ -125,6 +136,20 @@ class UiCouponUsingFragment private constructor() : BaseActionBarFragment<Fragme
 
     override fun hideLoadingCircle() {
         binding.barcodeLoadingCircle.visibility = View.GONE
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onCouponUsed(event: Events.OnCouponUsed) {
+        binding.coupon?.let {
+            DialogHelper.showHsVibeDialog(
+                getContextSafely(),
+                titleRes = R.string.use_coupon,
+                content = AppController.getAppContext().getString(R.string.coupon_scanned_hint, it.title),
+                positiveButtonRes = R.string.confirm
+            ) {
+                popBack(Const.BACK_COUPON_LiST)
+            }
+        }
     }
 
     override fun onDialogBackPressed(): Boolean {

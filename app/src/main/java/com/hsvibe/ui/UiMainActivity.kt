@@ -22,6 +22,7 @@ import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.repositories.UserRepoImpl
 import com.hsvibe.ui.bases.BaseActivity
 import com.hsvibe.ui.fragments.coupons.UiCouponDetailFragment
+import com.hsvibe.ui.fragments.coupons.UiCouponHistoryFragment
 import com.hsvibe.ui.fragments.login.UiLoginWebDialogFragment
 import com.hsvibe.ui.fragments.member.UiMemberCenterFragment
 import com.hsvibe.ui.fragments.member.UiMemberInfoFragment
@@ -58,7 +59,9 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        L.d(TAG, "onNewIntent!!! action: ${intent?.action}")
+        L.d(TAG, "onNewIntent!!!")
+
+        intent?.let { doPendingAction(it) }
     }
 
     override fun init() {
@@ -69,6 +72,8 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
         lifecycleScope.launchWhenResumed {
             checkUserToken()
         }
+
+        intent?.let { doPendingAction(it) }
     }
 
     private fun initTabLayout() {
@@ -333,6 +338,27 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
             SettingManager.setFullProfileIsAlreadyAsked(false)
             delay(3000)
             this@UiMainActivity.startActivitySafelyAndFinish(Intent(this@UiMainActivity, UiLoginActivity::class.java))
+        }
+    }
+
+    private fun doPendingAction(intent: Intent) {
+        L.d(TAG, "doPendingAction!!! action: ${intent.action}")
+
+        intent.action?.let { action ->
+            when (action) {
+                Const.ACTION_COUPON -> {
+                    showMyCouponPage()
+                }
+                Const.ACTION_NEWS -> {
+
+                }
+            }
+        }
+    }
+
+    private fun showMyCouponPage() {
+        lifecycleScope.launchWhenResumed {
+            openDialogFragment(UiCouponHistoryFragment())
         }
     }
 

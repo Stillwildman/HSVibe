@@ -61,4 +61,14 @@ object ApiConst {
 
     // Credit Card
     const val CARD_CODE_SUCCESS = "00"
+
+    // FCM data keys
+    const val TYPE = "type"
+    const val ACTUAL_AMOUNT = "actual_amount"
+    const val REWARD_POINT = "reward_point"
+
+    // Returned Type
+    const val TYPE_ON_BONUS_GET = 2
+    const val TYPE_ON_COUPON_REDEEM = 3
+    const val TYPE_ON_COUPON_USED = 4
 }

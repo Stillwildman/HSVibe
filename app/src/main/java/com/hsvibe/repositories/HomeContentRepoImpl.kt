@@ -51,7 +51,7 @@ class HomeContentRepoImpl : HomeContentRepo {
 
             notificationItems?.contentData?.forEach {
                 try {
-                    val itemTime: Long = dateFormat.parse(it.approval_at)?.time ?: 0L
+                    val itemTime: Long = dateFormat.parse(it.updated_at)?.time ?: 0L
                     if (itemTime > lastNewestTime) {
                         unreadCount++
                     }

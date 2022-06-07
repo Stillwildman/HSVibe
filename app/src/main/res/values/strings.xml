@@ -14,6 +14,8 @@
     <string name="retry">重試</string>
     <string name="operation_error">操作錯誤</string>
     <string name="unknown_network_error">Unknown error! Please check your API request or network connection.</string>
+    <string name="channel_title_transaction">交易通知</string>
+    <string name="channel_description_transaction">HSVibe 交易通知</string>
 
     <!-- Permissions -->
     <string name="permission_requires_location_title">為何需要位置權限?</string>
@@ -61,6 +63,8 @@
     <string name="confirm_password">確認密碼</string>
     <string name="password_hint">請輸入至少6位數密碼</string>
     <string name="confirm_password_hint">請再輸入一次密碼</string>
+    <string name="you_already_agree_the_terms">你已同意並接受我們的隱私條款&amp;服務條款</string>
+    <string name="please_read_the_terms">請詳閱HSPay服務使用條款</string>
 
     <!-- Member Profile -->
     <string name="member_info">會員資料</string>
@@ -122,7 +126,7 @@
     <string name="point_has_string">%s 點</string>
     <string name="redeem_point">點數兌換</string>
     <string name="redeem_coupon">兌換優惠券</string>
-    <string name="confirm_to_redeem">是否花費 %d 點數，兌換此張優惠券?</string>
+    <string name="confirm_to_redeem">是否花費 %1$d 點數，兌換『%2$s』?</string>
     <string name="redeem">兌換</string>
     <string name="redeem_success">兌換成功</string>
     <string name="coupon_usage_description">店內消費可使用乙張(全台分店適用)，兌換成功，您可以前往我的優惠券查看</string>
@@ -165,6 +169,9 @@
     <string name="use_coupon">使用優惠券</string>
     <string name="select_coupon">選擇優惠券</string>
     <string name="refresh_qr_code">更新QRCode</string>
+    <string name="coupon_scanned_hint">您的優惠券『%s』，已經成功核銷。</string>
+    <string name="transaction_completed">交易完成</string>
+    <string name="transaction_amount_and_reward_hint">您今日消費NT.%1$s，可累積%2$s點</string>
 
     <!-- Transactions -->
     <string name="hspay_transaction_history">HSPay 交易紀錄</string>

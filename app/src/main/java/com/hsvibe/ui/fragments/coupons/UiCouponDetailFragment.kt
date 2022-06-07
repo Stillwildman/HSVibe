@@ -93,22 +93,23 @@ class UiCouponDetailFragment private constructor() : BaseActionBarFragment<Fragm
     }
 
     private fun showInsufficientBalanceDialog() {
-        DialogHelper.showSingleButtonDialog(
-            getContextSafely(),
-            R.string.app_name,
-            R.string.insufficient_balance
+        DialogHelper.showHsVibeDialog(
+            context = getContextSafely(),
+            titleRes = R.string.app_name,
+            content = AppController.getString(R.string.insufficient_balance)
         )
     }
 
     private fun showRedeemConfirmationDialog(uuid: String, point: Int) {
-        DialogHelper.showSmallViewDialog(
-            getContextSafely(),
-            AppController.getString(R.string.redeem_coupon),
-            AppController.getAppContext().getString(R.string.confirm_to_redeem, point),
-            R.string.confirm,
-            R.string.cancel
-        ) {
-            redeemCoupon(uuid)
+        couponViewModel.liveCouponDetail.value?.title?.let { title ->
+            DialogHelper.showHsVibeDialog(
+                context = getContextSafely(),
+                titleRes = R.string.redeem_coupon,
+                content = AppController.getAppContext().getString(R.string.confirm_to_redeem, point, title),
+                showCancelButton = true
+            ) {
+                redeemCoupon(uuid)
+            }
         }
     }
 
@@ -140,15 +141,13 @@ class UiCouponDetailFragment private constructor() : BaseActionBarFragment<Fragm
 
     private fun showRedeemFailedDialog() {
         context?.let {
-            DialogHelper.showHsVibeDialog(it,
+            DialogHelper.showHsVibeDialog(
+                it,
                 R.style.DialogSurfaceCaution,
                 R.string.error_occurs,
                 AppController.getString(R.string.redeem_failed),
-                R.drawable.ic_close_white,
-                R.string.confirm
-            ) {
-                // Do nothing!
-            }
+                R.drawable.ic_close_white
+            )
         }
     }
 

@@ -26,6 +26,7 @@ class HomeContentListAdapter(private val viewModel: HomeViewModel) : RecyclerVie
         const val LIST_POSITION_HOTEL = 9
     }
 
+    private val marginTop by lazy { AppController.getAppContext().resources.getDimensionPixelSize(R.dimen.padding_size_l) }
     private val marginBottom by lazy { AppController.getAppContext().resources.getDimensionPixelSize(R.dimen.padding_size_xxl) }
 
     override fun getItemCount(): Int {
@@ -63,6 +64,13 @@ class HomeContentListAdapter(private val viewModel: HomeViewModel) : RecyclerVie
                 holder.itemView.visibility = View.VISIBLE
                 holder.bindingView.index = getItemIndex(position)
                 holder.bindingView.viewModel = viewModel
+
+                if (position != 0) {
+                    (holder.itemView.layoutParams as RecyclerView.LayoutParams).apply {
+                        topMargin = marginTop
+                        holder.itemView.layoutParams = this
+                    }
+                }
             }
             is HomeContentViewHolders.ContentListViewHolder -> {
                 when (position) {

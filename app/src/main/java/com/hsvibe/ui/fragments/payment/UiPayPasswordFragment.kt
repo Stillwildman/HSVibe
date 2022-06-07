@@ -28,6 +28,8 @@ class UiPayPasswordFragment private constructor() : BaseActionBarFragment<Fragme
                 arguments = Bundle(1).also { it.putBoolean(Const.BUNDLE_IS_SET_NEW_PASSWORD, isSetNewPassword) }
             }
         }
+
+        private const val HSPAY_TERMS_HTML = "file:///android_asset/hspay.html"
     }
 
     override fun getFragmentLayoutId(): Int = R.layout.fragment_pay_password
@@ -58,7 +60,6 @@ class UiPayPasswordFragment private constructor() : BaseActionBarFragment<Fragme
 
     private fun bind() {
         binding.apply {
-            isSetNewPassword = this@UiPayPasswordFragment.isSetNewPassword
             viewModel = payPasswordViewModel
             lifecycleOwner = this@UiPayPasswordFragment
         }
@@ -66,7 +67,7 @@ class UiPayPasswordFragment private constructor() : BaseActionBarFragment<Fragme
 
     private fun doFirstStep() {
         if (isSetNewPassword || SettingManager.isBiometricVerifyingEnabled().not() || BiometricsHelper.canAuthenticateWithBiometrics().not()) {
-            binding.layoutCodeInput1.focusAndShowKeyboard()
+            binding.layoutCodeInput.focusAndShowKeyboard()
         }
         else {
             showBiometricsVerification()
@@ -82,21 +83,31 @@ class UiPayPasswordFragment private constructor() : BaseActionBarFragment<Fragme
 
             override fun onFailed(errorMessage: String) {
                 L.e(errorMessage)
-                binding.layoutCodeInput1.focusAndShowKeyboard()
+                binding.layoutCodeInput.focusAndShowKeyboard()
             }
         })
     }
 
     private fun setInputListener() {
-        binding.layoutCodeInput1.setOnInputChangeListener(object : CodeInputLayout.OnInputChangeListener {
+        binding.layoutCodeInput.setOnInputChangeListener(object : CodeInputLayout.OnInputChangeListener {
             override fun onComplete(code: String) {
-                firstInputCode = code
+                if (payPasswordViewModel.isFirstInput()) {
+                    firstInputCode = code
+                    finishFirstStep()
+                }
+                else {
+                    secondInputCode = code
+                }
                 checkInputValidation()
-                finishFirstStep()
             }
 
             override fun onDelete(code: String) {
-                firstInputCode = code
+                if (payPasswordViewModel.isFirstInput()) {
+                    firstInputCode = code
+                }
+                else {
+                    secondInputCode = code
+                }
                 resumeState()
             }
         })
@@ -105,23 +116,14 @@ class UiPayPasswordFragment private constructor() : BaseActionBarFragment<Fragme
     private fun finishFirstStep() {
         if (isSetNewPassword) {
             payPasswordViewModel.showConfirmationInput(true)
-
-            binding.layoutCodeInput2.focusAndShowKeyboard()
-
-            binding.layoutCodeInput2.setOnInputChangeListener(object : CodeInputLayout.OnInputChangeListener {
-                override fun onComplete(code: String) {
-                    secondInputCode = code
-                    checkInputValidation()
-                }
-
-                override fun onDelete(code: String) {
-                    secondInputCode = code
-                    resumeState()
-                }
-            })
+            showConfirmationInput()
 
             mainViewModel.liveLoadingStatus.observe(viewLifecycleOwner) {
                 handleLoadingStatus(it)
+            }
+
+            binding.textReadTheTerms.setOnSingleClickListener {
+                openTermsWebView()
             }
 
             binding.buttonConfirm.setOnSingleClickListener {
@@ -134,8 +136,20 @@ class UiPayPasswordFragment private constructor() : BaseActionBarFragment<Fragme
         }
     }
 
+    private fun showConfirmationInput() {
+        binding.textEnterPassword.useFadingAnimation()
+
+        binding.layoutCodeInput.apply {
+            clear()
+            useFadingAnimation {
+                focusAndShowKeyboard()
+            }
+        }
+    }
+
     private fun checkInputValidation() {
         if (isSetNewPassword) {
+            L.i("FirstInputCode: $firstInputCode SecondInputCode: $secondInputCode")
             val isValid = firstInputCode == secondInputCode
 
             when {
@@ -193,8 +207,8 @@ class UiPayPasswordFragment private constructor() : BaseActionBarFragment<Fragme
             R.string.retry
         ) {
             payPasswordViewModel.setInputLayoutState(CodeInputLayout.STATE_NORMAL)
-            binding.layoutCodeInput1.clear()
-            binding.layoutCodeInput1.focusAndShowKeyboard()
+            binding.layoutCodeInput.clear()
+            binding.layoutCodeInput.focusAndShowKeyboard()
         }
     }
 
@@ -207,6 +221,10 @@ class UiPayPasswordFragment private constructor() : BaseActionBarFragment<Fragme
                 Utility.toastShort(R.string.update_failed)
             }
         }
+    }
+
+    private fun openTermsWebView() {
+        openWebDialogFragment(HSPAY_TERMS_HTML)
     }
 
     override fun onDestroyView() {

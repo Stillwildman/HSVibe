@@ -7,6 +7,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
+import com.hsvibe.utilities.NotifyHelper
 
 /**
  * Created by Vincent on 2021/6/25.
@@ -32,6 +33,11 @@ class AppController : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
         instance = this
+        init()
+    }
+
+    fun init() {
+        NotifyHelper.createChannel()
     }
 
     fun hideKeyboard(view: View) {
