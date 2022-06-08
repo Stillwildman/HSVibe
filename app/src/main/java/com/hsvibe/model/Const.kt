@@ -28,6 +28,7 @@ object Const {
     const val BUNDLE_STORE_ID = "storeId"
     const val BUNDLE_SHOW_OPTION_BUTTON = "ShowOptionButton"
     const val BUNDLE_IS_SET_NEW_PASSWORD = "IsSetNewPassword"
+    const val BUNDLE_PHONE_NUMBER = "PhoneNumber"
 
     const val PAGE_MY_COUPON = 0
     const val PAGE_USED_COUPON = 1

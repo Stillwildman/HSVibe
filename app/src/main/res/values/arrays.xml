@@ -52,4 +52,14 @@
         -->
     </array>
 
+    <array name="auto_text_sizes">
+        <item>@dimen/font_text_size_xs</item>
+        <item>@dimen/font_text_size_s</item>
+        <item>@dimen/font_text_size_m</item>
+        <item>@dimen/font_text_size_l</item>
+        <item>@dimen/font_text_size_xl</item>
+        <item>@dimen/font_text_size_xxl</item>
+        <item>@dimen/font_text_size_super</item>
+    </array>
+
 </resources>

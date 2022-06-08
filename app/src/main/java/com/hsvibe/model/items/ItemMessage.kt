@@ -7,9 +7,10 @@ import com.hsvibe.model.ApiConst
  */
 data class ItemMessage(
     val message: String,
-    val code: String?
+    val code: String? = null,
+    val exception: String? = null
 ) {
     fun isSuccess(): Boolean {
-        return message == ApiConst.SUCCESS || code == null
+        return message == ApiConst.SUCCESS
     }
 }

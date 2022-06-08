@@ -10,12 +10,10 @@ import com.hsvibe.model.Const
 import com.hsvibe.model.UserInfo
 import com.hsvibe.model.UserTokenManager
 import com.hsvibe.model.entities.UserInfoEntity
-import com.hsvibe.model.items.ItemAccountBonus
-import com.hsvibe.model.items.ItemCardList
-import com.hsvibe.model.items.ItemPayloadCode
-import com.hsvibe.model.items.ItemUserBonus
+import com.hsvibe.model.items.*
 import com.hsvibe.model.posts.PostPaymentPayload
 import com.hsvibe.model.posts.PostRefreshToken
+import com.hsvibe.model.posts.PostTransferPoint
 import com.hsvibe.model.posts.PostUpdateUserInfo
 import com.hsvibe.network.DataCallbacks
 import com.hsvibe.tasks.TaskController
@@ -227,6 +225,12 @@ class UserRepoImpl : UserRepo {
     override suspend fun getPaymentCode(discountAmount: Int, linkKey: String?, ticketUuid: String?): ItemPayloadCode? {
         return UserTokenManager.getAuthorization()?.let {
             DataCallbacks.getPaymentCode(it, PostPaymentPayload(discountAmount, linkKey, ticketUuid), callback)
+        }
+    }
+
+    override suspend fun transferPoint(phoneNumber: String, point: Int): ItemPointTransfer? {
+        return UserTokenManager.getAuthorization()?.let {
+            DataCallbacks.transferPoint(it, PostTransferPoint(phoneNumber, point, AppController.getString(R.string.member_point_transfer)), callback)
         }
     }
 }

@@ -196,7 +196,7 @@ class UiWalletMainFragment : BaseFragment<FragmentWalletMainBinding>(), OnAnyIte
             R.drawable.ic_my_qr_code -> openDialogFragment(UiPaymentFragment())
             R.drawable.ic_add_card ->  openCreditCardRegisterWeb()
             R.drawable.ic_passcode -> openDialogFragment(UiPayPasswordFragment.newInstance(true))
-            R.drawable.ic_point_transfer -> {  }  // TODO Finish this!
+            R.drawable.ic_point_transfer -> openDialogFragment(UiPointTransferFragment())
             R.drawable.ic_point_history -> openDialogFragment(UiPointHistoryFragment())
             R.drawable.ic_ticket_holder -> openDialogFragment(UiCouponHistoryFragment(), Const.BACK_COUPON_LiST)
             R.drawable.ic_transaction_history -> openDialogFragment(UiTransactionHistoryFragment())

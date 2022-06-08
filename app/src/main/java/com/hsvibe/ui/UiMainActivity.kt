@@ -354,6 +354,7 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
                 }
             }
         }
+        intent.action = null
     }
 
     private fun showMyCouponPage() {

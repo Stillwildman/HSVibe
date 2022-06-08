@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="isValid"
+            type="Boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_main_gradient">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/text_enterPhoneNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/padding_size_l"
+            android:paddingEnd="@dimen/padding_size_l"
+            android:gravity="center"
+            android:text="@string/please_enter_phone_number_to_transfer"
+            android:textSize="@dimen/font_text_size_l"
+            android:textColor="@color/md_white_1000"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:autoSizeTextType="uniform"
+            app:autoSizePresetSizes="@array/auto_text_sizes"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.12" />
+
+        <EditText
+            android:id="@+id/edit_enterPhoneNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/padding_size_s"
+            android:paddingEnd="@dimen/padding_size_s"
+            android:paddingTop="@dimen/padding_size_xl"
+            android:paddingBottom="@dimen/padding_size_xl"
+            android:layout_marginStart="@dimen/padding_size_xxl"
+            android:layout_marginEnd="@dimen/padding_size_xxl"
+            android:gravity="center_vertical"
+            android:hint="@string/please_enter_phone_number"
+            android:textColorHint="@color/md_grey_600"
+            android:textSize="@dimen/font_text_size_xl"
+            android:textColor="@color/md_white_1000"
+            android:letterSpacing="0.1"
+            android:singleLine="true"
+            android:maxLength="10"
+            android:inputType="phone"
+            android:digits="0123456789"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_enterPhoneNumber"
+            app:layout_constraintBottom_toTopOf="@+id/button_transferPoint"
+            app:layout_constraintVertical_bias="0.2"/>
+
+        <TextView
+            android:id="@+id/text_transferDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_size_l"
+            android:text="@string/point_transfer_description"
+            android:textSize="@dimen/font_text_size_s"
+            android:textColor="@color/md_grey_400"
+            app:layout_constraintTop_toBottomOf="@+id/edit_enterPhoneNumber"
+            app:layout_constraintStart_toStartOf="@+id/edit_enterPhoneNumber"
+            app:layout_constraintEnd_toEndOf="@+id/edit_enterPhoneNumber" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_transferPoint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_size_xxl"
+            android:layout_marginEnd="@dimen/padding_size_xxl"
+            android:textSize="@dimen/font_text_size_s"
+            android:textColor="@color/color_button_text_selector"
+            android:text="@string/transfer_point"
+            android:enabled="@{isValid, default = false}"
+            android:background="@drawable/background_main_theme_button"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.9"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -4,7 +4,7 @@
     <!-- Common -->
     <string name="confirm">確認</string>
     <string name="confirm_to_exit">Tap \'Back\' again to exit the app.</string>
-    <string name="loading">LOADING…</string>
+    <string name="wait">WAIT…</string>
     <string name="ok">OK</string>
     <string name="done">完成</string>
     <string name="cancel">取消</string>
@@ -196,6 +196,15 @@
     <string name="discount_amount">可折抵金額</string>
     <string name="dollar_is">%s 元</string>
     <string name="point_limit">不可大於目前可用點數</string>
+
+    <!-- Point Transfer -->
+    <string name="please_enter_phone_number_to_transfer">請輸入手機號碼以轉移點數</string>
+    <string name="please_enter_phone_number">請輸入手機號碼</string>
+    <string name="point_transfer_description">請輸入接受點數的會員手機號碼\n\n請注意點數轉出動作不可取消，請確定輸入正確的電話號碼。</string>
+    <string name="transfer_point">點數轉出</string>
+    <string name="confirm_point_transferring">是否確認轉出 %1$d 點給會員電話 %2$s ?</string>
+    <string name="point_transfer_success">點數已成功轉出</string>
+    <string name="member_point_transfer">會員點數轉出</string>
 
     <!-- Scanning -->
     <string name="qr_code_scan">條碼掃描</string>

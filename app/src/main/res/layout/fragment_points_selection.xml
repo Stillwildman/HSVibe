@@ -202,7 +202,7 @@
                 android:textSize="@dimen/font_text_size_s"
                 android:textColor="@color/md_grey_700"
                 android:textStyle="bold"
-                android:text="@{@string/dollar_is(!selectedPoints.isEmpty() ? selectedPoints : `0`)}"
+                android:text="@{@string/dollar_is(selectedPoints ?? `0`)}"
                 tools:text="10 元"
                 app:layout_constraintTop_toBottomOf="@+id/text_discountHint"
                 app:layout_constraintBottom_toTopOf="@+id/button_confirm"

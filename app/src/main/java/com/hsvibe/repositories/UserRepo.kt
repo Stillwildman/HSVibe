@@ -1,10 +1,7 @@
 package com.hsvibe.repositories
 
 import com.hsvibe.model.UserInfo
-import com.hsvibe.model.items.ItemAccountBonus
-import com.hsvibe.model.items.ItemCardList
-import com.hsvibe.model.items.ItemPayloadCode
-import com.hsvibe.model.items.ItemUserBonus
+import com.hsvibe.model.items.*
 import com.hsvibe.model.posts.PostUpdateUserInfo
 
 /**
@@ -45,4 +42,6 @@ interface UserRepo : LoadingCallbackRepo {
     suspend fun deleteCreditCard(key: String): ItemCardList?
 
     suspend fun getPaymentCode(discountAmount: Int, linkKey: String? = null, ticketUuid: String? = null): ItemPayloadCode?
+
+    suspend fun transferPoint(phoneNumber: String, point: Int): ItemPointTransfer?
 }

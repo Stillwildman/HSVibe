@@ -128,4 +128,10 @@ interface ApiInterface {
         @Query(ApiConst.LIMIT) limit: Int,
         @Query(ApiConst.PAGE) page: Int
     ): Response<ItemTransactions>
+
+    @POST(Urls.API_TRANSFER_POINT)
+    suspend fun transferPoint(
+        @Header(ApiConst.AUTHORIZATION) auth: String,
+        @Body body: PostTransferPoint
+    ): Response<ItemPointTransfer>
 }

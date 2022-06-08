@@ -47,7 +47,7 @@
             android:id="@+id/text_newsTitle"
             android:layout_width="0dp"
             android:layout_height="@dimen/actionbar_item_height"
-            android:layout_marginTop="@dimen/padding_size_xl"
+            android:layout_marginTop="@dimen/padding_size_xxl"
             android:maxLines="2"
             android:ellipsize="end"
             tools:text="000000000000000000000000"

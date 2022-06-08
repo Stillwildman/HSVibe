@@ -239,4 +239,10 @@ object DataCallbacks {
             getApiInterface().getTransactionHistory(auth, orderBy, sortedBy, limit, page)
         }
     }
+
+    suspend fun transferPoint(auth: String, transferItem: PostTransferPoint, loadingCallback: OnLoadingCallback?): ItemPointTransfer? {
+        return getApiResult(loadingCallback) {
+            getApiInterface().transferPoint(auth, transferItem)
+        }
+    }
 }

@@ -7,9 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.messaging.FirebaseMessaging
 import com.hsvibe.AppController
 import com.hsvibe.R
+import com.hsvibe.model.ApiConst
 import com.hsvibe.model.Navigation
 import com.hsvibe.model.UserInfo
 import com.hsvibe.model.items.ItemCardList
+import com.hsvibe.model.items.ItemMessage
 import com.hsvibe.model.items.ItemPaymentDisplay
 import com.hsvibe.model.items.ItemUserBonus
 import com.hsvibe.model.posts.PostUpdateUserInfo
@@ -32,9 +34,9 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
         private const val TAG = "MainViewModel"
     }
 
-    private fun getExceptionHandler(runIfTokenStatusExpired: () -> Unit): CoroutineExceptionHandler {
+    private fun getTokenStatusHandler(runIfTokenStatusExpired: () -> Unit): CoroutineExceptionHandler {
         return CoroutineExceptionHandler { _, throwable ->
-            L.e("Handle Coroutine Exception!!!")
+            L.e("Handle TokenStatus Exception!!!")
             when {
                 !Utility.isNetworkEnabled() -> {
                     L.e("Network is not working!!!")
@@ -46,6 +48,28 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
                 }
                 throwable is ApiStatusException -> {
                     Utility.toastLong("Api Error!!\nCode: ${throwable.statusCode}\nMsg: ${throwable.errorBody}")
+                    onLoadingEnd()
+                }
+                else -> {
+                    Utility.toastLong(R.string.unknown_network_error)
+                    onLoadingEnd()
+                }
+            }
+            throwable.printStackTrace()
+        }
+    }
+
+    private fun getTransferHandler(runIfException: (messageItem: ItemMessage?) -> Unit): CoroutineExceptionHandler {
+        return CoroutineExceptionHandler { _, throwable ->
+            L.e("Handle Transfer Exception!!!")
+            when {
+                !Utility.isNetworkEnabled() -> {
+                    L.e("Network is not working!!!")
+                    Utility.toastLong("Network is not working!!!")
+                    onLoadingEnd()
+                }
+                throwable is ApiStatusException -> {
+                    runIfException(throwable.messageItem)
                     onLoadingEnd()
                 }
                 else -> {
@@ -79,6 +103,8 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     private val _passwordVerified by lazy { SingleLiveEvent<Boolean>() }
 
     val livePaymentDisplay by lazy { MutableLiveData<ItemPaymentDisplay>() }
+
+    val liveMessage by lazy { SingleLiveEvent<ItemMessage>() }
 
     var isCouponSelectingMode = false
 
@@ -117,7 +143,7 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     }
 
     fun runUserInfoSynchronize() {
-        viewModelScope.launch(getExceptionHandler {
+        viewModelScope.launch(getTokenStatusHandler {
             refreshUserToken {
                 loadUserInfoAndUpdate()
             }
@@ -140,7 +166,7 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     }
 
     private fun refreshUserToken(jobAfterRefreshed: suspend () -> Unit) {
-        viewModelScope.launch(getExceptionHandler {
+        viewModelScope.launch(getTokenStatusHandler {
             L.e(TAG, "RefreshToken failed!!!")
             liveNavigation.value = Navigation.OnAuthorizationFailed
         }) {
@@ -353,6 +379,18 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
                         livePaymentDisplay.forceRefresh()
                     }
                 }
+            }
+        }
+    }
+
+    fun transferPoint(phoneNumber: String, point: Int) {
+        viewModelScope.launch(getTransferHandler {
+           liveMessage.value = it
+        }) {
+            userRepo.transferPoint(phoneNumber, point)?.let {
+                liveMessage.value = ItemMessage(ApiConst.SUCCESS)
+            } ?: run {
+                liveMessage.value = ItemMessage("Api Response Error.")
             }
         }
     }
