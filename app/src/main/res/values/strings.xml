@@ -177,6 +177,7 @@
     <string name="hspay_transaction_history">HSPay 交易紀錄</string>
     <string name="pay_amount_is">%1$s：NT. %2$s 元</string>
     <string name="refund_amount_is">%1$s：-NT. %2$s 元</string>
+    <string name="no_transaction_record">無交易紀錄</string>
 
     <!-- Credit Cards -->
     <string name="bind_credit_card">綁定信用卡</string>

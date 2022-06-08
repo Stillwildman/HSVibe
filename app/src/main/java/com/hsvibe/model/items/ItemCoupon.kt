@@ -1,7 +1,13 @@
 package com.hsvibe.model.items
 
+import android.graphics.Color
 import android.os.Parcelable
+import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import com.google.gson.annotations.SerializedName
+import com.hsvibe.AppController
+import com.hsvibe.R
+import com.hsvibe.utilities.isNotNullOrEmpty
 import kotlinx.parcelize.Parcelize
 import java.text.NumberFormat
 
@@ -27,6 +33,7 @@ data class ItemCoupon(
         val expire_at: String,
         val approval_at: String,
         val brand_thumb: String,
+        val brand_name: String,
         val media: Media,
         val stores: Stores
     ) : Parcelable {
@@ -74,6 +81,12 @@ data class ItemCoupon(
 
         fun getThumbnailUrl(): String? {
             return media.mediaData.takeIf { it.isNotEmpty() }?.get(0)?.thumbnail
+        }
+
+        @ColorInt
+        fun getBrandColor(): Int {
+            return stores.storeData.getOrNull(0)?.takeIf { it.color.isNotNullOrEmpty() }?.let { Color.parseColor(it.color) }
+                ?: ContextCompat.getColor(AppController.getAppContext(), R.color.app_background_gradient_top)
         }
     }
 

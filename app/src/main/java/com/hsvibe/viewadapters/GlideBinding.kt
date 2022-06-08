@@ -100,7 +100,7 @@ object GlideBinding {
                     .into(imageView)
             } ?: run {
                 val appIconDeferred = async {
-                    ContextCompat.getDrawable(AppController.getAppContext(), R.mipmap.ic_launcher)
+                    ContextCompat.getDrawable(AppController.getAppContext(), R.drawable.ic_app_launcher)
                 }
                 val appIcon = appIconDeferred.await()
 
