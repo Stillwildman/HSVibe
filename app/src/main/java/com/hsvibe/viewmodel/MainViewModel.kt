@@ -61,11 +61,10 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
 
     private fun getTransferHandler(runIfException: (messageItem: ItemMessage?) -> Unit): CoroutineExceptionHandler {
         return CoroutineExceptionHandler { _, throwable ->
-            L.e("Handle Transfer Exception!!!")
+            L.e("Handle Transfer Exception!!! ${throwable.printStackTrace()}")
             when {
                 !Utility.isNetworkEnabled() -> {
-                    L.e("Network is not working!!!")
-                    Utility.toastLong("Network is not working!!!")
+                    runIfException(ItemMessage("Network is not working!"))
                     onLoadingEnd()
                 }
                 throwable is ApiStatusException -> {
@@ -73,7 +72,7 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
                     onLoadingEnd()
                 }
                 else -> {
-                    Utility.toastLong(R.string.unknown_network_error)
+                    runIfException(ItemMessage(AppController.getString(R.string.unknown_network_error)))
                     onLoadingEnd()
                 }
             }
@@ -216,6 +215,17 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
         }
     }
 
+    fun refreshUserInfoAndBonus() {
+        viewModelScope.launch() {
+            userRepo.getUserInfo()?.let {
+                liveUserInfo.postValue(it)
+            }
+            userRepo.getUserBonus()?.let {
+                liveCurrentBalance.postValue(it.contentData)
+            }
+        }
+    }
+
     fun updateUserInfo(postBody: PostUpdateUserInfo, onFinish: (isSuccess: Boolean) -> Unit) {
         viewModelScope.launch(getExceptionHandler()) {
             userRepo.updateUserInfo(postBody)?.let {
@@ -245,7 +255,7 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     }
 
     fun getCurrentUserBalance(): Int {
-        return liveCurrentBalance.value?.balance?.toInt() ?: 0
+        return liveCurrentBalance.value?.balance?.toInt() ?: liveUserInfo.value?.getBalance() ?: 0
     }
 
     fun requireLogin() {
@@ -306,12 +316,13 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
             defaultCard?.key,
             defaultCard?.name,
             defaultCard?.display?.substring(0, 4),
-            defaultCard?.getBrandIconRes()
+            defaultCard?.getBrandIconRes(),
+            getCurrentUserBalance()
         )
     }
 
     fun updatePaymentMethod(isCreditCardEnabled: Boolean? = null, isPointEnabled: Boolean? = null) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val updatingValue = livePaymentDisplay.value
 
             updatingValue?.let {
@@ -322,7 +333,7 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
                     it.isPointEnabled = isPointEnabled
                 }
             }
-            livePaymentDisplay.postValue(updatingValue)
+            livePaymentDisplay.value = updatingValue
         }
 
         loadPaymentCode()
@@ -373,6 +384,8 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
                 val points = if (it.isPointEnabled) it.selectedPoints else 0
                 val cardKey = if (it.isCreditCardEnabled) it.selectedCardKey else null
 
+                L.i("loadPaymentCode! points: $points cardKey: $cardKey couponUuid: ${it.selectedCouponUuid}")
+
                 userRepo.getPaymentCode(points, cardKey, it.selectedCouponUuid)?.let { payloadCodeItem ->
                     if (payloadCodeItem.isSuccess()) {
                         livePaymentDisplay.value?.paymentCode = payloadCodeItem.contentData.code.toString()
@@ -388,6 +401,7 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
            liveMessage.value = it
         }) {
             userRepo.transferPoint(phoneNumber, point)?.let {
+                refreshUserInfoAndBonus()
                 liveMessage.value = ItemMessage(ApiConst.SUCCESS)
             } ?: run {
                 liveMessage.value = ItemMessage("Api Response Error.")

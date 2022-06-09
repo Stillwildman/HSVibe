@@ -49,7 +49,7 @@
                     android:layout_marginTop="@dimen/padding_size_xl"
                     android:textColor="@color/md_black_1000"
                     android:textSize="@dimen/font_text_size_s"
-                    android:text="@{@string/point_has_string(mainViewModel.liveCurrentBalance.getBalanceText())}"
+                    android:text="@{@string/point_has_string(mainViewModel.liveCurrentBalance.getBalanceText() ?? mainViewModel.liveUserInfo.getBalanceText() ?? `0`)}"
                     tools:text="@string/point_has_string"
                     app:layout_constraintTop_toBottomOf="@+id/text_accumulationPoints"
                     app:layout_constraintStart_toStartOf="parent"

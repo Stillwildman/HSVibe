@@ -49,8 +49,8 @@ class UiPaymentFragment : BaseDialogFragment<FragmentPaymentBinding>() {
     }
 
     private fun loadCreditCardAndPoints() {
+        mainViewModel.refreshUserInfoAndBonus()
         mainViewModel.loadCreditCards()
-        mainViewModel.loadUserBonus()
     }
 
     private fun updatePaymentDisplayAndBind() {

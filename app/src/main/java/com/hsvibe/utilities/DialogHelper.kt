@@ -52,7 +52,7 @@ object DialogHelper {
                 onButtonClick(true)
             }
         }
-        return dialog.also { it.show() }
+        return dialog.also { showAsTransparentWindow(it) }
     }
 
     fun showSmallViewDialog(

@@ -102,7 +102,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/padding_size_m"
                     android:textSize="@dimen/font_text_size_m"
-                    android:text="@{mainViewModel.liveCurrentBalance.getBalanceText()}"
+                    android:text="@{mainViewModel.liveCurrentBalance.getBalanceText() ?? mainViewModel.liveUserInfo.getBalanceText() ?? `0`}"
                     tools:text="0"
                     android:visibility="@{mainViewModel.liveUserInfoVisibility ?? View.INVISIBLE}"
                     app:layout_constraintStart_toStartOf="@+id/text_hiThere"

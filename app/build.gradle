@@ -12,14 +12,29 @@ def static getDate() {
     return date.format('yyyyMMdd')
 }
 
+def static getKeystoreProperty(def projectName, def projectFile) {
+    def keystoreProperties = null
+    if (projectFile.exists() && projectFile.canRead()) {
+        keystoreProperties = new Properties()
+        keystoreProperties.load(new FileInputStream(projectFile))
+    }
+    if (keystoreProperties == null) {
+        System.err.println '' + projectName + ' not exist or can not read or load failed!'
+    }
+    return keystoreProperties
+}
+
+def debugProperties = getKeystoreProperty('debug', rootProject.file('../commonDebug.properties'))
+def releaseProperties = getKeystoreProperty('release', rootProject.file('../hsvieRelease.properties'))
+
 android {
-    compileSdkVersion 31
-    buildToolsVersion "31.0.0"
+    compileSdkVersion 32
+    buildToolsVersion "33.0.0"
 
     defaultConfig {
         applicationId "com.hsvibe"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 32
         versionCode 1
         versionName "1.0"
 
@@ -43,12 +58,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            manifestPlaceholders = [appName: "H\'S VIBE"]
         }
         debug {
             //applicationIdSuffix ".dev"
             //versionNameSuffix '-dev'
-            manifestPlaceholders = [appName: "H\'S VIBE dev"]
+
         }
     }
     compileOptions {
@@ -70,11 +84,37 @@ android {
     productFlavors {
         formal {
             dimension "EnvType"
+            buildConfigField "boolean", "IS_FORMAL_ENV", "true"
+            manifestPlaceholders = [appName: "H\'S VIBE"]
         }
         dev {
             dimension "EnvType"
             applicationIdSuffix ".dev"
             versionNameSuffix '-dev'
+            buildConfigField "boolean", "IS_FORMAL_ENV", "false"
+            manifestPlaceholders = [appName: "H\'S VIBE dev"]
+        }
+    }
+
+    signingConfigs {
+        release {
+            if (releaseProperties != null) {
+                keyAlias releaseProperties['keyAlias']
+                keyPassword releaseProperties['keyPassword']
+                storeFile file(releaseProperties['storeFile'])
+                storePassword releaseProperties['storePassword']
+            }
+
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+        debug {
+            if (debugProperties != null) {
+                keyAlias debugProperties['keyAlias']
+                keyPassword debugProperties['keyPassword']
+                storeFile file(debugProperties['storeFile'])
+                storePassword debugProperties['storePassword']
+            }
         }
     }
 }
@@ -102,10 +142,11 @@ dependencies {
     implementation "com.google.android.gms:play-services-location:19.0.1"
 
     // Firebase
-    implementation platform('com.google.firebase:firebase-bom:28.4.0')
+    implementation platform('com.google.firebase:firebase-bom:30.1.0')
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-messaging-ktx'
+    implementation 'com.google.firebase:firebase-dynamic-links-ktx'
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.9.0'

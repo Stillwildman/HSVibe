@@ -2,6 +2,7 @@ package com.hsvibe.ui
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
@@ -9,6 +10,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayout
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.ktx.Firebase
 import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.databinding.ActivityMainBinding
@@ -344,6 +347,8 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
     private fun doPendingAction(intent: Intent) {
         L.d(TAG, "doPendingAction!!! action: ${intent.action}")
 
+        handleDeepLink(intent)
+
         intent.action?.let { action ->
             when (action) {
                 Const.ACTION_COUPON -> {
@@ -361,6 +366,18 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
         lifecycleScope.launchWhenResumed {
             openDialogFragment(UiCouponHistoryFragment())
         }
+    }
+
+    private fun handleDeepLink(intent: Intent) {
+        Firebase.dynamicLinks.getDynamicLink(intent)
+            .addOnSuccessListener(this) { pendingDynamicLinkData ->
+                val deepLink : Uri? = pendingDynamicLinkData?.link
+                L.i(TAG, "getDynamicLink success!! DeepLink: ${deepLink.toString()}")
+            }
+            .addOnFailureListener(this) { e ->
+                L.e(TAG, "getDynamicLink:onFailure : ${e.message}")
+                e.printStackTrace()
+            }
     }
 
     // onActivityResult has been deprecated (ˊ_>ˋ)

@@ -1,19 +1,21 @@
 package com.hsvibe.model
 
+import com.hsvibe.BuildConfig
+
 /**
  * Created by Vincent on 2021/6/28.
  */
 object Urls {
 
-    const val BASE_API_URL = "https://stg-oauth.hsvibe.com/api/v1/code/"
+    val BASE_API_URL = if (BuildConfig.IS_FORMAL_ENV) "https://oauth.hsvibe.com/api/v1/code/" else "https://stg-oauth.hsvibe.com/api/v1/code/"
 
     private const val OLD_BASE_API_URL = "https://stg2-api.hsvibe.com/api/v1/"
 
-    private const val BASE_SANDBOX_URL = "https://sandbox.hsvibe.com/"
+    private val BASE_SANDBOX_URL = if (BuildConfig.IS_FORMAL_ENV) "https://login.hsvibe.com/" else "https://sandbox.hsvibe.com/"
 
-    const val WEB_LOGIN = BASE_SANDBOX_URL + "redirect"
+    val WEB_LOGIN = BASE_SANDBOX_URL + "redirect"
 
-    const val API_REFRESH_TOKEN = BASE_SANDBOX_URL + "api/token/refresh"
+    val API_REFRESH_TOKEN = BASE_SANDBOX_URL + "api/token/refresh"
 
     const val API_USER_INFO = "user"
 
@@ -58,4 +60,6 @@ object Urls {
     const val WEB_HS_VIBE_PRIVACY = "https://www.hsvibe.com/privacy"
 
     const val WEB_REGISTER_CREDIT_CARD = "https://stg-oauth.hsvibe.com/payment/esunbank/cardlink/register/{0}"
+
+    const val HSVIBE_DYNAMIC_LINK = "https://hsvibe.page.link/app?"
 }
