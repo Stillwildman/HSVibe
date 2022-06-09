@@ -26,7 +26,7 @@ abstract class BasePermissionActivity : AppCompatActivity() {
     }
 
     protected fun hasLocationPermission(): Boolean {
-        return PermissionCheckHelper.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        return PermissionCheckHelper.hasPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
     }
 
     protected fun requireCameraPermission() {

@@ -15,19 +15,19 @@
       },
       "oauth_client": [
         {
+          "client_id": "54808789693-5td754ksc500g26do96i71i235smlqmn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hsvibe",
+            "certificate_hash": "b0c7e0e50816ab4848175cbb67153f03e8ed4d13"
+          }
+        },
+        {
           "client_id": "54808789693-e8uc7rbk1aufnqv7d1ta3pl412avt09v.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.hsvibe",
             "certificate_hash": "c452068504edf89aac75cd695ac96b40901e8fa9"
-          }
-        },
-        {
-          "client_id": "54808789693-ffotjmenbcbp30c88ssaq3t8dl7dkpul.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.hsvibe",
-            "certificate_hash": "2d3ad0e8fc49009a653e7648fa392726f3c98063"
           }
         },
         {
@@ -81,6 +81,14 @@
           "android_info": {
             "package_name": "com.hsvibe.dev",
             "certificate_hash": "c452068504edf89aac75cd695ac96b40901e8fa9"
+          }
+        },
+        {
+          "client_id": "54808789693-reghq0cfcqv3c8ru4cdq1c98n84rrsf8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hsvibe.dev",
+            "certificate_hash": "ab4edcf9f774a5206d4905e256b714239b48b5d9"
           }
         },
         {

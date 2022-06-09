@@ -7,6 +7,7 @@ import android.os.Looper
 import com.hsvibe.R
 import com.hsvibe.model.UserTokenManager
 import com.hsvibe.ui.bases.BaseFullScreenActivity
+import com.hsvibe.utilities.L
 import com.hsvibe.utilities.startActivitySafely
 
 class UiSplashActivity : BaseFullScreenActivity() {
@@ -28,10 +29,12 @@ class UiSplashActivity : BaseFullScreenActivity() {
     }
 
     override fun onPermissionGranted(requestCode: Int) {
+        L.i(TAG, "onPermissionGranted!!! requestCode: $requestCode")
         checkIfTheUserHasToken()
     }
 
     override fun onPermissionDenied(requestCode: Int) {
+        L.i(TAG, "onPermissionDenied!!! requestCode: $requestCode")
         checkIfTheUserHasToken()
     }
 

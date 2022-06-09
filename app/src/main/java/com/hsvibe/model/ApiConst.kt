@@ -71,4 +71,7 @@ object ApiConst {
     const val TYPE_ON_BONUS_GET = 2
     const val TYPE_ON_COUPON_REDEEM = 3
     const val TYPE_ON_COUPON_USED = 4
+
+    // Query Key
+    const val ID = "id"
 }

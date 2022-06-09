@@ -13,9 +13,7 @@ import com.hsvibe.model.UserTokenManager
 import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.repositories.CouponRepoImpl
 import com.hsvibe.ui.bases.BaseActionBarFragment
-import com.hsvibe.utilities.DialogHelper
-import com.hsvibe.utilities.getContextSafely
-import com.hsvibe.utilities.init
+import com.hsvibe.utilities.*
 import com.hsvibe.viewmodel.CouponViewModel
 import com.hsvibe.viewmodel.CouponViewModelFactory
 import com.hsvibe.viewmodel.MainViewModel
@@ -33,6 +31,12 @@ class UiCouponDetailFragment private constructor() : BaseActionBarFragment<Fragm
                 arguments = Bundle(1).also { it.putParcelable(Const.BUNDLE_COUPON_DATA, couponItem) }
             }
         }
+
+        fun newInstance(uuid: String): UiCouponDetailFragment {
+            return UiCouponDetailFragment().apply {
+                arguments = Bundle(1).also { it.putString(Const.BUNDLE_UUID, uuid) }
+            }
+        }
     }
 
     private val couponViewModel by viewModels<CouponViewModel> { CouponViewModelFactory(CouponRepoImpl()) }
@@ -47,21 +51,9 @@ class UiCouponDetailFragment private constructor() : BaseActionBarFragment<Fragm
     override fun getMenuOptionIconRes(): Int = R.drawable.selector_share
 
     override fun onInitCompleted() {
-        getBundleAndBind()
         observeLoadingStatus()
+        getBundleAndBind()
         binding.layoutSwipeRefresh.init(this)
-    }
-
-    private fun getBundleAndBind() {
-        val couponItem = arguments?.getParcelable<ItemCoupon.ContentData>(Const.BUNDLE_COUPON_DATA)
-
-        couponItem?.let {
-            setTitle(it.title)
-            couponViewModel.liveCouponDetail.value = it
-            binding.viewModel = this.couponViewModel
-            binding.itemClickCallback = this
-            binding.lifecycleOwner = viewLifecycleOwner
-        }
     }
 
     private fun observeLoadingStatus() {
@@ -70,8 +62,46 @@ class UiCouponDetailFragment private constructor() : BaseActionBarFragment<Fragm
         }
     }
 
+    private fun getBundleAndBind() {
+        val couponItem = arguments?.getParcelable<ItemCoupon.ContentData>(Const.BUNDLE_COUPON_DATA)
+
+        couponItem?.let {
+            setTitle(it.title)
+            couponViewModel.liveCouponDetail.value = it
+            bind()
+        } ?: run {
+            arguments?.getString(Const.BUNDLE_UUID)?.let {
+                couponViewModel.updateCouponDetail(it)
+                observeCouponDetail()
+            }
+        }
+    }
+
+    private fun observeCouponDetail() {
+        couponViewModel.liveCouponDetail.observeOnce(viewLifecycleOwner) {
+            setTitle(it.title)
+            bind()
+        }
+    }
+
+    private fun bind() {
+        binding.viewModel = this.couponViewModel
+        binding.itemClickCallback = this
+        binding.lifecycleOwner = viewLifecycleOwner
+    }
+
     override fun onMenuOptionClick() {
-        // TODO Share coupon info
+        shareCouponText()
+    }
+
+    private fun shareCouponText() {
+        val couponItem = couponViewModel.liveCouponDetail.value
+
+        couponItem?.let { coupon ->
+            LinkSharingHelper.prepareCouponSharingLink(coupon.title, coupon.brief, coupon.uuid) {
+                shareText(it, "Share Coupon")
+            }
+        }
     }
 
     override fun onItemClick(item: ItemCoupon.ContentData) {

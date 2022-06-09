@@ -18,9 +18,7 @@ import com.hsvibe.repositories.CouponRepoImpl
 import com.hsvibe.ui.adapters.CouponBrandListAdapter
 import com.hsvibe.ui.adapters.CouponListAdapter
 import com.hsvibe.ui.bases.BaseFragment
-import com.hsvibe.utilities.getPairSecondValue
-import com.hsvibe.utilities.init
-import com.hsvibe.utilities.setOnSingleClickListener
+import com.hsvibe.utilities.*
 import com.hsvibe.viewmodel.CouponViewModel
 import com.hsvibe.viewmodel.CouponViewModelFactory
 import kotlinx.coroutines.flow.collectLatest
@@ -82,7 +80,13 @@ class UiCouponMainFragment private constructor(): BaseFragment<FragmentCouponMai
 
     private val onShareClickCallback = object : OnAnyItemClickCallback<ItemCoupon.ContentData> {
         override fun onItemClick(item: ItemCoupon.ContentData) {
-            // TODO Share Coupon!
+            shareCouponText(item)
+        }
+    }
+
+    private fun shareCouponText(coupon: ItemCoupon.ContentData) {
+        LinkSharingHelper.prepareCouponSharingLink(coupon.title, coupon.brief, coupon.uuid) {
+            shareText(it, "Share Coupon")
         }
     }
 

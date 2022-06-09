@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.net.Uri
+import androidx.fragment.app.Fragment
 
 /**
  * Created by Vincent on 2021/6/29.
@@ -71,4 +72,20 @@ fun Context?.launchBrowser(url: String): Boolean {
     val intent = Intent(Intent.ACTION_VIEW)
     intent.data = Uri.parse(if (url.startsWith("http")) url else "http://$url")
     return startActivitySafely(intent)
+}
+
+fun Context.shareText(content: String, chooserTitle: String) {
+    val intent = Intent(Intent.ACTION_SEND)
+    intent.type = "text/plain"
+    intent.putExtra(Intent.EXTRA_TEXT, content)
+
+    startActivity(Intent.createChooser(intent, chooserTitle))
+}
+
+fun Fragment.shareText(content: String, chooserTitle: String) {
+    getContextSafely().shareText(content, chooserTitle)
+}
+
+fun Activity.shareText(content: String, chooserTitle: String) {
+    (this as Context).shareText(content, chooserTitle)
 }

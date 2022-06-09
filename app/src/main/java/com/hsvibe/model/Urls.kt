@@ -61,5 +61,7 @@ object Urls {
 
     const val WEB_REGISTER_CREDIT_CARD = "https://stg-oauth.hsvibe.com/payment/esunbank/cardlink/register/{0}"
 
-    const val HSVIBE_DYNAMIC_LINK = "https://hsvibe.page.link/app?"
+    const val HSVIBE_DYNAMIC_LINK = "https://hsvibe.page.link"
+
+    const val HSVIBE_DYNAMIC_LINK_FALLBACK = "https://www.hsvibe.com/dynamiclinks"
 }

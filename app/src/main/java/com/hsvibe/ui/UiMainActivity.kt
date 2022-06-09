@@ -16,10 +16,7 @@ import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.databinding.ActivityMainBinding
 import com.hsvibe.location.MyFusedLocation
-import com.hsvibe.model.ApiConst
-import com.hsvibe.model.Const
-import com.hsvibe.model.Navigation
-import com.hsvibe.model.UserTokenManager
+import com.hsvibe.model.*
 import com.hsvibe.model.items.ItemBanner
 import com.hsvibe.model.items.ItemCoupon
 import com.hsvibe.repositories.UserRepoImpl
@@ -373,11 +370,39 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
             .addOnSuccessListener(this) { pendingDynamicLinkData ->
                 val deepLink : Uri? = pendingDynamicLinkData?.link
                 L.i(TAG, "getDynamicLink success!! DeepLink: ${deepLink.toString()}")
+
+                deepLink?.run {
+                    L.i(TAG, "scheme: $scheme host: $host")
+
+                    for (params in pathSegments) {
+                        L.i(TAG, "params: $params")
+                    }
+                    handleQueries(this)
+                }
             }
             .addOnFailureListener(this) { e ->
                 L.e(TAG, "getDynamicLink:onFailure : ${e.message}")
                 e.printStackTrace()
             }
+    }
+
+    private fun handleQueries(deepLink: Uri) {
+        lifecycleScope.launchWhenResumed {
+            deepLink.run {
+                getQueryParameter(ApiConst.TYPE)?.let { type ->
+                    L.i(TAG, "QueryParams type: $type")
+                    when (type) {
+                        Urls.API_COUPON -> {
+                            getQueryParameter(ApiConst.ID)?.let {
+                                L.i(TAG, "QueryParams id: $it")
+                                openDialogFragment(UiCouponDetailFragment.newInstance(it))
+                            }
+                        }
+                        else -> {}
+                    }
+                }
+            }
+        }
     }
 
     // onActivityResult has been deprecated (ˊ_>ˋ)

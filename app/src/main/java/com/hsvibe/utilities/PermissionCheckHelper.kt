@@ -31,10 +31,15 @@ object PermissionCheckHelper {
         )
     }
 
+    // On Android 12 and above, only require coarse location can be prompted.
+    private val PERMISSIONS_COARSE_LOCATION = arrayOf(
+        Manifest.permission.ACCESS_COARSE_LOCATION
+    )
+
     private val PERMISSIONS_CAMERA = arrayOf(Manifest.permission.CAMERA)
 
     fun checkLocationPermission(activity: Activity): Boolean {
-        return checkPermission(activity, PERMISSION_REQUEST_CODE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, PERMISSIONS_LOCATION)
+        return checkPermission(activity, PERMISSION_REQUEST_CODE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, PERMISSIONS_COARSE_LOCATION)
     }
 
     fun checkCameraPermission(activity: Activity): Boolean {
