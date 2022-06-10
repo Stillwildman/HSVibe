@@ -85,7 +85,7 @@ class UiCouponMainFragment private constructor(): BaseFragment<FragmentCouponMai
     }
 
     private fun shareCouponText(coupon: ItemCoupon.ContentData) {
-        LinkSharingHelper.prepareCouponSharingLink(coupon.title, coupon.brief, coupon.uuid) {
+        LinkSharingHelper.prepareCouponSharingLink(coupon.title, coupon.brief, coupon.uuid, coupon.getMediumUrl()) {
             shareText(it, "Share Coupon")
         }
     }
