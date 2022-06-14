@@ -52,8 +52,7 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data
                     android:scheme="https"
-                    android:host="hsvibe.page.link"
-                    android:pathPrefix="/app"/>
+                    android:host="hsvibe.page.link" />
             </intent-filter>
             <!-- DynamicLink END -->
 

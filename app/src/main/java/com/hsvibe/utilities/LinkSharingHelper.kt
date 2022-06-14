@@ -7,6 +7,8 @@ import com.google.firebase.ktx.Firebase
 import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.model.Urls
+import com.hsvibe.model.items.ItemCoupon
+import java.text.MessageFormat
 
 /**
  * Created by Vincent on 2022/6/10.
@@ -16,13 +18,10 @@ object LinkSharingHelper {
     private const val IOS_APP_BUNDLE_ID = "com.hs.vibe"
     private const val IOS_APP_STORE_ID = "1449947800"
 
-    fun prepareCouponSharingLink(couponTitle: String, couponBrief: String, couponUuid: String, couponPicUrl: String?, onLinkReady: (link: String) -> Unit) {
-        val couponDescription = AppController.getAppContext().getString(R.string.coupon_share_format, couponTitle, couponBrief)
+    fun prepareCouponSharingLink(coupon: ItemCoupon.ContentData, onLinkReady: (link: String) -> Unit) {
+        val couponDescription = AppController.getAppContext().getString(R.string.coupon_share_format, coupon.title, coupon.brief)
 
-        val deepLink = Uri.parse("${Urls.WEB_HS_VIBE}?type=coupon&id=${couponUuid}")
-
-        val socialTagTitle = AppController.getString(R.string.social_tag_title)
-        val socialTagDescription = AppController.getString(R.string.social_tag_description)
+        val deepLink = Uri.parse(MessageFormat.format(Urls.HSVIBE_COUPON_SHARING_LINK, coupon.uuid, coupon.uuid))
 
         Firebase.dynamicLinks.shortLinkAsync(ShortDynamicLink.Suffix.SHORT) {
             link = deepLink
@@ -35,15 +34,15 @@ object LinkSharingHelper {
                 setFallbackUrl(Uri.parse(Urls.HSVIBE_DYNAMIC_LINK_FALLBACK))
             }
             socialMetaTagParameters {
-                title = socialTagTitle
-                description = socialTagDescription
-                couponPicUrl.takeIf { it.isNotNullOrEmpty() }?.let { imageUrl = Uri.parse(it) }
+                title = "${coupon.title} ${coupon.subtitle}"
+                description = "${coupon.brief} ${coupon.content}"
+                coupon.getMediumUrl().takeIf { it.isNotNullOrEmpty() }?.let { imageUrl = Uri.parse(it) }
             }
         }.addOnSuccessListener { (shortLink, flowchartLink) ->
             val fullLink = couponDescription + "\n\n" + shortLink
             onLinkReady(fullLink)
         }.addOnFailureListener {
-            L.e("${it.printStackTrace()}")
+            it.printStackTrace()
         }
     }
 

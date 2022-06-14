@@ -59,9 +59,11 @@ object Urls {
 
     const val WEB_HS_VIBE_PRIVACY = "https://www.hsvibe.com/privacy"
 
-    const val WEB_REGISTER_CREDIT_CARD = "https://stg-oauth.hsvibe.com/payment/esunbank/cardlink/register/{0}"
+    val WEB_REGISTER_CREDIT_CARD = if (BuildConfig.IS_FORMAL_ENV) "https://oauth.hsvibe.com/payment/esunbank/cardlink/register/{0}" else "https://stg-oauth.hsvibe.com/payment/esunbank/cardlink/register/{0}"
 
     const val HSVIBE_DYNAMIC_LINK = "https://hsvibe.page.link"
 
     const val HSVIBE_DYNAMIC_LINK_FALLBACK = "https://www.hsvibe.com/dynamiclinks"
+
+    const val HSVIBE_COUPON_SHARING_LINK = "https://www.hsvibe.com/special-offer/{0}?type=coupon&id={1}"
 }

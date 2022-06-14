@@ -98,7 +98,7 @@ class UiCouponDetailFragment private constructor() : BaseActionBarFragment<Fragm
         val couponItem = couponViewModel.liveCouponDetail.value
 
         couponItem?.let { coupon ->
-            LinkSharingHelper.prepareCouponSharingLink(coupon.title, coupon.brief, coupon.uuid, coupon.getMediumUrl()) {
+            LinkSharingHelper.prepareCouponSharingLink(coupon) {
                 shareText(it, "Share Coupon")
             }
         }

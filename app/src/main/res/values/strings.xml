@@ -214,14 +214,4 @@
     <string name="light_hint">請在光源充足的地方掃描，避免辨識錯誤!</string>
     <string name="check_camera_permission">請檢查是否開啟攝影機權限</string>
 
-    <!-- Sharing -->
-    <string name="social_tag_title">H\'S VIBE 齊來卡</string>
-    <string name="social_tag_description">● 「全台唯一生活美學領先體驗」紅利積點卡\n
-        ● 每筆消費皆可回饋積點，享受生活之食宿、休閒、育樂等，不設限的跨產業兌點，享受一次購物、一齊滿足的豐富美好生活\n
-        ● 手機即是會員卡：會員點數資料隨時查、好康優惠券隨兌隨用\n
-        ● 國揚集團整合旗下飯店旅宿、餐飲美食、地產建設\n
-        ● 高雄五星級指標飯店：漢來大飯店\n
-        ● 公認CP值最高的漢來美食：擁有漢來海港、漢來蔬食、米其林星級粵菜名人坊餐廳、日式料理、上海湯包、火鍋、台菜等全台15個品牌，37間餐廳\n
-        ● 國揚建設：全台首創購屋買房也可消費積點與兌點</string>
-
 </resources>
