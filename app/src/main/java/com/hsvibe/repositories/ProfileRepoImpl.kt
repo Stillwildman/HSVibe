@@ -1,5 +1,7 @@
 package com.hsvibe.repositories
 
+import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.callbacks.OnLoadingCallback
@@ -12,8 +14,12 @@ import com.hsvibe.model.entities.RegionCityEntity
 import com.hsvibe.model.entities.RegionPostalEntity
 import com.hsvibe.model.items.ItemDistricts
 import com.hsvibe.network.DataCallbacks
+import com.hsvibe.utilities.L
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStreamReader
 
 /**
  * Created by Vincent on 2021/8/15.
@@ -36,7 +42,7 @@ class ProfileRepoImpl(private val _userInfo: UserInfo?) : ProfileRepo {
 
     private suspend fun createDistrictsData(): List<DistrictsEntity>? {
         return withContext(Dispatchers.Default) {
-            val districtsItem = getDistrictsDataFromServer()
+            val districtsItem = getDistrictsDataFromRes() ?: getDistrictsDataFromServer()
 
             districtsItem?.let {
                 val cityList = mutableListOf<RegionCityEntity>()
@@ -62,6 +68,33 @@ class ProfileRepoImpl(private val _userInfo: UserInfo?) : ProfileRepo {
                 }
                 else null
             }
+        }
+    }
+
+    private fun getDistrictsDataFromRes(): ItemDistricts? {
+        val inputStream = AppController.getAppContext().resources.openRawResource(R.raw.districts)
+
+        val reader = BufferedReader(InputStreamReader(inputStream))
+
+        val sb = StringBuilder()
+        var eachLine: String?
+
+        return try {
+            while (reader.readLine().also { eachLine = it } != null) {
+                sb.append(eachLine)
+            }
+            inputStream.close()
+            reader.close()
+
+            Gson().fromJson(sb.toString(), ItemDistricts::class.java)?.also { L.i("getDistrictsDataFromRes!!!") }
+        }
+        catch (e: IOException) {
+            e.printStackTrace()
+            null
+        }
+        catch (e: JsonSyntaxException) {
+            e.printStackTrace()
+            null
         }
     }
 
