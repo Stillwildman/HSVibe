@@ -216,7 +216,7 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     }
 
     fun refreshUserInfoAndBonus() {
-        viewModelScope.launch() {
+        viewModelScope.launch {
             userRepo.getUserInfo()?.let {
                 liveUserInfo.postValue(it)
             }
@@ -290,6 +290,10 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
         }
     }
 
+    fun hasCreditCard(): Boolean {
+        return !liveCreditCards.value?.cardData?.cardDetailList.isNullOrEmpty()
+    }
+
     fun updateDefaultCreditCardIndex(key: String) {
         viewModelScope.launch {
             liveCreditCards.value?.cardData?.cardDetailList?.let {
@@ -311,7 +315,7 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
         val defaultCard = liveCreditCards.value?.cardData?.cardDetailList?.takeIf { it.isNotEmpty() }?.first()
 
         livePaymentDisplay.value = ItemPaymentDisplay(
-            SettingManager.isCreditCardPaymentEnabled(),
+            defaultCard?.let { SettingManager.isCreditCardPaymentEnabled() } ?: false,
             SettingManager.isPointPaymentEnabled(),
             defaultCard?.key,
             defaultCard?.name,
@@ -406,6 +410,13 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
             } ?: run {
                 liveMessage.value = ItemMessage("Api Response Error.")
             }
+        }
+    }
+
+    fun findNewsIndex(newsUuid: String, onNewsIndexFound: (index: Int) -> Unit) {
+        viewModelScope.launch {
+            val newsIndex = userRepo.findNewsIndex(newsUuid)
+            onNewsIndexFound(newsIndex)
         }
     }
 }

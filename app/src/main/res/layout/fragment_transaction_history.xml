@@ -28,7 +28,7 @@
                 android:textSize="@dimen/font_text_size_l"
                 android:textColor="@color/md_grey_500"
                 android:letterSpacing="0.2"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
 
         </FrameLayout>
 

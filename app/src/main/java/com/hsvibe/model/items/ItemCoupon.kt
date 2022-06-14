@@ -88,6 +88,30 @@ data class ItemCoupon(
             return stores.storeData.getOrNull(0)?.takeIf { it.color.isNotNullOrEmpty() }?.let { Color.parseColor(it.color) }
                 ?: ContextCompat.getColor(AppController.getAppContext(), R.color.app_background_gradient_top)
         }
+
+        fun getAvailableTimeText(): String {
+            return AppController.getAppContext().getString(R.string.available_time_at, getDateText())
+        }
+
+        fun getDateText(): String {
+            return expire_at.substring(0, expire_at.indexOf(" "))
+        }
+
+        fun getAvailableStores(): String {
+            val sb = StringBuilder()
+
+            stores.storeData.forEach {
+                if (sb.isNotEmpty()) {
+                    sb.append("\n")
+                }
+                sb.append("● ").append(it.name)
+
+                if (it.address.isNotEmpty()) {
+                    sb.append(" - ").append(it.address)
+                }
+            }
+            return sb.toString()
+        }
     }
 
     data class Meta(val pagination: Pagination) {

@@ -36,7 +36,7 @@
             android:paddingEnd="@dimen/padding_size_l"
             android:paddingTop="@dimen/padding_size_l"
             android:paddingBottom="@dimen/padding_size_xl"
-            android:background="@drawable/background_main_gradient" >
+            android:background="@drawable/background_main_gradient_inclined" >
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/image_unreadDot"
@@ -54,7 +54,7 @@
                 android:textSize="@dimen/font_text_size_s"
                 android:textColor="@color/highlight_text_color"
                 android:layout_marginTop="@dimen/padding_size_m"
-                android:text="@{content.approval_at}"
+                android:text="@{content.created_at}"
                 tools:text="2021/08/08"
                 app:layout_constraintTop_toBottomOf="@+id/image_unreadDot"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -67,7 +67,7 @@
                 android:textSize="@dimen/font_text_size_m"
                 android:textColor="@color/md_white_1000"
                 android:text="@{content.title}"
-                android:layout_marginTop="@dimen/padding_size_s"
+                android:layout_marginTop="@dimen/padding_size_xl"
                 tools:text="00000000000000000"
                 app:layout_constraintTop_toBottomOf="@+id/text_date"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -80,7 +80,7 @@
                 android:textColor="@color/md_grey_500"
                 android:textStyle="bold"
                 android:text="@{content.content}"
-                android:layout_marginTop="@dimen/padding_size_l"
+                android:layout_marginTop="@dimen/padding_size_xxl"
                 android:autoLink="all"
                 tools:text="0000000000000000000000000000000000000000000000000000000000000000000000000000"
                 app:layout_constraintTop_toBottomOf="@+id/text_title"

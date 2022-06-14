@@ -25,7 +25,7 @@ data class ItemPaymentDisplay(
     }
 
     fun getCardInfoText(): String {
-        return if (!isCreditCardEnabled || selectedCardKey == null) AppController.getString(R.string.pay_by_cash) else "$cardName $cardNumber"
+        return if (!isCreditCardEnabled || selectedCardKey == null) AppController.getString(R.string.not_use_it) else "$cardName $cardNumber"
     }
 
     fun getPointVisibility(): Int {

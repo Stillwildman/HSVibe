@@ -16,6 +16,7 @@
     <string name="unknown_network_error">Unknown error! Please check your API request or network connection.</string>
     <string name="channel_title_transaction">交易通知</string>
     <string name="channel_description_transaction">HSVibe 交易通知</string>
+    <string name="new_line">%1$s\n%2$s</string>
 
     <!-- Permissions -->
     <string name="permission_requires_location_title">為何需要位置權限?</string>
@@ -137,6 +138,8 @@
     <string name="use">使用</string>
     <string name="used_date_is">使用時間：%s</string>
     <string name="coupon_share_format">『%1$s』%2$s</string>
+    <string name="available_time_at">有效期限：%s</string>
+    <string name="coupon_available_stores">適用店家：\n\n%s</string>
 
     <!-- Notification -->
     <string name="newest_info">最新消息</string>
@@ -164,8 +167,12 @@
     <string name="fingerprint_verify_failed">指紋辨識失敗</string>
     <string name="fingerprint_unavailable">不支援指紋辨識</string>
 
+    <!-- User Password -->
+    <string name="wrong_input">輸入錯誤</string>
+    <string name="password_is_not_the_same">密碼不相符</string>
+
     <!-- Payment -->
-    <string name="pay_by_cash">現金付款</string>
+    <string name="not_use_it">不使用</string>
     <string name="use_point_discount">點數折抵</string>
     <string name="use_coupon">使用優惠券</string>
     <string name="select_coupon">選擇優惠券</string>

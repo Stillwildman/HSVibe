@@ -53,14 +53,15 @@ class CouponBrandListAdapter(
         private const val VIEW_TYPE_VERTICAL = 1
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun updateList(brandList: List<ItemBrand.ContentData>) {
         L.i("updateList! brandList size: ${brandList.size}")
 
         scope.launch {
             this@CouponBrandListAdapter.brandList.apply {
+                val previousCount = size
+
                 clear()
-                notifyDataSetChanged()
+                notifyItemRangeRemoved(0, previousCount)
 
                 addAll(brandList)
 
@@ -130,6 +131,7 @@ class CouponBrandListAdapter(
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun changeLayoutOrientation() {
         scope.launch {
             layoutManage.apply {
@@ -138,7 +140,8 @@ class CouponBrandListAdapter(
                     calculateVerticalLayout().also { L.i("LayoutCount: $it") }
                     orientation = RecyclerView.VERTICAL
                     lastSelectedIndex = rowSelectedIndex
-                    this@CouponBrandListAdapter.notifyItemChanged(0)
+                    //this@CouponBrandListAdapter.notifyItemChanged(0)
+                    this@CouponBrandListAdapter.notifyDataSetChanged()
                 }
                 else {
                     orientation = RecyclerView.HORIZONTAL

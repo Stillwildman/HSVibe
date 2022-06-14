@@ -60,9 +60,13 @@ class UiTransactionHistoryFragment : BaseActionBarFragment<FragmentTransactionHi
             viewModel.getContentFlow().collectLatest { pagingContentDataList ->
                 getTransactionListAdapter()?.apply {
                     submitData(pagingContentDataList)
-                    showNoDataHint(itemCount == 0)
+
                 }
             }
+        }
+
+        getTransactionListAdapter()?.addOnPagesUpdatedListener {
+            showNoDataHint(getTransactionListAdapter()?.itemCount == 0)
         }
     }
 

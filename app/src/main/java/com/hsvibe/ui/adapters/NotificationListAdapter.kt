@@ -46,6 +46,6 @@ class NotificationListAdapter(private val itemClickCallback: OnAnyItemClickCallb
     }
 
     fun getFirstItemTime(): String? {
-        return if (itemCount > 0) getItem(0)?.approval_at else null
+        return if (itemCount > 0) getItem(0)?.updated_at else null
     }
 }

@@ -74,7 +74,7 @@ data class ItemContent(
                 return
             }
             try {
-                val time: Long = dateFormat.parse(approval_at)?.time ?: 0L
+                val time: Long = dateFormat.parse(updated_at)?.time ?: 0L
                 isUnread = time > lastNewestTime
             }
             catch (e: ParseException) {

@@ -44,4 +44,6 @@ interface UserRepo : LoadingCallbackRepo {
     suspend fun getPaymentCode(discountAmount: Int, linkKey: String? = null, ticketUuid: String? = null): ItemPayloadCode?
 
     suspend fun transferPoint(phoneNumber: String, point: Int): ItemPointTransfer?
+
+    suspend fun findNewsIndex(newsUuid: String): Int
 }

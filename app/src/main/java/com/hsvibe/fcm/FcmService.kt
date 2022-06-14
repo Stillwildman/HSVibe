@@ -1,5 +1,6 @@
 package com.hsvibe.fcm
 
+import android.os.Bundle
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.hsvibe.events.Events
@@ -39,21 +40,34 @@ class FcmService : FirebaseMessagingService() {
                 ApiConst.TYPE_ON_BONUS_GET -> {
                     sendOnBonusGetEvent(remoteMessage.data)
                 }
-            }
-
-            remoteMessage.notification?.let { notification ->
-                L.i("notification:")
-                L.i("title : ${notification.title} body : ${notification.body}")
-
-                when (type.toIntOrNull()) {
-                    ApiConst.TYPE_ON_COUPON_REDEEM -> {
-                        NotifyHelper.showCommonNotification(notification.title ?: "", notification.body ?: "", Const.ACTION_COUPON)
-                    }
-                    else -> {
-                        NotifyHelper.showCommonNotification(notification.title ?: "", notification.body ?: "")
-                    }
+                ApiConst.TYPE_ON_POINT_RECEIVED -> {
+                    sendOnPointReceivedEvent()
                 }
             }
+        }
+        remoteMessage.notification?.let { notification ->
+            L.i("notification:")
+            L.i("title : ${notification.title} body : ${notification.body}")
+
+            when (type?.toIntOrNull()) {
+                ApiConst.TYPE_ON_COUPON_REDEEM -> {
+                    NotifyHelper.showCommonNotification(notification.title ?: "", notification.body ?: "", Const.ACTION_COUPON)
+                }
+                ApiConst.TYPE_ON_NEWS_GET -> {
+                    showNewsNotification(remoteMessage)
+                }
+                else -> {
+                    NotifyHelper.showCommonNotification(notification.title ?: "", notification.body ?: "")
+                }
+            }
+        }
+    }
+
+    private fun showNewsNotification(remoteMessage: RemoteMessage) {
+        remoteMessage.notification?.let {
+            NotifyHelper.showCommonNotification(it.title ?: "", it.body ?: "", Const.ACTION_NEWS, Bundle().apply {
+                putString(Const.BUNDLE_UUID, remoteMessage.data[ApiConst.ID])
+            })
         }
     }
 
@@ -68,6 +82,10 @@ class FcmService : FirebaseMessagingService() {
         if (amount != null && rewardPoint != null) {
             EventBus.getDefault().post(Events.OnBonusGet(amount, rewardPoint))
         }
+    }
+
+    private fun sendOnPointReceivedEvent() {
+        EventBus.getDefault().post(Events.OnPointReceived())
     }
 
     override fun onNewToken(token: String) {

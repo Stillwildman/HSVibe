@@ -9,4 +9,6 @@ class Events {
 
     class OnBonusGet(val amount: String, val rewardPoint: String)
 
+    class OnPointReceived
+
 }

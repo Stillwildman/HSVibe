@@ -122,6 +122,7 @@
                             android:layout_height="wrap_content"
                             android:theme="@style/MySwitchButtonStyle"
                             android:checked="@{viewModel.livePaymentDisplay.isCreditCardEnabled ? true : false, default = true}"
+                            android:enabled="@{viewModel.hasCreditCard() ? true : false}"
                             app:layout_constraintTop_toTopOf="@+id/text_hsPay"
                             app:layout_constraintBottom_toBottomOf="@+id/text_hsPay"
                             app:layout_constraintEnd_toEndOf="parent" />

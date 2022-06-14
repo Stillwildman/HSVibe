@@ -6,6 +6,7 @@ import com.hsvibe.R
 import com.hsvibe.callbacks.OnLoadingCallback
 import com.hsvibe.database.UserDatabase
 import com.hsvibe.location.MyFusedLocation
+import com.hsvibe.model.ApiConst
 import com.hsvibe.model.Const
 import com.hsvibe.model.UserInfo
 import com.hsvibe.model.UserTokenManager
@@ -232,5 +233,23 @@ class UserRepoImpl : UserRepo {
         return UserTokenManager.getAuthorization()?.let {
             DataCallbacks.transferPoint(it, PostTransferPoint(phoneNumber, point, AppController.getString(R.string.member_point_transfer)), callback)
         }
+    }
+
+    override suspend fun findNewsIndex(newsUuid: String): Int {
+        val newsList = DataCallbacks.getContent(
+            category = ApiConst.CATEGORY_PERSONAL_NOTIFICATION,
+            limit = 50,
+            page = 1,
+            loadingCallback = callback)
+
+        var newsIndex = 0
+
+        newsList?.contentData?.forEachIndexed loop@ { index, contentData ->
+            if (contentData.uuid == newsUuid) {
+                newsIndex = index
+                return@loop
+            }
+        }
+        return newsIndex
     }
 }

@@ -85,7 +85,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             app:glideImageWithDefaultAppIcon="@{viewModel.liveCouponDetail.brand_thumb}"
-                            tools:srcCompat="@mipmap/ic_launcher"/>
+                            tools:srcCompat="@drawable/ic_app_launcher"/>
 
                     </androidx.cardview.widget.CardView>
 
@@ -105,19 +105,6 @@
                         app:layout_constraintEnd_toEndOf="parent" />
 
                     <TextView
-                        android:id="@+id/text_couponSubtitle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        tools:text="000000000000000000000000"
-                        android:textColor="@color/md_grey_700"
-                        android:textSize="@dimen/font_text_size_s"
-                        android:text="@{viewModel.liveCouponDetail.subtitle}"
-                        android:layout_marginTop="@dimen/padding_size_s"
-                        app:layout_constraintTop_toBottomOf="@+id/text_couponTitle"
-                        app:layout_constraintStart_toStartOf="@+id/text_couponTitle"
-                        app:layout_constraintEnd_toEndOf="@+id/text_couponTitle" />
-
-                    <TextView
                         android:id="@+id/text_expiredDate"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -125,9 +112,9 @@
                         android:textStyle="bold"
                         android:textColor="@color/md_grey_400"
                         android:textSize="@dimen/font_text_size_s"
-                        android:text="@{@string/expires_at(viewModel.liveCouponDetail.expire_at)}"
+                        android:text="@{@string/expires_at(viewModel.liveCouponDetail.getDateText())}"
                         android:layout_marginTop="@dimen/padding_size_l"
-                        app:layout_constraintTop_toBottomOf="@+id/text_couponSubtitle"
+                        app:layout_constraintTop_toBottomOf="@+id/text_couponTitle"
                         app:layout_constraintStart_toStartOf="@+id/text_couponTitle"
                         app:layout_constraintEnd_toEndOf="@+id/text_couponTitle" />
 
@@ -175,7 +162,7 @@
                         tools:text="000000000000000"
                         android:textColor="@color/md_grey_700"
                         android:textSize="@dimen/font_text_size_s"
-                        android:text="@{viewModel.liveCouponDetail.brief}"
+                        android:text="@{@string/new_line(viewModel.liveCouponDetail.subtitle, viewModel.liveCouponDetail.brief)}"
                         android:layout_marginStart="@dimen/padding_size_xl"
                         android:layout_marginTop="@dimen/padding_size_l"
                         app:layout_constraintTop_toBottomOf="@+id/view_divider"
@@ -191,7 +178,7 @@
                         android:textSize="@dimen/font_text_size_s"
                         android:textStyle="bold"
                         android:text="@{@string/stock_is(viewModel.liveCouponDetail.stock)}"
-                        android:layout_marginTop="@dimen/padding_size_m"
+                        android:layout_marginTop="@dimen/padding_size_l"
                         app:layout_constraintTop_toBottomOf="@+id/text_expiredBrief"
                         app:layout_constraintStart_toStartOf="@+id/text_expiredBrief"
                         app:layout_constraintEnd_toEndOf="@+id/text_couponTitle" />
@@ -204,9 +191,25 @@
                         android:textColor="@color/md_grey_700"
                         android:textSize="@dimen/font_text_size_s"
                         android:text="@{viewModel.liveCouponDetail.content}"
-                        android:layout_marginTop="@dimen/padding_size_m"
-                        android:layout_marginBottom="@dimen/padding_size_super"
+                        android:layout_marginTop="@dimen/padding_size_l"
+                        android:layout_marginBottom="@dimen/padding_size_xxl"
                         app:layout_constraintTop_toBottomOf="@+id/text_expiredStock"
+                        app:layout_constraintBottom_toTopOf="@+id/text_availableStores"
+                        app:layout_constraintStart_toStartOf="@+id/text_expiredBrief"
+                        app:layout_constraintEnd_toEndOf="@+id/text_couponTitle" />
+
+                    <TextView
+                        android:id="@+id/text_availableStores"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        tools:text="適用店家：\n\n00000000000000"
+                        android:paddingBottom="@dimen/padding_size_xxl"
+                        android:layout_marginBottom="@dimen/padding_size_super"
+                        android:textColor="@color/md_grey_700"
+                        android:textSize="@dimen/font_text_size_s"
+                        android:text="@{@string/coupon_available_stores(viewModel.liveCouponDetail.getAvailableStores())}"
+                        android:textIsSelectable="true"
+                        app:layout_constraintTop_toBottomOf="@+id/text_couponContent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/text_expiredBrief"
                         app:layout_constraintEnd_toEndOf="@+id/text_couponTitle" />

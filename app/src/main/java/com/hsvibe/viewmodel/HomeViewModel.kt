@@ -33,7 +33,7 @@ class HomeViewModel(private val homeContentRepo: HomeContentRepo, private val ma
     private fun getNotificationUnreadCount() {
         viewModelScope.launch(getExceptionHandler()) {
             val unreadCount = homeContentRepo.getNotificationUnreadCount()
-            liveUnreadCount.value = unreadCount
+            liveUnreadCount.postValue(unreadCount)
         }
     }
 

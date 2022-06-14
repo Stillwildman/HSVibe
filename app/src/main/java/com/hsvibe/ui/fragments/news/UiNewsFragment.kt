@@ -31,6 +31,8 @@ class UiNewsFragment private constructor() : BaseActionBarFragment<InflateNewsLi
         }
     }
 
+    private val noSpecificPosition by lazy { arguments?.getInt(Const.BUNDLE_SPECIFIC_POSITION) == Const.NO_POSITION }
+
     private val newsViewModel by viewModels<ContentViewModel>()
 
     private var hasInitialScrolled = false
@@ -39,7 +41,7 @@ class UiNewsFragment private constructor() : BaseActionBarFragment<InflateNewsLi
 
     override fun getTitleRes(): Int = R.string.hot_news
 
-    override fun getAnimType(): AnimType = AnimType.SlideFromRight
+    override fun getAnimType(): AnimType = if (noSpecificPosition) AnimType.SlideFromRight else AnimType.SlideUp
 
     override fun onInitCompleted() {
         initRecycler()
@@ -48,7 +50,7 @@ class UiNewsFragment private constructor() : BaseActionBarFragment<InflateNewsLi
     }
 
     private fun initRecycler() {
-        val layoutOrientation = if ((arguments?.getInt(Const.BUNDLE_SPECIFIC_POSITION) ?: Const.NO_POSITION) == Const.NO_POSITION) {
+        val layoutOrientation = if (noSpecificPosition) {
             RecyclerView.VERTICAL
         } else {
             RecyclerView.HORIZONTAL
@@ -78,7 +80,8 @@ class UiNewsFragment private constructor() : BaseActionBarFragment<InflateNewsLi
     private fun scrollIfNeed() {
         if (!hasInitialScrolled) {
             val specificPosition = arguments?.getInt(Const.BUNDLE_SPECIFIC_POSITION) ?: Const.NO_POSITION
-            if (specificPosition != Const.NO_POSITION) {
+
+            if (noSpecificPosition.not()) {
                 binding.recyclerNews.doOnLayout {
                     scrollToSpecificPosition(specificPosition)
                 }
@@ -114,7 +117,7 @@ class UiNewsFragment private constructor() : BaseActionBarFragment<InflateNewsLi
     }
 
     private fun popBackOrResumeToVertical() {
-        if (getNewsListAdapter().isDetailView()) {
+        if (getNewsListAdapter().isDetailView() && noSpecificPosition) {
             getNewsListAdapter().changeLayout()
         }
         else {

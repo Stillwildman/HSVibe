@@ -68,9 +68,11 @@ object ApiConst {
     const val REWARD_POINT = "reward_point"
 
     // Returned Type
+    const val TYPE_ON_NEWS_GET = 1
     const val TYPE_ON_BONUS_GET = 2
     const val TYPE_ON_COUPON_REDEEM = 3
     const val TYPE_ON_COUPON_USED = 4
+    const val TYPE_ON_POINT_RECEIVED = 7
 
     // Query Key
     const val ID = "id"

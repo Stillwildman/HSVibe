@@ -48,8 +48,14 @@ class UiSplashActivity : BaseFullScreenActivity() {
     }
 
     private fun goToNext(targetClass: Class<out Activity>) {
+        val target = if (intent.extras != null) {
+            intent.setClass(this, targetClass)
+        } else {
+            Intent(this, targetClass)
+        }
+
         Handler(Looper.getMainLooper()).postDelayed({
-            this.startActivitySafely(Intent(this, targetClass))
+            this.startActivitySafely(target)
             this.finish()
         }, 1000)
     }

@@ -114,11 +114,12 @@ class UiNotificationPage private constructor() : BaseFragment<FragmentNotificati
         getNotificationAdapter().getFirstItemTime()?.let { it ->
             try {
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-                val itemTime = dateFormat.parse(it)?.time ?: 0
-                SettingManager.setNewestNotificationTime(itemTime.also { time -> L.i("SaveNewestNotificationTime: $time") })
+                val itemTime = dateFormat.parse(it)?.time ?: 0L
+                SettingManager.setNewestNotificationTime(itemTime.also { time -> L.i("LastReadTime - SaveNewestNotificationTime: $time") })
             }
             catch (e: ParseException) {
                 e.printStackTrace()
+                SettingManager.setNewestNotificationTime(0L.also { time -> L.i("LastReadTime - SaveNewestNotificationTime: $time") })
             }
         }
     }

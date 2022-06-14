@@ -8,7 +8,9 @@ import com.hsvibe.R
 import com.hsvibe.databinding.FragmentPasswordModificationBinding
 import com.hsvibe.model.Const
 import com.hsvibe.ui.bases.BaseActionBarFragment
+import com.hsvibe.utilities.DialogHelper
 import com.hsvibe.utilities.Utility
+import com.hsvibe.utilities.getContextSafely
 import com.hsvibe.utilities.setOnSingleClickListener
 import com.hsvibe.viewmodel.MainViewModel
 
@@ -44,7 +46,12 @@ class UiPasswordModifyFragment : BaseActionBarFragment<FragmentPasswordModificat
 
     private fun setClickListener() {
         binding.buttonConfirm.setOnSingleClickListener {
-            updateUserPassword()
+            if (isPasswordValid()) {
+                updateUserPassword()
+            }
+            else {
+                showErrorDialog()
+            }
         }
     }
 
@@ -57,18 +64,15 @@ class UiPasswordModifyFragment : BaseActionBarFragment<FragmentPasswordModificat
     private fun setTextWatcher() {
         binding.editPassword.addTextChangedListener {
             it?.let { password1 = it.toString() }
-            checkIsPasswordValid()
         }
 
         binding.editConfirmPassword.addTextChangedListener {
             it?.let { password2 = it.toString() }
-            checkIsPasswordValid()
         }
     }
 
-    private fun checkIsPasswordValid() {
-        val isPasswordValid = password1.length >= PASSWORD_MIN_LENGTH && password1 == password2
-        binding.isValid = isPasswordValid
+    private fun isPasswordValid(): Boolean {
+        return password1.length >= PASSWORD_MIN_LENGTH && password1 == password2
     }
 
     private fun updateUserPassword() {
@@ -82,13 +86,13 @@ class UiPasswordModifyFragment : BaseActionBarFragment<FragmentPasswordModificat
         }
     }
 
-    override fun showLoadingCircle() {
-        super.showLoadingCircle()
-        binding.isValid = false
-    }
-
-    override fun hideLoadingCircle() {
-        super.hideLoadingCircle()
-        checkIsPasswordValid()
+    private fun showErrorDialog() {
+        DialogHelper.showHsVibeDialog(
+            getContextSafely(),
+            titleRes = R.string.wrong_input,
+            content = AppController.getString(R.string.password_is_not_the_same),
+            iconRes = R.drawable.ic_close_white,
+            positiveButtonRes = R.string.retry
+        )
     }
 }

@@ -3,6 +3,7 @@ package com.hsvibe.ui
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
@@ -15,6 +16,7 @@ import com.google.firebase.ktx.Firebase
 import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.databinding.ActivityMainBinding
+import com.hsvibe.events.Events
 import com.hsvibe.location.MyFusedLocation
 import com.hsvibe.model.*
 import com.hsvibe.model.items.ItemBanner
@@ -37,6 +39,9 @@ import com.hsvibe.viewmodel.MainViewModelFactory
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
  * Created by Vincent on 2021/7/4.
@@ -342,7 +347,7 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
     }
 
     private fun doPendingAction(intent: Intent) {
-        L.d(TAG, "doPendingAction!!! action: ${intent.action}")
+        L.d(TAG, "doPendingAction!!! action: ${intent.action} data: ${intent.data} hasExtras: ${intent.extras != null}")
 
         handleDeepLink(intent)
 
@@ -352,7 +357,11 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
                     showMyCouponPage()
                 }
                 Const.ACTION_NEWS -> {
-
+                    val uuid = intent.getStringExtra(Const.BUNDLE_UUID)
+                    findNewsAndOpenIt(uuid)
+                }
+                else -> {
+                    intent.extras?.let { parseExtras(it) }
                 }
             }
         }
@@ -362,6 +371,29 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
     private fun showMyCouponPage() {
         lifecycleScope.launchWhenResumed {
             openDialogFragment(UiCouponHistoryFragment())
+        }
+    }
+
+    private fun parseExtras(extras: Bundle) {
+        extras.getString(ApiConst.TYPE)?.toIntOrNull()?.let {
+            L.i(TAG, "parseExtra!!! type: $it")
+            when (it) {
+                ApiConst.TYPE_ON_NEWS_GET -> {
+                    val id = extras.getString(ApiConst.ID)
+                    findNewsAndOpenIt(id)
+                }
+            }
+        }
+    }
+
+    private fun findNewsAndOpenIt(uuid: String?) {
+        L.i(TAG, "News uuid: $uuid")
+        uuid?.let {
+            mainViewModel.findNewsIndex(uuid) {
+                lifecycleScope.launchWhenResumed {
+                    onNewsClick(it)
+                }
+            }
         }
     }
 
@@ -421,6 +453,22 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
                 Activity.RESULT_CANCELED -> mainViewModel.setLocationPermissionCheck(false)
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    fun onPointReceived(event: Events.OnPointReceived) {
+        L.i("onPointReceived!!! $event")
+        mainViewModel.refreshUserInfoAndBonus()
     }
 
     override fun onBackPressed() {

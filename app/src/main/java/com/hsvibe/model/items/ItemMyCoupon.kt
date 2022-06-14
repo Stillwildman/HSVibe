@@ -86,5 +86,9 @@ data class ItemMyCoupon(
             return stores.storeData.getOrNull(0)?.takeIf { it.color.isNotNullOrEmpty() }?.let { Color.parseColor(it.color) }
                 ?: ContextCompat.getColor(AppController.getAppContext(), R.color.app_background_gradient_top)
         }
+
+        fun getAvailableTimeText(): String {
+            return AppController.getAppContext().getString(R.string.available_time_at, expire_at.substring(0, expire_at.indexOf(" ")))
+        }
     }
 }

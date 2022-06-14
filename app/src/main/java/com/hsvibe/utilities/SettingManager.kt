@@ -65,7 +65,7 @@ object SettingManager {
     }
 
     fun getNewestNotificationTime(): Long {
-        return getDefaultPrefs().getLong(PREF_NEWEST_NOTIFICATION_TIME, 0L)
+        return getDefaultPrefs().getLong(PREF_NEWEST_NOTIFICATION_TIME, 0L).also { L.d("LastReadTime - getNewestNotificationTime: $it") }
     }
 
     fun enableBiometricVerifying(isEnable: Boolean) {

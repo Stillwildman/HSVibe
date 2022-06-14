@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 tools:text="2021/01/01"
                 android:textColor="@color/md_grey_500"
-                android:textSize="@dimen/font_text_size_s"
+                android:textSize="@dimen/font_text_size_xs"
                 android:text="@{content.approval_at}"
                 android:layout_marginBottom="@dimen/padding_size_m"
                 app:layout_constraintStart_toStartOf="@+id/text_newsTitle"
