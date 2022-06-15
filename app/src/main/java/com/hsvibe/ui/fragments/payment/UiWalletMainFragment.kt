@@ -84,7 +84,7 @@ class UiWalletMainFragment : BaseFragment<FragmentWalletMainBinding>(), OnAnyIte
 
     private fun startObserving() {
         viewModel.liveCreditCards.observe(viewLifecycleOwner) {
-            updateCreditCardPager(it)
+            it?.let { updateCreditCardPager(it) }
         }
     }
 

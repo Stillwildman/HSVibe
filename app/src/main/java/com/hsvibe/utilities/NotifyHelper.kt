@@ -25,8 +25,7 @@ object NotifyHelper {
 
     fun showCommonNotification(title: String, body: String, pendingAction: String? = null, bundle: Bundle? = null) {
         val intent = Intent(AppController.getAppContext(), UiMainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-            addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP and Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
             pendingAction?.let { action = it }
             bundle?.let { putExtras(it) }
         }
@@ -56,7 +55,7 @@ object NotifyHelper {
             .setAutoCancel(true)
             .setSound(soundUri)
             .setDefaults(Notification.DEFAULT_ALL)
-            .setFullScreenIntent(pendingIntent, false)
+            .setFullScreenIntent(pendingIntent, true)
 
 //        val drawable = ContextCompat.getDrawable(AppController.getAppContext(), R.mipmap.ic_launcher)
 //

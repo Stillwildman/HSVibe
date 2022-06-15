@@ -79,6 +79,14 @@ class UiTransactionHistoryFragment : BaseActionBarFragment<FragmentTransactionHi
         binding.layoutSwipeRefresh.isRefreshing = false
     }
 
+    override fun showLoadingCircle() {
+        binding.layoutSwipeRefresh.isRefreshing = true
+    }
+
+    override fun hideLoadingCircle() {
+        binding.layoutSwipeRefresh.isRefreshing = false
+    }
+
     override fun onRefresh() {
         getTransactionListAdapter()?.refresh()
     }

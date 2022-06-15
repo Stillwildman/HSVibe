@@ -45,7 +45,8 @@
                 app:srcCompat="@drawable/ic_unread_dot"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:visibility="@{content.getUnreadDotVisibility(), default=gone}"/>
+                android:visibility="@{content.getUnreadDotVisibility(), default=gone}"
+                tools:visibility="visible"/>
 
             <TextView
                 android:id="@+id/text_date"

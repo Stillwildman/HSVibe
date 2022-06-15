@@ -237,7 +237,7 @@ class UserRepoImpl : UserRepo {
 
     override suspend fun findNewsIndex(newsUuid: String): Int {
         val newsList = DataCallbacks.getContent(
-            category = ApiConst.CATEGORY_PERSONAL_NOTIFICATION,
+            category = ApiConst.CATEGORY_NEWS,
             limit = 50,
             page = 1,
             loadingCallback = callback)

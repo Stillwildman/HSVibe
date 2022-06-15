@@ -59,9 +59,9 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
         }
     }
 
-    private fun getTransferHandler(runIfException: (messageItem: ItemMessage?) -> Unit): CoroutineExceptionHandler {
+    private fun getErrorMessageHandler(runIfException: (messageItem: ItemMessage?) -> Unit): CoroutineExceptionHandler {
         return CoroutineExceptionHandler { _, throwable ->
-            L.e("Handle Transfer Exception!!! ${throwable.printStackTrace()}")
+            L.e("Handle ErrorMessage Exception!!! ${throwable.printStackTrace()}")
             when {
                 !Utility.isNetworkEnabled() -> {
                     runIfException(ItemMessage("Network is not working!"))
@@ -92,7 +92,7 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
 
     val liveUserInfoVisibility = MutableLiveData<Int>()
 
-    val liveCreditCards by lazy { MutableLiveData<ItemCardList>() }
+    val liveCreditCards by lazy { MutableLiveData<ItemCardList?>() }
 
     val liveCreditCardDeleting by lazy { SingleLiveEvent<ItemCardList>() }
 
@@ -283,7 +283,10 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     }
 
     fun loadCreditCards() {
-        viewModelScope.launch(getExceptionHandler()) {
+        viewModelScope.launch(getErrorMessageHandler {
+            it?.let { Utility.toastLong(it.message) }
+            liveCreditCards.value = null
+        }) {
             userRepo.getCreditCards()?.let {
                 liveCreditCards.value = it
             }
@@ -401,7 +404,7 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     }
 
     fun transferPoint(phoneNumber: String, point: Int) {
-        viewModelScope.launch(getTransferHandler {
+        viewModelScope.launch(getErrorMessageHandler {
            liveMessage.value = it
         }) {
             userRepo.transferPoint(phoneNumber, point)?.let {

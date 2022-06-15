@@ -68,6 +68,7 @@ class FcmService : FirebaseMessagingService() {
             NotifyHelper.showCommonNotification(it.title ?: "", it.body ?: "", Const.ACTION_NEWS, Bundle().apply {
                 putString(Const.BUNDLE_UUID, remoteMessage.data[ApiConst.ID])
             })
+            L.i("showNewsNotification!!!")
         }
     }
 

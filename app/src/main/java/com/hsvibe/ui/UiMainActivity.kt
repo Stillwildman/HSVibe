@@ -376,7 +376,7 @@ class UiMainActivity : BaseActivity<ActivityMainBinding>(),
 
     private fun parseExtras(extras: Bundle) {
         extras.getString(ApiConst.TYPE)?.toIntOrNull()?.let {
-            L.i(TAG, "parseExtra!!! type: $it")
+            L.i(TAG, "ParseExtra!!! type: $it")
             when (it) {
                 ApiConst.TYPE_ON_NEWS_GET -> {
                     val id = extras.getString(ApiConst.ID)

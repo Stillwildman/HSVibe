@@ -33,7 +33,7 @@ class UiCardSelectionFragment : BaseActionBarFragment<FragmentCardSelectionBindi
 
     private fun observeCardData() {
         mainViewModel.liveCreditCards.observe(viewLifecycleOwner) {
-            initCardList(it.cardData.cardDetailList)
+            it?.let { initCardList(it.cardData.cardDetailList) }
         }
     }
 
