@@ -63,16 +63,26 @@ class UiPasswordModifyFragment : BaseActionBarFragment<FragmentPasswordModificat
 
     private fun setTextWatcher() {
         binding.editPassword.addTextChangedListener {
-            it?.let { password1 = it.toString() }
+            it?.let {
+                password1 = it.toString()
+                enableButtonIfLengthValid()
+            }
         }
 
         binding.editConfirmPassword.addTextChangedListener {
-            it?.let { password2 = it.toString() }
+            it?.let {
+                password2 = it.toString()
+                enableButtonIfLengthValid()
+            }
         }
     }
 
     private fun isPasswordValid(): Boolean {
         return password1.length >= PASSWORD_MIN_LENGTH && password1 == password2
+    }
+
+    private fun enableButtonIfLengthValid() {
+        binding.isValid = password1.length >= PASSWORD_MIN_LENGTH && password2.length >= PASSWORD_MIN_LENGTH
     }
 
     private fun updateUserPassword() {
