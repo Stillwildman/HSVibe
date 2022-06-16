@@ -31,7 +31,7 @@ object PermissionCheckHelper {
         )
     }
 
-    // On Android 12 and above, only require coarse location can be prompted.
+    // On Android 12 and above, only requiring coarse location can be prompted.
     private val PERMISSIONS_COARSE_LOCATION = arrayOf(
         Manifest.permission.ACCESS_COARSE_LOCATION
     )

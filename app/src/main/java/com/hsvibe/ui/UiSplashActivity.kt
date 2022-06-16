@@ -2,29 +2,37 @@ package com.hsvibe.ui
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Handler
-import android.os.Looper
+import androidx.lifecycle.lifecycleScope
 import com.hsvibe.R
+import com.hsvibe.model.ApiConst
 import com.hsvibe.model.UserTokenManager
 import com.hsvibe.ui.bases.BaseFullScreenActivity
 import com.hsvibe.utilities.L
 import com.hsvibe.utilities.startActivitySafely
+import kotlinx.coroutines.delay
 
 class UiSplashActivity : BaseFullScreenActivity() {
 
     override fun getLayoutId(): Int = R.layout.activity_splash
 
     override fun init() {
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         checkGooglePlayService()
     }
 
     private fun checkGooglePlayService() {
-        if (checkPlayServices()) {
-            requireLocationPermission()
-        }
-        else {
-            // Continue without Location permission.
-            checkIfTheUserHasToken()
+        checkPlayServices { isSuccess ->
+            if (isSuccess) {
+                requireLocationPermission()
+            }
+            else {
+                // Continue without Location permission.
+                checkIfTheUserHasToken()
+            }
         }
     }
 
@@ -48,15 +56,16 @@ class UiSplashActivity : BaseFullScreenActivity() {
     }
 
     private fun goToNext(targetClass: Class<out Activity>) {
-        val target = if (intent.extras != null) {
+        val target = if (intent.extras != null && intent.extras?.containsKey(ApiConst.TYPE) == true && intent.extras?.containsKey(ApiConst.ID) == true) {
             intent.setClass(this, targetClass)
         } else {
             Intent(this, targetClass)
         }
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            this.startActivitySafely(target)
-            this.finish()
-        }, 1000)
+        lifecycleScope.launchWhenResumed {
+            delay(1000)
+            this@UiSplashActivity.startActivitySafely(target)
+            this@UiSplashActivity.finish()
+        }
     }
 }

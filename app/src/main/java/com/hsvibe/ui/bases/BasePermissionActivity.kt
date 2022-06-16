@@ -58,19 +58,23 @@ abstract class BasePermissionActivity : AppCompatActivity() {
         }
     }
 
-    protected fun checkPlayServices(): Boolean {
+    protected fun checkPlayServices(onCheckDone: (isSuccess: Boolean) -> Unit) {
         val apiAvailability: GoogleApiAvailability = GoogleApiAvailability.getInstance()
         val resultCode: Int = apiAvailability.isGooglePlayServicesAvailable(this)
 
         if (resultCode != ConnectionResult.SUCCESS) {
             if (apiAvailability.isUserResolvableError(resultCode)) {
-                apiAvailability.getErrorDialog(this, resultCode, Const.PLAY_SERVICES_RESOLUTION_REQUEST)?.show()
+                apiAvailability.getErrorDialog(this, resultCode, Const.PLAY_SERVICES_RESOLUTION_REQUEST) {
+                    onCheckDone(false)
+                }?.show()
             } else {
                 Utility.toastShort("This device is not supported PlayServices.")
                 L.i("This device is not supported PlayServices.")
+                onCheckDone(false)
             }
-            return false
         }
-        return true
+        else {
+            onCheckDone(true)
+        }
     }
 }

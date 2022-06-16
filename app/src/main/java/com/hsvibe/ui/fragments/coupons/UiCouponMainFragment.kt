@@ -21,6 +21,7 @@ import com.hsvibe.ui.bases.BaseFragment
 import com.hsvibe.utilities.*
 import com.hsvibe.viewmodel.CouponViewModel
 import com.hsvibe.viewmodel.CouponViewModelFactory
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 
 /**
@@ -146,6 +147,10 @@ class UiCouponMainFragment private constructor(): BaseFragment<FragmentCouponMai
             else {
                 getBrandListAdapter()?.updateList(brandList)
                 setFirstSelection(brandList, true)
+            }
+            lifecycleScope.launchWhenResumed {
+                delay(800)
+                bindingView.recyclerCouponList.smoothScrollToPosition(0)
             }
         }
     }
