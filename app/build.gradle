@@ -35,8 +35,8 @@ android {
         applicationId "com.hsvibe"
         minSdkVersion 21
         targetSdkVersion 32
-        versionCode 52
-        versionName "3.0.2"
+        versionCode 53
+        versionName "3.0.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

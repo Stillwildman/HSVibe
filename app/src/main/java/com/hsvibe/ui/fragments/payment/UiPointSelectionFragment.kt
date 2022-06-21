@@ -91,7 +91,7 @@ class UiPointSelectionFragment private constructor() : BaseActionBarFragment<Fra
 
     private fun changeInputNumber(isPlus: Boolean) {
         if (isPlus) {
-            val changedNumber = getInputNumber() + 10
+            val changedNumber = getInputNumber() + 1
             if (changedNumber <= currentPoints) {
                 binding.selectedPoints = numberFormat.format(changedNumber)
             }
@@ -100,7 +100,7 @@ class UiPointSelectionFragment private constructor() : BaseActionBarFragment<Fra
             }
         }
         else {
-            val changedNumber = getInputNumber() - 10
+            val changedNumber = getInputNumber() - 1
 
             if (changedNumber >= 0) {
                 binding.selectedPoints = numberFormat.format(changedNumber)
