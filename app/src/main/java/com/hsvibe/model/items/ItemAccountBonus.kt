@@ -21,7 +21,7 @@ data class ItemAccountBonus(
         val updated_at: String
     ) {
         fun getPointText(): String {
-            val pointText = NumberFormat.getInstance().format(point.toIntOrNull() ?: 0)
+            val pointText = NumberFormat.getInstance().format(point.toDoubleOrNull()?.toInt() ?: 0)
             return if (isIncome()) pointText else "-$pointText"
         }
 
