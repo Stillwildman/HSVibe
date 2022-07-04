@@ -13,7 +13,7 @@ data class ItemAccountBonus(
 ) {
     data class ContentData(
         val operate: String,
-        val point: String,
+        val point: Double,
         val balance: String,
         val description: String,
         val note: String,
@@ -21,7 +21,7 @@ data class ItemAccountBonus(
         val updated_at: String
     ) {
         fun getPointText(): String {
-            val pointText = NumberFormat.getInstance().format(point.toDoubleOrNull()?.toInt() ?: 0)
+            val pointText = point.toInt().toString()
             return if (isIncome()) pointText else "-$pointText"
         }
 

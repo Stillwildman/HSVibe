@@ -27,7 +27,7 @@ object DeviceUtil {
     }
 
     fun getCombinedDeviceModel(): String {
-        return "${getDeviceBrand()} ${getDeviceModel()} / OS ${getOSVersion()}"
+        return "${getDeviceBrand()} ${getDeviceModel()} / OS ${getOSVersion()} / version: ${BuildConfig.VERSION_NAME}"
     }
 
     fun getCombinedVersionName(): String {
