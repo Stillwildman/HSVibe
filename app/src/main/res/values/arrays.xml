@@ -23,7 +23,7 @@
     <string-array name="gender_array">
         <item>@string/gender_male_cht</item>
         <item>@string/gender_female_cht</item>
-        <item>@string/gender_other_cht</item>
+        <item>@string/gender_unknown_cht</item>
     </string-array>
 
     <string-array name="wallet_menu_text_array">

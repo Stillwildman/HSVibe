@@ -28,7 +28,7 @@ data class ItemPointTransfer(
             val id: Int,
             val operate: String,
             val point: Int,
-            val balance: Int,
+            val balance: Double,
             val description: String,
             val note: String,
             val created_at: String,

@@ -127,7 +127,7 @@ class ProfileRepoImpl(private val _userInfo: UserInfo?) : ProfileRepo {
         val engTextRes = when (chtText) {
             AppController.getString(R.string.gender_male_cht) -> R.string.gender_male_eng
             AppController.getString(R.string.gender_female_cht) -> R.string.gender_female_eng
-            else -> R.string.gender_other_eng
+            else -> R.string.gender_unknown_eng
         }
         return AppController.getString(engTextRes)
     }

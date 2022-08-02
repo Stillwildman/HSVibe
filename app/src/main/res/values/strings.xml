@@ -83,13 +83,14 @@
     <string name="please_select">(請選擇)</string>
     <string name="gender_male_cht">男</string>
     <string name="gender_female_cht">女</string>
-    <string name="gender_other_cht">其他</string>
+    <string name="gender_unknown_cht">不透漏</string>
     <string name="gender_male_eng">male</string>
     <string name="gender_female_eng">female</string>
-    <string name="gender_other_eng">other</string>
+    <string name="gender_unknown_eng">unknown</string>
     <string name="birthday_format">%1$d-%2$02d-%3$02d</string>
     <string name="data_error">資料有誤</string>
     <string name="name_is_necessary">姓名為必填欄位</string>
+    <string name="gender_is_necessary">性別為必選欄位</string>
     <string name="update_success">更新成功</string>
     <string name="update_failed">更新失敗</string>
 

@@ -208,7 +208,9 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
 
     fun loadUserBonus() {
         L.i(TAG, "getUserBonus!!!")
-        viewModelScope.launch {
+        viewModelScope.launch(getErrorMessageHandler { messageItem ->
+            messageItem?.let { Utility.toastLong(it.message) }
+        }) {
             userRepo.getUserBonus()?.let {
                 liveCurrentBalance.value = it.contentData
             }
@@ -216,7 +218,9 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     }
 
     fun refreshUserInfoAndBonus() {
-        viewModelScope.launch {
+        viewModelScope.launch(getErrorMessageHandler { messageItem ->
+            messageItem?.let { Utility.toastLong(it.message) }
+        }) {
             userRepo.getUserInfo()?.let {
                 liveUserInfo.postValue(it)
             }
@@ -227,7 +231,9 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     }
 
     fun updateUserInfo(postBody: PostUpdateUserInfo, onFinish: (isSuccess: Boolean) -> Unit) {
-        viewModelScope.launch(getExceptionHandler()) {
+        viewModelScope.launch(getErrorMessageHandler { messageItem ->
+            messageItem?.let { Utility.toastLong(it.message) }
+        }) {
             userRepo.updateUserInfo(postBody)?.let {
                 liveUserInfo.postValue(it)
                 userRepo.writeUserInfoToDB(it)
@@ -237,7 +243,9 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     }
 
     fun updatePayPassword(payPassword: String, onFinish: (isSuccess: Boolean) -> Unit) {
-        viewModelScope.launch {
+        viewModelScope.launch(getErrorMessageHandler { messageItem ->
+            messageItem?.let { Utility.toastLong(it.message) }
+        }) {
             userRepo.updatePayPassword(payPassword)?.let {
                 liveUserInfo.postValue(it)
                 onFinish(true)
@@ -246,7 +254,9 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     }
 
     fun updatePassword(password: String, onFinish: (isSuccess: Boolean) -> Unit) {
-        viewModelScope.launch {
+        viewModelScope.launch(getErrorMessageHandler { messageItem ->
+            messageItem?.let { Utility.toastLong(it.message) }
+        }) {
             userRepo.updatePassword(password)?.let {
                 liveUserInfo.postValue(it)
                 onFinish(true)
@@ -307,7 +317,9 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     }
 
     fun deleteCreditCard(key: String) {
-        viewModelScope.launch(getExceptionHandler()) {
+        viewModelScope.launch(getErrorMessageHandler { messageItem ->
+            messageItem?.let { Utility.toastLong(it.message) }
+        }) {
             userRepo.deleteCreditCard(key)?.let {
                 liveCreditCardDeleting.value = it
             }
@@ -386,7 +398,9 @@ class MainViewModel(private val userRepo: UserRepo) : LoadingStatusViewModel() {
     }
 
     fun loadPaymentCode() {
-        viewModelScope.launch(getExceptionHandler()) {
+        viewModelScope.launch(getErrorMessageHandler { messageItem ->
+            messageItem?.let { Utility.toastLong(it.message) }
+        }) {
             livePaymentDisplay.value?.let {
                 val points = if (it.isPointEnabled) it.selectedPoints else 0
                 val cardKey = if (it.isCreditCardEnabled) it.selectedCardKey else null

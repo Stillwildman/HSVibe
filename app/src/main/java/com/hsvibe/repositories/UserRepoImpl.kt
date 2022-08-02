@@ -142,9 +142,6 @@ class UserRepoImpl : UserRepo {
 
     private fun correctPostBodyIfNeed(postBody: PostUpdateUserInfo) {
         postBody.apply {
-            if (gender == AppController.getString(R.string.gender_other_eng)) {
-                gender = null
-            }
             if ((referrer_no?.length ?: 0) < Const.REFERRER_NUMBER_LENGTH_LIMIT) {
                 referrer_no = null
             }

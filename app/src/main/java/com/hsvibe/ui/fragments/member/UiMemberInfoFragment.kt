@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -159,7 +160,11 @@ class UiMemberInfoFragment private constructor() : BaseActionBarFragment<Fragmen
             when {
                 it.first_name.isNullOrEmpty() or
                 it.last_name.isNullOrEmpty() -> {
-                    showNameRequireDialog()
+                    showNameRequireDialog(R.string.name_is_necessary)
+                    false
+                }
+                binding.spinnerGender.selectedItemPosition == 0 -> {
+                    showNameRequireDialog(R.string.gender_is_necessary)
                     false
                 }
                 else -> true
@@ -167,7 +172,7 @@ class UiMemberInfoFragment private constructor() : BaseActionBarFragment<Fragmen
         }
     }
 
-    private fun showNameRequireDialog() {
-        DialogHelper.showSingleButtonDialog(getContextSafely(), R.string.data_error, R.string.name_is_necessary)
+    private fun showNameRequireDialog(@StringRes messageRes: Int) {
+        DialogHelper.showSingleButtonDialog(getContextSafely(), R.string.data_error, messageRes)
     }
 }
