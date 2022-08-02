@@ -35,8 +35,8 @@ android {
         applicationId "com.hsvibe"
         minSdkVersion 21
         targetSdkVersion 32
-        versionCode 55
-        versionName "3.0.5"
+        versionCode 56
+        versionName "3.0.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -132,7 +132,7 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 
-    implementation "androidx.fragment:fragment-ktx:1.4.1"
+    implementation "androidx.fragment:fragment-ktx:1.5.1"
 
     // Biometrics
     implementation 'androidx.biometric:biometric:1.1.0'
@@ -168,8 +168,8 @@ dependencies {
 
     // ViewModel
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    annotationProcessor 'androidx.lifecycle:lifecycle-common-java8:2.4.1'
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
+    annotationProcessor 'androidx.lifecycle:lifecycle-common-java8:2.5.1'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
 
     // Room
     implementation "androidx.room:room-runtime:$room_version"
