@@ -1,6 +1,8 @@
 package com.hsvibe.model.items
 
 import com.google.gson.annotations.SerializedName
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.text.NumberFormat
 import kotlin.math.floor
 
@@ -20,7 +22,13 @@ data class ItemUserBonus(
         val updated_at: String
     ) {
         fun getBalanceText(): String {
-            return NumberFormat.getInstance().format(floor(balance).toInt())
+            return if (balance < 1) {
+                val decimalFormat = DecimalFormat("#.##").apply { roundingMode = RoundingMode.FLOOR }
+                decimalFormat.format(balance)
+            }
+            else {
+                NumberFormat.getInstance().format(floor(balance).toInt())
+            }
         }
     }
 }

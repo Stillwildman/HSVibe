@@ -1,6 +1,8 @@
 package com.hsvibe.model.items
 
 import com.google.gson.annotations.SerializedName
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.text.NumberFormat
 
 /**
@@ -21,7 +23,13 @@ data class ItemAccountBonus(
         val updated_at: String
     ) {
         fun getPointText(): String {
-            val pointText = point.toInt().toString()
+            val pointText = if (point < 1) {
+                val decimalFormat = DecimalFormat("#.##").apply { roundingMode = RoundingMode.FLOOR }
+                decimalFormat.format(point)
+            }
+            else {
+                point.toInt().toString()
+            }
             return if (isIncome()) pointText else "-$pointText"
         }
 
@@ -34,7 +42,15 @@ data class ItemAccountBonus(
         }
 
         fun getBalanceText(): String {
-            return NumberFormat.getInstance().format(balance.toDoubleOrNull()?.toInt() ?: 0)
+            val balanceDouble = balance.toDoubleOrNull() ?: 0.0
+
+            return if (balanceDouble < 1) {
+                val decimalFormat = DecimalFormat("#.##").apply { roundingMode = RoundingMode.FLOOR }
+                decimalFormat.format(balanceDouble)
+            }
+            else {
+                NumberFormat.getInstance().format(balanceDouble.toInt())
+            }
         }
     }
 
