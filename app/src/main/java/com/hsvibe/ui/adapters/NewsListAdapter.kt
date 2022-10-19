@@ -26,7 +26,7 @@ class NewsListAdapter(
         private const val VIEW_TYPE_DETAIL = 2
     }
 
-    private val detailWidth: Int by lazy { (Utility.getScreenWidth() * 0.75).toInt() }
+    val detailWidth: Int by lazy { (Utility.getScreenWidth() * 0.75).toInt() }
 
     fun changeLayout() {
         layoutManager.apply {

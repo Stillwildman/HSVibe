@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.hsvibe.AppController
 import com.hsvibe.R
 import com.hsvibe.callbacks.OnContentDataClickCallback
 import com.hsvibe.databinding.InflateNewsListBinding
@@ -14,6 +15,7 @@ import com.hsvibe.model.Const
 import com.hsvibe.model.items.ItemContent
 import com.hsvibe.ui.adapters.NewsListAdapter
 import com.hsvibe.ui.bases.BaseActionBarFragment
+import com.hsvibe.utilities.Utility
 import com.hsvibe.viewmodel.ContentViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -90,13 +92,11 @@ class UiNewsFragment private constructor() : BaseActionBarFragment<InflateNewsLi
         }
     }
 
-    // TODO [Improve] Scroll to center!
     private fun scrollToSpecificPosition(specificPosition: Int) {
         (binding.recyclerNews.layoutManager as? LinearLayoutManager)?.let {
-            val centeredPosition = (it.findLastVisibleItemPosition() - it.findFirstVisibleItemPosition()) / 2
-            binding.recyclerNews.scrollToPosition(specificPosition)
-            binding.recyclerNews.scrollX = centeredPosition
-            //it.scrollToPositionWithOffset(specificPosition, centeredPosition)
+            val marginSpace = AppController.getAppContext().resources.getDimensionPixelSize(R.dimen.padding_size_l)
+            val centeredOffset = ((Utility.getScreenWidth() - getNewsListAdapter().detailWidth) / 2) - marginSpace
+            it.scrollToPositionWithOffset(specificPosition, centeredOffset)
         }
     }
 
